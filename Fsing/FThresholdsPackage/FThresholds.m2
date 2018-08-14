@@ -60,7 +60,6 @@ needsPackage "TestIdeals"
 export{
 --F-thresholds computations (MainFunctions.m2)
     "BinaryFormCheck", 
-    "BinaryRecursive", 
     "BinomialCheck", 
     "ComputePreviousNus", 
     "criticalExponentApproximation",
@@ -84,7 +83,6 @@ export{
     "ContainmentTest", 
     "UseColonIdeals", 
     "Nontrivial",
-
 
     "MaxExp", -- Dan ( **no doc**)
     "PrintCP" -- Dan ( **no doc**)
