@@ -238,6 +238,9 @@ nuList = method( Options => optIdealList )
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
 
+-- Dan: I changed Options => true to Options => optIdealList above in order to make 
+-- things compile, and I'm worried that's messing up our default options here. 
+
 nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
 
