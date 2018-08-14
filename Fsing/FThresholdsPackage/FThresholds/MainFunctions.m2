@@ -184,8 +184,18 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
     theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
     local N;
-    searchFct := search#(o.Search);
-    testFct := test#(o.ContainmentTest);
+    try(
+        searchFct := search#(o.Search);
+    ) else (
+        error "Invalid search option";
+    );
+
+    try(
+        testFct := test#(o.ContainmentTest);
+    ) else (
+        error "Invalid test option";
+    );
+
     if not o.ComputePreviousNus then
     (
 	if n == 0 then return theList;
@@ -308,9 +318,9 @@ criticalExponentApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
 criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) -> 
     criticalExponentApproximation( e, ideal f, J )
 
---Guesses the FPT of ff.  It returns a list of all numbers in 
---the range suggested by nu( e1, ff ) with maxDenom as the maximum denominator
-guessFPT = ( f, e, maxDenom ) ->
+--Gives a list of guesses for the F-pure threshold of f.  It returns a list of all numbers in 
+--the range suggested by nu(e,  ) with maxDenom as the maximum denominator
+fptGuessList = ( f, e, maxDenom ) ->
 (
     Nu := nu(e,f);
     p := char ring f;

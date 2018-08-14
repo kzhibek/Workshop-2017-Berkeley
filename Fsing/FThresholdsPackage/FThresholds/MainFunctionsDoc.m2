@@ -69,7 +69,7 @@ doc ///
          :List
      Description
          Text 
-             This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As p approaches infinity, 
+             This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As d approaches infinity, 
 	     the sequence of these terms converges to the critical exponent of I or f with respect to J.       
 ///
 
@@ -89,7 +89,7 @@ doc ///
 doc ///
      Key
          fpt
-	 ( fpt, RingElement, ZZ )
+	 (fpt, RingElement, ZZ)
 	 [fpt, BinaryFormCheck]
 	 [fpt, BinomialCheck]
 	 [fpt, DiagonalCheck]
@@ -102,17 +102,17 @@ doc ///
      Inputs
         f:RingElement
         e:ZZ
-        BinaryFormCheck => Symbol
+        BinaryFormCheck => Boolean
             Option to specify whether to check if f is a binary form.
-        BinomialCheck => Symbol 
+        BinomialCheck => Boolean 
             Option to specify whether to check if f is a binomial polynomial.
-	DiagonalCheck => Symbol
-	    Option to specify whether to check if f is a diagonal polynomial.
-	FRegularityCheck => Symbol
-	    Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
+        DiagonalCheck => Boolean
+            Option to specify whether to check if f is a diagonal polynomial.
+        FRegularityCheck => Boolean
+            Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
-    	NuCheck => Symbol
-	    Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
+    	NuCheck => Boolean
+            Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
      Outputs
         L:List
         Q:QQ
@@ -126,11 +126,8 @@ doc ///
 	      compute the F-pure threshold of f.  Otherwise, the function computes nu_f(p^e) and if NuCheck is set to {\tt true}
 	      (its default value), then checks whether either nu/(p^e-1) or (nu+1)/p^e equal the F-pure threshold.  If the value 
 	      is still unknown, the function uses the convexity of the F-signature function, and a secant line argument, to find 
-	      the F-pure threshold.  If FRegularityCheck is set to {\tt true} (its default value), then 
-	      
-	      finalCheck is a Boolean with default value True that determines whether the last isFRegularPoly is run (it is possibly very slow).  
-	      If FinalCheck is false, then a last time consuming check won't be tried.  If it is true, it will be. 
-	      Verbose set to {\tt true} displays verbose output.
+	      the F-pure threshold.  If FRegularityCheck is set to {\tt true} (its default value), then isFRegularPoly is run 
+	      (which can take significant time) to possibly obtain an answer. 
 ///
 
 doc ///
@@ -151,7 +148,7 @@ doc ///
          :List
      Description
          Text 
-             This returns a list of nu_I(p^d)/p^d for d = 0, ..., e.  The sequence {nu_I(p^d)/p^d} converges to the F-pure threshold.        
+             This returns a list consisting of nu_I(p^d)/p^d for d = 0,...,e.  The sequence {nu_I(p^d)/p^d} converges to the F-pure threshold.        
 ///
 
 
@@ -189,16 +186,17 @@ doc ///
          :List
      Description
          Text 
-             This returns a list of nu_I^J(p^d)/p^d for d = 0, ..., e.  The sequence {nu_I^J(p^d)/p^d} converges to the F-threshold of I or f with respect to J.         
+             This returns a list of nu_I^J(p^d)/p^d for d = 0,...,e.  As d approaches infinity, the sequence {nu_I^J(p^d)/p^d} converges 
+	     to the F-threshold of I or f with respect to J.         
 ///
 
 doc ///
      Key
-        guessFPT 
+        fptGuessList 
      Headline
         Tries to guess the FPT in a really naive way (this should be improved).
      Usage
-         guessFPT(f,e,d) 
+         fptGuessList(f,e,d) 
      Inputs
          f:RingElement
          e:ZZ
@@ -318,7 +316,7 @@ doc ///
      Key
           OutputRange
      Headline
-          An option for guessFPT
+          An option for fptGuessList
      Description
           Text
                Valid values are {\tt true} and {\tt false}
