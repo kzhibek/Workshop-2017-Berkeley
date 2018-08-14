@@ -184,8 +184,18 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
     theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
     local N;
-    searchFct := search#(o.Search);
-    testFct := test#(o.ContainmentTest);
+    try(
+        searchFct := search#(o.Search);
+    ) else (
+        error "Invalid search option";
+    );
+
+    try(
+        testFct := test#(o.ContainmentTest);
+    ) else (
+        error "Invalid test option";
+    );
+
     if not o.ComputePreviousNus then
     (
 	if n == 0 then return theList;

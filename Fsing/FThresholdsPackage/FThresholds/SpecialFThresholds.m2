@@ -259,7 +259,7 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
     local neighbor;
     while (not found) and i < #posEntries do 
     (
-	candidate = a - getCanVector( posEntries_i, n );
+	candidate = a - canVector( posEntries_i, n );
 	if isInUpperRegion( candidate, q, S ) then 
 	    ( 
 		found = true; 
