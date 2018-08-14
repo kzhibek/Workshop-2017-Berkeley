@@ -1,25 +1,13 @@
 doc ///
      Key
-          BinaryFormCheck
+          UseSpecialAlgorithms
      Headline
-          An option for the function fpt to check whether input is binary form. 
+          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
      Description
           Text
-               If {\tt true}, the input is a form in two variables (so that the function "binaryFormFPT" can then be used). 
-	       Can take on only Boolean values.  Default value for fpt is {\tt true}.
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
-          BinomialCheck
-     Headline
-          An option for the function fpt to check whether the input is a binomial polynomial. 
-     Description
-          Text
-               If {\tt true}, the input is a binomial in a polynomial ring.  Can take on only Boolean values. 
-	       Default value for fpt is {\tt true}.
+               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
+               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
+               specialized algorithms.  Can take on only Boolean values.
      SeeAlso
           fpt
 ///
@@ -70,19 +58,6 @@ doc ///
          Text 
              This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As d approaches infinity, 
 	     the sequence of these terms converges to the critical exponent of I or f with respect to J.       
-///
-
-doc ///
-     Key
-          DiagonalCheck
-     Headline
-          An option for the function fpt to check whether the input is a diagonal polynomial. 
-     Description
-          Text
-               Enables the user to check whether the input is a diagonal polynomial, i.e., of the form x_1^(d_1) + ... + x_n^(d_n) 
-	       in a polynomial ring in variables x_1,...,x_n.  Can only take on Boolean values.  Default value for fpt is {\tt true}. 
-     SeeAlso
-          fpt
 ///
 
 doc ///
