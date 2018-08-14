@@ -2775,15 +2775,6 @@ MRREVIEWER = {Scott R. Nollet},
   url = {http://dx.doi.org/10.1215/S0012-7094-97-08807-4}
 }
 
-
-@ARTICLE{HernandezTeixeiraWittFrobeniusPowers,
-  author = {Hern{\'a}ndez, Daniel,  Teixeira, Pedro and Witt, Emily E.},
-  title = {Frobenius Powers},
-  year = {2018},
-  note = {arXiv:1802.02705}
-}
-
-
 @ARTICLE{HernandezFInvariantsOfDiagonalHyp,
   author = {Hern{\'a}ndez, Daniel},
   title = {F-invariants of diagonal hypersurfaces},
