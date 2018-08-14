@@ -572,15 +572,15 @@ isFPT ( QQ, RingElement ) := o -> ( t, f ) ->
 
 isFPT ( ZZ, RingElement ) := o -> ( t, f ) -> isFPT( t/1, f, o )
 
--- isFJumpingNumber determines if a given rational number is an 
--- F-jumping number
+-- isFJumpingExponent determines if a given rational number is an 
+-- F-jumping exponent
 --***************************************************************************
 --This needs to be speeded up, like the above function
 --***************************************************************************
 
-isFJumpingNumber = method( Options => {Verbose=> false} )
+isFJumpingExponent = method( Options => {Verbose=> false} )
 
-isFJumpingNumber ( QQ, RingElement ) := o -> ( t, f ) -> 
+isFJumpingExponent ( QQ, RingElement ) := o -> ( t, f ) -> 
 (
     p := char ring f;
     --this writes t = a/(p^b(p^c-1))
@@ -598,8 +598,8 @@ isFJumpingNumber ( QQ, RingElement ) := o -> ( t, f ) ->
     not isSubset( Sigma, Tau )
 )
 
-isFJumpingNumber ( ZZ, RingElement ) := o -> ( t, f ) -> 
-    isFJumpingNumber( t/1, f, o )
+isFJumpingExponent ( ZZ, RingElement ) := o -> ( t, f ) -> 
+    isFJumpingExponent( t/1, f, o )
 
 
 ----------------------------------------------------------------
