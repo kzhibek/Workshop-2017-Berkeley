@@ -340,9 +340,9 @@ criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) ->
 --the range suggested by nu(e,  ) with maxDenom as the maximum denominator
 fptGuessList = ( f, e, maxDenom ) ->
 (
-    Nu := nu(e,f);
+    n := nu(e,f);
     p := char ring f;
-    findNumberBetween( maxDenom, Nu/(p^e-1), (Nu+1)/p^e )
+    findNumberBetween( maxDenom, n/(p^e-1), (n+1)/p^e )
 )
 
 ----------------------------------------------------------------
@@ -380,22 +380,27 @@ fpt = method(
 	    FRegularityCheck => true, 
 	    Verbose => false, 
 	    UseSpecialAlgorithms => true, 
-	    NuCheck => true    	
+	    NuCheck => true,
+	    DepthOfSearch => 1    	
 	}
 )
 
-fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) -> 
+fpt RingElement := QQ => o -> f -> 
 (
+    -- give an answer in a trivial case
+    if f == 0 then return 0;
+
     -- Check if option values are valid
     checkOptions( o, 
         {
 	    FRegularityCheck => Boolean, 
 	    Verbose => Boolean, 
 	    UseSpecialAlgorithms => Boolean, 
-	    NuCheck => Boolean    	
+	    NuCheck => Boolean,
+	    DepthOfSearch => ZZ  	
 	}
     );
-
+            
     -- Check if polynomial has coefficients in a finite field
     if not isPolynomialOverFiniteField f  then 
         error "fpt: expected polynomial with coefficients in a finite field";
@@ -445,16 +450,17 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
      
     -- Compute nu(e,f)
+    e := o.DepthOfSearch;
     n := nu( e, f );
         
     if o.Verbose then
-         print( "\nnu has been computed: nu(e,f) = " | toString n | " ..." );
+         print( "\nnu has been computed: nu(" | toString(e) | ",f) = " | toString n | " ..." );
     
     -- If nu = 0, we just return some information
     if n == 0 then 
     (
 	if o.Verbose then 
-	    print "\nThe nu computed isn't fine enough. Try increasing the max exponent e.";
+	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option DepthOfSearch.";
 	return { 0, 1/p^e }
     );
 
