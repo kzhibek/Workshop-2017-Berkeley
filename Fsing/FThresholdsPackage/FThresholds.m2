@@ -59,7 +59,7 @@ needsPackage "TestIdeals"
 
 export{
 --F-thresholds computations (MainFunctions.m2)
-    "BinaryFormCheck", 
+    "BinaryFormCheck",
     "BinaryRecursive", 
     "BinomialCheck", 
     "ComputePreviousNus", 
@@ -67,11 +67,11 @@ export{
     "DiagonalCheck",  
     "fpt",   
     "fptApproximation", 
+    "fptGuessList", --Karl (probably should be incorporated into fpt
     "FRegularityCheck", 
     "FrobeniusPower", 
     "FrobeniusRoot",  
     "ftApproximation",
-    "guessFPT", --Karl (probably should be incorporated into fpt
     "HSL", 
     "isFJumpingNumber", --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
@@ -84,7 +84,6 @@ export{
     "ContainmentTest", 
     "UseColonIdeals", 
     "Nontrivial",
-
 
     "MaxExp", -- Dan ( **no doc**)
     "PrintCP" -- Dan ( **no doc**)
