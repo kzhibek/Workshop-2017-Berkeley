@@ -63,17 +63,17 @@ doc ///
 doc ///
      Key
          fpt
-	 (fpt, RingElement, ZZ)
+	 (fpt, RingElement)
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
 	 [fpt, UseSpecialAlgorithms]
+	 [fpt, DepthOfSearch]
      Headline
          Atempts to compute the F-pure threshold of a polynomial at the origin. 
      Usage
-          fpt(f,e)
+          fpt(f)
      Inputs
         f:RingElement
-        e:ZZ
         UseSpecialAlgorithms => Boolean
             Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms
         FRegularityCheck => Boolean
@@ -81,6 +81,8 @@ doc ///
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
     	NuCheck => Boolean
             Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
+        DepthOfSearch => ZZ
+            Option to specify the power of the characteristic to be used in a search for the F-pure threshold.
      Outputs
         L:List
         Q:QQ
@@ -177,12 +179,12 @@ doc ///
 
 doc ///
      Key
-        isFJumpingNumber 
-        (isFJumpingNumber,QQ,RingElement)
+        isFJumpingExponent 
+        (isFJumpingExponent,QQ,RingElement)
      Headline
         Checks whether a given number is an F-jumping number
      Usage
-         isFJumpingNumber(t,f,Verbose=>V)  
+         isFJumpingExponent(t,f,Verbose=>V)  
      Inputs
          t:QQ
          f:RingElement
@@ -304,16 +306,6 @@ doc ///
             Given an ideal I in a polynomial ring k[x_1,...,x_n], this function computes nu(d, I, J) recursively for d = 0,...,e; see @TO nu@, and similarly if nuList is passed (ZZ, Ideal), (ZZ, RingElement, Ideal), or (ZZ, RingElement).
      SeeAlso
         nu
-///
-
-doc ///
-     Key
-          OutputRange
-     Headline
-          An option for fptGuessList
-     Description
-          Text
-               Valid values are {\tt true} and {\tt false}
 ///
 
 doc ///
