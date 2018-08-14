@@ -77,7 +77,7 @@ findNumberBetween = ( maxDenom, a, b ) ->
     while denominators != {} do 
     (
 	d = last denominators;
-	factors = allFactors d;
+	factors := allFactors d;
 	-- remove all factors of d
 	denominators = select( denominators, x -> not member( x, factors) );
 	outList = outList | findNumberBetweenWithDenom( d, a, b )

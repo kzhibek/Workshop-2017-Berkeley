@@ -233,7 +233,7 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => true )
+nuList = method( Options => optIdealList )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
@@ -255,7 +255,7 @@ nuList ( ZZ, RingElement ) := optPolyList >> o -> ( e, f ) ->
 	nuList( e, f, maxIdeal f, o )
 }   
 
-nu = method( Options => true )
+nu = method( Options => optIdeal )
 
 nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) -> 
     last nuInternal( e, I, J, o )
