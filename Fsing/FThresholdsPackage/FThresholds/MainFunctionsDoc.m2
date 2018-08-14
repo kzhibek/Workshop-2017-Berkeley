@@ -102,17 +102,17 @@ doc ///
      Inputs
         f:RingElement
         e:ZZ
-        BinaryFormCheck => Symbol
+        BinaryFormCheck => Boolean
             Option to specify whether to check if f is a binary form.
-        BinomialCheck => Symbol 
+        BinomialCheck => Boolean 
             Option to specify whether to check if f is a binomial polynomial.
-	DiagonalCheck => Symbol
-	    Option to specify whether to check if f is a diagonal polynomial.
-	FRegularityCheck => Symbol
-	    Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
+        DiagonalCheck => Boolean
+            Option to specify whether to check if f is a diagonal polynomial.
+        FRegularityCheck => Boolean
+            Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
-    	NuCheck => Symbol
-	    Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
+    	NuCheck => Boolean
+            Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
      Outputs
         L:List
         Q:QQ
