@@ -59,12 +59,9 @@ needsPackage "TestIdeals"
 
 export{
 --F-thresholds computations (MainFunctions.m2)
-    "BinaryFormCheck",
     "BinaryRecursive", 
-    "BinomialCheck", 
     "ComputePreviousNus", 
     "criticalExponentApproximation",
-    "DiagonalCheck",  
     "fpt",   
     "fptApproximation", 
     "fptGuessList", --Karl (probably should be incorporated into fpt
@@ -83,8 +80,9 @@ export{
     "StandardPower", 
     "ContainmentTest", 
     "UseColonIdeals", 
+    "UseSpecialAlgorithms",
+    
     "Nontrivial",
-
     "MaxExp", -- Dan ( **no doc**)
     "PrintCP" -- Dan ( **no doc**)
 }
