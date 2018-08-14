@@ -8,7 +8,7 @@ Authors => {
      {Name => "Alberto F. Boix",
      Email => "alberto.fernandezb@upf.edu"
      },
-     {Name => "David J. Bruce",
+     {Name => "Juliette Bruce",
      Email => "juliette.bruce@math.wisc.edu",
      HomePage => "https://juliettebruce.github.io/"
      },
@@ -33,7 +33,7 @@ Authors => {
      Email => "robinson@math.utah.edu"
      },
      {Name => "Karl Schwede",
-     Email => "schwede@math.psu.edu",
+     Email => "schwede@math.utah.edu",
      HomePage => "http://math.utah.edu/~schwede/"
      },
      {Name => "Dan Smolkin",

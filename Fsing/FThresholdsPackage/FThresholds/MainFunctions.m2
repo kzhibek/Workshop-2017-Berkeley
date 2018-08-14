@@ -233,7 +233,7 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => true )
+nuList = method( Options => optIdealList )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
@@ -242,12 +242,20 @@ nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
 
 nuList ( ZZ, Ideal ) := optIdealList >> o -> ( e, I ) -> 
-    nuList( e, I, maxIdeal I, o )
+{
+        if not isPolynomialRing(ring I) then 
+	    error "nuList: The ambient ring must be a polynomial ring";
+	nuList( e, I, maxIdeal I, o )
+}
 
 nuList ( ZZ, RingElement ) := optPolyList >> o -> ( e, f ) -> 
-    nuList( e, f, maxIdeal f, o )
+{
+        if not isPolynomialRing(ring f) then 
+	    error "nuList: The ambient ring must be a polynomial ring";
+	nuList( e, f, maxIdeal f, o )
+}   
 
-nu = method( Options => true )
+nu = method( Options => optIdeal )
 
 nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) -> 
     last nuInternal( e, I, J, o )
@@ -255,9 +263,19 @@ nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) ->
 nu ( ZZ, RingElement, Ideal ) := optPoly >> o -> ( e, f, J ) -> 
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> 
+{
+        if not isPolynomialRing(ring I) then 
+	    error "nu: The ambient ring must be a polynomial ring";
+	nu( e, I, maxIdeal I, o )
+}
 
-nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) ->
+{
+        if not isPolynomialRing(ring f) then 
+	    error "nu: The ambient ring must be a polynomial ring";
+	nu( e, f, maxIdeal f, o )
+}
 
 -- Nus can be computed using generalized Frobenius powers, by using 
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts: 
