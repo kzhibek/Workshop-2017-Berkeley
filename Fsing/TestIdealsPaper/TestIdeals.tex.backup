@@ -67,14 +67,16 @@ which affords a handle on many problems which is not otherwise available. Two no
 and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
 
-Work on the \emph{TestIdeals} package started a library methods to compute the Frobenius roots, $\star$-closures, and implement the algorithm for computing parameter-test-ideals
+Work on the \emph{TestIdeals} package started as a library of methods to compute the Frobenius roots, and $\star$-closures, and to implement the algorithm for computing parameter-test-ideals
 developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls} used to produce the examples in that paper.
 Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and 
-used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for compuatations related to test-ideals
-started in earnest i
+used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for computations related to test-ideals
+started in earnest on the Summer of 2012 in the Macaulay2 workshop held at Wake Forest. Further work on this package was undertaken in the Macaulay2 workshops in 
+Berkeley (2014 and 2017), and Salt Lake City (2016). 
+{\hfill\large\color{red} [Expand: how were the test module methods start life?]}\\
 
 
-\cite{KatzmanSchwedeAlgorithm}
+
 \subsection*{Acknowledgements}
 
 We thank ??? for useful conversations and comments on the development of this package.
@@ -114,7 +116,7 @@ o4 = ideal (x, y , z )
 \end{verbatim}
 
 We can extend the definition of Frobenius powers as follows
-\begin{definition}{\hfill\large\color{red} [Add references]}\\
+\begin{definition}[cf. \cite{HernandezTeixeiraWittFrobeniusPowers}]
 Let  $I\subseteq S$ be an ideal.
 \begin{enumerate}
  \item[(a)] If $a$ is a positive integer with base-$p$ expansion  $a=a_0 + a_1 p +  \dots + a_r p^r$, we define

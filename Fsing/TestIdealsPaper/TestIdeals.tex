@@ -282,7 +282,7 @@ We call these ideals $\phi$-compatible.
 
 Recall that in section \ref{Section: p-linear maps} we identified $p^{-e}$ linear maps
 with elements of $\Hom_R(F_*^e R, R)$ and it turns out that this is a principal $F_*^e R$-module generated
-the \emph{trace map} $\pi\in \Hom_R(F_*^e R, R)$, constructed as follows.  {\hfill\large\color{red} [Add references]}\\
+the \emph{trace map} $\pi\in \Hom_R(F_*^e R, R)$, constructed as follows (cf. \cite[Lemma 1.6]{FedderFPureRat} and \cite[Example 1.3.1]{BrionKumarFrobeniusSplitting}).
 Let $B$ be a $\mathbb{K}^{p^e}$-basis for $\mathbb{K}$;
 $F_*^e R$ is a free $R$-module with basis
 $$\left\{ F_*^e b x_1^{\alpha_1} \dots x_n^{\alpha_n} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e \right\}$$
@@ -292,15 +292,16 @@ $R F_*^e  x_1^{p^e-1} \dots x_n^{p^e-1}\cong R$.
 We can now write our given $\phi$ as multiplication by some $F_*^e u$ followed by $\pi$ and it is not hard to see that
 an ideal $I\subseteq R$ is $\phi$-compatible if and only if $u I \subseteq I^{[p^e]}$.
 
-\begin{theorem}[cf. \cite{KumarMehtaFiniteness}, \cite{SchwedeFAdjunction}, \cite{SharpGradedAnnihilatorsOfModulesOverTheFrobeniusSkewPolynomialRing}, \cite{KatzmanSchwedeAlgorithm}]
+\begin{theorem}\label{Theorem: finitely many compatible primes}
 If $\phi$ is surjective, there are finitely many $\phi$-compatible ideals, consisting of all possible intersections
-of $\phi$-compatible prime ideals.
+of $\phi$-compatible prime ideals (cf. \cite{KumarMehtaFiniteness}, \cite{SchwedeFAdjunction},
+\cite{SharpGradedAnnihilatorsOfModulesOverTheFrobeniusSkewPolynomialRing}, \cite{EnescuHochsterTheFrobeniusStructureOfLocalCohomology}).
 
-In general, there are finitely many $\phi$-compatible prime ideals not containing $\sqrt{\Image \phi}$.
+In general, there are finitely many $\phi$-compatible prime ideals not containing $\sqrt{\Image \phi}$ (cf. \cite{KatzmanSchwedeAlgorithm}).
 
 \end{theorem}
 
-The method \emph{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second statement of the theorem above.
+The method \emph{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second statement of Theorem \ref{Theorem: finitely many compatible primes}.
 
 \begin{verbatim}
 i2 :      R = ZZ/3[u,v];
