@@ -96,7 +96,7 @@ test := new HashTable from
 -- SEARCH FUNCTIONS
 
 -- Each *Search(I,J,e,a,b,testFunction) searches for the last n in [a,b) such that 
--- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e) 
+-- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e)
 -- is true.
 
 -- Non-recursive binary search, based on our previous code
@@ -175,6 +175,9 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 	}
     );
 
+    if f==0 then 
+        error "nuInternal: zero is not a valid input";
+
     -- Check if polynomial has coefficients in a finite field
         if not isPolynomialOverFiniteField f  then 
         error "nu: expected polynomial with coefficients in a finite field";
@@ -237,6 +240,9 @@ nuList = method( Options => optIdealList )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
+
+-- Dan: I changed Options => true to Options => optIdealList above in order to make 
+-- things compile, and I'm worried that's messing up our default options here. 
 
 nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )

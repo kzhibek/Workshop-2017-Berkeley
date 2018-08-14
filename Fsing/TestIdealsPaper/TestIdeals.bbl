@@ -17,6 +17,21 @@
   43--61, Special volume in honor of Melvin Hochster. {\sf\scriptsize 2492440
   (2010c:13003)}
 
+\bibitem[BK05]{BrionKumarFrobeniusSplitting}
+{\sc M.~Brion and S.~Kumar}: \emph{Frobenius splitting methods in geometry and
+  representation theory}, Progress in Mathematics, vol. 231, Birkh\"auser
+  Boston Inc., Boston, MA, 2005. {\sf\scriptsize MR2107324 (2005k:14104)}
+
+\bibitem[EH08]{EnescuHochsterTheFrobeniusStructureOfLocalCohomology}
+{\sc F.~Enescu and M.~Hochster}: \emph{The {F}robenius structure of local
+  cohomology}, Algebra Number Theory \textbf{2} (2008), no.~7, 721--754.
+  {\sf\scriptsize MR2460693 (2009i:13009)}
+
+\bibitem[Fed83]{FedderFPureRat}
+{\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
+  Math. Soc. \textbf{278} (1983), no.~2, 461--480. {\sf\scriptsize MR701505
+  (84h:13031)}
+
 \bibitem[HW18]{HernandezTeixeiraWittFrobeniusPowers}
 {\sc T.~P. Hern{\'a}ndez, Daniel and E.~E. Witt}: \emph{Frobenius powers},
   arXiv:1802.02705.
