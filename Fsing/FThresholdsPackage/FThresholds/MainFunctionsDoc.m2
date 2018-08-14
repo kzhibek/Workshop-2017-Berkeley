@@ -293,6 +293,10 @@ doc ///
          (nuList,ZZ,Ideal)
          (nuList,ZZ,RingElement,Ideal)
          (nuList,ZZ,RingElement)
+         [nuList, ComputePreviousNus]
+         [nuList, ContainmentTest]
+         [nuList, Search]
+         [nuList, UseColonIdeals]
      Headline
         Lists nu_I^J(p^d)$ for d = 1,...,e
      Usage
