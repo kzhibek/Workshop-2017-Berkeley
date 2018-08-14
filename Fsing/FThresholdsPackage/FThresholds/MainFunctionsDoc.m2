@@ -1,25 +1,13 @@
 doc ///
      Key
-          BinaryFormCheck
+          UseSpecialAlgorithms
      Headline
-          An option for the function fpt to check whether input is binary form. 
+          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
      Description
           Text
-               If {\tt true}, the input is a form in two variables (so that the function "binaryFormFPT" can then be used). 
-	       Can take on only Boolean values.  Default value for fpt is {\tt true}.
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
-          BinomialCheck
-     Headline
-          An option for the function fpt to check whether the input is a binomial polynomial. 
-     Description
-          Text
-               If {\tt true}, the input is a binomial in a polynomial ring.  Can take on only Boolean values. 
-	       Default value for fpt is {\tt true}.
+               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
+               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
+               specialized algorithms.  Can take on only Boolean values.
      SeeAlso
           fpt
 ///
@@ -28,14 +16,13 @@ doc ///
      Key
           ComputePreviousNus
      Headline
-          An option for functions nu and nuList to compute nus recursively. 
+          An option for the function nu to compute nus recursively. 
      Description
           Text
                If {\tt true}, then nu values are computed recursively, in succession; otherwise, another method can be applied.  
 	       Can take on only Boolean values. Default value for nu and nuList is {\tt true}.
      SeeAlso
           nu
-          nuList
 ///
 
 doc ///
@@ -69,32 +56,17 @@ doc ///
          :List
      Description
          Text 
-             This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As p approaches infinity, 
+             This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As d approaches infinity, 
 	     the sequence of these terms converges to the critical exponent of I or f with respect to J.       
 ///
 
 doc ///
      Key
-          DiagonalCheck
-     Headline
-          An option for the function fpt to check whether the input is a diagonal polynomial. 
-     Description
-          Text
-               Enables the user to check whether the input is a diagonal polynomial, i.e., of the form x_1^(d_1) + ... + x_n^(d_n) 
-	       in a polynomial ring in variables x_1,...,x_n.  Can only take on Boolean values.  Default value for fpt is {\tt true}. 
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
          fpt
-	 ( fpt, RingElement, ZZ )
-	 [fpt, BinaryFormCheck]
-	 [fpt, BinomialCheck]
-	 [fpt, DiagonalCheck]
+	 (fpt, RingElement, ZZ)
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
+	 [fpt, UseSpecialAlgorithms]
      Headline
          Atempts to compute the F-pure threshold of a polynomial at the origin. 
      Usage
@@ -102,35 +74,27 @@ doc ///
      Inputs
         f:RingElement
         e:ZZ
-        BinaryFormCheck => Symbol
-            Option to specify whether to check if f is a binary form.
-        BinomialCheck => Symbol 
-            Option to specify whether to check if f is a binomial polynomial.
-	DiagonalCheck => Symbol
-	    Option to specify whether to check if f is a diagonal polynomial.
-	FRegularityCheck => Symbol
-	    Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
+        UseSpecialAlgorithms => Boolean
+            Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms
+        FRegularityCheck => Boolean
+            Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
-    	NuCheck => Symbol
-	    Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
+    	NuCheck => Boolean
+            Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
      Outputs
         L:List
         Q:QQ
      Description
           Text 
               This function first tries to find an exact value for the F-pure threshold of f at the origin, and returns the value 
-	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Options DiagonalCheck, 
-	      BinomialCheck, and BinaryFormCheck are set to {\tt true}, respectively (and each have default value {\tt true}), 
-	      then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
+	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Option UseSpecialAlgorithms
+              is set to {\tt true}, the default value, then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
 	      respectively.  If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to 
 	      compute the F-pure threshold of f.  Otherwise, the function computes nu_f(p^e) and if NuCheck is set to {\tt true}
 	      (its default value), then checks whether either nu/(p^e-1) or (nu+1)/p^e equal the F-pure threshold.  If the value 
 	      is still unknown, the function uses the convexity of the F-signature function, and a secant line argument, to find 
-	      the F-pure threshold.  If FRegularityCheck is set to {\tt true} (its default value), then 
-	      
-	      finalCheck is a Boolean with default value True that determines whether the last isFRegularPoly is run (it is possibly very slow).  
-	      If FinalCheck is false, then a last time consuming check won't be tried.  If it is true, it will be. 
-	      Verbose set to {\tt true} displays verbose output.
+	      the F-pure threshold.  If FRegularityCheck is set to {\tt true} (its default value), then isFRegularPoly is run 
+	      (which can take significant time) to possibly obtain an answer. 
 ///
 
 doc ///
@@ -151,7 +115,7 @@ doc ///
          :List
      Description
          Text 
-             This returns a list of nu_I(p^d)/p^d for d = 0, ..., e.  The sequence {nu_I(p^d)/p^d} converges to the F-pure threshold.        
+             This returns a list consisting of nu_I(p^d)/p^d for d = 0,...,e.  The sequence {nu_I(p^d)/p^d} converges to the F-pure threshold.        
 ///
 
 
@@ -189,16 +153,17 @@ doc ///
          :List
      Description
          Text 
-             This returns a list of nu_I^J(p^d)/p^d for d = 0, ..., e.  The sequence {nu_I^J(p^d)/p^d} converges to the F-threshold of I or f with respect to J.         
+             This returns a list of nu_I^J(p^d)/p^d for d = 0,...,e.  As d approaches infinity, the sequence {nu_I^J(p^d)/p^d} converges 
+	     to the F-threshold of I or f with respect to J.         
 ///
 
 doc ///
      Key
-        guessFPT 
+        fptGuessList 
      Headline
         Tries to guess the FPT in a really naive way (this should be improved).
      Usage
-         guessFPT(f,e,d) 
+         fptGuessList(f,e,d) 
      Inputs
          f:RingElement
          e:ZZ
@@ -257,6 +222,10 @@ doc ///
          (nu,ZZ,Ideal)
          (nu,ZZ,RingElement,Ideal)
          (nu,ZZ,RingElement)
+         [nu, ComputePreviousNus]
+         [nu, ContainmentTest]
+         [nu, Search]
+         [nu, UseColonIdeals]
      Headline
         Gives $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
@@ -264,6 +233,10 @@ doc ///
           nu(e,I)
           nu(e,f,J)
           nu(e,f) 
+          ComputePreviousNus => Boolean
+          ContainmentTest => Symbol
+          Search => Symbol
+          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
@@ -295,13 +268,19 @@ doc ///
          (nuList,ZZ,Ideal)
          (nuList,ZZ,RingElement,Ideal)
          (nuList,ZZ,RingElement)
+         [nuList, ContainmentTest]
+         [nuList, Search]
+         [nuList, UseColonIdeals]
      Headline
-        Lists nu_I^J(p^d)$ for d = 1,...,e
+          Lists nu_I^J(p^d)$ for d = 1,...,e
      Usage
           nuList(e,I,J)
           nuList(e,I)
           nuList(e,f,J)
           nuList(e,f) 
+          ContainmentTest => Symbol
+          Search => Symbol
+          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
@@ -318,7 +297,7 @@ doc ///
      Key
           OutputRange
      Headline
-          An option for guessFPT
+          An option for fptGuessList
      Description
           Text
                Valid values are {\tt true} and {\tt false}

@@ -17,9 +17,64 @@
   43--61, Special volume in honor of Melvin Hochster. {\sf\scriptsize 2492440
   (2010c:13003)}
 
+\bibitem[BK05]{BrionKumarFrobeniusSplitting}
+{\sc M.~Brion and S.~Kumar}: \emph{Frobenius splitting methods in geometry and
+  representation theory}, Progress in Mathematics, vol. 231, Birkh\"auser
+  Boston Inc., Boston, MA, 2005. {\sf\scriptsize MR2107324 (2005k:14104)}
+
+\bibitem[EH08]{EnescuHochsterTheFrobeniusStructureOfLocalCohomology}
+{\sc F.~Enescu and M.~Hochster}: \emph{The {F}robenius structure of local
+  cohomology}, Algebra Number Theory \textbf{2} (2008), no.~7, 721--754.
+  {\sf\scriptsize MR2460693 (2009i:13009)}
+
+\bibitem[Fed83]{FedderFPureRat}
+{\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
+  Math. Soc. \textbf{278} (1983), no.~2, 461--480. {\sf\scriptsize MR701505
+  (84h:13031)}
+
+\bibitem[HW18]{HernandezTeixeiraWittFrobeniusPowers}
+{\sc T.~P. Hern{\'a}ndez, Daniel and E.~E. Witt}: \emph{Frobenius powers},
+  arXiv:1802.02705.
+
+\bibitem[HH90]{HochsterHunekeTC1}
+{\sc M.~Hochster and C.~Huneke}: \emph{Tight closure, invariant theory, and the
+  {B}rian\c con-{S}koda theorem}, J. Amer. Math. Soc. \textbf{3} (1990), no.~1,
+  31--116. {\sf\scriptsize MR1017784 (91g:13010)}
+
 \bibitem[Kat08]{KatzmanParameterTestIdealOfCMRings}
 {\sc M.~Katzman}: \emph{Parameter-test-ideals of {C}ohen-{M}acaulay rings},
   Compos. Math. \textbf{144} (2008), no.~4, 933--948. {\sf\scriptsize MR2441251
   (2009d:13030)}
+
+\bibitem[Kat10]{KatzmanFrobeniusMapsOnInjectiveHulls}
+{\sc M.~Katzman}: \emph{Frobenius maps on injective hulls and their
+  applications to tight closure}, J. Lond. Math. Soc. \textbf{81} (2010),
+  no.~3, 589--607.
+
+\bibitem[KS12]{KatzmanSchwedeAlgorithm}
+{\sc M.~Katzman and K.~Schwede}: \emph{An algorithm for computing compatibly
+  {F}robenius split subvarieties}, J. Symbolic Comput. \textbf{47} (2012),
+  no.~8, 996--1008.
+
+\bibitem[KM09]{KumarMehtaFiniteness}
+{\sc S.~Kumar and V.~B. Mehta}: \emph{Finiteness of the number of compatibly
+  split subvarieties}, Int. Math. Res. Not. IMRN (2009), no.~19, 3595--3597.
+  {\sf\scriptsize 2539185 (2010j:13012)}
+
+\bibitem[Sch09]{SchwedeFAdjunction}
+{\sc K.~Schwede}: \emph{{$F$}-adjunction}, Algebra Number Theory \textbf{3}
+  (2009), no.~8, 907--950. {\sf\scriptsize 2587408 (2011b:14006)}
+
+\bibitem[ST12]{SchwedeTuckerTestIdealSurvey}
+{\sc K.~Schwede and K.~Tucker}: \emph{A survey of test ideals}, Progress in
+  Commutative Algebra 2. Closures, Finiteness and Factorization (C.~Francisco,
+  L.~C. Klinger, S.~M. Sather-Wagstaff, and J.~C. Vassilev, eds.), Walter de
+  Gruyter GmbH \& Co. KG, Berlin, 2012, pp.~39--99.
+
+\bibitem[Sha07]{SharpGradedAnnihilatorsOfModulesOverTheFrobeniusSkewPolynomialRing}
+{\sc R.~Y. Sharp}: \emph{Graded annihilators of modules over the {F}robenius
+  skew polynomial ring, and tight closure}, Trans. Amer. Math. Soc.
+  \textbf{359} (2007), no.~9, 4237--4258 (electronic). {\sf\scriptsize
+  MR2309183 (2008b:13006)}
 
 \end{thebibliography}

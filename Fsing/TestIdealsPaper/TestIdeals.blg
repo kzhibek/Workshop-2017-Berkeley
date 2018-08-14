@@ -3,44 +3,54 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: TestIdeals.aux
 The style file: skalpha.bst
 Database file #1: MainBib.bib
-You've used 2 entries,
+Too many commas in name 1 of "Hern{\'a}ndez, Daniel, Teixeira, Pedro and Witt, Emily E." for entry HernandezTeixeiraWittFrobeniusPowers
+while executing---line 2663 of file skalpha.bst
+Too many commas in name 1 of "Hern{\'a}ndez, Daniel, Teixeira, Pedro and Witt, Emily E." for entry HernandezTeixeiraWittFrobeniusPowers
+while executing---line 2663 of file skalpha.bst
+Too many commas in name 1 of "Hern{\'a}ndez, Daniel, Teixeira, Pedro and Witt, Emily E." for entry HernandezTeixeiraWittFrobeniusPowers
+while executing---line 2855 of file skalpha.bst
+Warning--missing journal name in HernandezTeixeiraWittFrobeniusPowers
+Warning--missing journal, volume, and year in HernandezTeixeiraWittFrobeniusPowers
+Warning--missing pages in HernandezTeixeiraWittFrobeniusPowers
+You've used 13 entries,
             2709 wiz_defined-function locations,
-            592 strings with 5196 characters,
-and the built_in function-call counts, 839 in all, are:
-= -- 75
-> -- 33
-< -- 1
-+ -- 11
-- -- 11
-* -- 83
-:= -- 140
-add.period$ -- 2
-call.type$ -- 2
-change.case$ -- 12
-chr.to.int$ -- 2
-cite$ -- 2
-duplicate$ -- 31
-empty$ -- 63
-format.name$ -- 14
-if$ -- 157
+            682 strings with 7419 characters,
+and the built_in function-call counts, 5324 in all, are:
+= -- 490
+> -- 212
+< -- 6
++ -- 68
+- -- 65
+* -- 514
+:= -- 839
+add.period$ -- 13
+call.type$ -- 13
+change.case$ -- 74
+chr.to.int$ -- 13
+cite$ -- 16
+duplicate$ -- 213
+empty$ -- 429
+format.name$ -- 83
+if$ -- 1052
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 4
-newline$ -- 17
-num.names$ -- 6
-pop$ -- 7
+missing$ -- 27
+newline$ -- 50
+num.names$ -- 41
+pop$ -- 55
 preamble$ -- 2
-purify$ -- 14
+purify$ -- 87
 quote$ -- 0
-skip$ -- 20
+skip$ -- 151
 stack$ -- 0
-substring$ -- 58
-swap$ -- 6
-text.length$ -- 1
-text.prefix$ -- 1
+substring$ -- 413
+swap$ -- 46
+text.length$ -- 6
+text.prefix$ -- 5
 top$ -- 0
-type$ -- 16
-warning$ -- 0
-while$ -- 9
-width$ -- 4
-write$ -- 34
+type$ -- 100
+warning$ -- 3
+while$ -- 58
+width$ -- 17
+write$ -- 162
+(There were 3 error messages)

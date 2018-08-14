@@ -96,7 +96,7 @@ test := new HashTable from
 -- SEARCH FUNCTIONS
 
 -- Each *Search(I,J,e,a,b,testFunction) searches for the last n in [a,b) such that 
--- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e) 
+-- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e)
 -- is true.
 
 -- Non-recursive binary search, based on our previous code
@@ -175,6 +175,9 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 	}
     );
 
+    if f==0 then 
+        error "nuInternal: zero is not a valid input";
+
     -- Check if polynomial has coefficients in a finite field
         if not isPolynomialOverFiniteField f  then 
         error "nu: expected polynomial with coefficients in a finite field";
@@ -184,8 +187,18 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
     theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
     local N;
-    searchFct := search#(o.Search);
-    testFct := test#(o.ContainmentTest);
+    try(
+        searchFct := search#(o.Search);
+    ) else (
+        error "Invalid search option";
+    );
+
+    try(
+        testFct := test#(o.ContainmentTest);
+    ) else (
+        error "Invalid test option";
+    );
+
     if not o.ComputePreviousNus then
     (
 	if n == 0 then return theList;
@@ -223,7 +236,7 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => true )
+nuList = method( Options => optIdealList )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
@@ -232,12 +245,20 @@ nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
 
 nuList ( ZZ, Ideal ) := optIdealList >> o -> ( e, I ) -> 
-    nuList( e, I, maxIdeal I, o )
+{
+        if not isPolynomialRing(ring I) then 
+	    error "nuList: The ambient ring must be a polynomial ring";
+	nuList( e, I, maxIdeal I, o )
+}
 
 nuList ( ZZ, RingElement ) := optPolyList >> o -> ( e, f ) -> 
-    nuList( e, f, maxIdeal f, o )
+{
+        if not isPolynomialRing(ring f) then 
+	    error "nuList: The ambient ring must be a polynomial ring";
+	nuList( e, f, maxIdeal f, o )
+}   
 
-nu = method( Options => true )
+nu = method( Options => optIdeal )
 
 nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) -> 
     last nuInternal( e, I, J, o )
@@ -245,9 +266,19 @@ nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) ->
 nu ( ZZ, RingElement, Ideal ) := optPoly >> o -> ( e, f, J ) -> 
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> 
+{
+        if not isPolynomialRing(ring I) then 
+	    error "nu: The ambient ring must be a polynomial ring";
+	nu( e, I, maxIdeal I, o )
+}
 
-nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) ->
+{
+        if not isPolynomialRing(ring f) then 
+	    error "nu: The ambient ring must be a polynomial ring";
+	nu( e, f, maxIdeal f, o )
+}
 
 -- Nus can be computed using generalized Frobenius powers, by using 
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts: 
@@ -308,9 +339,9 @@ criticalExponentApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
 criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) -> 
     criticalExponentApproximation( e, ideal f, J )
 
---Guesses the FPT of ff.  It returns a list of all numbers in 
---the range suggested by nu( e1, ff ) with maxDenom as the maximum denominator
-guessFPT = ( f, e, maxDenom ) ->
+--Gives a list of guesses for the F-pure threshold of f.  It returns a list of all numbers in 
+--the range suggested by nu(e,  ) with maxDenom as the maximum denominator
+fptGuessList = ( f, e, maxDenom ) ->
 (
     Nu := nu(e,f);
     p := char ring f;
@@ -351,9 +382,7 @@ fpt = method(
         {
 	    FRegularityCheck => true, 
 	    Verbose => false, 
-	    DiagonalCheck => true, 
-	    BinomialCheck => true, 
-	    BinaryFormCheck => true, 
+	    UseSpecialAlgorithms => true, 
 	    NuCheck => true    	
 	}
 )
@@ -365,9 +394,7 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
         {
 	    FRegularityCheck => Boolean, 
 	    Verbose => Boolean, 
-	    DiagonalCheck => Boolean, 
-	    BinomialCheck => Boolean, 
-	    BinaryFormCheck => Boolean, 
+	    UseSpecialAlgorithms => Boolean, 
 	    NuCheck => Boolean    	
 	}
     );
@@ -395,28 +422,27 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
 
     -- Check if one of the special FPT functions can be used...
     
-    -- Check if f is diagonal:
-    if o.DiagonalCheck and isDiagonal f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is diagonal; calling diagonalFPT ..."; 
-        return diagonalFPT f 
-    );
-
-    -- Now check if f is a binomial:
-    if o.BinomialCheck and isBinomial f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is a binomial; calling binomialFPT ...";
-        return binomialFPT f 
-    );
-
-    -- Finally, check if f is a binary form:
-    if o.BinaryFormCheck and isBinaryForm f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is a binary form; calling binaryFormFPT ...";
-        return binaryFormFPT f 
+    if o.UseSpecialAlgorithms then
+    (
+	if o.Verbose then print "\nVerifying if special algorithms apply...";
+	if isDiagonal f then 
+	(
+	    if o.Verbose then 
+	        print "\nPolynomial is diagonal; calling diagonalFPT ..."; 
+            return diagonalFPT f 
+        );
+        if isBinomial f then 
+        ( 
+            if o.Verbose then 
+	        print "\nPolynomial is a binomial; calling binomialFPT ...";
+            return binomialFPT f 
+        );
+        if isBinaryForm f then 
+        ( 
+            if o.Verbose then 
+	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
+            return binaryFormFPT f 
+        )
     );
     
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
