@@ -96,7 +96,7 @@ test := new HashTable from
 -- SEARCH FUNCTIONS
 
 -- Each *Search(I,J,e,a,b,testFunction) searches for the last n in [a,b) such that 
--- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e) 
+-- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e)
 -- is true.
 
 -- Non-recursive binary search, based on our previous code
@@ -174,6 +174,9 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 	    ComputePreviousNus => Boolean
 	}
     );
+
+    if f==0 then 
+        error "nuInternal: zero is not a valid input";
 
     -- Check if polynomial has coefficients in a finite field
         if not isPolynomialOverFiniteField f  then 
