@@ -28,14 +28,13 @@ doc ///
      Key
           ComputePreviousNus
      Headline
-          An option for functions nu and nuList to compute nus recursively. 
+          An option for the function nu to compute nus recursively. 
      Description
           Text
                If {\tt true}, then nu values are computed recursively, in succession; otherwise, another method can be applied.  
 	       Can take on only Boolean values. Default value for nu and nuList is {\tt true}.
      SeeAlso
           nu
-          nuList
 ///
 
 doc ///
@@ -255,6 +254,10 @@ doc ///
          (nu,ZZ,Ideal)
          (nu,ZZ,RingElement,Ideal)
          (nu,ZZ,RingElement)
+         [nu, ComputePreviousNus]
+         [nu, ContainmentTest]
+         [nu, Search]
+         [nu, UseColonIdeals]
      Headline
         Gives $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
@@ -262,6 +265,10 @@ doc ///
           nu(e,I)
           nu(e,f,J)
           nu(e,f) 
+          ComputePreviousNus => Boolean
+          ContainmentTest => Symbol
+          Search => Symbol
+          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
@@ -293,17 +300,19 @@ doc ///
          (nuList,ZZ,Ideal)
          (nuList,ZZ,RingElement,Ideal)
          (nuList,ZZ,RingElement)
-         [nuList, ComputePreviousNus]
          [nuList, ContainmentTest]
          [nuList, Search]
          [nuList, UseColonIdeals]
      Headline
-        Lists nu_I^J(p^d)$ for d = 1,...,e
+          Lists nu_I^J(p^d)$ for d = 1,...,e
      Usage
           nuList(e,I,J)
           nuList(e,I)
           nuList(e,f,J)
           nuList(e,f) 
+          ContainmentTest => Symbol
+          Search => Symbol
+          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal

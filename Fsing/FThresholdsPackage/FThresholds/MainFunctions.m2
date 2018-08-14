@@ -236,7 +236,7 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => true )
+nuList = method( Options => optIdealList )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
@@ -258,7 +258,7 @@ nuList ( ZZ, RingElement ) := optPolyList >> o -> ( e, f ) ->
 	nuList( e, f, maxIdeal f, o )
 }   
 
-nu = method( Options => true )
+nu = method( Options => optIdeal )
 
 nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) -> 
     last nuInternal( e, I, J, o )
@@ -382,9 +382,7 @@ fpt = method(
         {
 	    FRegularityCheck => true, 
 	    Verbose => false, 
-	    DiagonalCheck => true, 
-	    BinomialCheck => true, 
-	    BinaryFormCheck => true, 
+	    UseSpecialAlgorithms => true, 
 	    NuCheck => true    	
 	}
 )
@@ -396,9 +394,7 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
         {
 	    FRegularityCheck => Boolean, 
 	    Verbose => Boolean, 
-	    DiagonalCheck => Boolean, 
-	    BinomialCheck => Boolean, 
-	    BinaryFormCheck => Boolean, 
+	    UseSpecialAlgorithms => Boolean, 
 	    NuCheck => Boolean    	
 	}
     );
@@ -426,28 +422,27 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
 
     -- Check if one of the special FPT functions can be used...
     
-    -- Check if f is diagonal:
-    if o.DiagonalCheck and isDiagonal f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is diagonal; calling diagonalFPT ..."; 
-        return diagonalFPT f 
-    );
-
-    -- Now check if f is a binomial:
-    if o.BinomialCheck and isBinomial f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is a binomial; calling binomialFPT ...";
-        return binomialFPT f 
-    );
-
-    -- Finally, check if f is a binary form:
-    if o.BinaryFormCheck and isBinaryForm f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is a binary form; calling binaryFormFPT ...";
-        return binaryFormFPT f 
+    if o.UseSpecialAlgorithms then
+    (
+	if o.Verbose then print "\nVerifying if special algorithms apply...";
+	if isDiagonal f then 
+	(
+	    if o.Verbose then 
+	        print "\nPolynomial is diagonal; calling diagonalFPT ..."; 
+            return diagonalFPT f 
+        );
+        if isBinomial f then 
+        ( 
+            if o.Verbose then 
+	        print "\nPolynomial is a binomial; calling binomialFPT ...";
+            return binomialFPT f 
+        );
+        if isBinaryForm f then 
+        ( 
+            if o.Verbose then 
+	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
+            return binaryFormFPT f 
+        )
     );
     
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
