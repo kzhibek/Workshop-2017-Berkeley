@@ -59,7 +59,8 @@ needsPackage "TestIdeals"
 
 export{
 --F-thresholds computations (MainFunctions.m2)
-    "BinaryFormCheck", 
+    "BinaryFormCheck",
+    "BinaryRecursive", 
     "BinomialCheck", 
     "ComputePreviousNus", 
     "criticalExponentApproximation",
