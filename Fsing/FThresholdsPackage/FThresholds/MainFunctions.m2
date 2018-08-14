@@ -187,14 +187,14 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
     try(
         searchFct := search#(o.Search);
     ) else (
-        error "Invalid search option"
-    )
+        error "Invalid search option";
+    );
 
     try(
         testFct := test#(o.ContainmentTest);
     ) else (
-        error "Invalid test option"
-    )
+        error "Invalid test option";
+    );
 
     if not o.ComputePreviousNus then
     (
