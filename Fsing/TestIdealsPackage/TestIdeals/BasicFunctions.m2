@@ -252,7 +252,8 @@ maxIdeal ( PolynomialRing ) := MonomialIdeal => R -> monomialIdeal R_*
 
 maxIdeal ( QuotientRing ) := MonomialIdeal => R -> ideal R_*
 
-maxIdeal ( RingElement ) := Ideal => f -> maxIdeal ring f
+--Not used 
+--maxIdeal ( RingElement ) := Ideal => f -> maxIdeal (ring f)
 
 maxIdeal ( Ideal ) := MonomialIdeal => I -> maxIdeal ring I
 
