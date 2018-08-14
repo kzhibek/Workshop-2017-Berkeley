@@ -96,7 +96,7 @@ test := new HashTable from
 -- SEARCH FUNCTIONS
 
 -- Each *Search(I,J,e,a,b,testFunction) searches for the last n in [a,b) such that 
--- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e) 
+-- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e)
 -- is true.
 
 -- Non-recursive binary search, based on our previous code
@@ -174,6 +174,9 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 	    ComputePreviousNus => Boolean
 	}
     );
+
+    if f==0 then 
+        error "nuInternal: zero is not a valid input";
 
     -- Check if polynomial has coefficients in a finite field
         if not isPolynomialOverFiniteField f  then 
@@ -382,9 +385,7 @@ fpt = method(
         {
 	    FRegularityCheck => true, 
 	    Verbose => false, 
-	    DiagonalCheck => true, 
-	    BinomialCheck => true, 
-	    BinaryFormCheck => true, 
+	    UseSpecialAlgorithms => true, 
 	    NuCheck => true    	
 	}
 )
@@ -396,9 +397,7 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
         {
 	    FRegularityCheck => Boolean, 
 	    Verbose => Boolean, 
-	    DiagonalCheck => Boolean, 
-	    BinomialCheck => Boolean, 
-	    BinaryFormCheck => Boolean, 
+	    UseSpecialAlgorithms => Boolean, 
 	    NuCheck => Boolean    	
 	}
     );
@@ -426,28 +425,27 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
 
     -- Check if one of the special FPT functions can be used...
     
-    -- Check if f is diagonal:
-    if o.DiagonalCheck and isDiagonal f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is diagonal; calling diagonalFPT ..."; 
-        return diagonalFPT f 
-    );
-
-    -- Now check if f is a binomial:
-    if o.BinomialCheck and isBinomial f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is a binomial; calling binomialFPT ...";
-        return binomialFPT f 
-    );
-
-    -- Finally, check if f is a binary form:
-    if o.BinaryFormCheck and isBinaryForm f then 
-    ( 
-        if o.Verbose then 
-	    print "\nPolynomial is a binary form; calling binaryFormFPT ...";
-        return binaryFormFPT f 
+    if o.UseSpecialAlgorithms then
+    (
+	if o.Verbose then print "\nVerifying if special algorithms apply...";
+	if isDiagonal f then 
+	(
+	    if o.Verbose then 
+	        print "\nPolynomial is diagonal; calling diagonalFPT ..."; 
+            return diagonalFPT f 
+        );
+        if isBinomial f then 
+        ( 
+            if o.Verbose then 
+	        print "\nPolynomial is a binomial; calling binomialFPT ...";
+            return binomialFPT f 
+        );
+        if isBinaryForm f then 
+        ( 
+            if o.Verbose then 
+	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
+            return binaryFormFPT f 
+        )
     );
     
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";

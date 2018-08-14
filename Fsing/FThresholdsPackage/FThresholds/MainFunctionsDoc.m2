@@ -1,25 +1,13 @@
 doc ///
      Key
-          BinaryFormCheck
+          UseSpecialAlgorithms
      Headline
-          An option for the function fpt to check whether input is binary form. 
+          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
      Description
           Text
-               If {\tt true}, the input is a form in two variables (so that the function "binaryFormFPT" can then be used). 
-	       Can take on only Boolean values.  Default value for fpt is {\tt true}.
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
-          BinomialCheck
-     Headline
-          An option for the function fpt to check whether the input is a binomial polynomial. 
-     Description
-          Text
-               If {\tt true}, the input is a binomial in a polynomial ring.  Can take on only Boolean values. 
-	       Default value for fpt is {\tt true}.
+               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
+               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
+               specialized algorithms.  Can take on only Boolean values.
      SeeAlso
           fpt
 ///
@@ -74,26 +62,11 @@ doc ///
 
 doc ///
      Key
-          DiagonalCheck
-     Headline
-          An option for the function fpt to check whether the input is a diagonal polynomial. 
-     Description
-          Text
-               Enables the user to check whether the input is a diagonal polynomial, i.e., of the form x_1^(d_1) + ... + x_n^(d_n) 
-	       in a polynomial ring in variables x_1,...,x_n.  Can only take on Boolean values.  Default value for fpt is {\tt true}. 
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
          fpt
 	 (fpt, RingElement, ZZ)
-	 [fpt, BinaryFormCheck]
-	 [fpt, BinomialCheck]
-	 [fpt, DiagonalCheck]
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
+	 [fpt, UseSpecialAlgorithms]
      Headline
          Atempts to compute the F-pure threshold of a polynomial at the origin. 
      Usage
@@ -101,12 +74,8 @@ doc ///
      Inputs
         f:RingElement
         e:ZZ
-        BinaryFormCheck => Boolean
-            Option to specify whether to check if f is a binary form.
-        BinomialCheck => Boolean 
-            Option to specify whether to check if f is a binomial polynomial.
-        DiagonalCheck => Boolean
-            Option to specify whether to check if f is a diagonal polynomial.
+        UseSpecialAlgorithms => Boolean
+            Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms
         FRegularityCheck => Boolean
             Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
@@ -118,9 +87,8 @@ doc ///
      Description
           Text 
               This function first tries to find an exact value for the F-pure threshold of f at the origin, and returns the value 
-	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Options DiagonalCheck, 
-	      BinomialCheck, and BinaryFormCheck are set to {\tt true}, respectively (and each have default value {\tt true}), 
-	      then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
+	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Option UseSpecialAlgorithms
+              is set to {\tt true}, the default value, then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
 	      respectively.  If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to 
 	      compute the F-pure threshold of f.  Otherwise, the function computes nu_f(p^e) and if NuCheck is set to {\tt true}
 	      (its default value), then checks whether either nu/(p^e-1) or (nu+1)/p^e equal the F-pure threshold.  If the value 
