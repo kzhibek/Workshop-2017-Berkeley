@@ -70,7 +70,7 @@ export{
     "FrobeniusPower", 
     "FrobeniusRoot",  
     "ftApproximation",
-    "isFJumpingExponents", 
+    "isFJumpingExponent", 
     --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
     "nu", --Dan: add the mu options
