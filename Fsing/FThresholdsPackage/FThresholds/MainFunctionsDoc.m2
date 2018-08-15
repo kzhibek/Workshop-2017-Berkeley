@@ -350,17 +350,3 @@ doc ///
           nu
           nuList
 ///
-
-doc ///
-     Key
-          UseSpecialAlgorithms
-     Headline
-          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
-     Description
-          Text
-               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
-               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
-               specialized algorithms.  Can take on only Boolean values.
-     SeeAlso
-          fpt
-///

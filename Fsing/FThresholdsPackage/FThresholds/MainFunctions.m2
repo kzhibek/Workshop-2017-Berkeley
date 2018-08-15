@@ -160,17 +160,10 @@ optNu := optNuList | { ComputePreviousNus => true }
 
 nuInternal = optNu >> o -> ( n, f, J ) -> 
 (
-    if o.ContainmentTest === null and instance(f, RingElement) then (
-        o.ContainmentTest = FrobeniusRoot;
-    )
-    else if o.ContainmentTest === null and  instance(f, Ideal) then (
-        o.ContainmentTest = StandardPower;
-    );
-
     -- Verify if option values are valid
     checkOptions( o,
 	{
-	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null }, --Dan: I added null, just in case
+	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
 	    Search => { Binary, Linear, BinaryRecursive },
 	    UseColonIdeals => Boolean,
 	    ComputePreviousNus => Boolean
@@ -178,26 +171,32 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     );
 
     -- Return error if f is 0
-  --  if f == 0 then 
-  --      error "nuInternal: zero is not a valid input";
+    if f == 0 then 
+        error "nuInternal: zero is not a valid input";
 
     -- Check if f is in a polynomial ring over a finite field
     if not isPolynomialRingOverFiniteField ring f then 
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
- 
+
+    -- decide which containment test to use, if not specified by user
+    comTest := o.ContainmentTest;
+    if comTest === null then 
+	comTest = if instance(f, RingElement) then FrobeniusRoot 
+	    else StandardPower;
+    
     p := char ring f;
     nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
     searchFct := search#(o.Search);
-    testFct := test#(o.ContainmentTest);
+    testFct := test#(comTest);
     local N;
 
     if not o.ComputePreviousNus then
     (
 	-- This computes nu in a non-recursive way
 	if n == 0 then return theList;
- 	N = if isPrincipal or o.ContainmentTest === FrobeniusPower
+ 	N = if isPrincipal or comTest === FrobeniusPower
 	     then p^n else (numgens trim J)*(p^n-1)+1;
      	return { searchFct( f, J, n, nu*p^n, (nu+1)*N, testFct ) }
     );
@@ -211,7 +210,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	scan( 1..n, e ->
 	    (
 		I = I : ideal( fastExponentiation( nu, g ) );
-		nu =  last nuInternal( 1, g, I, ContainmentTest => o.ContainmentTest );
+		nu =  last nuInternal( 1, g, I, ContainmentTest => comTest );
 	      	theList = append( theList, p*(last theList) + nu );
 	      	I = frobenius I
 	    )
@@ -219,7 +218,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     )
     else
     (
-	N = if isPrincipal or o.ContainmentTest === FrobeniusPower
+	N = if isPrincipal or comTest === FrobeniusPower
 	     then p else (numgens trim J)*(p-1)+1;
 	scan( 1..n, e -> 
 	    (
