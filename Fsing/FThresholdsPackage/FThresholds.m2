@@ -99,7 +99,7 @@ load "./FThresholds/SpecialFThresholds.m2"
 
 beginDocumentation()
 
--- load "./FThresholds/MainFunctionsDoc.m2"
+load "./FThresholds/MainFunctionsDoc.m2"
 
 load "./FThresholds/SpecialFThresholdsDoc.m2"
 
