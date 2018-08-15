@@ -13,19 +13,23 @@
 --     testPower, testRoot, testFrobeniusPower, nuInternal
 
 ----------------------------------------------------------------------------------
--- FThreshold Approximations
+-- FThreshold approximations
 
 -- Main functions: fptApproximation, ftApproximation, criticalExponentApproximation
 
 ----------------------------------------------------------------------------------
--- FThreshold Estimates
+-- FThreshold computations and estimates
 
--- Main functions: guessFPT, estFPT
+-- Main function: fpt 
+
+-- Auxiliary functions: fSig, isFRegularPoly
 
 ----------------------------------------------------------------------------------
 -- FPT/F-Jumping number check
 
--- Main functions: isFPT, isFJumpingNumber
+-- Main functions: isFPT, isFJumpingExponent
+
+-- Auxiliary functions: sigma
 
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,7 +169,7 @@ optPoly := optPolyList | { ComputePreviousNus => true }
 
 nuInternal = optIdeal >> o -> ( n, f, J ) -> 
 (
-    -- verify if option values are valid
+    -- Verify if option values are valid
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower },
@@ -175,39 +179,35 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 	}
     );
 
-    if f==0 then 
+    -- Return error if f is 0
+    if f == 0 then 
         error "nuInternal: zero is not a valid input";
 
     -- Check if polynomial has coefficients in a finite field
-        if not isPolynomialOverFiniteField f  then 
-        error "nu: expected polynomial with coefficients in a finite field";
+    if not isPolynomialOverFiniteField f  then 
+        error "nuInternal: expected polynomial with coefficients in a finite field";
  
     p := char ring f;
-    nu := nu1( f, J );
+    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
+    searchFct := search#(o.Search);
+    testFct := test#(o.ContainmentTest);
     local N;
-    try(
-        searchFct := search#(o.Search);
-    ) else (
-        error "Invalid search option";
-    );
-
-    try(
-        testFct := test#(o.ContainmentTest);
-    ) else (
-        error "Invalid test option";
-    );
 
     if not o.ComputePreviousNus then
     (
+	-- This computes nu in a non-recursive way
 	if n == 0 then return theList;
  	N = if isPrincipal or o.ContainmentTest === FrobeniusPower
 	     then p^n else (numgens trim J)*(p^n-1)+1;
      	return { searchFct( f, J, n, nu*p^n, (nu+1)*N, testFct ) }
     );
-    if o.UseColonIdeals and isPrincipal then -- colon ideals only work for polynomials
+    if o.UseColonIdeals and isPrincipal then 
+    -- colon ideals only work for polynomials
     (
+	-- This computes nu recursively, using colon ideals.
+	-- Only nu(p)'s are computed, but with respect to ideals other than J
 	I := J;
 	g := if isIdeal f then (trim f)_*_0 else f; 
 	scan( 1..n, e ->
@@ -240,6 +240,9 @@ nuList = method( Options => optIdealList )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
+
+-- Dan: I changed Options => true to Options => optIdealList above in order to make 
+-- things compile, and I'm worried that's messing up our default options here. 
 
 nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
@@ -343,9 +346,9 @@ criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) ->
 --the range suggested by nu(e,  ) with maxDenom as the maximum denominator
 fptGuessList = ( f, e, maxDenom ) ->
 (
-    Nu := nu(e,f);
+    n := nu(e,f);
     p := char ring f;
-    findNumberBetween( maxDenom, Nu/(p^e-1), (Nu+1)/p^e )
+    findNumberBetween( maxDenom, n/(p^e-1), (n+1)/p^e )
 )
 
 ----------------------------------------------------------------
@@ -383,22 +386,27 @@ fpt = method(
 	    FRegularityCheck => true, 
 	    Verbose => false, 
 	    UseSpecialAlgorithms => true, 
-	    NuCheck => true    	
+	    NuCheck => true,
+	    DepthOfSearch => 1    	
 	}
 )
 
-fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) -> 
+fpt RingElement := QQ => o -> f -> 
 (
+    -- give an answer in a trivial case
+    if f == 0 then return 0;
+
     -- Check if option values are valid
     checkOptions( o, 
         {
 	    FRegularityCheck => Boolean, 
 	    Verbose => Boolean, 
 	    UseSpecialAlgorithms => Boolean, 
-	    NuCheck => Boolean    	
+	    NuCheck => Boolean,
+	    DepthOfSearch => ZZ  	
 	}
     );
-
+            
     -- Check if polynomial has coefficients in a finite field
     if not isPolynomialOverFiniteField f  then 
         error "fpt: expected polynomial with coefficients in a finite field";
@@ -448,16 +456,17 @@ fpt ( RingElement, ZZ ) := QQ => o -> ( f, e ) ->
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
      
     -- Compute nu(e,f)
+    e := o.DepthOfSearch;
     n := nu( e, f );
         
     if o.Verbose then
-         print( "\nnu has been computed: nu(e,f) = " | toString n | " ..." );
+         print( "\nnu has been computed: nu(" | toString(e) | ",f) = " | toString n | " ..." );
     
     -- If nu = 0, we just return some information
     if n == 0 then 
     (
 	if o.Verbose then 
-	    print "\nThe nu computed isn't fine enough. Try increasing the max exponent e.";
+	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option DepthOfSearch.";
 	return { 0, 1/p^e }
     );
 
@@ -544,6 +553,8 @@ isFPT = method( Options => { Verbose=> false } )
 
 isFPT ( QQ, RingElement ) := o -> ( t, f ) -> 
 (
+    if not isPolynomialOverFiniteField f  then 
+        error "isFPT: expected a polynomial with coefficients in a finite field";
     R := ring f;
     p := char R;
     --this writes t = a/(p^b(p^c-1))
@@ -569,16 +580,18 @@ isFPT ( QQ, RingElement ) := o -> ( t, f ) ->
 
 isFPT ( ZZ, RingElement ) := o -> ( t, f ) -> isFPT( t/1, f, o )
 
--- isFJumpingNumber determines if a given rational number is an 
--- F-jumping number
+-- isFJumpingExponent determines if a given rational number is an 
+-- F-jumping exponent
 --***************************************************************************
 --This needs to be speeded up, like the above function
 --***************************************************************************
 
-isFJumpingNumber = method( Options => {Verbose=> false} )
+isFJumpingExponent = method( Options => {Verbose=> false} )
 
-isFJumpingNumber ( QQ, RingElement ) := o -> ( t, f ) -> 
+isFJumpingExponent ( QQ, RingElement ) := o -> ( t, f ) -> 
 (
+    if not isPolynomialOverFiniteField f  then 
+        error "isFJumpingExponent: expected a polynomial with coefficients in a finite field";
     p := char ring f;
     --this writes t = a/(p^b(p^c-1))
     (a,b,c) := toSequence decomposeFraction( p, t );
@@ -595,9 +608,8 @@ isFJumpingNumber ( QQ, RingElement ) := o -> ( t, f ) ->
     not isSubset( Sigma, Tau )
 )
 
-isFJumpingNumber ( ZZ, RingElement ) := o -> ( t, f ) -> 
-    isFJumpingNumber( t/1, f, o )
-
+isFJumpingExponent ( ZZ, RingElement ) := o -> ( t, f ) -> 
+    isFJumpingExponent( t/1, f, o )
 
 ----------------------------------------------------------------
 --************************************************************--
@@ -607,38 +619,27 @@ isFJumpingNumber ( ZZ, RingElement ) := o -> ( t, f ) ->
 
 --Computes Non-Sharply-F-Pure ideals over polynomial rings for 
 -- (R, f^{a/(p^{e}-1)}), at least defined as in Fujino-Schwede-Takagi.
+-- If e = 0, we treat p^e-1 as 1.
 sigma = ( f, a, e ) -> 
 (
     R := ring f;
     p := char R;
     m := 0;
-    e1 := e;
-    a1 := a;
-    --if e = 0, we treat (p^e-1) as 1.  
-    if e1 == 0 then 
-        (
-	    e1 = 1; 
-	    a1 = a*(p-1)
-	);
-     if a1 > p^e1-1 then 
-         (
-	     m = floor( (a1-1)/(p^e1-1) ); 
-	     a1 = (a1-1)%(p^e1-1) + 1 
-	 );
-     --fpow := f^a1;
-     IN := frobeniusRoot( e1, ideal 1_R ); -- this is going to be the new value.
-     IP := ideal 0_R; -- this is going to be the old value.
-     count := 0;
+    s := if e == 0 then 1 else e;
+    b := if e == 0 then a*(p-1) else a;
+    if b > p^s-1 then 
+    (
+	m = floor( (b-1)/(p^s-1) ); 
+	b = (b-1)%(p^s-1) + 1
+    );
+    newIdeal := ideal 1_R;
+    oldIdeal := ideal 0_R; 
      
-     --our initial value is something containing sigma.  
-     -- This stops after finitely many steps.  
-     while IN != IP do
-     (
-	 IP = IN;
-	 IN = frobeniusRoot( e1, a1, f, IP ); -- ethRoot(e1,ideal(fpow)*IP);
-	 count = count + 1
-     );
-
-     --return the final ideal
-    IP*ideal( f^m )
+    -- This stops after finitely many steps.  
+    while newIdeal != oldIdeal do
+    (
+        oldIdeal = newIdeal;
+        newIdeal = frobeniusRoot( s, b, f, oldIdeal ) 
+    );
+    newIdeal * ideal( f^m )
 )

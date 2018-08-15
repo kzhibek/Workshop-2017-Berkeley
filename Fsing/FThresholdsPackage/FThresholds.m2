@@ -62,6 +62,7 @@ export{
     "BinaryRecursive", 
     "ComputePreviousNus", 
     "criticalExponentApproximation",
+    "DepthOfSearch",
     "fpt",   
     "fptApproximation", 
     "fptGuessList", --Karl (probably should be incorporated into fpt
@@ -69,13 +70,12 @@ export{
     "FrobeniusPower", 
     "FrobeniusRoot",  
     "ftApproximation",
-    "HSL", 
-    "isFJumpingNumber", --Karl (should be redone, so as not to assume a polynomial ring)
+    "isFJumpingExponent", 
+    --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
     "nu", --Dan: add the mu options
     "NuCheck", 
     "nuList", --Dan: add the mu options
-    "OutputRange", 
     "Search", 
     "StandardPower", 
     "ContainmentTest", 
