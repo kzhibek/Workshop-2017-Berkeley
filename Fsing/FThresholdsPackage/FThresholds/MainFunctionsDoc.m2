@@ -75,12 +75,12 @@ doc ///
      Inputs
         f:RingElement
         UseSpecialAlgorithms => Boolean
-            Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms
+            Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms.
         FRegularityCheck => Boolean
             Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
     	NuCheck => Boolean
-            Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
+            Option to specify whether to check if nu/(p^e-1) or (nu+1)/p^e is the F-pure threshold being computed.
         DepthOfSearch => ZZ
             Option to specify the power of the characteristic to be used in a search for the F-pure threshold.
      Outputs
@@ -88,15 +88,22 @@ doc ///
         Q:QQ
      Description
           Text 
-              This function first tries to find an exact value for the F-pure threshold of f at the origin, and returns the value 
-	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Option UseSpecialAlgorithms
-              is set to {\tt true}, the default value, then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
-	      respectively.  If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to 
-	      compute the F-pure threshold of f.  Otherwise, the function computes nu_f(p^e) and if NuCheck is set to {\tt true}
-	      (its default value), then checks whether either nu/(p^e-1) or (nu+1)/p^e equal the F-pure threshold.  If the value 
-	      is still unknown, the function uses the convexity of the F-signature function, and a secant line argument, to find 
-	      the F-pure threshold.  If FRegularityCheck is set to {\tt true} (its default value), then isFRegularPoly is run 
-	      (which can take significant time) to possibly obtain an answer. 
+              This function tries to find the exact value for the F-pure threshold of f at the origin, and returns that value, if possible.  
+	      Otherwise, it returns an interval containing the F-pure threshold.
+	      
+	      If Option UseSpecialAlgorithms is set to {\tt true} (the default value), then the function first checks whether f is a diagonal polynomial, a binomial, or a form in two variables, respectively.
+	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the F-pure threshold of f.
+	        
+	      If no special algorithm is available or UseSpecialAlgorithms is set to {\tt false}, {\tt fpt} computes nu = \nu_f(p^e), where e is the value of the option DepthOfSeach.
+	      If NuCheck is set to {\tt true} (its default value), then checks are run to verify whether either nu/(p^e-1) or (nu+1)/p^e equals the F-pure threshold.
+	      
+	      If the F-threshold has not been found, then it lies in the interval (nu/(p^e-1),(nu+1)/p^e) or [nu/(p^e-1),(nu+1)/p^e], depending on whether NuCheck was performed.
+	      The function then uses the convexity of the F-signature function and a secant line argument to narrow down this interval containing the F-pure threshold.  
+	      
+	      If FRegularityCheck is set to {\tt true} (its default value), then isFRegularPoly (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the F-pure threshold is the exact answer.
+	      
+	      If no exact answer was found, then a list containing the endpoints of an interval containing the F-pure threshold of f is returned.
+	      Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option Verbose is set to {\tt true}, the exact interval will be printed.
 ///
 
 doc ///
