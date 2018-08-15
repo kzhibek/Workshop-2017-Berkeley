@@ -55,7 +55,7 @@ Reload => true,
 AuxiliaryFiles => true
 )
 
-needsPackage "TestIdeals"
+needsPackage("TestIdeals", LoadDocumentation => true);
 
 export{
 --F-thresholds computations (MainFunctions.m2)
@@ -73,6 +73,7 @@ export{
     "isFJumpingExponent",
     --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
+    "compareFPT",
     "mu",
     "muList",
     "nu", --Dan: add the mu options
@@ -90,6 +91,8 @@ export{
 }
 
 --*************************************************
+
+load "./FThresholds/DivisorPatch.m2" --some helper functions
 
 load "./FThresholds/BasicFunctions.m2"
 
