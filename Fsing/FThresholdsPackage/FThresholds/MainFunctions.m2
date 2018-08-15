@@ -169,7 +169,7 @@ optPoly := optPolyList | { ComputePreviousNus => true }
 
 nuInternal = optIdeal >> o -> ( n, f, J ) -> 
 (
-    -- verify if option values are valid
+    -- Verify if option values are valid
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower },
@@ -179,39 +179,35 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 	}
     );
 
-    if f==0 then 
+    -- Return error if f is 0
+    if f == 0 then 
         error "nuInternal: zero is not a valid input";
 
     -- Check if polynomial has coefficients in a finite field
-        if not isPolynomialOverFiniteField f  then 
-        error "nu: expected polynomial with coefficients in a finite field";
+    if not isPolynomialOverFiniteField f  then 
+        error "nuInternal: expected polynomial with coefficients in a finite field";
  
     p := char ring f;
-    nu := nu1( f, J );
+    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
+    searchFct := search#(o.Search);
+    testFct := test#(o.ContainmentTest);
     local N;
-    try(
-        searchFct := search#(o.Search);
-    ) else (
-        error "Invalid search option";
-    );
-
-    try(
-        testFct := test#(o.ContainmentTest);
-    ) else (
-        error "Invalid test option";
-    );
 
     if not o.ComputePreviousNus then
     (
+	-- This computes nu in a non-recursive way
 	if n == 0 then return theList;
  	N = if isPrincipal or o.ContainmentTest === FrobeniusPower
 	     then p^n else (numgens trim J)*(p^n-1)+1;
      	return { searchFct( f, J, n, nu*p^n, (nu+1)*N, testFct ) }
     );
-    if o.UseColonIdeals and isPrincipal then -- colon ideals only work for polynomials
+    if o.UseColonIdeals and isPrincipal then 
+    -- colon ideals only work for polynomials
     (
+	-- This computes nu recursively, using colon ideals.
+	-- Only nu(p)'s are computed, but with respect to ideals other than J
 	I := J;
 	g := if isIdeal f then (trim f)_*_0 else f; 
 	scan( 1..n, e ->
