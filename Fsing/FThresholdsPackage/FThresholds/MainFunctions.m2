@@ -146,33 +146,31 @@ search := new HashTable from
 ---------------------------------------------------------------------------------
 -- OPTION PACKAGES
 
-optIdealList := 
+optNuList := 
 { 
-    ContainmentTest => StandardPower, 
+    ContainmentTest => null, 
     UseColonIdeals => false, 
     Search => Binary 
 }
 
-optPolyList := 
-{ 
-    ContainmentTest => FrobeniusRoot, 
-    UseColonIdeals => false, 
-    Search => Binary 
-}
-
-optIdeal := optIdealList | { ComputePreviousNus => true }
-
-optPoly := optPolyList | { ComputePreviousNus => true }
+optNu := optNuList | { ComputePreviousNus => true }
 
 ---------------------------------------------------------------------------------
 -- INTERNAL FUNCTION
 
-nuInternal = optIdeal >> o -> ( n, f, J ) -> 
+nuInternal = optNu >> o -> ( n, f, J ) -> 
 (
+    if o.ContainmentTest === null and instance(f, RingElement) then (
+        o.ContainmentTest = FrobeniusRoot;
+    )
+    else if o.ContainmentTest === null and  instance(f, Ideal) then (
+        o.ContainmentTest = StandardPower;
+    );
+
     -- Verify if option values are valid
     checkOptions( o,
 	{
-	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower },
+	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null }, --Dan: I added null, just in case
 	    Search => { Binary, Linear, BinaryRecursive },
 	    UseColonIdeals => Boolean,
 	    ComputePreviousNus => Boolean
@@ -236,44 +234,44 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => true )
+nuList = method( Options => optNuList )
 
-nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
+nuList ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
 
--- Dan: I changed Options => true to Options => optIdealList above in order to make 
+-- Dan: I changed Options => true to Options => optNuList above in order to make 
 -- things compile, and I'm worried that's messing up our default options here. 
 
-nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) -> 
+nuList ( ZZ, RingElement, Ideal ) := o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
 
-nuList ( ZZ, Ideal ) := optIdealList >> o -> ( e, I ) -> 
+nuList ( ZZ, Ideal ) :=  o -> ( e, I ) -> 
     nuList( e, I, maxIdeal I, o )
 
 
-nuList ( ZZ, RingElement ) := optPolyList >> o -> ( e, f ) -> 
+nuList ( ZZ, RingElement ) := o -> ( e, f ) -> 
     nuList( e, f, maxIdeal f, o )
    
 
-nu = method( Options => true )
+nu = method( Options => optNu )
 
-nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) -> 
+nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) -> 
     last nuInternal( e, I, J, o )
 
-nu ( ZZ, RingElement, Ideal ) := optPoly >> o -> ( e, f, J ) -> 
+nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) -> 
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+nu ( ZZ, Ideal ) := o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
-nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
 -- Nus can be computed using generalized Frobenius powers, by using 
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts: 
 
-muList = optIdealList >> o -> x -> 
+muList = optNuList >> o -> x -> 
     nuList( x, o, ContainmentTest => FrobeniusPower ) 
 
-mu = optIdeal >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower ) 
+mu = optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower ) 
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
