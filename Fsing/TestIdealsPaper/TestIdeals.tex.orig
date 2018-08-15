@@ -68,18 +68,24 @@ urlcolor=OliveGreen
 
 This paper constructive methods for computing various objects related to commutative rings of prime characteristic $p$.
 Such a ring $R$ comes equipped with a built-in endomorphism, namely the Frobenius endomorphism $f:R \rightarrow R$ which is the basis for many constructions and definitions
-which affords a handle on many problems which is not otherwise available. Two notable examples of the use of the Frobenius endomorphism are the theory of tight closure 
+which affords a handle on many problems which is not otherwise available. Two notable examples of the use of the Frobenius endomorphism are the theory of tight closure
 (see \cite{HochsterHunekeTC1} for an introduction)
 and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
 
 Work on the \emph{TestIdeals} package started as a library of methods to compute the Frobenius roots, and $\star$-closures, and to implement the algorithm for computing parameter-test-ideals
 developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls} used to produce the examples in that paper.
-Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and 
+Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and
 used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for computations related to test-ideals
+<<<<<<< HEAD
 started in earnest on the Summer of 2012 in the Macaulay2 workshop held at Wake Forest. Further work on this package was undertaken in the Macaulay2 workshops in 
 Berkeley (2014 and 2017), and Salt Lake City (2016). 
+{\hfill\large\color{red} [Expand: how were the test module methods conceived?]}\\
+=======
+started in earnest on the Summer of 2012 in the Macaulay2 workshop held at Wake Forest. Further work on this package was undertaken in the Macaulay2 workshops in
+Berkeley (2014 and 2017), and Salt Lake City (2016).
 {\hfill\large\color{red} [Expand: how were the test module methods start life?]}\\
+>>>>>>> 3f6fe777521b1cb1ca7a22285a19a8fa46296f7d
 
 
 
@@ -229,6 +235,7 @@ Thus the complexity of  computing $(gR)^{[1/p^e]}$ is proportional to the number
 
 \section{$F$-singularities}
 
+
 This package includes a method for checking if a ring of finite type over a prime field is $F$-injective or not.
 \begin{definition}
 A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$ is injective for all $i >0$. An arbitrary ring is called $F$-injective if each of the localizations at a prime ideal are $F$-injective.
@@ -311,7 +318,6 @@ o7 = false
 i8 : isFregular(5/6, f, IsLocal=>true)
 o8 = true
 \end{verbatim}
-
 
 \section{Test ideals}
 
@@ -400,33 +406,9 @@ This can also be described as
 \]
 where $I$ varies over ideals defined by a partial system of parameters and $I^*$ denotes its tight closure.  This latter description is not computable however.
 
-\begin{example}\label{Example: parameter test ideal}
-In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIdealOfCMRings}.
-
 \begin{verbatim}
-i2 :      R=ZZ/2[x_1..x_5]; 
-i3 :      E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
-             2       4
-o3 : Matrix R  <--- R
-i4 :      I=minors(2,E);
-o4 : Ideal of R
-i5 :      J=parameterTestIdeal(R/I)
-o5 = ideal (x  + x , x , x )
-             3    4   2   1
-                                                    R
-o5 : Ideal of ----------------------------------------------------------------------------
-                                                       2
-              (x x  + x x , x x  + x x , x x  + x x , x  + x x , x x  + x x , x x  + x x )
-                1 4    2 4   1 3    2 4   2 3    2 4   1    4 5   1 2    4 5   1 2    3 5
-i6 :      J=substitute(J,R);
-o6 : Ideal of R
-i7 :      mingens(J+I)
-o7 = | x_3+x_4 x_2 x_1 x_4x_5 |
-             1       4
-o7 : Matrix R  <--- R
+todo (Moty will insert a good example)
 \end{verbatim}
-
-\end{example}
 
 \subsection{Test ideals}
 
@@ -534,7 +516,7 @@ J \supseteq \phi(J^{1/p^e}) \supseteq \phi^2(J^{1/p^{2e}}) \supseteq \dots
 stabilize as well (in fact, the analogous result even holds for modules).  
 
 
-\section{Ideals compatible with given $p^{-e}$-linear map}\label{Section: compatible ideals}
+\section{Ideals compatible with given $p^{-e}$-linear map}
 
 Throughout this section let $R$ denote a polynomial $\mathbb{K}[x_1, \dots, x_n]$. In this section we address the following question:
 given a $p^{-e}$ linear map $\phi: R \rightarrow R$, what are all ideals $I\subseteq R$ such that $\phi(I)=I$?
@@ -579,9 +561,17 @@ If $\psi=u T$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{
 Thus finding all $R$-submodules of $E$ compatible with $\psi=u T$ also amounts to finding all
 $\phi=\pi \circ u^{1/p^e}$-compatible ideals.
 
-\begin{example}
- 
-We return to Example \ref{Example: parameter test ideal}.
+
+Let $\mathbb{K}=\mathbb{Z}/2\mathbb{Z}$, $R=\mathbb{K}[x_1, x_2, x_3, x_4, x_5]$, $\mathfrak{m}=(x_1, \dots, x_5)R$, and let $I$ be the ideal of
+$2\times 2$ minors of
+$$
+\left[
+\begin{array}{c c c c}
+ x_1 & x_2 & x_2 & x_5\\
+ x_4 & x_4 & x_3 & x_1
+\end{array}
+\right]
+$$
 In (cf.~\cite[\S 9]{KatzmanParameterTestIdealOfCMRings}) it is shown that
 there is a surjection $\Ann_E I \rightarrow \HH^2_{\mathfrak{m}} (R/I)$
 which is compatible with with the induced $p^1$-linear map on $\HH^2_{\mathfrak{m}} (R/I)$
@@ -627,15 +617,8 @@ o5 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
 
 o5 : List
 \end{verbatim}
-\end{example}
 
 \section{Future plans}
-
-In \cite{KatzmanZhangAlgorithm} the algorithms behind the method in Section \ref{Section: compatible ideals} were extended 
-to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map. The implementation of this algorithm
-would require, among other things, a fast implementation of the extension of our method for finding Frobenius roots of ideal to submodules of free modules.
-We hope to achieve this during a future M2 workshop.
-
 
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
