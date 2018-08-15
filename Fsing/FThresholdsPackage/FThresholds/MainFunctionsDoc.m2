@@ -1,5 +1,19 @@
 doc ///
      Key
+          UseSpecialAlgorithms
+     Headline
+          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
+     Description
+          Text
+               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
+               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
+               specialized algorithms.  Can take on only Boolean values.
+     SeeAlso
+          fpt
+///
+
+doc ///
+     Key
           ComputePreviousNus
      Headline
           An option for the function nu to compute nus recursively. 
@@ -29,7 +43,7 @@ doc ///
          (criticalExponentApproximation,ZZ,Ideal,Ideal)
          (criticalExponentApproximation,ZZ,RingElement,Ideal)
      Headline
-        Gives a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^d for d=0,...,e.
+        gives a list of \mu_I^J(p^d)/p^d or \mu_f^J(p^d)/p^d for d = 0,...,e.
      Usage
           criticalExponentApproximation(e,I,J)
           criticalExponentApproximation(e,f,J) 
@@ -41,16 +55,9 @@ doc ///
      Outputs
          :List
      Description
-         Text
-             This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infinity$, 
-	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.       
-	 Example
-             R = ZZ/5[x,y];
-             I = ideal(x^2,x*y,y^2);
-	     f = x^2 + y^3;
-	     m = ideal(x,y);
-             criticalExponentApproximation(2,I,m)            
-             criticalExponentApproximation(2,f,m)
+         Text 
+             This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As d approaches infinity, 
+	     the sequence of these terms converges to the critical exponent of I or f with respect to J.       
 ///
 
 doc ///
@@ -62,41 +69,43 @@ doc ///
 	 [fpt, UseSpecialAlgorithms]
 	 [fpt, DepthOfSearch]
      Headline
-         Atempts to compute the F-pure threshold of a polynomial at the origin. 
+         attempts to compute the F-pure threshold of a polynomial at the origin 
      Usage
           fpt(f)
      Inputs
         f:RingElement
+	    a polynomial with coefficients in a finite field
         UseSpecialAlgorithms => Boolean
-            Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms.
+            specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
         FRegularityCheck => Boolean
-            Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
-	    (so that if not, the F-pure threshold can be determined from the F-signature function).
+            specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
     	NuCheck => Boolean
-            Option to specify whether to check if nu/(p^e-1) or (nu+1)/p^e is the F-pure threshold being computed.
+            specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt DepthOfSearch} and $\nu=\nu_f(p^e)$
         DepthOfSearch => ZZ
-            Option to specify the power of the characteristic to be used in a search for the F-pure threshold.
+            specifies the power of the characteristic to be used in the search for the $F$-pure threshold
      Outputs
-        L:List
+        :List
+	    which contains the endpoints of an interval containing the $F$-pure threshold of $f$
         Q:QQ
+	    the $F$-pure threshold of $f$
      Description
           Text 
-              This function tries to find the exact value for the F-pure threshold of f at the origin, and returns that value, if possible.  
-	      Otherwise, it returns an interval containing the F-pure threshold.
+              This function tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  
+	      Otherwise, it returns an interval containing the $F$-pure threshold.
 	      
-	      If Option UseSpecialAlgorithms is set to {\tt true} (the default value), then the function first checks whether f is a diagonal polynomial, a binomial, or a form in two variables, respectively.
-	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the F-pure threshold of f.
+	      If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
+	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
 	        
-	      If no special algorithm is available or UseSpecialAlgorithms is set to {\tt false}, {\tt fpt} computes nu = \nu_f(p^e), where e is the value of the option DepthOfSeach.
-	      If NuCheck is set to {\tt true} (its default value), then checks are run to verify whether either nu/(p^e-1) or (nu+1)/p^e equals the F-pure threshold.
+	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}.
+	      If {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either $\nu/(p^e-1)$ or $(\nu+1)/p^e$ equals the $F$-pure threshold.
 	      
-	      If the F-threshold has not been found, then it lies in the interval (nu/(p^e-1),(nu+1)/p^e) or [nu/(p^e-1),(nu+1)/p^e], depending on whether NuCheck was performed.
-	      The function then uses the convexity of the F-signature function and a secant line argument to narrow down this interval containing the F-pure threshold.  
+	      If the $F$-threshold has not been found, then it lies in the interval $(\nu/(p^e-1),(\nu+1)/p^e)$ or $[\nu/(p^e-1),(\nu+1)/p^e]$, depending on whether {\tt NuCheck} was performed.
+	      The function then uses the convexity of the $F$-signature function and a secant line argument to narrow down this interval containing the $F$-pure threshold.  
 	      
-	      If FRegularityCheck is set to {\tt true} (its default value), then isFRegularPoly (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the F-pure threshold is the exact answer.
+	      When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
 	      
-	      If no exact answer was found, then a list containing the endpoints of an interval containing the F-pure threshold of f is returned.
-	      Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option Verbose is set to {\tt true}, the exact interval will be printed.
+	      If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
+	      Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
 ///
 
 doc ///
@@ -224,10 +233,10 @@ doc ///
          (nu,ZZ,Ideal)
          (nu,ZZ,RingElement,Ideal)
          (nu,ZZ,RingElement)
-         [nu, ComputePreviousNus]
-         [nu, ContainmentTest]
-         [nu, Search]
-         [nu, UseColonIdeals]
+--         [nu, ComputePreviousNus]
+--         [nu, ContainmentTest]
+--         [nu, Search]
+--         [nu, UseColonIdeals]
      Headline
         Gives $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
@@ -281,9 +290,9 @@ doc ///
          (nuList,ZZ,Ideal)
          (nuList,ZZ,RingElement,Ideal)
          (nuList,ZZ,RingElement)
-         [nuList, ContainmentTest]
-         [nuList, Search]
-         [nuList, UseColonIdeals]
+--         [nuList, ContainmentTest]
+--         [nuList, Search]
+--         [nuList, UseColonIdeals]
      Headline
           Lists $\nu_I^J(p^d)$ or $\nu_f^J(p^d)$ for d = 1,...,e
      Usage
@@ -333,18 +342,4 @@ doc ///
      SeeAlso
           nu
           nuList
-///
-
-doc ///
-     Key
-          UseSpecialAlgorithms
-     Headline
-          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
-     Description
-          Text
-               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
-               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
-               specialized algorithms.  Can take on only Boolean values.
-     SeeAlso
-          fpt
 ///
