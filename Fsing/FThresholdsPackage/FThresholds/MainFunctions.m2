@@ -307,7 +307,7 @@ ftApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
 )
 
 ftApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) ->
-   fptApproximation( e, ideal(f), J )
+   ftApproximation( e, ideal(f), J )
 
 criticalExponentApproximation = method()
 
