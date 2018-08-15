@@ -12,45 +12,45 @@ while executing---line 2855 of file skalpha.bst
 Warning--missing journal name in HernandezTeixeiraWittFrobeniusPowers
 Warning--missing journal, volume, and year in HernandezTeixeiraWittFrobeniusPowers
 Warning--missing pages in HernandezTeixeiraWittFrobeniusPowers
-You've used 13 entries,
+You've used 14 entries,
             2709 wiz_defined-function locations,
-            682 strings with 7419 characters,
-and the built_in function-call counts, 5324 in all, are:
-= -- 490
-> -- 212
+            689 strings with 7577 characters,
+and the built_in function-call counts, 5714 in all, are:
+= -- 527
+> -- 231
 < -- 6
-+ -- 68
-- -- 65
-* -- 514
-:= -- 839
-add.period$ -- 13
-call.type$ -- 13
-change.case$ -- 74
-chr.to.int$ -- 13
-cite$ -- 16
-duplicate$ -- 213
-empty$ -- 429
-format.name$ -- 83
-if$ -- 1052
++ -- 74
+- -- 71
+* -- 550
+:= -- 902
+add.period$ -- 14
+call.type$ -- 14
+change.case$ -- 80
+chr.to.int$ -- 14
+cite$ -- 17
+duplicate$ -- 228
+empty$ -- 459
+format.name$ -- 90
+if$ -- 1129
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 27
-newline$ -- 50
-num.names$ -- 41
-pop$ -- 55
+missing$ -- 29
+newline$ -- 53
+num.names$ -- 44
+pop$ -- 61
 preamble$ -- 2
-purify$ -- 87
+purify$ -- 94
 quote$ -- 0
-skip$ -- 151
+skip$ -- 162
 stack$ -- 0
-substring$ -- 413
-swap$ -- 46
+substring$ -- 439
+swap$ -- 48
 text.length$ -- 6
 text.prefix$ -- 5
 top$ -- 0
-type$ -- 100
+type$ -- 108
 warning$ -- 3
-while$ -- 58
-width$ -- 17
-write$ -- 162
+while$ -- 63
+width$ -- 18
+write$ -- 172
 (There were 3 error messages)

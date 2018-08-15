@@ -55,9 +55,16 @@ doc ///
      Outputs
          :List
      Description
-         Text 
-             This returns a list of mu_I^J(p^d)/p^d or mu_f^J(p^d)/p^dfor d = 0,...,e.  As d approaches infinity, 
-	     the sequence of these terms converges to the critical exponent of I or f with respect to J.       
+         Text
+             This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$, 
+	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.       
+	 Example
+             R = ZZ/5[x,y];
+             I = ideal(x^2,x*y,y^2);
+             f = x^2 + y^3;
+             m = ideal(x,y);
+             criticalExponentApproximation(2,I,m)            
+             criticalExponentApproximation(2,f,m)
 ///
 
 doc ///
@@ -342,4 +349,18 @@ doc ///
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+     Key
+          UseSpecialAlgorithms
+     Headline
+          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
+     Description
+          Text
+               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
+               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
+               specialized algorithms.  Can take on only Boolean values.
+     SeeAlso
+          fpt
 ///
