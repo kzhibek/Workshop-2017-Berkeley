@@ -13,19 +13,23 @@
 --     testPower, testRoot, testFrobeniusPower, nuInternal
 
 ----------------------------------------------------------------------------------
--- FThreshold Approximations
+-- FThreshold approximations
 
 -- Main functions: fptApproximation, ftApproximation, criticalExponentApproximation
 
 ----------------------------------------------------------------------------------
--- FThreshold Estimates
+-- FThreshold computations and estimates
 
--- Main functions: guessFPT, estFPT
+-- Main function: fpt 
+
+-- Auxiliary functions: fSig, isFRegularPoly
 
 ----------------------------------------------------------------------------------
 -- FPT/F-Jumping number check
 
--- Main functions: isFPT, isFJumpingNumber
+-- Main functions: isFPT, isFJumpingExponent
+
+-- Auxiliary functions: sigma
 
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -553,6 +557,8 @@ isFPT = method( Options => { Verbose=> false } )
 
 isFPT ( QQ, RingElement ) := o -> ( t, f ) -> 
 (
+    if not isPolynomialOverFiniteField f  then 
+        error "isFPT: expected a polynomial with coefficients in a finite field";
     R := ring f;
     p := char R;
     --this writes t = a/(p^b(p^c-1))
@@ -588,6 +594,8 @@ isFJumpingExponent = method( Options => {Verbose=> false} )
 
 isFJumpingExponent ( QQ, RingElement ) := o -> ( t, f ) -> 
 (
+    if not isPolynomialOverFiniteField f  then 
+        error "isFJumpingExponent: expected a polynomial with coefficients in a finite field";
     p := char ring f;
     --this writes t = a/(p^b(p^c-1))
     (a,b,c) := toSequence decomposeFraction( p, t );
@@ -607,7 +615,6 @@ isFJumpingExponent ( QQ, RingElement ) := o -> ( t, f ) ->
 isFJumpingExponent ( ZZ, RingElement ) := o -> ( t, f ) -> 
     isFJumpingExponent( t/1, f, o )
 
-
 ----------------------------------------------------------------
 --************************************************************--
 --Functions for computing sigma                               --
@@ -616,38 +623,27 @@ isFJumpingExponent ( ZZ, RingElement ) := o -> ( t, f ) ->
 
 --Computes Non-Sharply-F-Pure ideals over polynomial rings for 
 -- (R, f^{a/(p^{e}-1)}), at least defined as in Fujino-Schwede-Takagi.
+-- If e = 0, we treat p^e-1 as 1.
 sigma = ( f, a, e ) -> 
 (
     R := ring f;
     p := char R;
     m := 0;
-    e1 := e;
-    a1 := a;
-    --if e = 0, we treat (p^e-1) as 1.  
-    if e1 == 0 then 
-        (
-	    e1 = 1; 
-	    a1 = a*(p-1)
-	);
-     if a1 > p^e1-1 then 
-         (
-	     m = floor( (a1-1)/(p^e1-1) ); 
-	     a1 = (a1-1)%(p^e1-1) + 1 
-	 );
-     --fpow := f^a1;
-     IN := frobeniusRoot( e1, ideal 1_R ); -- this is going to be the new value.
-     IP := ideal 0_R; -- this is going to be the old value.
-     count := 0;
+    s := if e == 0 then 1 else e;
+    b := if e == 0 then a*(p-1) else a;
+    if b > p^s-1 then 
+    (
+	m = floor( (b-1)/(p^s-1) ); 
+	b = (b-1)%(p^s-1) + 1
+    );
+    newIdeal := ideal 1_R;
+    oldIdeal := ideal 0_R; 
      
-     --our initial value is something containing sigma.  
-     -- This stops after finitely many steps.  
-     while IN != IP do
-     (
-	 IP = IN;
-	 IN = frobeniusRoot( e1, a1, f, IP ); -- ethRoot(e1,ideal(fpow)*IP);
-	 count = count + 1
-     );
-
-     --return the final ideal
-    IP*ideal( f^m )
+    -- This stops after finitely many steps.  
+    while newIdeal != oldIdeal do
+    (
+        oldIdeal = newIdeal;
+        newIdeal = frobeniusRoot( s, b, f, oldIdeal ) 
+    );
+    newIdeal * ideal( f^m )
 )
