@@ -8,7 +8,7 @@ Authors => {
      {Name => "Alberto F. Boix",
      Email => "alberto.fernandezb@upf.edu"
      },
-     {Name => "David J. Bruce",
+     {Name => "Juliette Bruce",
      Email => "juliette.bruce@math.wisc.edu",
      HomePage => "https://juliettebruce.github.io/"
      },
@@ -33,7 +33,7 @@ Authors => {
      Email => "robinson@math.utah.edu"
      },
      {Name => "Karl Schwede",
-     Email => "schwede@math.psu.edu",
+     Email => "schwede@math.utah.edu",
      HomePage => "http://math.utah.edu/~schwede/"
      },
      {Name => "Dan Smolkin",
@@ -59,12 +59,10 @@ needsPackage "TestIdeals"
 
 export{
 --F-thresholds computations (MainFunctions.m2)
-    "BinaryFormCheck",
     "BinaryRecursive", 
-    "BinomialCheck", 
     "ComputePreviousNus", 
     "criticalExponentApproximation",
-    "DiagonalCheck",  
+    "DepthOfSearch",
     "fpt",   
     "fptApproximation", 
     "fptGuessList", --Karl (probably should be incorporated into fpt
@@ -72,19 +70,19 @@ export{
     "FrobeniusPower", 
     "FrobeniusRoot",  
     "ftApproximation",
-    "HSL", 
-    "isFJumpingNumber", --Karl (should be redone, so as not to assume a polynomial ring)
+    "isFJumpingExponent", 
+    --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
     "nu", --Dan: add the mu options
     "NuCheck", 
     "nuList", --Dan: add the mu options
-    "OutputRange", 
     "Search", 
     "StandardPower", 
     "ContainmentTest", 
     "UseColonIdeals", 
+    "UseSpecialAlgorithms",
+    
     "Nontrivial",
-
     "MaxExp", -- Dan ( **no doc**)
     "PrintCP" -- Dan ( **no doc**)
 }

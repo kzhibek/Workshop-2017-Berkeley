@@ -1,25 +1,13 @@
 doc ///
      Key
-          BinaryFormCheck
+          UseSpecialAlgorithms
      Headline
-          An option for the function fpt to check whether input is binary form. 
+          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form. 
      Description
           Text
-               If {\tt true}, the input is a form in two variables (so that the function "binaryFormFPT" can then be used). 
-	       Can take on only Boolean values.  Default value for fpt is {\tt true}.
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
-          BinomialCheck
-     Headline
-          An option for the function fpt to check whether the input is a binomial polynomial. 
-     Description
-          Text
-               If {\tt true}, the input is a binomial in a polynomial ring.  Can take on only Boolean values. 
-	       Default value for fpt is {\tt true}.
+               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a 
+               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies 
+               specialized algorithms.  Can take on only Boolean values.
      SeeAlso
           fpt
 ///
@@ -28,14 +16,13 @@ doc ///
      Key
           ComputePreviousNus
      Headline
-          An option for functions nu and nuList to compute nus recursively. 
+          An option for the function nu to compute nus recursively. 
      Description
           Text
                If {\tt true}, then nu values are computed recursively, in succession; otherwise, another method can be applied.  
 	       Can take on only Boolean values. Default value for nu and nuList is {\tt true}.
      SeeAlso
           nu
-          nuList
 ///
 
 doc ///
@@ -75,53 +62,35 @@ doc ///
 
 doc ///
      Key
-          DiagonalCheck
-     Headline
-          An option for the function fpt to check whether the input is a diagonal polynomial. 
-     Description
-          Text
-               Enables the user to check whether the input is a diagonal polynomial, i.e., of the form x_1^(d_1) + ... + x_n^(d_n) 
-	       in a polynomial ring in variables x_1,...,x_n.  Can only take on Boolean values.  Default value for fpt is {\tt true}. 
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
          fpt
-	 (fpt, RingElement, ZZ)
-	 [fpt, BinaryFormCheck]
-	 [fpt, BinomialCheck]
-	 [fpt, DiagonalCheck]
+	 (fpt, RingElement)
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
+	 [fpt, UseSpecialAlgorithms]
+	 [fpt, DepthOfSearch]
      Headline
          Atempts to compute the F-pure threshold of a polynomial at the origin. 
      Usage
-          fpt(f,e)
+          fpt(f)
      Inputs
         f:RingElement
-        e:ZZ
-        BinaryFormCheck => Boolean
-            Option to specify whether to check if f is a binary form.
-        BinomialCheck => Boolean 
-            Option to specify whether to check if f is a binomial polynomial.
-        DiagonalCheck => Boolean
-            Option to specify whether to check if f is a diagonal polynomial.
+        UseSpecialAlgorithms => Boolean
+            Option to specify whether to check if f is either diagonal, binomial, or a binary form, and then apply appropriate algorithms
         FRegularityCheck => Boolean
             Option to specify whether to check if the given pair is F-regular at the homogeneous maximal ideal 
 	    (so that if not, the F-pure threshold can be determined from the F-signature function).
     	NuCheck => Boolean
             Option to specify whether to check if nu/(p^e-1) of (nu+1)/p^e is the F-pure threshold in computations.
+        DepthOfSearch => ZZ
+            Option to specify the power of the characteristic to be used in a search for the F-pure threshold.
      Outputs
         L:List
         Q:QQ
      Description
           Text 
               This function first tries to find an exact value for the F-pure threshold of f at the origin, and returns the value 
-	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Options DiagonalCheck, 
-	      BinomialCheck, and BinaryFormCheck are set to {\tt true}, respectively (and each have default value {\tt true}), 
-	      then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
+	      if possible.  Otherwise, it returns a range of possible values for the F-pure threshold.  If Option UseSpecialAlgorithms
+              is set to {\tt true}, the default value, then the function first checks whether f is a diagonal polynomial, a binomial polynomial, or a form in two variables, 
 	      respectively.  If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to 
 	      compute the F-pure threshold of f.  Otherwise, the function computes nu_f(p^e) and if NuCheck is set to {\tt true}
 	      (its default value), then checks whether either nu/(p^e-1) or (nu+1)/p^e equal the F-pure threshold.  If the value 
@@ -210,12 +179,12 @@ doc ///
 
 doc ///
      Key
-        isFJumpingNumber 
-        (isFJumpingNumber,QQ,RingElement)
+        isFJumpingExponent 
+        (isFJumpingExponent,QQ,RingElement)
      Headline
         Checks whether a given number is an F-jumping number
      Usage
-         isFJumpingNumber(t,f,Verbose=>V)  
+         isFJumpingExponent(t,f,Verbose=>V)  
      Inputs
          t:QQ
          f:RingElement
@@ -255,6 +224,10 @@ doc ///
          (nu,ZZ,Ideal)
          (nu,ZZ,RingElement,Ideal)
          (nu,ZZ,RingElement)
+         [nu, ComputePreviousNus]
+         [nu, ContainmentTest]
+         [nu, Search]
+         [nu, UseColonIdeals]
      Headline
         Gives $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
@@ -262,6 +235,10 @@ doc ///
           nu(e,I)
           nu(e,f,J)
           nu(e,f) 
+          ComputePreviousNus => Boolean
+          ContainmentTest => Symbol
+          Search => Symbol
+          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
@@ -271,7 +248,18 @@ doc ///
         :ZZ
      Description
         Text
-            Given an ideal I in a polynomial ring k[x1, ..., xn], this function outputs the maximal integer nu such that I^nu is not in ideal J^[p^e].  If the input is (ZZ,Ideal) then the function computes the maximal integer nu such that I^nu in not in (x_1, ...,x_n)^[p^e]. If a RingElement is passed, it computes nu of the principal ideal generated by this element. This is used frequently to compute the F-pure threshold.
+            Given an ideal I in a polynomial ring k[x_1, ..., x_n], nu(e, I, J) outputs the maximal integer \nu{}   such that I^\nu is not contained in the ideal J^{[p^e]}. This number is denoted \nu_I^J(p^e) in "F-thresholds and Bernstein-Sato Polynomials" by Mustata-Takagi-Watanabe. If the input is (ZZ,Ideal) then the function computes the maximal integer \nu{} such that I^\nu in not contained in (x_1, ...,x_n)^{[p^e]}. If a RingElement f is passed instead of an ideal I, this function computes nu of the principal ideal generated by f. This is used frequently to compute the F-pure threshold.
+
+            If the option {\tt ComputePreviousNus} is set to {\tt true}, nu will recursively compute nu(d, I) for d = 0,..., e. 
+
+            The option {\tt ContainmentTest} specifies the algorithm used to test the containment of I^n in J^{[p^e]}. Valid values for {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}. By default, {\tt ContainmentTest} is set to {\tt FrobeniusPower} is nu is passed a RingElement f, and {\tt ContainmentTest} is set to {\tt StandardPower} if nu is passed an Ideal I. 
+
+            The function nu works by searching a list of integers for the above number \nu. The option {\tt Search} specifies the search algorithm used to do so. Valid values for {\tt Search} are {\tt Binary, BinaryRecursive}, and {\tt Linear}. 
+
+            The option {\tt UseColonIdeals} specifies whether or not nu uses colon ideals to compute \nu in an iterative way. 
+
+     SeeAlso
+        nuList
 ///
 
 doc ///
@@ -293,13 +281,19 @@ doc ///
          (nuList,ZZ,Ideal)
          (nuList,ZZ,RingElement,Ideal)
          (nuList,ZZ,RingElement)
+         [nuList, ContainmentTest]
+         [nuList, Search]
+         [nuList, UseColonIdeals]
      Headline
-        Lists nu_I^J(p^d)$ for d = 1,...,e
+          Lists $\nu_I^J(p^d)$ or $\nu_f^J(p^d)$ for d = 1,...,e
      Usage
           nuList(e,I,J)
           nuList(e,I)
           nuList(e,f,J)
           nuList(e,f) 
+          ContainmentTest => Symbol
+          Search => Symbol
+          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
@@ -309,17 +303,9 @@ doc ///
         :List
      Description
         Text
-            Given an ideal I in a polynomial ring k[x1,...,xn], this function computes nu(d,I) for d = 0,...,e. If a RingElement is passed, it computes nu of the principal ideal generated by this element for d = 0,...,e.
-///
-
-doc ///
-     Key
-          OutputRange
-     Headline
-          An option for fptGuessList
-     Description
-          Text
-               Valid values are {\tt true} and {\tt false}
+            Given an ideal I in a polynomial ring k[x_1,...,x_n], this function computes nu(d, I, J) recursively for d = 0,...,e; see @TO nu@, and similarly if nuList is passed (ZZ, Ideal), (ZZ, RingElement, Ideal), or (ZZ, RingElement).
+     SeeAlso
+        nu
 ///
 
 doc ///

@@ -22,7 +22,7 @@ numerator ZZ := x -> x
 --===============================================================================
 
 --Finds the fractional part of a number.
-fracPart = x -> x - floor(x)
+fracPart = x -> x - floor x
 
 --===============================================================================
 
@@ -32,26 +32,22 @@ fracPart = x -> x - floor(x)
 
 --===============================================================================
 
-nontrivialPowerSet = L -> delete( {}, subsets L )
-
---===============================================================================
-
 --Returns a list of factors of a number with repeats.
 numberToPrimeFactorList = n ->
 (
-     prod := factor n;
-     flatten apply( toList prod, x -> toList( x#1:x#0 ) )
+    prod := factor n;
+    flatten apply( toList prod, x -> toList( x#1:x#0 ) )
 )
 
 --===============================================================================
 
---Returns a list of all proper -- not one -- factors of number.
+--Returns a list of all factors of number.
 --Has funny order...
-properFactors = n ->
+allFactors = n ->
 (
-     if (n < 1) then error "properFactors: expected an integer greater than 1.";
-     powSet := nontrivialPowerSet( numberToPrimeFactorList( n ) ); 
-     toList set apply( powSet, x -> product( x ) )
+     if n < 1 then error "properFactors: expected an integer greater than 1";
+     powSet := subsets numberToPrimeFactorList n; 
+     toList set apply( powSet, x -> product x )
 )
 
 --===============================================================================
@@ -62,37 +58,31 @@ properFactors = n ->
 
 --===============================================================================
 
-findNumberBetweenWithDenom = method()
-
 --This function finds rational numbers in the range of the interval
 --with the given denominator
-findNumberBetweenWithDenom ( ZZ, QQ, QQ ) := ( d, a, b ) ->
+findNumberBetweenWithDenom = ( d, a, b ) ->
 (
      A := ceiling( a*d ); 
      B := floor( b*d ); 
      toList( A..B )/d
 )
 
-findNumberBetween = method()
-
 --This function finds rational numbers in the range of 
 --the interval, with a given maximum denominator. 
-findNumberBetween ( ZZ, ZZ, ZZ ) := ( maxDenom, a, b ) ->
+findNumberBetween = ( maxDenom, a, b ) ->
 (
-     divisionChecks :=  new MutableList from maxDenom:true; 
-         -- creates a list with maxDenom elements all set to true.
-     outList := {};
-     local factorList;
-     i := maxDenom;
-     while i > 0 do 
-     (
-	  if divisionChecks#(i-1) then --if we need to do a computation..
-	      outList = outList | findNumberBetweenWithDenom( i, a, b );
-	  factorList = properFactors i;
-     	  apply( factorList, j -> divisionChecks#(j-1) = false );
-	  i = i - 1;
-     );
-     sort toList set outList
+    denominators := toList( 1..maxDenom ); 
+    outList := {};
+    local d;
+    while denominators != {} do 
+    (
+	d = last denominators;
+	factors := allFactors d;
+	-- remove all factors of d
+	denominators = select( denominators, x -> not member( x, factors) );
+	outList = outList | findNumberBetweenWithDenom( d, a, b )
+    );
+    sort unique outList
 )
 
 --for backwards compatibility
@@ -106,8 +96,8 @@ findNumberBetween ( ZZ, ZZ, ZZ ) := ( maxDenom, a, b ) ->
 
 --===============================================================================
 
---Given a vector w of rational integers in [0,1], returns a number of digits such that
---it suffices to check to see if the components of w add without carrying in base p
+--Given a vector w of rational integers in [0,1], returns a number of digits 
+-- such that it suffices to check to see if the components of w add without carrying in base p
 carryTest = ( p, w ) ->
 (
     if any( w, x -> x < 0 or x > 1 ) then 
@@ -142,15 +132,16 @@ firstCarry = ( p, w ) ->
 
 --===============================================================================
 
-getCanVector = method()
+canVector = method()
 
 --canVector(i,n) returns the i-th canonical basis vector in dimension n
---Warning: for convenience, this uses Macaulay2's convention of indexing lists starting 
---with 0; so, for example, {1,0,0,0} is canVector(0,4), not canVector(1,4).
-getCanVector ( ZZ, ZZ ) := ( i, n ) -> 
+--Warning: for convenience, this uses Macaulay2's convention of indexing lists
+-- starting from 0; so, for example, {1,0,0,0} is canVector(0,4), canVector(1,4).
+canVector ( ZZ, ZZ ) := ( i, n ) -> 
 (
-    if ( (i<0) or (i>=n) ) then error "canVector(i,n) expects integers i and n with 0<=i<n.";   
-    apply( n, j -> if i==j then 1 else 0 )
+    if i < 0 or i >= n then 
+       error "canVector(i,n) expects integers i and n with 0<=i<n.";   
+    apply( n, j -> if i == j then 1 else 0 )
 )
  
 --===============================================================================
@@ -159,7 +150,7 @@ getNumAndDenom = method()
 
 -- Takes a rational vector u and returns a pair (a,q), where a
 --is an integer vector and q an integer such that u=a/q.
-getNumAndDenom ( List ) := u -> 
+getNumAndDenom List := u -> 
 (
     den := lcm apply( u, denominator );
     a := apply( u, n -> lift( n*den, ZZ ) );
@@ -171,7 +162,7 @@ getNumAndDenom ( List ) := u ->
 taxicabNorm = method()
 
 --Computes the taxicab norm of a vector.
-taxicabNorm ( List ) := u -> sum( u, abs )
+taxicabNorm List := u -> sum( u, abs )
 
 --===============================================================================
 
