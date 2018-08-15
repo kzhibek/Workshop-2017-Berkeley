@@ -73,6 +73,8 @@ export{
     "isFJumpingExponent", 
     --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
+    "mu",
+    "muList",
     "nu", --Dan: add the mu options
     "NuCheck", 
     "nuList", --Dan: add the mu options
@@ -97,7 +99,7 @@ load "./FThresholds/SpecialFThresholds.m2"
 
 beginDocumentation()
 
-load "./FThresholds/MainFunctionsDoc.m2"
+-- load "./FThresholds/MainFunctionsDoc.m2"
 
 load "./FThresholds/SpecialFThresholdsDoc.m2"
 

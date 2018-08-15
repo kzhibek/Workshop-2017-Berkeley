@@ -56,6 +56,11 @@
   {F}robenius split subvarieties}, J. Symbolic Comput. \textbf{47} (2012),
   no.~8, 996--1008.
 
+\bibitem[KZ14]{KatzmanZhangAlgorithm}
+{\sc M.~Katzman and W.~Zhang}: \emph{Annihilators of artinian modules
+  compatible with a {F}robenius map}, J. Symbolic Comput. \textbf{60} (2014),
+  29--46.
+
 \bibitem[KM09]{KumarMehtaFiniteness}
 {\sc S.~Kumar and V.~B. Mehta}: \emph{Finiteness of the number of compatibly
   split subvarieties}, Int. Math. Res. Not. IMRN (2009), no.~19, 3595--3597.

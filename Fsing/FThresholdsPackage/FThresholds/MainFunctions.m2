@@ -180,12 +180,12 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
     );
 
     -- Return error if f is 0
-    if f == 0 then 
-        error "nuInternal: zero is not a valid input";
+  --  if f == 0 then 
+  --      error "nuInternal: zero is not a valid input";
 
-    -- Check if polynomial has coefficients in a finite field
-    if not isPolynomialOverFiniteField f  then 
-        error "nuInternal: expected polynomial with coefficients in a finite field";
+    -- Check if f is in a polynomial ring over a finite field
+    if not isPolynomialRingOverFiniteField ring f then 
+        error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
  
     p := char ring f;
     nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
@@ -236,7 +236,7 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => optIdealList )
+nuList = method( Options => true )
 
 nuList ( ZZ, Ideal, Ideal ) := optIdealList >> o -> ( e, I, J ) -> 
     nuInternal( e, I, J, o )
@@ -248,20 +248,14 @@ nuList ( ZZ, RingElement, Ideal ) := optPolyList >> o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
 
 nuList ( ZZ, Ideal ) := optIdealList >> o -> ( e, I ) -> 
-{
-        if not isPolynomialRing(ring I) then 
-	    error "nuList: The ambient ring must be a polynomial ring";
-	nuList( e, I, maxIdeal I, o )
-}
+    nuList( e, I, maxIdeal I, o )
+
 
 nuList ( ZZ, RingElement ) := optPolyList >> o -> ( e, f ) -> 
-{
-        if not isPolynomialRing(ring f) then 
-	    error "nuList: The ambient ring must be a polynomial ring";
-	nuList( e, f, maxIdeal f, o )
-}   
+    nuList( e, f, maxIdeal f, o )
+   
 
-nu = method( Options => optIdeal )
+nu = method( Options => true )
 
 nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) -> 
     last nuInternal( e, I, J, o )
@@ -269,19 +263,9 @@ nu ( ZZ, Ideal, Ideal ) := optIdeal >> o -> ( e, I, J ) ->
 nu ( ZZ, RingElement, Ideal ) := optPoly >> o -> ( e, f, J ) -> 
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> 
-{
-        if not isPolynomialRing(ring I) then 
-	    error "nu: The ambient ring must be a polynomial ring";
-	nu( e, I, maxIdeal I, o )
-}
+nu ( ZZ, Ideal ) := optIdeal >> o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
-nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) ->
-{
-        if not isPolynomialRing(ring f) then 
-	    error "nu: The ambient ring must be a polynomial ring";
-	nu( e, f, maxIdeal f, o )
-}
+nu ( ZZ, RingElement ) := optPoly >> o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
 -- Nus can be computed using generalized Frobenius powers, by using 
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts: 
@@ -305,7 +289,7 @@ fptApproximation ( ZZ, Ideal ) := ( e, I ) ->
 (
      p := char ring I;
      nus := nuList( e, I );
-     apply( nus, 1..e, (n,k) -> n/p^k )
+     apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
 fptApproximation ( ZZ, RingElement ) := ( e, f ) -> 
@@ -322,7 +306,7 @@ ftApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
         error "ftApproximation: F-threshold undefined";
     p := char ring I;
     nus := nuList( e, I, J );
-    apply( nus, 1..e, (n,k) -> n/p^k )
+    apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
 ftApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) -> 
@@ -336,7 +320,7 @@ criticalExponentApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
         error "criticalExponentApproximation: critical exponent undefined";
     p := char ring I;
     mus := muList( e, I, J );
-    apply( mus, 1..e, (n,k) -> n/p^k )
+    apply( mus, 0..e, (n,k) -> n/p^k )
 )
 
 criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) -> 
