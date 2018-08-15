@@ -40,7 +40,7 @@ compatibleIdeals(u)
 
 restart;
 
-pp=2;
+p=2;
 m=5;
 R=ZZ/pp[x_1..x_m]; 
 E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
@@ -49,3 +49,16 @@ I=gens I;
 u=x_1^3*x_2*x_3 + x_1^3*x_2*x_4+x_1^2*x_3*x_4*x_5+ x_1*x_2*x_3*x_4*x_5+ x_1*x_2*x_4^2*x_5+ x_2^2*x_4^2*x_5+x_3*x_4^2*x_5^2+ x_4^3*x_5^2;
 
 
+
+
+restart;
+
+p=11;
+m=5;
+R=ZZ/p[x,y,z]; 
+u=7*x^(3+11^2)
+
+
+
+e=1
+L1=apply(exponents(u),exponent->{coefficient(R_exponent,u)*R_(exponent //p^e),exponent%p^e})

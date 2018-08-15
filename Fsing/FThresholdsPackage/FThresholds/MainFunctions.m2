@@ -180,8 +180,8 @@ nuInternal = optIdeal >> o -> ( n, f, J ) ->
     );
 
     -- Return error if f is 0
-    if f == 0 then 
-        error "nuInternal: zero is not a valid input";
+  --  if f == 0 then 
+  --      error "nuInternal: zero is not a valid input";
 
     -- Check if f is in a polynomial ring over a finite field
     if not isPolynomialRingOverFiniteField ring f then 
@@ -289,7 +289,7 @@ fptApproximation ( ZZ, Ideal ) := ( e, I ) ->
 (
      p := char ring I;
      nus := nuList( e, I );
-     apply( nus, 1..e, (n,k) -> n/p^k )
+     apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
 fptApproximation ( ZZ, RingElement ) := ( e, f ) -> 
@@ -306,7 +306,7 @@ ftApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
         error "ftApproximation: F-threshold undefined";
     p := char ring I;
     nus := nuList( e, I, J );
-    apply( nus, 1..e, (n,k) -> n/p^k )
+    apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
 ftApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) -> 
@@ -320,7 +320,7 @@ criticalExponentApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
         error "criticalExponentApproximation: critical exponent undefined";
     p := char ring I;
     mus := muList( e, I, J );
-    apply( mus, 1..e, (n,k) -> n/p^k )
+    apply( mus, 0..e, (n,k) -> n/p^k )
 )
 
 criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) -> 
