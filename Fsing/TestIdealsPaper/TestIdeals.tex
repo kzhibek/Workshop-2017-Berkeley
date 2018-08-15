@@ -39,7 +39,13 @@ urlcolor=OliveGreen
 
 \begin{document}
 \title{{TestIdeals} package for \emph{Macaulay2}}
+\author{Daniel Hern\'andez}
+\author{Mordechai Katzman}
+\author{Marcus Robinson}
 \author{Karl Schwede}
+\author{Daniel Smolkin}
+\author{Pedro Teixeira}
+\author{Emily Witt}
 \date{\today}
 \address{Department of Mathematics, University of Utah, 155 S 1400 E Room 233, Salt Lake City, UT, 84112}
 \email{schwede@math.utah.edu}
@@ -62,17 +68,17 @@ urlcolor=OliveGreen
 
 This paper constructive methods for computing various objects related to commutative rings of prime characteristic $p$.
 Such a ring $R$ comes equipped with a built-in endomorphism, namely the Frobenius endomorphism $f:R \rightarrow R$ which is the basis for many constructions and definitions
-which affords a handle on many problems which is not otherwise available. Two notable examples of the use of the Frobenius endomorphism are the theory of tight closure 
+which affords a handle on many problems which is not otherwise available. Two notable examples of the use of the Frobenius endomorphism are the theory of tight closure
 (see \cite{HochsterHunekeTC1} for an introduction)
 and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
 
 Work on the \emph{TestIdeals} package started as a library of methods to compute the Frobenius roots, and $\star$-closures, and to implement the algorithm for computing parameter-test-ideals
 developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls} used to produce the examples in that paper.
-Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and 
+Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and
 used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for computations related to test-ideals
-started in earnest on the Summer of 2012 in the Macaulay2 workshop held at Wake Forest. Further work on this package was undertaken in the Macaulay2 workshops in 
-Berkeley (2014 and 2017), and Salt Lake City (2016). 
+started in earnest on the Summer of 2012 in the Macaulay2 workshop held at Wake Forest. Further work on this package was undertaken in the Macaulay2 workshops in
+Berkeley (2014 and 2017), and Salt Lake City (2016).
 {\hfill\large\color{red} [Expand: how were the test module methods start life?]}\\
 
 
@@ -269,7 +275,7 @@ Throughout the computations described above, we very frequently use the followin
 \[
 (f^p \cdot J)^{[1/p]} = f \cdot (J^{[1/p]}).
 \]
-To access this enhancement, one should try to pass functions like {\tt ascendIdeal} and {\tt frobeniusRoot} the elements and their exponents (see the documentation).  In particular, do not multiply out things like $f^n \cdot J$ if you will be applying {\tt frobeniusRoot}.  
+To access this enhancement, one should try to pass functions like {\tt ascendIdeal} and {\tt frobeniusRoot} the elements and their exponents (see the documentation).  In particular, do not multiply out things like $f^n \cdot J$ if you will be applying {\tt frobeniusRoot}.
 \end{remark}
 
 \subsection{Parameter test ideals}
@@ -278,11 +284,11 @@ The parameter test ideal is simply the annihilator of $\omega_R/\tau(\omega_R)$.
 \[
 \tau(\omega_R) : \omega_R.
 \]
-This can also be described as 
+This can also be described as
 \[
 \bigcap_{I} (I^* : I)
 \]
-where $I$ varies over ideals defined by a partial system of parameters and $I^*$ denotes its tight closure.  This latter description is not computable however.  
+where $I$ varies over ideals defined by a partial system of parameters and $I^*$ denotes its tight closure.  This latter description is not computable however.
 
 \begin{verbatim}
 todo (Moty will insert a good example)
@@ -294,15 +300,15 @@ For an $F$-finite reduced ring $R = S/I$ where $S$ is a regular ring, the test i
 \[
 \phi \in \Hom_R(R^{1/p^e}, R) \text{ we have } \phi(J^{1/p^e}) \subseteq J.
 \]
-In the case that $R$ is Gorenstein, there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  In fact this $\Phi_e$ is identified with the map $T$ above based on the identification $\omega_R \cong R$, \cite{}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists \cite{}.  
+In the case that $R$ is Gorenstein, there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  In fact this $\Phi_e$ is identified with the map $T$ above based on the identification $\omega_R \cong R$, \cite{}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists \cite{}.
 
 If such a $\Phi_e$ exists, it can be identified as the generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma, \cite{}.  Hence we can find a corresponding\footnote{This is done via the function {\tt QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
 \[
 \tau(R) = {\tt ascendIdeal(e, u, I_0)}.
 \]
-Recall that {\tt ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all $e$th roots are taken as multiples of $e$.  See \cite{}.  
+Recall that {\tt ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all $e$th roots are taken as multiples of $e$.  See \cite{}.
 
-Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this logic occurs.  
+Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this logic occurs.
 \begin{verbatim}
 i3 : T = ZZ/7[x,y];
 i4 : S = ZZ/7[a,b,c,d];
@@ -331,12 +337,12 @@ Therefore, we use a different strategy if either $(p-1)K_R$ is not Cartier or mo
 \[
 \tau(\omega_R, K_R) \cong \tau(R).
 \]
-In fact, by embedding $\omega_R \subseteq R$, we can compute $g$ so that $\tau(\omega_R, K_R) = g \tau(R)$.  We can therefore find $\tau(R)$ if we can find $\tau(\omega_R, K_R)$.    
-Next, if $K_R$ is $\bQ$-Cartier with $nK_R = \Div_R(f)$ for some $f \in R$ and $n > 0$, then 
+In fact, by embedding $\omega_R \subseteq R$, we can compute $g$ so that $\tau(\omega_R, K_R) = g \tau(R)$.  We can therefore find $\tau(R)$ if we can find $\tau(\omega_R, K_R)$.
+Next, if $K_R$ is $\bQ$-Cartier with $nK_R = \Div_R(f)$ for some $f \in R$ and $n > 0$, then
 \[
 \tau(\omega_R, K_R) =\tau(\omega_R, f^{1/n}).
 \]
-Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command {\tt testModule(1/n, f)}.  Consider the following example, a $\mu_3$-quotient.  
+Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command {\tt testModule(1/n, f)}.  Consider the following example, a $\mu_3$-quotient.
 \begin{verbatim}
 i2 : T = ZZ/3[x,y];
 i3 : S = ZZ/3[a,b,c,d];
@@ -347,21 +353,21 @@ i7 : testIdeal(R)
 o7 = ideal 1
 o7 : Ideal of R
 \end{verbatim}
-Which uses the logic described above.  
+Which uses the logic described above.
 
 \begin{remark}[Non graded caveats]
 It frequently can happen that $(I^{[p^e]} : I)/I^{[p^e]}$ is principal but Macaulay2 cannot identify the principal generator (since Macaulay2 cannot always find minimal generators of non-graded ideals or modules).  The same thing can happen when computing the $u$ corresponding to the map $T : \omega_{R^{1/p}} \to \omega_R$, as described in \autoref{} above.  In such situations, instead of a single $u$, we Macaulay2 will produce $u_1, \dots, u_n$ (all multiples of $u$, and $u$ is a linear combination of the $u_i$).  Instead of computing things like
 \[
 (u \cdot J)^{[1/p]},
 \]
-we will instead compute 
+we will instead compute
 \[
 (u_1 \cdot J)^{[1/p]} + \dots + (u_n \cdot J)^{[1/p]}
 \]
-which will produce the same answer.  
+which will produce the same answer.
 \end{remark}
 
-We can similarly use the {\tt testIdeal} command to compute test ideals of pairs $\tau(R, f^t)$, and even more general mixed test ideals $\tau(R, f_1^{t_1} \cdots f_n^{t_n})$.  
+We can similarly use the {\tt testIdeal} command to compute test ideals of pairs $\tau(R, f^t)$, and even more general mixed test ideals $\tau(R, f_1^{t_1} \cdots f_n^{t_n})$.
 
 \subsection{HSLG module, computing $F$-pure submodules of rank-1 Cartier modules}
 
@@ -369,7 +375,29 @@ Again consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have consider
 \[
 \omega_R \supseteq T(\omega_{R^{1/p}}) \supseteq \dots \supseteq T^e(\omega_{R^{1/p^e}}) \supseteq T_{e+1}(\omega_{R^{1/p^{e+1}}}) \supseteq \dots
 \]
-stabilize for $e \gg 0$.  
+stabilize for $e \gg 0$.  The function {\tt HSLGModule} computes this.
+\begin{verbatim}
+i4 : R = ZZ/3[x,y,z]/ideal(x^3+y^4+z^5);
+i5 : L = HSLGModule(R);
+i6 : L#0
+                          2        2   3
+o6 = ideal (0, y*z, x*z, y , x*y, x , z )
+o6 : Ideal of R
+i7 : L#1
+o7 = ideal 1
+o7 : Ideal of R
+i8 : L#3
+o8 = 1
+\end{verbatim}
+The function returns a list.  The first entry is the submodule.  The second is the canonical module.  The third entry is the $u$ representing the map on the canonical module (as in \autoref{} above) and the final entry is at what value of $e > 0$ the image stabilizes.
+
+In a Gorenstein ring, this submodule coincides philosophically with the maximal non-LC ideal of Fujino-Schwede-Takagi.   
+
+More generally for any ideal $J$ with a map $\phi : J^{1/p^e} \to J$, we have that the images
+\[
+J \supseteq \phi(J^{1/p^e}) \supseteq \phi^2(J^{1/p^{2e}}) \supseteq \dots 
+\]
+stabilize as well (in fact, the analogous result even holds for modules).  
 
 
 \section{Ideals compatible with given $p^{-e}$-linear map}
