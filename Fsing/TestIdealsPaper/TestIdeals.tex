@@ -51,7 +51,8 @@ urlcolor=OliveGreen
 \email{schwede@math.utah.edu}
 
 \begin{abstract}
-  This note describes a \emph{Macaulay2} package for computations in commutative rings prime related to $p^{-e}$-linear and $p^{e}$-linear  maps,
+  This note describes a \emph{Macaulay2} package for computations involving commutative rings of prime characteristic $p$.   
+  This includes $p^{-e}$-linear and $p^{e}$-linear  maps,
   singularities defined in terms of these maps,  various test ideals and modules, and ideals compatible with a given $p^{-e}$-linear map.
 \end{abstract}
 
@@ -67,13 +68,13 @@ urlcolor=OliveGreen
 \section{Introduction}
 
 This paper describes methods for computing various objects related to commutative rings of prime characteristic $p$.
-Such a ring $R$ comes equipped with a built-in endomorphism, namely the Frobenius endomorphism $f:R \rightarrow R$ which is the basis for many constructions and definitions
+Such a ring $R$ comes equipped with a built-in endomorphism, namely the Frobenius endomorphism $f:R \rightarrow R$ sending $x$ to $x^p$, which is the basis for many constructions and definitions
 which afford handles on many problems not otherwise available. Two notable examples of the use of the Frobenius endomorphism are the theory of tight closure 
 (see \cite{HochsterHunekeTC1} for an introduction)
 and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
 
-Work on the \emph{TestIdeals} package started as a library of methods to compute  Frobenius roots, and $\star$-closures, and to implement the algorithm for computing parameter-test-ideals
+Work on the \emph{TestIdeals} package started as a library of methods to compute  Frobenius roots  and $\star$-closures, and to implement the algorithm for computing parameter-test-ideals
 developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls}.
 Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and 
 used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for computations related to test-ideals
