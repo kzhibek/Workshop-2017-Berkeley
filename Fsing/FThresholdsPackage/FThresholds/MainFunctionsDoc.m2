@@ -5,7 +5,7 @@ doc ///
         [compareFPT, FrobeniusRootStrategy]
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
-     Headline
+    Headline
         a function  for checking whether a given number is less than, equal to, or greater than the FPT
 ///
 
