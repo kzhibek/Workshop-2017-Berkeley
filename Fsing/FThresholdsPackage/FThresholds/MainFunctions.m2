@@ -723,6 +723,7 @@ isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 --This needs to be speeded up, like the above function
 --***************************************************************************
 
+-- Dan: isn't is safer to have AssumeDomain default to "false" here?
 isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
 
 isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->

@@ -284,7 +284,15 @@ doc ///
         :Boolean
      Description
         Text
-            Returns true if t is an F-jumping number, otherwise it returns false.
+            Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
+
+            If the ambient ring of {\tt f} is true, the option {\tt AssumeDomain} can be set to {\tt true} in order 
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.  
+
+            Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}. 
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 ///
 
 doc ///
