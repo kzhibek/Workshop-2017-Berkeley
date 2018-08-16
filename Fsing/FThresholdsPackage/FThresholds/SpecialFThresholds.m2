@@ -18,6 +18,42 @@
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+--Given a vector w of rational integers in [0,1], returns a number of digits 
+-- such that it suffices to check to see if the components of w add without carrying in base p
+carryTest = ( p, w ) ->
+(
+    if any( w, x -> x < 0 or x > 1 ) then 
+        error "carryTest: Expected the second argument to be a list of rational numbers in [0,1]";
+     div := apply( w, x -> decomposeFraction(p, x) );
+     c := max (transpose div)#1; --max of second components of div
+     v := selectNonzero (transpose div)#2; -- nonzero third components of div
+     d := if v === {} then 1 else lcm v;
+     c+d+1
+)
+
+--===============================================================================
+
+--Given a vector w of rational integers in [0,1], returns the first spot 
+--e where the the sum of the entries in w carry in base p
+firstCarry = ( p, w ) ->
+(   
+    if any( w, x -> x < 0 or x > 1 ) then 
+        error "firstCarry: Expected the second argument to be a list of rational numbers in [0,1]";
+    if product( w ) == 0 then -1 else
+    (
+	i := 0;	
+	d := 0;
+	while d < p and i < carryTest(p,w) do 
+	(
+	    i = i + 1;
+	    d = sum adicDigit( p, i, w )
+	);
+        if i == carryTest(p,w) then -1 else i
+     )
+)
+
+--===============================================================================
+
 -- Computes the F-pure threshold of a diagonal hypersurface 
 -- x_1^(a_1) + ... +x_n^(a_n) using Daniel Hernandez' algorithm
 
@@ -28,7 +64,7 @@ diagonalFPT RingElement := QQ => f ->
     if not isDiagonal f then 
         error "diagonalFPT: expected a diagonal polynomial over a field of positive characteristic";
     p := char ring f;
-    w := apply(terms f, g -> 1/( first degree g ) );  
+    w := apply( terms f, g -> 1/( first degree g ) );  
       -- w = list of reciprocals of the powers of the variables appearing in f
     fc := firstCarry( p, w );
     if fc == -1 then sum w
@@ -65,8 +101,8 @@ allIntersections = ( v, w ) ->
 (
     L1 := apply( subsets( #v, 2 ), k -> twoIntersection( v_k, w_k ) );
     L1 = select( L1, x -> x =!= null );
-    L2 := apply( selectNonzero( v ) , x -> { 1/x, 0 } );
-    L3 := apply( selectNonzero( w ) , x -> { 0, 1/x } );
+    L2 := apply( selectNonzero v, x -> { 1/x, 0 } );
+    L3 := apply( selectNonzero w, x -> { 0, 1/x } );
     select( join( L1, L2, L3 ), x -> ( x#0 >= 0 and x#1 >= 0 ) )
 )
 
@@ -89,7 +125,7 @@ polytopeDefiningPoints = ( v, w ) ->
 maxCoordinateSum = L ->
 (
      maxSum := max apply( L, sum );
-     first select( L, v -> sum( v ) == maxSum )
+     first select( L, v -> sum v == maxSum )
 )
 
 --Finds the "delta" in Daniel Hernandez's algorithm
@@ -115,11 +151,11 @@ calculateEpsilon = ( P1, P2, v, w ) ->
     Y := 0;
     if isInInteriorPolytope( P1, v, w ) then 
     	-- find how far we can move from P1 in the x direction
-        X = min apply( nonzeroPositions( v ), i -> (1 - (v#i)*(P1#0) - (w#i)*(P1#1))/(v#i) );
+        X = min apply( nonzeroPositions v, i -> (1 - (v#i)*(P1#0) - (w#i)*(P1#1))/(v#i) );
     if isInInteriorPolytope( P2, v, w ) then  
     	-- find how far we can move from P2 in the y direction
-	Y = min apply( nonzeroPositions( w ), i -> (1 - (v#i)*(P2#0) - (w#i)*(P2#1))/(w#i) );
-    max(X,Y) 
+	Y = min apply( nonzeroPositions w, i -> (1 - (v#i)*(P2#0) - (w#i)*(P2#1))/(w#i) );
+    max( X, Y ) 
 )
 
 -- Computes the FPT of a binomial 
@@ -145,10 +181,10 @@ binomialFPT RingElement := QQ => g ->
 	    P := adicTruncation( p, d, maxPt );
 	    P1 := P + { 0, 1/p^d };
 	    P2 := P + { 1/p^d, 0 };
-	    FPT = adicTruncation( p, L-1, sum maxPt ) + calculateEpsilon( P1, P2, v, w )
+	    FPT = adicTruncation(p, L-1, sum maxPt) + calculateEpsilon(P1,P2,v,w)
      	 )
      );
-     monFPT := min apply( selectNonzero( mon ), x -> 1/x );
+     monFPT := min apply( selectNonzero mon, x -> 1/x );
      	 -- monFPT = the FPT of the monomial factored out from g;
      	 -- if there are no nonzero terms in mon, min will return infinity
      min( FPT, monFPT )
@@ -266,7 +302,8 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
     local candidate;
     scan( posEntries, i ->
 	(
-	    candidate = a - canVector( i, n );
+	    candidate = a - apply( n, j -> if i == j then 1 else 0 );
+	    -- candidate = a - e_i
 	    if isInUpperRegion( candidate, q, S ) then return candidate
         )
     );
@@ -333,7 +370,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
 (
     -- Start by dealing with a simple degenerate case
     -- If some multiplicity a_i is "too big", return 1/a_i
-    deg := taxicabNorm a;
+    deg := sum a;
     pos := positions( a, k -> k >= deg/2 );
     if pos != {} then
     (

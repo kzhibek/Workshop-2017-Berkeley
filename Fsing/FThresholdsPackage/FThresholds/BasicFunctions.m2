@@ -96,73 +96,19 @@ findNumberBetween = ( maxDenom, a, b ) ->
 
 --===============================================================================
 
---Given a vector w of rational integers in [0,1], returns a number of digits 
--- such that it suffices to check to see if the components of w add without carrying in base p
-carryTest = ( p, w ) ->
-(
-    if any( w, x -> x < 0 or x > 1 ) then 
-        error "carryTest: Expected the second argument to be a list of rational numbers in [0,1]";
-     div := apply( w, x -> decomposeFraction(p, x) );
-     c := max (transpose div)#1; --max of second components of div
-     v := selectNonzero (transpose div)#2; -- nonzero third components of div
-     d := if v === {} then 1 else lcm v;
-     c+d+1
-)
-
---===============================================================================
-
---Given a vector w of rational integers in [0,1], returns the first spot 
---e where the the sum of the entries in w carry in base p
-firstCarry = ( p, w ) ->
-(   
-    if any( w, x -> x < 0 or x > 1 ) then 
-        error "firstCarry: Expected the second argument to be a list of rational numbers in [0,1]";
-    if product( w ) == 0 then -1 else
-    (
-	i := 0;	
-	d := 0;
-	while d < p and i < carryTest(p,w) do 
-	(
-	    i = i + 1;
-	    d = sum adicDigit( p, i, w )
-	);
-        if i == carryTest(p,w) then -1 else i
-     )
-)
-
---===============================================================================
-
-canVector = method()
-
---canVector(i,n) returns the i-th canonical basis vector in dimension n
---Warning: for convenience, this uses Macaulay2's convention of indexing lists
--- starting from 0; so, for example, {1,0,0,0} is canVector(0,4), canVector(1,4).
-canVector ( ZZ, ZZ ) := ( i, n ) -> 
-(
-    if i < 0 or i >= n then 
-       error "canVector(i,n) expects integers i and n with 0<=i<n.";   
-    apply( n, j -> if i == j then 1 else 0 )
-)
  
 --===============================================================================
 
-getNumAndDenom = method()
+getNumAndDenom = method( TypicalValue => List )
 
 -- Takes a rational vector u and returns a pair (a,q), where a
 --is an integer vector and q an integer such that u=a/q.
-getNumAndDenom List := u -> 
+getNumAndDenom List := List => u -> 
 (
     den := lcm apply( u, denominator );
     a := apply( u, n -> lift( n*den, ZZ ) );
     ( a, den )        
 )
-
---===============================================================================
-
-taxicabNorm = method()
-
---Computes the taxicab norm of a vector.
-taxicabNorm List := u -> sum( u, abs )
 
 --===============================================================================
 
