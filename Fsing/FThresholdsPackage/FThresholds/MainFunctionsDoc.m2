@@ -7,9 +7,10 @@ doc ///
           Text
               An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
 
-              If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession; otherwise, another method can be applied.
+              If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession.
+              Otherwise, another method can be applied.
 
-              Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
+              Can take on only Boolean values. Default value is {\tt true}.
      SeeAlso
           nu
 ///
@@ -21,10 +22,11 @@ doc ///
           an option to specify the containment test used
      Description
           Text
-               Specifies which test is used to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
-	             {\tt FrobeniusRoot}, and {\tt StandardPower}.  Default for @TO nu@ and @TO nuList@
-               (and @TO mu@ and @TO muList@) applied to a polynomial is {\tt FrobeniusRoot},
-	             and applied to an ideal is {\tt StandardPower}.
+               Specifies which test is used to check containment of powers of ideals.
+               Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+               Default for @TO nu@ and @TO nuList@
+               (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
+	             and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
 ///
 
 doc ///
@@ -33,7 +35,7 @@ doc ///
          (criticalExponentApproximation,ZZ,Ideal,Ideal)
          (criticalExponentApproximation,ZZ,RingElement,Ideal)
      Headline
-        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
+          gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
      Usage
           criticalExponentApproximation(e,I,J)
           criticalExponentApproximation(e,f,J)
@@ -46,8 +48,8 @@ doc ///
          :List
      Description
          Text
-             This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
-             the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
+             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.  As $d$ approaches $\infty$,
+	            the sequence of these terms converges to the critical exponent of $I$, or $f$, with respect to $J$.
 	     Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
@@ -141,7 +143,7 @@ doc ///
          (fptApproximation,ZZ,Ideal)
          (fptApproximation,ZZ,RingElement)
      Headline
-         Gives a list of nu_I(p^d)/p^d for d=0,...,e.
+         Gives a list of terms in the sequence whose limit is the F-pure threshold
      Usage
           fptApproximation(e,I)
           fptApproximation(e,f)
@@ -153,7 +155,14 @@ doc ///
          :List
      Description
          Text
-             This returns a list consisting of nu_I(p^d)/p^d for d = 0,...,e.  The sequence {nu_I(p^d)/p^d} converges to the F-pure threshold.
+             This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$.
+             This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$
+         Example
+           R = ZZ/13[x,y];
+           I = ideal(x^2, y);
+           fptApproximation(2,I)
+           f = x^5 + x^2*y^3;
+           fptApproximation(2,f)
 ///
 
 
@@ -161,9 +170,13 @@ doc ///
      Key
           FRegularityCheck
      Headline
-          An option for the function fpt
+          An option to use an F-regularity check to find an F-pure threshold
      Description
           Text
+              This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
+              at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
+		          Only takes on Boolean values.
+
                Enables the user to check whether the given pair is F-regular at the given maximal ideal
 	            (so that if not, the F-pure threshold can be determined from the F-signature function).
                 Only takes on Boolean values.
@@ -178,7 +191,7 @@ doc ///
          (ftApproximation,ZZ,Ideal,Ideal)
          (ftApproximation,ZZ,RingElement,Ideal)
      Headline
-         Gives a list of nu_I^J(p^d)/p^d for d=0,...,e.
+         Gives a list of terms in the sequence whose limit is an F-threshold
      Usage
          ftApproximation(e,I,J)
          ftApproximation(e,f,J)
@@ -191,8 +204,8 @@ doc ///
          :List
      Description
          Text
-             This returns a list of nu_I^J(p^d)/p^d for d = 0,...,e.  As d approaches infinity, the sequence {nu_I^J(p^d)/p^d} converges
-	     to the F-threshold of I or f with respect to J.
+            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or $f$, with respect to $J$.
+            This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
 ///
 
 doc ///
@@ -285,7 +298,7 @@ doc ///
           the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1, ..., x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
             maximal integer $N$ such that $I^N$ or $f^N$ is not contained in the ideal $J^{[p^e]}$. This number is denoted
             $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$ in "F-thresholds and Bernstein-Sato Polynomials" by Mustata-Takagi-Watanabe.
 
@@ -306,7 +319,6 @@ doc ///
 
      SeeAlso
         nuList
-        --, mu, muList
 ///
 
 doc ///
@@ -352,12 +364,11 @@ doc ///
           a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)} recursively for $d = 0,...,e$.  If {\tt nu(d, I, J)}
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt nu(d, I, J)}
+            or {\tt nu(d,f,J)} recursively for $d = 0,\ldots,e$.  If {\tt nu(d, I, J)}
             or {\tt nu(d,f,J)}
      SeeAlso
         nu
-        --, mu, muList
 ///
 
 doc ///
@@ -393,13 +404,13 @@ doc ///
      Key
           UseSpecialAlgorithms
      Headline
-          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
+          an option to check whether the input is a diagonal polynomial, binomial, or binary form
      Description
           Text
-              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
+              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial, or a binary form.
+              If {\tt true}, the function @TO fpt@ first checks whether the input
               is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
-
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.   Default value is {\tt true}.
      SeeAlso
           fpt
 ///
