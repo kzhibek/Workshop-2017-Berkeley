@@ -34,7 +34,7 @@ doc ///
             This function can also check the FPT in singular (but still strongly $F$-regular) ring,
             so long as the ring is also Q-Gorenstein of index dividing $p-1$.  In the future we hope
             that this functionality will be extended to all Q-Gorenstein rings.  In the following exam,
-            $x$ defines a Cartier divisor which is twice one of the rulings of the cone.  
+            $x$ defines a Cartier divisor which is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
              f = x;
@@ -53,10 +53,10 @@ doc ///
      Description
           Text
               An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
-
+          Text
               If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession.
               Otherwise, another method can be applied.
-
+          Text
               Can take on only Boolean values. Default value is {\tt true}.
      SeeAlso
           nu
@@ -74,7 +74,7 @@ doc ///
                Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
                Default for @TO nu@ and @TO nuList@
                (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
-	             and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
+               and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
 ///
 
 doc ///
@@ -95,18 +95,18 @@ doc ///
      Outputs
          :List
      Description
-          Text
+         Text
              This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
-
+         Text
              As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
-          Example
+         Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
              criticalExponentApproximation(2,I,m)
              f = x^2 + y^3;
              criticalExponentApproximation(2,f,m)
-      SeeAlso
+     SeeAlso
           ftApproximation
           fptApproximation
           mu
@@ -394,7 +394,7 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
-            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. 
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power.
      SeeAlso
         nu
         muList
