@@ -188,7 +188,7 @@ doc ///
          :List
      Description
          Text
-         This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$, with respect to $J$.
+         This returns a list consisting of the whose limit defines the $F$-threshold of $I$, or $f$, with respect to $J$.
          This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$
 ///
 
