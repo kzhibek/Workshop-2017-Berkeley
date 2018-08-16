@@ -712,11 +712,12 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 
 isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
 
+
+-- Dan: We should use the "Origin" option somehow... 
 isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 (
-    return (0 == compareFPT(t/1, f));
+    return (0 == compareFPT(t/1, f, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain, QGorensteinIndex => o.QGorensteinIndex ));
 );
-
 
 -- isFJumpingExponent determines if a given rational number is an
 -- F-jumping exponent

@@ -314,6 +314,10 @@ doc ///
      Key
         isFPT
         (isFPT,Number,RingElement)
+        [isFPT, FrobeniusRootStrategy]
+        [isFPT, AssumeDomain]
+        [isFPT, MaxCartierIndex]
+        [isFPT, QGorensteinIndex]
      Headline
         Checks whether a given number is the $F$-pure threshold
      Usage
@@ -323,11 +327,21 @@ doc ///
         f:RingElement
         V:Boolean
         W:Boolean
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+        AssumeDomain => Boolean
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
      Outputs
         :Boolean
      Description
         Text
-             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
+             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
+
+             The options are the same as in @TO compareFPT@. 
+
+     SeeAlso
+        compareFPT
 ///
 
 
