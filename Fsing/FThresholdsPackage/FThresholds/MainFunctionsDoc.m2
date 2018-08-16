@@ -25,11 +25,11 @@ doc ///
             It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
             Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
 
-            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order 
-            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.  
+            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
 
             Let $R$ be the ambient ring of $f$.  If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}. 
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
@@ -119,7 +119,7 @@ doc ///
          m:List
              A list of positive integers
          UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
+             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
@@ -301,11 +301,11 @@ doc ///
         Text
             Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
 
-            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order 
-            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.  
+            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
 
             Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}. 
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 ///
@@ -338,7 +338,7 @@ doc ///
         Text
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
 
-             The options are the same as in @TO compareFPT@. 
+             The options are the same as in @TO compareFPT@.
 
      SeeAlso
         compareFPT
