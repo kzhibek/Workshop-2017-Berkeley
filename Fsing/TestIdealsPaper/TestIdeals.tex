@@ -38,14 +38,14 @@ urlcolor=OliveGreen
 %\DeclareMathOperator{\Image}{image}
 
 \begin{document}
-The \title{{TestIdeals} package for \emph{Macaulay2}}
-\author{Daniel Hern\'andez}
+\title{The  {TestIdeals} package for \emph{Macaulay2}}
+\author{Daniel J.\ Hern\'andez}
 \author{Mordechai Katzman}
 \author{Marcus Robinson}
 \author{Karl Schwede}
 \author{Daniel Smolkin}
 \author{Pedro Teixeira}
-\author{Emily Witt}
+\author{Emily E.\ Witt}
 \date{\today}
 \address{Department of Mathematics, University of Utah, 155 S 1400 E Room 233, Salt Lake City, UT, 84112}
 \email{schwede@math.utah.edu}
@@ -57,47 +57,50 @@ The \title{{TestIdeals} package for \emph{Macaulay2}}
 \end{abstract}
 
 
-\subjclass[2010]{13A35}
+\subjclass[2010]{13A35}%=
 
 \keywords{Macaulay2}
 
-%\thanks{The first named author was supported in part by the NSF FRG Grant DMS \#1265261, NSF CAREER Grant DMS \#1252860 and a Sloan Fellowship.}
-%\thanks{The second named author was supported in part by the NSF CAREER Grant DMS \#1252860.}
 \maketitle
 
 \section{Introduction}
 
-This paper describes methods for computing various objects related to commutative rings of prime characteristic $p$.
-Such a ring $R$ comes equipped with a built-in endomorphism, namely the Frobenius endomorphism $f:R \rightarrow R$ sending $x$ to $x^p$, which is the basis for many constructions and definitions
-which afford handles on many problems not otherwise available. Two notable examples of the use of the Frobenius endomorphism are the theory of tight closure
+This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the \emph{TestIdeals} package for the computer algebra software \emph{Macaulay2}.
+A ring $R$ of prime characteristic $p>0$ comes equipped with the Frobenius endomorphism
+\[ F: R \to R \ \text{ given by } F(x) =  x^p \]
+which is the basis for many constructions and definitions in this setting, and affords handles on many problems. 
+Two notable examples of the use of Frobenius are the theory of tight closure
 (see \cite{HochsterHunekeTC1} for an introduction)
 and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
+That said, it remains a fundamental tool in the expanding area of prime characteristic commutative algebra.
 
-Work on the \emph{TestIdeals} package started as a library of methods to compute  Frobenius roots  and $\star$-closures, and to implement the algorithm for computing parameter test ideals
-developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls}.
-Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and
-used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for computations related to test-ideals
-started in earnest on the Summer of 2012 in the Macaulay2 workshop held at Wake Forest. Further work on this package was undertaken in the Macaulay2 workshops in
-Berkeley (2014 and 2017), and Salt Lake City (2016).
+The \emph{TestIdeals} package was created during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University.  Its main goals were to implement basic functionality in prime characteristic, to collect useful algorithms that had already been implemented by various authors, and to implement other useful algorithms. 
+Since then, much more functionality has been added by many contributors, including in several more \emph{Macaulay2} development workshops.\footnote{Development workshops hosted by the University of California, Berkeley (2014, 2017), Boise State University (2015), and the University of Utah (2016).}
+
+
+{\large\color{blue} [Maybe we don't need to list all examples below?  Several other algorithms were implemented independently and incorporated into the package.]}
+
+Some of the first algorithms included were methods for computing Frobenius roots and $\star$-closures, algorithms for computing parameter test ideals
+developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls}, and algorithms for computing $F$-pure thresholds from \cite{HernandezDiagonals} and \cite{HernandezBinomials}.
+Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and used to produce the examples in that paper. 
 {\hfill\large\color{red} [Expand: how were the test module methods conceived?]}\\
 
 
 
+
 \subsection*{Acknowledgements}
+The authors thank those who have also made contributions to the \emph{TestIdeals} package:  
+Erin Bela, Alberto Boix, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Sara Malec, and Matthew Mastroeni. 
+This paper, and the finishing touches to \emph{TestIdeals}, were made at the University of Utah in 2018, and the authors visiting thank the Department of Mathematics for its hospitality. 
 
-We thank ??? for useful conversations and comments on the development of this package.
-
-The finishing touches to \emph{TestIdeals} and this paper were put during a visit in 2018 by
-Daniel Hern\'andez, Moty Katzman, Pedro Teixeira and Emily Witt to the Department of Mathematics of the University of Utah,
-and they are grateful for its hospitality.
 
 
 \section{Frobenius powers and Frobenius roots}\label{Section: Frobenius powers and Frobenius roots}
 
 %%% Throughout  this paper $R$ will denote a polynomial ring over a field $\mathbb{K}$ of prime characteristic $p$.
 
-Let $S$ denote any commutative ring of prime characteristic $p$.
+Let $S$ denote a commutative ring of prime characteristic $p$.
 
 \begin{definition}
 For any ideal $I\subseteq S$ and any integer $e\geq 0$, we define the \emph{$e$th Frobenius power of $I$} to be the ideal denoted $I^{[p^e]}$ which is
@@ -500,7 +503,7 @@ o7 = true
 \end{verbatim}
 
 
-The algorithm works by applying Fedder's Criterion which states that a
+The algorithm works by applying Fedder's Criterion, which states that a
 local ring $(R, \mathfrak{m})$ is $F$-pure if and only if $(I^{[p]} : I)
 \not\subseteq \mathfrak{m}^{[p]}$. In the local case the tag {\tt IsLocal
 => true} checks $F$-purity at the origin by explicitly checking the above
@@ -585,7 +588,7 @@ o5 = ideal (y - z, x + z)
 o5 : Ideal of R
 \end{verbatim}
 
-We briefly explain how this is computed.  First we find a \emph{test element}.
+We briefly explain how this is computed:  First we find a \emph{test element}.
 \begin{remark}[Computation of test elements]
 \label{rem.ComputationOfTestElements}
 Roughly, we recall that an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that doesn't vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If you know your ring is a domain, you can use the {\tt AssumeDomain} flag to speed this up further.
@@ -604,7 +607,7 @@ J_3 := & = J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{[1/p^3]}
 As soon as this ascending sequence of ideals stabilizes, we are done.
 In fact, because this strategy is used in several contexts, you can call it directly for a chosen ideal $J$ and $u$ with the function {\tt ascendIdeal} (this is done for test ideals below).
 
-We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in the denominator, we rely on the fact (see \cite{}) that
+We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in the denominator, we rely on the fact (see \cite{??}) that
 \[
 \begin{array}{rcl}
 T(\tau(\omega_R, f^a)) & = & \tau(\omega_R, f^{a/p})\\
@@ -667,7 +670,7 @@ For an $F$-finite reduced ring $R = S/I$ where $S$ is a regular ring, the test i
 \[
 \phi \in \Hom_R(R^{1/p^e}, R) \text{ we have } \phi(J^{1/p^e}) \subseteq J.
 \]
-In the case that $R$ is Gorenstein, there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  In fact this $\Phi_e$ is identified with the map $T$ above based on the identification $\omega_R \cong R$, \cite{}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists \cite{}.
+In the case that $R$ is Gorenstein, there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  In fact this $\Phi_e$ is identified with the map $T$ above based on the identification $\omega_R \cong R$, \cite{??}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists \cite{}.
 
 If such a $\Phi_e$ exists, it can be identified as the generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma, \cite{}.  Hence we can find a corresponding\footnote{This is done via the function {\tt QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
 \[
@@ -917,7 +920,7 @@ o14 : List
 In \cite{KatzmanZhangAlgorithm} the algorithms behind the method in Section \ref{Section: compatible ideals} were extended
 to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map. The implementation of this algorithm
 would require, among other things, a fast implementation of the extension of our method for finding Frobenius roots of ideal to submodules of free modules.
-We hope to achieve this during a future M2 workshop.
+We hope to achieve this during a future \emph{Macaulay2} workshop.
 
 
 \bibliographystyle{skalpha}
