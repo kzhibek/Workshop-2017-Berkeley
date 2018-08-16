@@ -232,7 +232,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => optNuList, TypicalValue => List )
+nuList = method( Options => optNuList, TypicalValue => List );
 
 nuList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
@@ -250,7 +250,7 @@ nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
 
 
-nu = method( Options => optNu, TypicalValue => ZZ )
+nu = method( Options => optNu, TypicalValue => ZZ );
 
 nu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
     last nuInternal( e, I, J, o )
@@ -265,11 +265,27 @@ nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 -- Nus can be computed using generalized Frobenius powers, by using
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
 
-muList = optNuList >> o -> x ->
-    nuList( x, o, ContainmentTest => FrobeniusPower )
+muList = method( Options => optNuList );
+muList ( ZZ, Ideal, Ideal) := optNuList >> o -> x ->
+    nuList( x, o, ContainmentTest => FrobeniusPower );
 
-mu = optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower )
+muList ( ZZ, Ideal) := optNuList >> o -> x ->
+    nuList( x, o, ContainmentTest => FrobeniusPower );
 
+muList ( ZZ, RingElement, Ideal) := optNuList >> o -> x ->
+    nuList( x, o, ContainmentTest => FrobeniusPower );
+
+muList ( ZZ, RingElement ) := optNuList >> o -> x ->
+    nuList( x, o, ContainmentTest => FrobeniusPower );
+
+mu = method( Options => optNu);
+mu ( ZZ, Ideal, Ideal) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+
+mu ( ZZ, Ideal) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+
+mu ( ZZ, RingElement, Ideal) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+
+mu ( ZZ, RingElement) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
