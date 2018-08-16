@@ -48,7 +48,9 @@ doc ///
          :List
      Description
          Text
-             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.  As $d$ approaches $\infty$,
+             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
+
+             As $d$ approaches $\infty$,
 	            the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
 	       Example
              R = ZZ/5[x,y];
@@ -156,6 +158,7 @@ doc ///
      Description
          Text
              This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
+
              This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
            R = ZZ/13[x,y];
@@ -205,6 +208,7 @@ doc ///
      Description
          Text
             This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or of $f$, with respect to $J$.
+
             This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
               R = ZZ/7[x,y];
@@ -257,7 +261,7 @@ doc ///
         isFPT
         (isFPT,Number,RingElement)
      Headline
-        Checks whether a given number is the FPT
+        Checks whether a given number is the $F$-pure threshold
      Usage
           isFPT(t,f,Verbose=>V,Origin=>W)
      Inputs
@@ -335,8 +339,8 @@ doc ///
           an option to check whether certain values equal the F-pure threshold.
      Description
           Text
-              An option for the function fpt to specify whether to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
-              is the $F$-pure threshold.  Takes on only Boolean values.  Default value for fpt is {\tt true}.
+              An option for the function @TO fpt@ to specify whether to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
+              is the $F$-pure threshold.  Takes on only Boolean values.  Default value is {\tt true}.
      SeeAlso
           fpt
 ///
@@ -359,6 +363,7 @@ doc ///
           nuList(e,f,J)
           nuList(e,f)
           ContainmentTest => Symbol
+              specifies the containment test used
           Search => Symbol
           UseColonIdeals => Boolean
      Inputs
