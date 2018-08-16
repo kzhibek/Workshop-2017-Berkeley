@@ -62,7 +62,8 @@ Authors => {
      HomePage => "http://math.utah.edu/~schwede/"
      },
      {Name => "Dan Smolkin",
-     Email => "smolkin@math.utah.edu"
+     Email => "smolkin@math.utah.edu",
+     HomePage => "http://cohenmacaulay.life"
      },
      {Name => "Pedro Teixeira",
      Email => "pteixeir@knox.edu",
