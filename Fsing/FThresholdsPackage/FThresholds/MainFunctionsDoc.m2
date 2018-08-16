@@ -1,28 +1,15 @@
 doc ///
      Key
-          UseSpecialAlgorithms
-     Headline
-          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
-     Description
-          Text
-              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
-              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
-
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
           ComputePreviousNus
      Headline
-          an option for the function nu (and mu) to compute values recursively
+          an option to compute nu-values recursively
      Description
           Text
-               If {\tt true}, then $\nu$-values (or $\mu$-values) are computed recursively, in succession; otherwise, another method can be applied.
+              An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
 
-               Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
+              If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession; otherwise, another method can be applied.
+
+              Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
      SeeAlso
           nu
 ///
@@ -31,7 +18,7 @@ doc ///
      Key
           ContainmentTest
      Headline
-          an option for functions nu and nuList (and mu and muList) to specify the containment test used
+          an option to specify the containment test used
      Description
           Text
                Specifies which test is used to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
@@ -46,8 +33,7 @@ doc ///
          (criticalExponentApproximation,ZZ,Ideal,Ideal)
          (criticalExponentApproximation,ZZ,RingElement,Ideal)
      Headline
-        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal.
-        --\mu_I^J(p^d)/p^d or \mu_f^J(p^d)/p^d for d = 0,...,e.
+        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
      Usage
           criticalExponentApproximation(e,I,J)
           criticalExponentApproximation(e,f,J)
@@ -61,9 +47,14 @@ doc ///
      Description
          Text
              This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
+<<<<<<< HEAD
 	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
 
          Example
+=======
+	            the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
+	   Example
+>>>>>>> 4063a99bc2977949eb802a25b7cdc927995adc6d
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
@@ -251,7 +242,6 @@ doc ///
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
 ///
 
-
 doc ///
      Key
          nu
@@ -264,7 +254,7 @@ doc ///
          [nu, Search]
          [nu, UseColonIdeals]
      Headline
-        computes nu-approximates of a given F-threshold or F-pure threshold
+        computes nu-values associated to a given F-threshold or F-pure threshold
         --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
           nu(e,I,J)
@@ -282,7 +272,7 @@ doc ///
          f:RingElement
      Outputs
         :ZZ
---      the $e$-th approximate $\nu$ of the $F$-threshold or $F$-pure threshold  
+          the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, ..., x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
@@ -306,16 +296,18 @@ doc ///
 
      SeeAlso
         nuList
+        --, mu, muList
 ///
 
 doc ///
      Key
           NuCheck
      Headline
-          An option for the function fpt to specify whether the user would like to check whether nu/(p^e-1) or (nu+1)/p^e is the F-pure threshold.
+          an option to check whether certain estimates equal the $F$-pure threshold.
      Description
           Text
-               Takes on only Boolean values.  Default value for fpt is {\tt true}.
+              An option for the function fpt to specify whether the user would like to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
+              is the $F$-pure threshold.  Takes on only Boolean values.  Default value for fpt is {\tt true}.
      SeeAlso
           fpt
 ///
@@ -331,7 +323,7 @@ doc ///
          [nuList, Search]
          [nuList, UseColonIdeals]
      Headline
-          Lists $\nu_I^J(p^d)$ or $\nu_f^J(p^d)$ for d = 1,...,e
+          computes a list of nu-values associated to a given F-threshold or F-pure threshold
      Usage
           nuList(e,I,J)
           nuList(e,I)
@@ -347,11 +339,15 @@ doc ///
          f:RingElement
      Outputs
         :List
+          a list of the $e$-th $\nu$-approximates for $e = 0,\ldots,d$
      Description
         Text
-            Given an ideal I in a polynomial ring k[x_1,...,x_n], this function computes nu(d, I, J) recursively for d = 0,...,e; see @TO nu@, and similarly if nuList is passed (ZZ, Ideal), (ZZ, RingElement, Ideal), or (ZZ, RingElement).
+            Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
+            or {\tt nu(d,f,J)} recursively for $d = 0,...,e$.  If {\tt nu(d, I, J)}
+            or {\tt nu(d,f,J)}
      SeeAlso
         nu
+        --, mu, muList
 ///
 
 doc ///
@@ -379,4 +375,19 @@ doc ///
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+     Key
+          UseSpecialAlgorithms
+     Headline
+          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
+     Description
+          Text
+              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
+              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+
+     SeeAlso
+          fpt
 ///
