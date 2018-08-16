@@ -20,7 +20,7 @@ doc ///
         [ascendIdeal, AscentCount]
         [ascendIdeal, FrobeniusRootStrategy]
     Headline
-        finds the smallest ideal containing a given ideal which is compatible with a given Frobenius near-splitting
+        finds the smallest ideal containing a given ideal which is compatible with a given $p^{-e}$-linear map
     Usage
         ascendIdeal(e, h, J)
         ascendIdeal(e, a, h, J)
@@ -97,7 +97,7 @@ doc ///
         (frobeniusRoot, ZZ, Matrix)
         [frobeniusRoot, FrobeniusRootStrategy]
     Headline
-        computes I^[1/p^e] in a polynomial ring over a perfect field
+        computes I^[1/p^e] in a polynomial ring over a finite field
     Usage
         frobeniusRoot(e, I) 
         frobeniusRoot(e, exponentList, idealList)
@@ -108,9 +108,9 @@ doc ///
         frobeniusRoot(e, A)
     Inputs
         e:ZZ
-            the power of the characteristic $p$ to which you are taking the ideal. E.g., to find the $p^2$-th root of an ideal, set {\tt e = 2}
+            the order of the Frobenius root. E.g., to find the $p^2$-th root of an ideal, set {\tt e = 2}
         I:Ideal
-            an ideal in a polynomial ring over a perfect field
+            an ideal in a polynomial ring over a finite field
         idealList:List
             a list of ideals whose product you want to take the root of 
         exponentList:List
@@ -128,7 +128,7 @@ doc ///
         :Ideal
     Description
         Text
-            In a polynomial ring $k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(J,e)} ).  This function computes it.  Alternately it can be viewed as the image under the Cartier operator of the ideal $I$.
+            In a polynomial ring $k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(J,e)} ).  This function computes it.  Alternately it can be viewed as the image under the trace Cartier map of the ideal $I$.
 
             There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}. For instance, 
         Example
@@ -145,10 +145,18 @@ doc ///
             frobeniusRoot(1, {4,5,6}, {I1, I2, I3})
         Text
             The above example computes the ideal {\tt (I1^4 I2^5 I3^6)^{[1/p]}}. For legacy reasons, you can specify the last ideal in your list using {\tt frobeniusRoot(e,exponentList,idealList,I)}. This last ideal is just raised to the first power. 
+        Example
+            p=3
+            F = GF(p^2,Variable=>a)
+            R=F[x,y,z]
+            I=ideal(a^(2*p)*x^p+y*z^p+x^p*y^p)
+            frobeniusRoot(1,I)
+        Text
+            frobeniusRoot works over finite fields.
         Text
             You can also call {\tt frobeniusRoot(e,a,f)}. This computes the $e$th root of the principal ideal $(f^a)$. Calling {\tt frobeniusRoot(e,m,I)} computes the $e$th root of the ideal $I^m$, and calling {\tt frobeniusRoot(e,a,f,I)} computes the eth root of the product $f^a I$. Finally, you can also compute the $p^e$-th root of a matrix $A$ by calling {\tt frobeniusRoot(e,A)}.
         Text
-            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the end, for each generator $f$ of an ideal $I$, we are simply writing $f = \sum a_i^{p^e} m_i$ where $m$ is a monomial all of whose exponents are $< p^e$, then all the possible $a_i$ generate the {\tt frobeniusRoot}. {\tt Substitution} computes this by doing a Grobner basis computation in a ring with twice as many variables. {\tt MonomialBasis} does this more directly and naively.  
+            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the end, for each generator $f$ of an ideal $I$, we are simply writing $f = \sum a_i^{p^e} m_i$ where $m$ is a monomial all of whose exponents are $< p^e$, then all the possible $a_i$ generate the {\tt frobeniusRoot}. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, sometimes one method is faster than the other.
     SeeAlso
         frobenius
         frobeniusPower
