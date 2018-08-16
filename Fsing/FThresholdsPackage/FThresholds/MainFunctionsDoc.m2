@@ -102,7 +102,7 @@ doc ///
 	 Example
 	     ZZ/5[x,y,z];
              fpt( x^3+y^3+z^3+x*y*z )
-             fpt ( x^5+y^6+z^7+(x*y*z)^3 )
+             fpt( x^5+y^6+z^7+(x*y*z)^3 )
 	 Text     
 	      If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
 	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
@@ -113,7 +113,7 @@ doc ///
 	     fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text	        
 	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
-	      If {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either $\nu/(p^e-1)$ or $(\nu+1)/p^e$ equals the $F$-pure threshold.
+	      The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
 	 Example
 	     f = x^2*(x+y)^3*(x+3*y^2)^5;
 	     fpt f
@@ -121,8 +121,7 @@ doc ///
 	     fpt( f, SearchDepth => 3 )
 	     oo == (nu(3,f)+1)/5^3
          Text	      
-	      The $F$-pure threshold of $f$ is known to lie in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], or in the open interval ($\nu/(p^e-1),(\nu+1)/p^e$), if {\tt NuCheck} was performed and failed to find the exact $F$-pure threshold.
-	      The {\tt fpt} function then proceeds to uses the convexity of the $F$-signature function and a secant line argument to narrow down this interval containing the $F$-pure threshold.
+	      If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
 
 	      When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
 
