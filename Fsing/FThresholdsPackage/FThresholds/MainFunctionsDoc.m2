@@ -344,6 +344,43 @@ doc ///
         compareFPT
 ///
 
+doc ///
+     Key
+         mu
+         (mu,ZZ,Ideal,Ideal)
+         (mu,ZZ,Ideal)
+         (mu,ZZ,RingElement,Ideal)
+         (mu,ZZ,RingElement)
+         [mu, ComputePreviousNus]
+         [mu, Search]
+         [mu, UseColonIdeals]
+     Headline
+        computes mu-values associated to a given F-threshold or F-pure threshold
+        --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
+     Usage
+          mu(e,I,J)
+          mu(e,I)
+          mu(e,f,J)
+          mu(e,f)
+          ComputePreviousNus => Boolean
+          Search => Symbol
+          UseColonIdeals => Boolean
+     Inputs
+         e:ZZ
+         I:Ideal
+         J:Ideal
+         f:RingElement
+     Outputs
+        :ZZ
+          the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
+     Description
+        Text
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. 
+     SeeAlso
+        nu
+        muList
+///
 
 
 
