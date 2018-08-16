@@ -26,6 +26,10 @@ QGorensteinGenerator ( ZZ, Ring ) := ( e, R ) ->
 (
      S := ambient R; -- the ambient ring
      I := ideal R; -- the defining ideal
+     gensList := first entries gens I;
+     pp := char R;
+     --principal ideals shouldn't have colons computed
+     if (#(gensList) == 1) then return ((gensList#0)^(pp^e - 1));
      Ie := frobenius( e, I );
      J := trim ( Ie : I ); --compute the colon
      J = trim sub( J, S/Ie ); -- extend colon ideal to S/Ie
