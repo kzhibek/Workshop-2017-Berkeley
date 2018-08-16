@@ -1,5 +1,8 @@
 restart; 
+uninstallPackage "TestIdeals"
+installPackage "TestIdeals"
 loadPackage "TestIdeals"
+viewHelp "TestIdeals"
 
 R=ZZ/5[x,y,z]
 I=ideal(x^6*y*z+x^2*y^12*z^3+x*y*z^18)
@@ -116,5 +119,8 @@ L=compatibleIdeals(u)
 unique apply(L, J-> (J:omega))
 
 
-printWidth=80
 
+restart; 
+loadPackage "TestIdeals"
+
+F = GF(81,Variable=>a)
