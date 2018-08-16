@@ -1,4 +1,4 @@
---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%s
 ----------------------------------------------------------------------------------
 -- CONTENTS
 ----------------------------------------------------------------------------------
@@ -41,9 +41,9 @@
 
 ---------------------------------------------------------------------------------
 -- nu1(I,J) finds the maximal N such that I^N is not contained in J, i.e., nu_I^J(1)
-nu1 = method()
+nu1 = method( TypicalValue => ZZ )
 
-nu1 ( Ideal, Ideal ) :=  ( I, J ) ->
+nu1 ( Ideal, Ideal ) :=  ZZ => ( I, J ) ->
 (
     if not isSubset( I, radical J ) then
         error "nu1: The first ideal is not contained in the radical of the second";
@@ -53,7 +53,7 @@ nu1 ( Ideal, Ideal ) :=  ( I, J ) ->
 )
 
 -- for polynomials, we use fastExponentiation
-nu1 ( RingElement, Ideal ) := ( f, J ) ->
+nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) ->
 (
     if not isSubset( ideal f, radical J ) then
         error "nu1: The polynomial is not contained in the radical of the ideal";
@@ -70,22 +70,22 @@ nu1 ( RingElement, Ideal ) := ( f, J ) ->
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
 -- testPower(J,a,I,e) checks whether J^a is  a subset of I^[p^e], directly
-testPower = method()
+testPower = method( TypicalValue => Boolean )
 
-testPower ( Ideal, ZZ, Ideal, ZZ ) := ( J, a, I, e ) ->
+testPower ( Ideal, ZZ, Ideal, ZZ ) := Boolean => ( J, a, I, e ) ->
     isSubset( J^a, frobenius( e, I ) )
 
 -- for polynomials, use fastExponentiation
-testPower ( RingElement, ZZ, Ideal, ZZ ) := ( f, a, I, e ) ->
+testPower ( RingElement, ZZ, Ideal, ZZ ) := Boolean => ( f, a, I, e ) ->
     isSubset( ideal fastExponentiation( a, f ), frobenius( e, I ) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
-testFrobeniusPower = method()
+testFrobeniusPower = method( TypicalValue => Boolean )
 
-testFrobeniusPower ( Ideal, ZZ, Ideal, ZZ ) := ( J, a, I, e ) ->
+testFrobeniusPower ( Ideal, ZZ, Ideal, ZZ ) := Boolean => ( J, a, I, e ) ->
     isSubset( frobeniusPower( a, J ), frobenius( e, I ) )
 
-testFrobeniusPower ( RingElement, ZZ, Ideal, ZZ ) := ( f, a, I, e ) ->
+testFrobeniusPower ( RingElement, ZZ, Ideal, ZZ ) := Boolean => ( f, a, I, e ) ->
     testRoot( f, a, I, e )
 
 -- hash table to select test function from option keyword
@@ -232,35 +232,35 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => optNuList )
+nuList = method( Options => optNuList, TypicalValue => List )
 
-nuList ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) ->
+nuList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
 
 -- Dan: I changed Options => true to Options => optNuList above in order to make
 -- things compile, and I'm worried that's messing up our default options here.
 
-nuList ( ZZ, RingElement, Ideal ) := o -> ( e, I, J ) ->
+nuList ( ZZ, RingElement, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
 
-nuList ( ZZ, Ideal ) :=  o -> ( e, I ) ->
+nuList ( ZZ, Ideal ) :=  List => o -> ( e, I ) ->
     nuList( e, I, maxIdeal I, o )
 
-nuList ( ZZ, RingElement ) := o -> ( e, f ) ->
+nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
 
 
-nu = method( Options => optNu )
+nu = method( Options => optNu, TypicalValue => ZZ )
 
-nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) ->
+nu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
     last nuInternal( e, I, J, o )
 
-nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) ->
+nu ( ZZ, RingElement, Ideal ) := ZZ => o -> ( e, f, J ) ->
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
-nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
 -- Nus can be computed using generalized Frobenius powers, by using
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
@@ -278,24 +278,24 @@ mu = optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower )
 
 --Approximates the F-pure Threshold
 --Gives a list of nu_I(p^d)/p^d for d=1,...,e
-fptApproximation = method()
+fptApproximation = method( TypicalValue => List )
 
-fptApproximation ( ZZ, Ideal ) := ( e, I ) ->
+fptApproximation ( ZZ, Ideal ) := List => ( e, I ) ->
 (
      p := char ring I;
      nus := nuList( e, I );
      apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
-fptApproximation ( ZZ, RingElement ) := ( e, f ) ->
+fptApproximation ( ZZ, RingElement ) := List => ( e, f ) ->
     fptApproximation( e, ideal f )
 
 --Approximates the F-Threshold with respect to an ideal J
 --More specifically, this gives a list of nu_I^J(p^d)/p^d for d=1,...,e
 
-ftApproximation = method()
+ftApproximation = method( TypicalValue => List )
 
-ftApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
+ftApproximation ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
 (
     if not isSubset( I, radical J ) then
         error "ftApproximation: F-threshold undefined";
@@ -304,12 +304,12 @@ ftApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
     apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
-ftApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) ->
+ftApproximation ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
    ftApproximation( e, ideal(f), J )
 
-criticalExponentApproximation = method()
+criticalExponentApproximation = method( TypicalValue => List )
 
-criticalExponentApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
+criticalExponentApproximation ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
 (
     if not isSubset( I, radical J ) then
         error "criticalExponentApproximation: critical exponent undefined";
@@ -318,7 +318,7 @@ criticalExponentApproximation ( ZZ, Ideal, Ideal ) := ( e, I, J ) ->
     apply( mus, 0..e, (n,k) -> n/p^k )
 )
 
-criticalExponentApproximation ( ZZ, RingElement, Ideal ) := ( e, f, J ) ->
+criticalExponentApproximation (ZZ, RingElement, Ideal) := List => ( e, f, J ) ->
     criticalExponentApproximation( e, ideal f, J )
 
 --Gives a list of guesses for the F-pure threshold of f.  It returns a list of all numbers in
@@ -366,7 +366,7 @@ fpt = method(
 	}
 );
 
-fpt RingElement := QQ => o -> f ->
+fpt RingElement := o -> f ->
 (
     -- give an answer in a trivial case
     if f == 0 then return 0;
@@ -515,7 +515,7 @@ fpt RingElement := QQ => o -> f ->
     { a, (n+1)/p^e }
 )
 
-fpt ( List, List ) := QQ => o -> ( L, m ) ->
+fpt ( List, List ) := o -> ( L, m ) -> 
 binaryFormFPT( L, m, Verbose => o.Verbose )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -568,6 +568,7 @@ isLocallyPrincipalIdeal := (I2) -> (
 );
 
 --helper function for compareFPT
+getDivisorIndex = method();
 getDivisorIndex := (maxIndex, divisorialIdeal) -> (
     fflag := false;
     cartIndex := 0;
@@ -583,7 +584,7 @@ getDivisorIndex := (maxIndex, divisorialIdeal) -> (
     );
     if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
     return cartIndex;
-)
+);
 
 compareFPT(Number, RingElement) := o -> (t, f) -> (
     --first we gather background info on the ring (QGorenstein generators, etc.)
@@ -711,9 +712,11 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 
 isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
 
+
+-- Dan: We should use the "Origin" option somehow... 
 isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 (
-    return (0 == compareFPT(t/1, f));
+    return (0 == compareFPT(t/1, f, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain, QGorensteinIndex => o.QGorensteinIndex ));
 );
 
 
@@ -723,6 +726,7 @@ isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 --This needs to be speeded up, like the above function
 --***************************************************************************
 
+-- Dan: isn't is safer to have AssumeDomain default to "false" here?
 isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
 
 isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->

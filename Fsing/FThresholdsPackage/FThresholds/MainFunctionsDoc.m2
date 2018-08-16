@@ -7,14 +7,18 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        checks whether a given number is less than, greater than or equal to the FPT
+        checks whether a given number is less than, greater than, or equal to the F-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
         t:QQ
         f:RingElement
+            an element of a $\mathbb{Q}$-Gorenstein ring
         FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
+        AssumeDomain => Boolean
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
     Description
         Text
             This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
@@ -56,6 +60,7 @@ doc ///
               Can take on only Boolean values. Default value is {\tt true}.
      SeeAlso
           nu
+          mu
 ///
 
 doc ///
@@ -90,18 +95,22 @@ doc ///
      Outputs
          :List
      Description
-         Text
+          Text
              This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
 
-             As $d$ approaches $\infty$,
-	            the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
-	       Example
+             As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
+          Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
              criticalExponentApproximation(2,I,m)
              f = x^2 + y^3;
              criticalExponentApproximation(2,f,m)
+      SeeAlso
+          ftApproximation
+          fptApproximation
+          mu
+          muList
 ///
 
 doc ///
@@ -125,7 +134,7 @@ doc ///
          m:List
              A list of positive integers
          UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
+             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
@@ -178,7 +187,10 @@ doc ///
               m = {2, 3}
               fpt(L, m)
               oo == fpt( (x+y)^2*(x+2*y)^3)
-
+        SeeAlso
+                  fptApproximation
+                  nu
+                  nuList
 ///
 
 doc ///
@@ -187,7 +199,7 @@ doc ///
          (fptApproximation,ZZ,Ideal)
          (fptApproximation,ZZ,RingElement)
      Headline
-         Gives a list of terms in the sequence whose limit defines the F-pure threshold
+         gives a list of terms in the sequence whose limit defines the F-pure threshold
      Usage
           fptApproximation(e,I)
           fptApproximation(e,f)
@@ -276,13 +288,17 @@ doc ///
         :List
      Description
         Text
-             This tries to guess the FPT.  In particular, it computes the number nu such that nu/(p^e - 1) <= FPT < (nu+1)/p^e.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
+             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
 ///
 
 doc ///
      Key
         isFJumpingExponent
         (isFJumpingExponent,Number,RingElement)
+        [isFJumpingExponent, AssumeDomain]
+        [isFJumpingExponent, FrobeniusRootStrategy]
+        [isFJumpingExponent, MaxCartierIndex]
+        [isFJumpingExponent, QGorensteinIndex]
      Headline
         Checks whether a given number is an F-jumping number
      Usage
@@ -290,18 +306,36 @@ doc ///
      Inputs
          t:QQ
          f:RingElement
+            an element of a $\mathbb{Q}$-Gorenstein ring
          V:Boolean
+         AssumeDomain => Boolean
+         FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+         MaxCartierIndex => ZZ
+         QGorensteinIndex => ZZ
      Outputs
         :Boolean
      Description
         Text
-            Returns true if t is an F-jumping number, otherwise it returns false.
+            Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
+
+            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
+
+            Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 ///
 
 doc ///
      Key
         isFPT
         (isFPT,Number,RingElement)
+        [isFPT, FrobeniusRootStrategy]
+        [isFPT, AssumeDomain]
+        [isFPT, MaxCartierIndex]
+        [isFPT, QGorensteinIndex]
      Headline
         Checks whether a given number is the $F$-pure threshold
      Usage
@@ -311,13 +345,60 @@ doc ///
         f:RingElement
         V:Boolean
         W:Boolean
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+        AssumeDomain => Boolean
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
      Outputs
         :Boolean
      Description
         Text
-             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
+             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
+
+             The options are the same as in @TO compareFPT@.
+
+     SeeAlso
+        compareFPT
 ///
 
+doc ///
+     Key
+         mu
+         (mu,ZZ,Ideal,Ideal)
+         (mu,ZZ,Ideal)
+         (mu,ZZ,RingElement,Ideal)
+         (mu,ZZ,RingElement)
+         [mu, ComputePreviousNus]
+         [mu, Search]
+         [mu, UseColonIdeals]
+     Headline
+        computes mu-values associated to a given F-threshold or F-pure threshold
+        --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
+     Usage
+          mu(e,I,J)
+          mu(e,I)
+          mu(e,f,J)
+          mu(e,f)
+          ComputePreviousNus => Boolean
+          Search => Symbol
+          UseColonIdeals => Boolean
+     Inputs
+         e:ZZ
+         I:Ideal
+         J:Ideal
+         f:RingElement
+     Outputs
+        :ZZ
+          the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
+     Description
+        Text
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. 
+     SeeAlso
+        nu
+        muList
+///
 
 
 

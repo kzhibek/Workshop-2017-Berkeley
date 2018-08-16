@@ -150,6 +150,82 @@ o6 = ideal (y, x)
 o6 : Ideal of R
 \end{verbatim}
 
+\subsection{Frobenius  roots of submodules of free modules}
+
+Given a submodule $M$ of $S^k$ there is a smallest submodule $M \subseteq N \subseteq S^k$ such that $M\subseteq N^{[p^e]}$, where 
+$N^{[p^e]}$ is the submodule  of $S^k$ whose generators are the vectors of $N$ with all coordinates raised to the $p^e$th power. (Cf.~\cite{KatzmanZhangAlgorithm}).
+
+\begin{example}
+Let $R=ZZ/p[a,b,c,d]$, write $\mathfrak{m}=(a,b,c,d)$ and let 
+$$I= (a,b)R \cap (a,c)R \cap (c,d)R \cap (c+d, a^3+b d^2)R ;$$
+$R/I$ is a $3$-dimensional Cohen-Macaulay ring.
+Matlis Duality applied to $\HH^2_{\mathfrak{m}} (R/I)$ with its natural Frobenius map
+yields a $p^1$-linear map $\Ext^2(R/ I, R) \xrightarrow{U} \Ext^2(R/I, R)$.
+
+\begin{verbatim}
+i2 :      p=2;
+i3 :      R=ZZ/p[a,b,c,d];
+i4 :      I=intersect( ideal(a,b), ideal(a,c), ideal(c,d), ideal(c+d, a^3+b*d^2));
+i5 :      f=inducedMap (coker gens I, coker gens frobeniusPower(p,I) );
+i6 :      resf=res f
+          1             1
+o6 = 0 : R  <--------- R  : 0
+               | 1 |
+          3                                      3
+     1 : R  <---------------------------------- R  : 1
+               {2} | ac+ad 0       0        |
+               {3} | 0     bc2+bcd 0        |
+               {4} | 0     0       a3d+bcd2 |
+          2                                              2
+     2 : R  <------------------------------------------ R  : 2
+               {4} | abc2+abcd a2cd3+a2d4           |
+               {5} | 0         a3cd+a3d2+bc2d2+bcd3 |
+     3 : 0 <----- 0 : 3
+              0
+o6 : ChainComplexMap
+i7 :      G=Hom(resf, R^1);
+i8 :      E2=HH^2 G
+o8 = {-8}  | a4+abc2+abcd a2b            |
+     {-10} | a2cd3        a3cd+a3d2+bcd3 |
+o8 : Matrix
+i9 :      source E2
+o9 = cokernel {-4} | bc  a  0   |
+              {-5} | a2d d2 c+d |
+                            2
+o9 : R-module, quotient of R
+i10 :       target E2
+o10 = cokernel {-8}  | b2c2 a2 0     |
+               {-10} | a4d2 d4 c2+d2 |
+                             2
+o10 : R-module, quotient of R
+\end{verbatim}
+Frobenius on $\HH^2_{\mathfrak{m}} (R/I)$ is injective if and only if
+$(\Image U)^{[1/p]}=R^2$
+\begin{verbatim}
+i11 :       U=matrix entries E2;
+i12 :       A=matrix entries relations source E2;
+i13 :       frobeniusRoot(1,U)
+o13 = {-2} | 1 0 0 |
+      {0}  | 0 d a |
+              2       3
+o13 : Matrix R  <--- R
+\end{verbatim}
+so $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
+This calculation also shows that $\HH^2_{\mathfrak{m}} (R/I)\cong \Ann_{E^2} A^t$
+where $E$ is the injective hull of $R_{\mathfrak{m}}/ {\mathfrak{m}} R_{\mathfrak{m}}$,
+and the Frobenius map on  $\HH^2_{\mathfrak{m}} (R/I)$ induced from Frobeniuson $R$
+is given by $U^t T$ where $T$ is the induced Frobenius on $E$.
+The submodule of nilpotent elements in  $\HH^2_{\mathfrak{m}} (R/I)$ is
+given by $\Ann_{E^2} B^t$ where $B$ is the smallest submodule of $R^2$ containing $\Image A + \Image U$ such that $U  B \subseteq B^{[p]}$.
+The method \emph{ascendModule} can be used to calculate  $B$ (see detailed description of similar method \emph{ascendIdeal} in Section \ref{Section: Test Ideals}).
+\begin{verbatim}
+i14 : V=ascendModule (1,A,U) 
+o14 = | 0   a  bc  |
+      | c+d d2 a2d |
+\end{verbatim}
+
+
+\end{example}
 
 
 \section{$p^{-e}$- and $p^{e}$-linear maps}\label{Section: p-linear maps}
@@ -233,7 +309,7 @@ Thus the complexity of  computing $(gR)^{[1/p^e]}$ is proportional to the number
 
 
 
-\section{$F$-singularities}
+\section{$F$-singularities}\label{Section: F-singularities}
 
 This package includes a method for checking if a ring of finite type over a prime field is $F$-injective or not.
 \begin{definition}
@@ -270,7 +346,7 @@ o4 = true
 A ring $R$ is called strongly $F$-regular if $\tau(R) = R$.
 \end{definition}
 
-The command {\tt isFregular} checks whether a ring or pair is strongly $F$-regular. Below are two examples one $F$-regulare and one not.
+The command {\tt isFregular} checks whether a ring or pair is strongly $F$-regular. Below are two examples one $F$-regular and one not.
 
 \begin{verbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(x^2 + y*z);
@@ -320,7 +396,7 @@ o8 = true
 \end{verbatim}
 
 
-\section{Test ideals}
+\section{Test ideals}\label{Section: Test Ideals}
 
 In this section, we explain how to compute parameter test modules, parameter test ideals, test ideals and HSLG-modules\footnote{HSLG-modules can be used to give a scheme structure to the $F$-injective or $F$-pure locus.}.
 
