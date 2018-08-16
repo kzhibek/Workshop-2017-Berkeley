@@ -187,10 +187,10 @@ doc ///
               m = {2, 3}
               fpt(L, m)
               oo == fpt( (x+y)^2*(x+2*y)^3)
-    SeeAlso
-              fptApproximation
-              nu
-              nuList
+     SeeAlso
+          fptApproximation
+          nu
+          nuList
 ///
 
 doc ///
@@ -399,13 +399,47 @@ doc ///
           the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
-            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. 
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt mu(e, I, J)} or {\tt mu(e, f, J)} outputs the
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. In other words, calling the function {\tt mu} is the same as calling the function @TO nu@ with the option {\tt ContainmentTest} set to {\tt FrobeniusPower}. 
      SeeAlso
         nu
         muList
 ///
 
+doc ///
+     Key
+         muList
+         (muList,ZZ,Ideal,Ideal)
+         (muList,ZZ,Ideal)
+         (muList,ZZ,RingElement,Ideal)
+         (muList,ZZ,RingElement)
+         [muList, Search]
+         [muList, UseColonIdeals]
+     Headline
+          computes a list of mu-values associated to a given F-threshold or F-pure threshold
+     Usage
+          muList(e,I,J)
+          muList(e,I)
+          muList(e,f,J)
+          muList(e,f)
+          Search => Symbol
+          UseColonIdeals => Boolean
+     Inputs
+         e:ZZ
+         I:Ideal
+         J:Ideal
+         f:RingElement
+     Outputs
+        :List
+          a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
+     Description
+        Text
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt mu(d, I, J)}
+            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$. In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest} set to {\tt FrobeniusPower}. 
+     SeeAlso
+        mu
+        nuList
+///
 
 
 doc ///
@@ -522,12 +556,14 @@ doc ///
           an option to specify the search method
      Description
           Text
-              An option for functions @TO nu@ and @TO nuList@ to specify
+              An option for functions @TO nu@, @TO nuList@, @TO mu@, and @TO muList@ to specify
               the order in which ideal the containment of powers are computed. Valid values are
               {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
           nuList
+          mu
+          muList
 ///
 
 doc ///
@@ -537,11 +573,13 @@ doc ///
           an option to use colon ideals to compute nus in an iterative way
      Description
           Text
-              An option for @TO nu@ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
+              An option for @TO nu@, @TO nuList@, @TO mu@, and @TO muList@ to use colon ideals to compute nus in an iterative way.
               Valid values are {\tt true} and {\tt false}.
      SeeAlso
           nu
           nuList
+          mu
+          muList
 ///
 
 doc ///

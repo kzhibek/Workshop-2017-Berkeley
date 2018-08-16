@@ -34,7 +34,7 @@ Authors => {
      Email => "robinson@math.utah.edu"
      },
      {Name => "Karl Schwede",
-     Email => "schwede@math.utah.edu",
+      Email => "schwede@math.utah.edu",
      HomePage => "http://math.utah.edu/~schwede/"
      },
      {Name => "Dan Smolkin",
