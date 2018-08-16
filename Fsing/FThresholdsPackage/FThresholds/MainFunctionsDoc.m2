@@ -49,8 +49,8 @@ doc ///
      Description
          Text
              This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.  As $d$ approaches $\infty$,
-	            the sequence of these terms converges to the critical exponent of $I$, or $f$, with respect to $J$.
-	     Example
+	            the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
+	       Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
@@ -127,7 +127,7 @@ doc ///
          (fptApproximation,ZZ,Ideal)
          (fptApproximation,ZZ,RingElement)
      Headline
-         Gives a list of terms in the sequence whose limit is the F-pure threshold
+         Gives a list of terms in the sequence whose limit defines the F-pure threshold
      Usage
           fptApproximation(e,I)
           fptApproximation(e,f)
@@ -139,8 +139,8 @@ doc ///
          :List
      Description
          Text
-             This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$.
-             This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$
+             This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
+             This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
            R = ZZ/13[x,y];
            I = ideal(x^2, y);
@@ -161,9 +161,9 @@ doc ///
               at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
 		          Only takes on Boolean values.
 
-               Enables the user to check whether the given pair is F-regular at the given maximal ideal
+              Enables the user to check whether the given pair is F-regular at the given maximal ideal
 	            (so that if not, the F-pure threshold can be determined from the F-signature function).
-                Only takes on Boolean values.
+              Only takes on Boolean values.
      SeeAlso
           fpt
 ///
@@ -175,7 +175,7 @@ doc ///
          (ftApproximation,ZZ,Ideal,Ideal)
          (ftApproximation,ZZ,RingElement,Ideal)
      Headline
-         Gives a list of terms in the sequence whose limit is an F-threshold
+         Gives a list of terms in the sequence whose limit defines an F-threshold
      Usage
          ftApproximation(e,I,J)
          ftApproximation(e,f,J)
@@ -188,8 +188,15 @@ doc ///
          :List
      Description
          Text
-            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or $f$, with respect to $J$.
+            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or of $f$, with respect to $J$.
             This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
+         Example
+              R = ZZ/7[x,y];
+              I = ideal(x^5, y^5);
+              J = ideal(x^2, y^3);
+              ftApproximation(2,I,J)
+              f = x^3*y^2+x^5*y;
+              fptApproximation(2,f,J)
 ///
 
 doc ///
