@@ -1,6 +1,6 @@
 newPackage( "FThresholds",
-Version => "0.1", 
-Date => "August 13th, 2018", 
+Version => "0.1",
+Date => "August 13th, 2018",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -49,46 +49,50 @@ Authors => {
      HomePage => "https://witt.faculty.ku.edu"
      }
 },
-Headline => "A package for calculations of F-thresholds", 
-DebuggingMode => true, 
+Headline => "A package for calculations of F-thresholds",
+DebuggingMode => true,
 Reload => true,
 AuxiliaryFiles => true
 )
 
-needsPackage "TestIdeals"
+needsPackage("TestIdeals", LoadDocumentation => true);
 
 export{
 --F-thresholds computations (MainFunctions.m2)
-    "BinaryRecursive", 
-    "ComputePreviousNus", 
+    "BinaryRecursive",
+    "ComputePreviousNus",
     "criticalExponentApproximation",
-    "fpt",   
-    "fptApproximation", 
+    --"DepthOfSearch",
+    "fpt",
+    "fptApproximation",
     "fptGuessList", --Karl (probably should be incorporated into fpt
-    "FRegularityCheck", 
-    "FrobeniusPower", 
-    "FrobeniusRoot",  
+    "FRegularityCheck",
+    "FrobeniusPower",
+    "FrobeniusRoot",
     "ftApproximation",
-    "isFJumpingExponent", 
+    "isFJumpingExponent",
     --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
+    "compareFPT",
     "mu",
     "muList",
     "nu", --Dan: add the mu options
-    "NuCheck", 
+    "NuCheck",
     "nuList", --Dan: add the mu options
-    "Search", 
-    "StandardPower", 
-    "ContainmentTest", 
-    "UseColonIdeals", 
+    "Search",
+    "StandardPower",
+    "ContainmentTest",
+    "UseColonIdeals",
     "UseSpecialAlgorithms",
-    
+
     "Nontrivial",
     "MaxExp", -- Dan ( **no doc**)
     "PrintCP" -- Dan ( **no doc**)
 }
 
 --*************************************************
+
+load "./FThresholds/DivisorPatch.m2" --some helper functions
 
 load "./FThresholds/BasicFunctions.m2"
 
@@ -105,4 +109,3 @@ load "./FThresholds/SpecialFThresholdsDoc.m2"
 -- TESTS
 
 load "./FThresholds/SpecialFThresholdsTest.m2"
-
