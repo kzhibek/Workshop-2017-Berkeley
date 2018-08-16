@@ -378,7 +378,7 @@ fpt RingElement := QQ => o -> f ->
 	    Verbose => Boolean,
 	    UseSpecialAlgorithms => Boolean,
 	    NuCheck => Boolean,
-	    SearchDepth => ZZ
+	    SearchDepth => ( k -> instance( k, ZZ ) and k > 0 )
 	}
     );
 
