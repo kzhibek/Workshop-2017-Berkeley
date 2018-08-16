@@ -347,11 +347,12 @@ doc ///
          f:RingElement
      Outputs
         :List
+          a list of the $e$-th $\nu$-approximates for $e = 0,\ldots,d"
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)} recursively for $d = 0,...,e$; see @TO nu@, and similarly if {\tt nuList} is passed 
-            (ZZ, Ideal), (ZZ, RingElement, Ideal), or (ZZ, RingElement).
+            or {\tt nu(d,f,J)} recursively for $d = 0,...,e$.  If {\tt nu(d, I, J)}
+            or {\tt nu(d,f,J)}
      SeeAlso
         nu
 ///
