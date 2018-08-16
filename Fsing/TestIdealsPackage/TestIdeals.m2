@@ -88,6 +88,7 @@ export{
         
 --ethRootFunctions (EthRoots.m2)
     "ascendIdeal", 
+    "ascendModule",
     "AscentCount",
     "FrobeniusRootStrategy",  
     "frobeniusRoot",  
