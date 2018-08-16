@@ -100,7 +100,7 @@
 :COOKIE_DATA: todo recursive
 :END:
 ** Tests: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholdsTest.m2][SpecialFThresholdsTest.m2]] 
-** Functions [1/4]
+** Functions [3/4]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -123,10 +123,12 @@
 *** isCP
 *** findCPBelow
 *** binaryFormFPTInternal
-*** binaryFormFPT [1/4]
-**** TODO Check for proper way to define ring
+*** binaryFormFPT [3/4]
 **** TODO Replace PrintCP with a Verbose option
-**** TODO Get rid of MaxExp
+**** DONE Get rid of MaxExp
+     CLOSED: [2018-08-16 Thu 11:53]
+**** DONE Check for proper way to define ring
+     CLOSED: [2018-08-16 Thu 11:53]
 **** DONE Replace Nontrivial with "Nontrivial"
      CLOSED: [2018-08-16 Thu 09:06]
 * General TODOs, notes, questions, etc. [3/4]
