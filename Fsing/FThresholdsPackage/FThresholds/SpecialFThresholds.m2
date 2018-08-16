@@ -279,8 +279,11 @@ neighborInUpperRegion ( List, FTData ) := List => ( u, S ) ->
     if nbr === null then nbr else (nbr_0)/(nbr_1)
 )
 
--- isCP(a,q,S)/isCP(u,S) test if u=a/q is a critical point, that is, if u is 
--- in the upper region but each neighbor (a-e_i)/q (where a_i>0) is not.
+-*
+   isCP(a,q,S)/isCP(u,S) test if u=a/q is a critical point, that is, if u is 
+   in the upper region but each neighbor (a-e_i)/q (where a_i>0) is not,
+   that is, u has no "neighbors" in the upper region.
+*-
 isCP = method( TypicalValue => Boolean )
 
 isCP ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
@@ -291,17 +294,36 @@ isCP ( List, ZZ, FTData ) := Boolean => ( a, q, S ) ->
 
 isCP ( List, FTData ) := Boolean => (u,S) -> isCP append( getNumAndDenom u, S )
 
---findCPBelow(u,S) takes a point u in the upper region attached to S and 
--- finds a critical point <= u with the same denominator.
+-- findCPBelow(u,S) takes a point u in the upper region attached to S and 
+-- finds a critical point <= u with the same denominator. This critical point
+-- always exist, but if q is large, it can take a long time to find it.
 findCPBelow = method( TypicalValue => List )
 
+-- trying a nonrecursive version, to avoid reaching recursion limit; 
+-- original commented out below.
 findCPBelow ( List, FTData ) := List => ( pt, S ) ->
 (
     if isInLowerRegion( pt, S ) then 
-        error "isInLowerFunction: the point must be in the upper region";
+        error "findCPBelow: the point must be in the upper region";
+    candidate := pt;
+    nbr := neighborInUpperRegion( pt, S );
+    while nbr =!= null do
+    ( 
+        candidate = nbr;
+	nbr = neighborInUpperRegion( candidate, S )
+    );
+    candidate
+)
+
+-*
+findCPBelow ( List, FTData ) := List => ( pt, S ) ->
+(
+    if isInLowerRegion( pt, S ) then 
+        error "findCPBelow: the point must be in the upper region";
     nbr := neighborInUpperRegion( pt, S );
     if nbr === null then return pt else findCPBelow( nbr, S )
 )
+*-
 
 -*
     Computation of FPTs
