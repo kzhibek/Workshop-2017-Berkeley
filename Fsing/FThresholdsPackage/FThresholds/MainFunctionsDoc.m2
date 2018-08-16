@@ -1,4 +1,28 @@
 doc ///
+    Key
+        compareFPT
+        (compareFPT, Number, RingElement)
+        [compareFPT, MaxCartierIndex]
+        [compareFPT, FrobeniusRootStrategy]
+        [compareFPT, AssumeDomain]
+        [compareFPT, QGorensteinIndex]
+    Headline
+        checks whether a given number is less than, greater than or equal to the FPT
+    Usage
+        compareFPT(t, f)
+    Inputs
+        t:QQ
+        f:RingElement
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+    Description
+        Text
+            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
+            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
+            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
+///
+
+doc ///
      Key
           ComputePreviousNus
      Headline
@@ -64,12 +88,11 @@ doc ///
 doc ///
      Key
          fpt
-         (fpt, RingElement)
-         (fpt, List, List)
-         [fpt, FRegularityCheck]
-         [fpt, NuCheck]
-         [fpt, UseSpecialAlgorithms]
-         [fpt, SearchDepth]
+	 (fpt, RingElement)
+	 [fpt, FRegularityCheck]
+	 [fpt, NuCheck]
+	 [fpt, UseSpecialAlgorithms]
+	 [fpt, DepthOfSearch]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
@@ -88,7 +111,7 @@ doc ///
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
              specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt SearchDepth} and $\nu=\nu_f(p^e)$
-         SearchDepth => ZZ
+         DepthOfSearch => ZZ
              specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
         :List
@@ -275,6 +298,9 @@ doc ///
         Text
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
 ///
+
+
+
 
 doc ///
      Key
