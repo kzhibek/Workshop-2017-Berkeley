@@ -162,7 +162,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 (
     -- Return answer in a trivial case (per Blickle-Mustata-Smith convention)
     if f == 0 then return toList( (n+1):0 );
-    
+
     -- Verify if option values are valid
     checkOptions( o,
 	{
@@ -182,15 +182,15 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     searchFct := search#(o.Search);
     comTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
-    if comTest === null then 
-	comTest = if instance(f, RingElement) then FrobeniusRoot 
+    if comTest === null then
+	comTest = if instance(f, RingElement) then FrobeniusRoot
 	    else StandardPower;
     testFct := test#(comTest);
     local N;
 
     nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
-    
+
     if not o.ComputePreviousNus then
     (
 	-- This computes nu in a non-recursive way
@@ -246,7 +246,7 @@ nuList ( ZZ, RingElement, Ideal ) := o -> ( e, I, J ) ->
 nuList ( ZZ, Ideal ) :=  o -> ( e, I ) ->
     nuList( e, I, maxIdeal I, o )
 
-nuList ( ZZ, RingElement ) := o -> ( e, f ) -> 
+nuList ( ZZ, RingElement ) := o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
 
 
@@ -450,7 +450,7 @@ fpt RingElement := QQ => o -> f ->
     (
         -- Check to see if nu/(p^e-1) is the fpt
 	-- (uses the fact that there are no fpts between nu/p^e and nu/(p^e-1))
-	if not isFregular( n/(p^e-1), f ) then 
+	if not isFregular( n/(p^e-1), f ) then
 	(
 	    if o.Verbose then print "\nFound answer via nu/(p^e-1).";
 	    return n/(p^e-1)
@@ -493,11 +493,11 @@ fpt RingElement := QQ => o -> f ->
 
     if o.FRegularityCheck then
     (
-	if o.Verbose then print "\nStarting final check ..."; 
-        if not isFregular( a, f ) then 
-        (	
-	   if o.Verbose then 
-	       print "\nFinal check successful; fpt is the F-signature intercept."; 
+	if o.Verbose then print "\nStarting final check ...";
+        if not isFregular( a, f ) then
+        (
+	   if o.Verbose then
+	       print "\nFinal check successful; fpt is the F-signature intercept.";
 	   return a
       	)
 	else if o.Verbose then print "\nFinal check didn't find the fpt ..."
@@ -656,7 +656,7 @@ compareFPT(Number, RingElement) := o -> (t, f) -> (
     return 0; --it is the FPT!
 );
 
-compareFPTPoly = method(Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0});
+compareFPTPoly = method(Options => {FrobeniusRootStrategy => Substitution});
 
 compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     --first we gather background info on the ring (QGorenstein generators, etc.)
@@ -670,7 +670,7 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 
     h1 := sub(1, S1);
     --first we do a quick check to see if the test ideal is easy to compute
-    computedTau = testModule(tList, fList, ideal(sub(1, S1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
+    computedTau = testModule(tList, fList, ideal(sub(1, S1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>true);
     if (isSubset(ideal(sub(1, S1)), computedTau#0)) then return -1;  --at this point we know that this is not the FPT
 
     --now we have to run the sigma computation
@@ -689,36 +689,13 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 --isFPT, determines if a given rational number is the FPT of a pair in a
 -- polynomial ring.
 
-isFPT = method( Options => { Verbose=> false } )
+isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
 
-isFPT ( QQ, RingElement ) := o -> ( t, f ) ->
+isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 (
-    if not isPolynomialOverFiniteField f  then
-        error "isFPT: expected a polynomial with coefficients in a finite field";
-    R := ring f;
-    p := char R;
-    --this writes t = a/(p^b(p^c-1))
-    (a,b,c) := toSequence decomposeFraction( p, t );
+    return (0 == compareFPT(t/1, f));
+);
 
-    -- sigma
-    a1 := if c == 0 then a-1 else floor( (a-1)/(p^c-1) );
-    Sigma := if c == 0 then sigma(f,p-1,1) else sigma(f,(a-1)%(p^c-1)+1,c);
-    if o.Verbose then print "\nSigma Computed";
-
-    if not isSubset( ideal 1_R, frobeniusRoot(b,a1,f,Sigma) ) then
-        return false;
-
-    if o.Verbose then print "\nWe know t <= FPT";
-
-    -- Higher tau
-    a2 := if c == 0 then a else floor( a /(p^c-1) );
-    Tau := if c == 0 then ideal 1_R else testIdeal( fracPart(a/(p^c-1)), f );
-    if o.Verbose then print "\nHigher tau Computed";
-
-    not isSubset( ideal 1_R, frobeniusRoot(b,a2,f,Tau) )
-)
-
-isFPT ( ZZ, RingElement ) := o -> ( t, f ) -> isFPT( t/1, f, o )
 
 -- isFJumpingExponent determines if a given rational number is an
 -- F-jumping exponent
@@ -726,60 +703,107 @@ isFPT ( ZZ, RingElement ) := o -> ( t, f ) -> isFPT( t/1, f, o )
 --This needs to be speeded up, like the above function
 --***************************************************************************
 
-isFJumpingExponent = method( Options => {Verbose=> false} )
+isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
 
-isFJumpingExponent ( QQ, RingElement ) := o -> ( t, f ) ->
+isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->
 (
-    if not isPolynomialOverFiniteField f  then
-        error "isFJumpingExponent: expected a polynomial with coefficients in a finite field";
-    p := char ring f;
-    --this writes t = a/(p^b(p^c-1))
-    (a,b,c) := toSequence decomposeFraction( p, t );
-    Tau := frobeniusRoot( b, testIdeal( t*p^b, f ) );
-    if o.Verbose then print "\nHigher tau Computed";
+    --first we gather background info on the ring (QGorenstein generators, etc.)
+    R1 := ring f;
+    if (class(R1) === PolynomialRing) then return isFJumpingExponentPoly(t, f);
+    S1 := ambient R1;
+    I1 := ideal R1;
+    canIdeal := canonicalIdeal(R1);
+    pp := char R1;
+    cartIndex := 0;
+    fList := {f};
+    tList := {t};
+    computedTau := null;
+    computedHSLG := null;
+    --computedTau := ideal(sub(0, R1));
 
-    local Sigma;
-    if c == 0 then
-        Sigma = frobeniusRoot( b, ideal( f^(a-1) ) * sigma( f, p-1, 1 ) )
-    else Sigma = frobeniusRoot( b, sigma( f, a, c ) );
-    if o.Verbose then print "\nSigma Computed";
+    if (o.QGorensteinIndex > 0) then (
+        cartIndex = o.QGorensteinIndex;
+    )
+    else (
+        cartIndex = getDivisorIndex(o.MaxCartierIndex, canIdeal);
+    );
+    h1 := sub(0, S1);
+    --first we do a quick check to see if the test ideal is easy to compute
+    if ((pp-1)%cartIndex == 0) then (
+        J1 := testElement( R1 );
+        try (h1 = QGorensteinGenerator( 1, R1)) then (
+            computedTau = testModule(tList, fList, ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
+        ) else (
+             h1 = sub(0, S1);
+        )
+    )
+    else(--there should be an algorithm that works here
+        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
+    );
 
-    -- if sigma is not contained in tau, this is an F-jumping number
-    not isSubset( Sigma, Tau )
+    --now compute the test ideal in the general way (if the index does not divide...)
+    if (not (computedTau === null)) then ( --this code will be enabled eventually
+        gg := first first entries gens trim canIdeal;
+        dualCanIdeal := (ideal(gg) : canIdeal);
+        nMinusKX := reflexivePower(cartIndex, dualCanIdeal);
+        gensList := first entries gens trim nMinusKX;
+
+        runningIdeal := ideal(sub(0, R1));
+        omegaAmb := sub(canIdeal, S1) + ideal(R1);
+        u1 := (frobeniusTraceOnCanonicalModule(I1, omegaAmb));
+
+        t2 := append(tList, 1/cartIndex);
+        f2 := fList;
+
+        for x in gensList do (
+            f2 = append(fList, x);
+            runningIdeal = runningIdeal + (testModule(t2, f2, canIdeal, u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain))#0;
+        );
+
+        newDenom := reflexify(canIdeal*dualCanIdeal);
+        computedTau = (runningIdeal*R1) : newDenom;
+    );
+    --now we have to run the sigma computation
+    if (not (h1 == (sub(0, R1)))) then (
+        baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
+        decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
+        a1 := decomposedExponent#0;
+        b1 := decomposedExponent#1;
+        c1 := decomposedExponent#2;
+        computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+        computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+
+    )
+    else(--there should be an algorithm that works here
+        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
+    );
+    return (not isSubset(computedHSLG, computedTau));
 )
 
-isFJumpingExponent ( ZZ, RingElement ) := o -> ( t, f ) ->
-    isFJumpingExponent( t/1, f, o )
+isFJumpingExponentPoly = method( Options => {FrobeniusRootStrategy => Substitution} )
 
-----------------------------------------------------------------
---************************************************************--
---Functions for computing sigma                               --
---************************************************************--
-----------------------------------------------------------------
-
---Computes Non-Sharply-F-Pure ideals over polynomial rings for
--- (R, f^{a/(p^{e}-1)}), at least defined as in Fujino-Schwede-Takagi.
--- If e = 0, we treat p^e-1 as 1.
-sigma = ( f, a, e ) ->
+isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
 (
-    R := ring f;
-    p := char R;
-    m := 0;
-    s := if e == 0 then 1 else e;
-    b := if e == 0 then a*(p-1) else a;
-    if b > p^s-1 then
-    (
-	m = floor( (b-1)/(p^s-1) );
-	b = (b-1)%(p^s-1) + 1
-    );
-    newIdeal := ideal 1_R;
-    oldIdeal := ideal 0_R;
+    S1 := ring f;
+    pp := char S1;
+    cartIndex := 1;
+    fList := {f};
+    tList := {t};
+    computedTau := null;
+    computedHSLG := null;
+    --computedTau := ideal(sub(0, R1));
 
-    -- This stops after finitely many steps.
-    while newIdeal != oldIdeal do
-    (
-        oldIdeal = newIdeal;
-        newIdeal = frobeniusRoot( s, b, f, oldIdeal )
-    );
-    newIdeal * ideal( f^m )
+    h1 := sub(1, S1);
+    --first we do a quick check to see if the test ideal is easy to compute
+    computedTau = (testModule(tList, fList, ideal(sub(1, S1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>true))#0;
+
+    --now we have to run the sigma computation
+    decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
+    a1 := decomposedExponent#0;
+    b1 := decomposedExponent#1;
+    c1 := decomposedExponent#2;
+    computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+    computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+
+    return (not isSubset(computedHSLG, computedTau));
 )
