@@ -7,9 +7,9 @@ doc ///
           Text
               An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
 
-               If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession; otherwise, another method can be applied.
+              If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession; otherwise, another method can be applied.
 
-               Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
+              Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
      SeeAlso
           nu
 ///
@@ -18,7 +18,7 @@ doc ///
      Key
           ContainmentTest
      Headline
-          an option for functions nu and nuList (and mu and muList) to specify the containment test used
+          an option to specify the containment test used
      Description
           Text
                Specifies which test is used to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
@@ -33,7 +33,7 @@ doc ///
          (criticalExponentApproximation,ZZ,Ideal,Ideal)
          (criticalExponentApproximation,ZZ,RingElement,Ideal)
      Headline
-        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal.
+        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
         --\mu_I^J(p^d)/p^d or \mu_f^J(p^d)/p^d for d = 0,...,e.
      Usage
           criticalExponentApproximation(e,I,J)
