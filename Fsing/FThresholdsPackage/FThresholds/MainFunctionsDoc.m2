@@ -212,7 +212,7 @@ doc ///
 doc ///
      Key
         isFJumpingExponent
-        (isFJumpingExponent,QQ,RingElement)
+        (isFJumpingExponent,Number,RingElement)
      Headline
         Checks whether a given number is an F-jumping number
      Usage
@@ -231,7 +231,7 @@ doc ///
 doc ///
      Key
         isFPT
-        (isFPT,QQ,RingElement)
+        (isFPT,Number,RingElement)
      Headline
         Checks whether a given number is the FPT
      Usage
@@ -358,7 +358,7 @@ doc ///
      Key
           UseColonIdeals
      Headline
-          An option for nu and nuList to use colon ideals to compute nus in an iterative way. 
+          An option for nu and nuList to use colon ideals to compute nus in an iterative way.
      Description
           Text
                Valid values are {\tt true} and {\tt false}.
