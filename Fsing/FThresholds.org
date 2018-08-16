@@ -7,17 +7,14 @@
 :END:
 ** Tests: [[file:./FThresholdsPackage/FThresholds/BasicFunctionsTest.m2][BasicFunctionsTest.m2]] [0/1]
 *** TODO Start tests file
-** Functions
+** Functions [3/4]
 *** denominator
 *** numerator
 *** fracPart
-*** nontrivialPowerSet
 *** numberToPrimeFactorList
-*** properFactors (was getFactorList)
+*** allFactors
 *** findNumberBetweenWithDenom
 *** findNumberBetween
-*** carryTest
-*** firstCarry
 *** getCanVector
 *** getNumAndDenom
 *** taxicabNorm
@@ -46,13 +43,13 @@
 *** checkOptions [1/1]
 **** DONE Include tests with functions that return boolean values.
      CLOSED: [2018-08-16 Thu 08:58]
-* Main functions: [[file:./FThresholdsPackage/FThresholds/MainFunctions.m2][MainFunctions.m2]] [2/6]
+* Main functions: [[file:./FThresholdsPackage/FThresholds/MainFunctions.m2][MainFunctions.m2]] [8/12]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-** Functions [7/11]
+** Functions [8/12]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -72,7 +69,7 @@
 **** TODO Incorporate in fpt
 *** fSig
 *** isFRegularPoly
-*** fpt [4/5]
+*** fpt [5/6]
 **** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.
     CLOSED: [2018-08-14 Tue 17:31]
     Now second argument was replaced with the option DepthOfSearch
@@ -82,7 +79,9 @@
      CLOSED: [2018-08-16 Thu 09:04]
 **** DONE Check if SeachDepth is positive
      CLOSED: [2018-08-16 Thu 09:00]
-**** TODO binaryFormFPT has a template that doesn't fit the fpt function; add that template 
+**** DONE binaryFormFPT has a template that doesn't fit the fpt function; add that template 
+     CLOSED: [2018-08-16 Thu 12:22]
+**** TODO Now document that template
 *** isFPT [2/3]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:24]
@@ -95,15 +94,17 @@
      CLOSED: [2018-08-13 Mon 11:25]
 **** TODO Rewrite, so as not to assume a polynomial ring
 *** sigma (was sigmaAOverPEMinus1Poly)  
-* Special FT functions: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholds.m2][SpecialFThresholds.m2]] [0/0]
+* Special FT functions: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholds.m2][SpecialFThresholds.m2]] [4/4]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
 ** Tests: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholdsTest.m2][SpecialFThresholdsTest.m2]] 
-** Functions [3/4]
+** Functions [4/4]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
+*** carryTest
+*** firstCarry
 *** diagonalFPT
 *** factorOurMonomial
 *** monomialFactor
@@ -123,8 +124,9 @@
 *** isCP
 *** findCPBelow
 *** binaryFormFPTInternal
-*** binaryFormFPT [3/4]
-**** TODO Replace PrintCP with a Verbose option
+*** binaryFormFPT [4/4]
+**** DONE Replace PrintCP with a Verbose option
+     CLOSED: [2018-08-16 Thu 12:21]
 **** DONE Get rid of MaxExp
      CLOSED: [2018-08-16 Thu 11:53]
 **** DONE Check for proper way to define ring

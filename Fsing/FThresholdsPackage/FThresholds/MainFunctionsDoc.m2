@@ -119,7 +119,7 @@ doc ///
          m:List
              A list of positive integers
          UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
+             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
