@@ -63,7 +63,7 @@ doc ///
              This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
 	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
 
-	 Example
+         Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
@@ -75,63 +75,63 @@ doc ///
 doc ///
      Key
          fpt
-	        (fpt, RingElement)
-	        [fpt, FRegularityCheck]
-	        [fpt, NuCheck]
-	        [fpt, UseSpecialAlgorithms]
-	        [fpt, SearchDepth]
+         (fpt, RingElement)
+         [fpt, FRegularityCheck]
+         [fpt, NuCheck]
+         [fpt, UseSpecialAlgorithms]
+         [fpt, SearchDepth]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
-          fpt(f)
+         fpt(f)
      Inputs
-        f:RingElement
-	    a polynomial with coefficients in a finite field
-        UseSpecialAlgorithms => Boolean
-            specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
-        FRegularityCheck => Boolean
-            specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
-    	NuCheck => Boolean
-            specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt SearchDepth} and $\nu=\nu_f(p^e)$
-        SearchDepth => ZZ
-            specifies the power of the characteristic to be used in a search for the F-pure threshold
+         f:RingElement
+             a polynomial with coefficients in a finite field
+         UseSpecialAlgorithms => Boolean
+             specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
+         FRegularityCheck => Boolean
+             specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
+         NuCheck => Boolean
+             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt SearchDepth} and $\nu=\nu_f(p^e)$
+         SearchDepth => ZZ
+             specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
         :List
-	    which contains the endpoints of an interval containing the $F$-pure threshold of $f$
+            which contains the endpoints of an interval containing the $F$-pure threshold of $f$
         Q:QQ
-	    the $F$-pure threshold of $f$
+            the $F$-pure threshold of $f$
      Description
           Text
               This function tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
-	      Otherwise, it returns an interval containing the $F$-pure threshold.
-	 Example
-	     ZZ/5[x,y,z];
-             fpt( x^3+y^3+z^3+x*y*z )
-             fpt( x^5+y^6+z^7+(x*y*z)^3 )
-	 Text
-	      If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
-	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
-	 Example
-	     fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
-	     fpt( x^2*y^6*z^10+x^10*y^5*z^3 ) -- a binomial
-	     ZZ/5[x,y];
-	     fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
+              Otherwise, it returns an interval containing the $F$-pure threshold.
+         Example
+              ZZ/5[x,y,z];
+              fpt( x^3+y^3+z^3+x*y*z )
+              fpt( x^5+y^6+z^7+(x*y*z)^3 )
          Text
-	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
-	      The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
-	 Example
-	     f = x^2*(x+y)^3*(x+3*y^2)^5;
-	     fpt f
-	     fpt( f, NuCheck => false, SearchDepth => 3 )
-	     fpt( f, SearchDepth => 3 )
-	     oo == (nu(3,f)+1)/5^3
+              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
+              If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
+         Example
+             fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
+             fpt( x^2*y^6*z^10+x^10*y^5*z^3 ) -- a binomial
+             ZZ/5[x,y];
+             fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
-	      If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
+             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
+              The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
+         Example
+             f = x^2*(x+y)^3*(x+3*y^2)^5;
+             fpt f
+             fpt( f, NuCheck => false, SearchDepth => 3 )
+             fpt( f, SearchDepth => 3 )
+             oo == (nu(3,f)+1)/5^3
+         Text
+              If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
 
-	      When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
+              When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
 
-	      If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
-	      Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+              If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
+              Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
 ///
 
 doc ///
@@ -165,7 +165,7 @@ doc ///
           Text
                Enables the user to check whether the given pair is F-regular at the given maximal ideal
 	            (so that if not, the F-pure threshold can be determined from the F-signature function).
-		    Only takes on Boolean values.
+                Only takes on Boolean values.
      SeeAlso
           fpt
 ///
