@@ -47,14 +47,8 @@ doc ///
      Description
          Text
              This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
-<<<<<<< HEAD
-	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
-
-         Example
-=======
-	            the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
-	   Example
->>>>>>> 4063a99bc2977949eb802a25b7cdc927995adc6d
+             the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
+	     Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
