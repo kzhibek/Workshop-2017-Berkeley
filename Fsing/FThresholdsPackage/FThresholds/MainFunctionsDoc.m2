@@ -74,7 +74,6 @@ doc ///
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
 	 [fpt, UseSpecialAlgorithms]
-	 [fpt, DepthOfSearch]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin 
      Usage
@@ -88,8 +87,6 @@ doc ///
             specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
     	NuCheck => Boolean
             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt DepthOfSearch} and $\nu=\nu_f(p^e)$
-        DepthOfSearch => ZZ
-            specifies the power of the characteristic to be used in the search for the $F$-pure threshold
      Outputs
         :List
 	    which contains the endpoints of an interval containing the $F$-pure threshold of $f$
@@ -99,13 +96,28 @@ doc ///
           Text 
               This function tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  
 	      Otherwise, it returns an interval containing the $F$-pure threshold.
-	      
+	 Example
+             ZZ/5[x,y,z];
+             fpt( x^3+y^3+z^3+x*y*z )
+             fpt ( x^5+y^6+z^7+(x*y*z)^3 )
+	 Text     
 	      If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
 	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
-	        
-	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}.
+	 Example
+	     fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
+	     fpt( x^2*y^6*z^10+x^10*y^5*z^3 ) -- a binomial
+	     ZZ/5[x,y];
+	     fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
+         Text	        
+	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
 	      If {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either $\nu/(p^e-1)$ or $(\nu+1)/p^e$ equals the $F$-pure threshold.
-	      
+	 Example
+	     f = x^2*(x+y)^3*(x+3*y^2)^5;
+	     fpt f
+--	     fpt( f, NuCheck => false, DepthOfSearch => 3 )
+--	     fpt( f, DepthOfSearch => 3 )
+--	     oo == (nu(3,f)+1)/5^3
+         Text	      
 	      If the $F$-threshold has not been found, then it lies in the interval $(\nu/(p^e-1),(\nu+1)/p^e)$ or $[\nu/(p^e-1),(\nu+1)/p^e]$, depending on whether {\tt NuCheck} was performed.
 	      The function then uses the convexity of the $F$-signature function and a secant line argument to narrow down this interval containing the $F$-pure threshold.  
 	      

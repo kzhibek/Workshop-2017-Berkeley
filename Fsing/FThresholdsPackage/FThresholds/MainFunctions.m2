@@ -160,6 +160,9 @@ optNu := optNuList | { ComputePreviousNus => true }
 
 nuInternal = optNu >> o -> ( n, f, J ) -> 
 (
+    -- Return answer in a trivial case (per Blickle-Mustata-Smith convention)
+    if f == 0 then return toList( (n+1):0 );
+    
     -- Verify if option values are valid
     checkOptions( o,
 	{
@@ -170,28 +173,25 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	}
     );
 
-    -- Return error if f is 0
-    if f == 0 then 
-        error "nuInternal: zero is not a valid input";
-
     -- Check if f is in a polynomial ring over a finite field
     if not isPolynomialRingOverFiniteField ring f then 
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
-
-    -- decide which containment test to use, if not specified by user
+    
+    -- Setup
+    p := char ring f;
+    isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
+    searchFct := search#(o.Search);
     comTest := o.ContainmentTest;
+    -- choose appropriate containment test, if not specified by user
     if comTest === null then 
 	comTest = if instance(f, RingElement) then FrobeniusRoot 
 	    else StandardPower;
-    
-    p := char ring f;
-    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
-    theList := { nu };
-    isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
-    searchFct := search#(o.Search);
     testFct := test#(comTest);
     local N;
 
+    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
+    theList := { nu };
+    
     if not o.ComputePreviousNus then
     (
 	-- This computes nu in a non-recursive way
@@ -246,7 +246,6 @@ nuList ( ZZ, RingElement, Ideal ) := o -> ( e, I, J ) ->
 
 nuList ( ZZ, Ideal ) :=  o -> ( e, I ) -> 
     nuList( e, I, maxIdeal I, o )
-
 
 nuList ( ZZ, RingElement ) := o -> ( e, f ) -> 
     nuList( e, f, maxIdeal f, o )
@@ -353,10 +352,6 @@ fSig = ( f, a, e ) ->
      1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal( fastExponentiation( a, f ) ) ) 
 )  
 
---Determines if a pair (R, f^t) is F-regular at a prime
---ideal Q in R, where R is a polynomial ring  
-isFRegularPoly = ( f, t, Q ) -> not isSubset( testIdeal( t, f ), Q )
-
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
 -- FRegularityCheck is whether the last isFRegularPoly is run (which can take a significant amount of time). 
@@ -456,7 +451,7 @@ fpt RingElement := QQ => o -> f ->
     (
         -- Check to see if nu/(p^e-1) is the fpt
 	-- (uses the fact that there are no fpts between nu/p^e and nu/(p^e-1))
-	if not isFRegularPoly( f, n/(p^e-1), M ) then 
+	if not isFregular( n/(p^e-1), f ) then 
 	(
 	    if o.Verbose then print "\nFound answer via nu/(p^e-1)."; 
 	    return n/(p^e-1)
@@ -500,7 +495,7 @@ fpt RingElement := QQ => o -> f ->
     if o.FRegularityCheck then 
     (
 	if o.Verbose then print "\nStarting final check ..."; 
-        if not isFRegularPoly( f, a, M ) then 
+        if not isFregular( a, f ) then 
         (	
 	   if o.Verbose then 
 	       print "\nFinal check successful; fpt is the F-signature intercept."; 

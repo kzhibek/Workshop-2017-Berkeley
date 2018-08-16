@@ -62,7 +62,6 @@ export{
     "BinaryRecursive", 
     "ComputePreviousNus", 
     "criticalExponentApproximation",
-    "DepthOfSearch",
     "fpt",   
     "fptApproximation", 
     "fptGuessList", --Karl (probably should be incorporated into fpt
