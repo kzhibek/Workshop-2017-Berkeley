@@ -3,4 +3,11 @@
 *.log
 *.aux
 *.dvi
+*.pdf
+*.fdb_latexmk
+*.fls
+*.gz
+*.blg
+*.out
+*.tex.backup  
 
