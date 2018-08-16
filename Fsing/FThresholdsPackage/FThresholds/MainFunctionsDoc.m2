@@ -366,7 +366,7 @@ doc ///
           an option to use colon ideals to compute nus in an iterative way
      Description
           Text
-              An option for @TO nu$ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
+              An option for @TO nu@ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
               Valid values are {\tt true} and {\tt false}.
      SeeAlso
           nu
