@@ -1,10 +1,10 @@
 --*************************************************
 --*************************************************
 --This is the revised (and cleaned up) version
---of the PosChar package, which has been under 
---continuous development since the Wake Forest 
+--of the PosChar package, which has been under
+--continuous development since the Wake Forest
 --Macaulay2 workshop of August 2012.
---Only well documented and working functions are 
+--Only well documented and working functions are
 --migrated to this package.
 --*************************************************
 --*************************************************
@@ -12,11 +12,14 @@
 --version history
 --0.2 first public version
 --0.2a added AssumeDomain options to isFregular and isFrational
-
+--protect QGorensteinIndex;
+--protect MaxCartierIndex;
+--protect DepthOfSearch;
+--protect FrobeniusPowerStrategy;
 
 newPackage( "TestIdeals",
-Version => "0.2a", 
-Date => "3/13/2018, 2018", 
+Version => "0.2a",
+Date => "3/13/2018, 2018",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -70,39 +73,39 @@ Authors => {
      HomePage => "https://witt.faculty.ku.edu"
      }
 },
-Headline => "A package for calculations of singularities in positive characteristic", 
-DebuggingMode => true, 
+Headline => "A package for calculations of singularities in positive characteristic",
+DebuggingMode => true,
 Reload => true,
 AuxiliaryFiles=>true
 )
 
 export{
---BasicFunctions (BasicFunctions.m2) 
-    "adicExpansion",    
-    "adicDigit", 	   
+--BasicFunctions (BasicFunctions.m2)
+    "adicExpansion",
+    "adicDigit",
     "adicTruncation",
     "decomposeFraction",
     "floorLog",
     "multiplicativeOrder",
     "NoZeroC", --option to force certain behavior from a function
-        
+
 --ethRootFunctions (EthRoots.m2)
     "ascendIdeal", 
     "ascendModule",
     "AscentCount",
-    "FrobeniusRootStrategy",  
-    "frobeniusRoot",  
-    "MonomialBasis",	
+    "FrobeniusRootStrategy",
+    "frobeniusRoot",
+    "MonomialBasis",
     "Substitution",
-    
+
 --Frobenius Powers (frobeniusPowers.m2)
     "fastExponentiation",
     "frobenius",
     "frobeniusPower",
     "FrobeniusPowerStrategy",
-    "Naive", 
-    "Safe", 
-    
+    "Naive",
+    "Safe",
+
 -- parameterTestIdeal.m2
     "AssumeCM", --an option for function, if true, then the function will do less work.
     "AssumeReduced", --an option telling functions to assume a ring is reduced.
@@ -116,7 +119,7 @@ export{
     "testModule", --Karl (this subsumes a bunch of older functions)
     "MTries",
     "parameterTestIdeal",
-    
+
 -- Finjective.m2
     "HSLGModule", --produces the non-F-injective module, ie the submodule of the canonical module
     "isFinjective",
@@ -132,8 +135,7 @@ export{
     "DepthOfSearch",
     "isFregular",
     "isFpure",
-    "compatibleIdeals" ---MK	   
-
+    "compatibleIdeals" ---MK
 }
 
 

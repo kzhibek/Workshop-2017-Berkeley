@@ -163,31 +163,35 @@ binomialFPT RingElement := QQ => g ->
 -- Based on the work of Hernandez and Teixeira, and implemented by Teixeira
 
 -*
-    Remark: At this point, only commands for computations of F-pure thresholds are
-    implemented. Eventually computations of F-thresholds with respect to more general
-    ideals will be implemented, and perhaps of more general polynomials. Some structures 
-    and functions below are already designed to handle such greater generality. 
+    Remark: At this point, only commands for computations of F-pure thresholds 
+    are implemented. Eventually computations of F-thresholds with respect to more
+    general ideals will be implemented, and perhaps of more general polynomials. 
+    Some structures and functions below are already designed to handle such 
+    greater generality. 
 *-
     
 -*
     Types and auxiliary commands
 *-
 
--- FTData is a HashTable that stores the data necessary in F-threshold 
--- calculations (for conveniently passing those data from one function 
--- to another). It contains the following keys:
--- "ring": the ring of the polynomial in question;
--- "char": the characteristic of ring;
--- "ideal": the ideal with respect to which we want to compute the 
---   F-threshold;
--- "gens": the generators of the ideal;
--- "polylist": a list of the (non-associated) factors of the polynomial in 
---   question;
--- "numpolys": the number of factors.
+-* 
+    FTData is a HashTable that stores the data necessary in F-threshold
+    calculations, for conveniently passing those data from one function
+    to another. 
+    It contains the following keys:
+        "ring": the ring of the polynomial in question;
+	"char": the characteristic of ring;
+	"ideal": the ideal with respect to which we want to compute the F-threshold;
+	"gens": the generators of the ideal;
+	"polylist": a list of the (pairwise prime) factors of the 
+	    polynomial in question;
+	"numpolys": the number of (pairwise prime) factors.
+*-
 FTData = new Type of HashTable
 
 -- setFTData takes a list of generators of the ideal or the ideal itself and a 
 -- list of polynomials, and builds an FTData from them.
+-- Currently, this ideal is always the homogeneous maximal ideal.
 setFTData = method( TypicalValue => FTData )
 
 setFTData ( List, List ) := FTData => ( gen, polylist ) -> 
@@ -212,17 +216,19 @@ setFTData ( Ideal, List ) := FTData => ( I, polylist ) ->
     Tests and auxiliary functions
 *-
 
--- isInUpperRegion(a,q,S)/isInUpperRegion(u,S) test if the point u=a/q is in 
--- the upper region attached to S. Suppose I is the ideal of the FTData S 
--- under consideration and L={L_1,...,L_n} is the "polylist". Then a point 
--- a/q (where a=(a_1,...,a_n) is a nonnegative integer vector and q a power 
--- of "char") is in the "upper region" if L_1^(a_1)...L_n^(a_n) is in I^[q]; 
--- otherwise it is in the lower region.
+-*
+    isInUpperRegion(a,q,S)/isInUpperRegion(u,S) test if the point u=a/q is in 
+    the upper region attached to S. Suppose I is the ideal of the FTData S 
+    under consideration and L={L_1,...,L_n} is the "polylist". Then a point 
+    a/q (where a=(a_1,...,a_n) is a nonnegative integer vector and q a power 
+    of "char") is in the "upper region" if L_1^(a_1)...L_n^(a_n) is in I^[q]; 
+    otherwise it is in the lower region.
+*-
 isInUpperRegion = method( TypicalValue => Boolean )
 
 isInUpperRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
 (
-    frob := ideal apply( S#"gens", f -> f^q );
+    frob := frobeniusPower( q, S#"ideal" );
     F := product( a, S#"polylist", (i,f) -> fastExponentiation(i,f) );
     (F % frob) == 0
 )
@@ -230,8 +236,10 @@ isInUpperRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) ->
 isInUpperRegion ( List, FTData ) := Boolean => ( u, S ) ->
     isInUpperRegion append( getNumAndDenom u, S )
 
--- isInLoweRegion(a,q,S)/isInLoweRegion(u,S) test if the point u=a/q is in 
--- the lower region attached to S.
+-*
+    isInLoweRegion(a,q,S)/isInLoweRegion(u,S) test if the point u=a/q is in 
+    the lower region attached to S.
+*-
 isInLowerRegion = method( TypicalValue => Boolean )
 
 isInLowerRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
@@ -240,11 +248,13 @@ isInLowerRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) ->
 isInLowerRegion ( List, FTData ) := Boolean => ( u, S ) -> 
     not isInUpperRegion( u, S )
 
--- neighborInUpperRegion(a,q,S)/neighborInUpperRegion(u,S): auxiliary commands 
--- that, given a point u=a/q in the upper region, try to find a "neighbor" of 
--- the form (a-e_i)/q that also lies in the upper region. If the search is 
--- successful, they return the first such neighbor found; otherwise they 
--- return nothing.
+-*
+   neighborInUpperRegion(a,q,S)/neighborInUpperRegion(u,S): auxiliary functions 
+   that, given a point u=a/q in the upper region, try to find a "neighbor" of 
+   the form (a-e_i)/q that also lies in the upper region. If the search is 
+   successful, they return the first such neighbor found; otherwise they 
+   return nothing.
+*-
 neighborInUpperRegion = method( TypicalValue => Sequence )
 
 neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
@@ -252,22 +262,15 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
     if isInLowerRegion( a, q, S ) then 
         error "neighborInUpperRegion: expected point in the upper region";
     n := S#"numpolys";
-    posEntries := positions( a, k -> k>0 );
-    found := false;
-    i := 0;
+    posEntries := positions( a, k -> k > 0 );
     local candidate;
-    local neighbor;
-    while (not found) and i < #posEntries do 
-    (
-	candidate = a - canVector( posEntries_i, n );
-	if isInUpperRegion( candidate, q, S ) then 
-	    ( 
-		found = true; 
-		neighbor = candidate 
-	    );
-	i = i+1;
+    scan( posEntries, i ->
+	(
+	    candidate = a - canVector( i, n );
+	    if isInUpperRegion( candidate, q, S ) then return candidate
+        )
     );
-    if not found then null else ( neighbor, q )
+    null
 )
 
 neighborInUpperRegion ( List, FTData ) := List => ( u, S ) -> 
@@ -276,8 +279,11 @@ neighborInUpperRegion ( List, FTData ) := List => ( u, S ) ->
     if nbr === null then nbr else (nbr_0)/(nbr_1)
 )
 
--- isCP(a,q,S)/isCP(u,S) test if u=a/q is a critical point, that is, if u is 
--- in the upper region but each neighbor (a-e_i)/q (where a_i>0) is not.
+-*
+   isCP(a,q,S)/isCP(u,S) test if u=a/q is a critical point, that is, if u is 
+   in the upper region but each neighbor (a-e_i)/q (where a_i>0) is not,
+   that is, u has no "neighbors" in the upper region.
+*-
 isCP = method( TypicalValue => Boolean )
 
 isCP ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
@@ -288,17 +294,36 @@ isCP ( List, ZZ, FTData ) := Boolean => ( a, q, S ) ->
 
 isCP ( List, FTData ) := Boolean => (u,S) -> isCP append( getNumAndDenom u, S )
 
---findCPBelow(u,S) takes a point u in the upper region attached to S and 
--- finds a critical point <= u with the same denominator.
+-- findCPBelow(u,S) takes a point u in the upper region attached to S and 
+-- finds a critical point <= u with the same denominator. This critical point
+-- always exist, but if q is large, it can take a long time to find it.
 findCPBelow = method( TypicalValue => List )
 
+-- trying a nonrecursive version, to avoid reaching recursion limit; 
+-- original commented out below.
 findCPBelow ( List, FTData ) := List => ( pt, S ) ->
 (
     if isInLowerRegion( pt, S ) then 
-        error "isInLowerFunction: the point must be in the upper region";
+        error "findCPBelow: the point must be in the upper region";
+    candidate := pt;
+    nbr := neighborInUpperRegion( pt, S );
+    while nbr =!= null do
+    ( 
+        candidate = nbr;
+	nbr = neighborInUpperRegion( candidate, S )
+    );
+    candidate
+)
+
+-*
+findCPBelow ( List, FTData ) := List => ( pt, S ) ->
+(
+    if isInLowerRegion( pt, S ) then 
+        error "findCPBelow: the point must be in the upper region";
     nbr := neighborInUpperRegion( pt, S );
     if nbr === null then return pt else findCPBelow( nbr, S )
 )
+*-
 
 -*
     Computation of FPTs
