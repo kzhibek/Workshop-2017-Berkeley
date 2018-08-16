@@ -2,12 +2,13 @@ doc ///
      Key
           UseSpecialAlgorithms
      Headline
-          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form.
+          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
      Description
           Text
-               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a
-               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies
-               specialized algorithms.  Can take on only Boolean values.
+              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
+              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+
      SeeAlso
           fpt
 ///
@@ -16,7 +17,7 @@ doc ///
      Key
           ComputePreviousNus
      Headline
-          An option for the function nu to compute nus recursively.
+          an option for the function nu to compute nus recursively
      Description
           Text
                If {\tt true}, then nu values are computed recursively, in succession; otherwise, another method can be applied.
@@ -344,7 +345,7 @@ doc ///
      Key
           Search
      Headline
-          An option for the functions nu and nuList
+          an option for the functions nu and nuList
      Description
           Text
                Lets user specify the order in which ideal containment of powers are computed. Valid values are
@@ -358,7 +359,7 @@ doc ///
      Key
           UseColonIdeals
      Headline
-          An option for nu and nuList to use colon ideals to compute nus in an iterative way. 
+          an option for nu and nuList to use colon ideals to compute nus in an iterative way
      Description
           Text
                Valid values are {\tt true} and {\tt false}.
