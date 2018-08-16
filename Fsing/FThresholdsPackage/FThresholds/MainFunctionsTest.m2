@@ -1,5 +1,5 @@
 TEST ///
---cusp test
+--cusp tests
 ZZ/11[x,y];
 f = x^3+y^2;
 --
@@ -53,7 +53,7 @@ assert(fptApproximation(2,f)=={0,6/37,256/1369})
 
 --Below, our computations are based on results in the paper
 --"Frobenius Powers of some monomial ideals" by Hernandez, Teixeira, Witt
---
+--test 1
 ZZ/5[x,y];
 M=ideal(x,y);
 D=ideal(x^3,y^3);
@@ -63,7 +63,7 @@ assert(criticalExponentApproximation(2,M^3,M)=={0,2/5,14/25})
 assert(criticalExponentApproximation(1,D,M)=={0,2/5})
 assert(criticalExponentApproximation(2,D,M)=={0,2/5,14/25})
 
---
+--test 2
 ZZ/7[x,y];
 M=ideal(x,y);
 D=ideal(x^4,y^4);
@@ -81,7 +81,7 @@ assert(ftApproximation(1,g,I)=={0,4/7})
 assert(ftApproximation(2,g,I)=={0,4/7,34/49})
 
 
---test
+--Here, we test F-pure threshold approximation computations for polynomials
 ZZ/5[x,y,z];
 f = 2*x^7*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4;
 --

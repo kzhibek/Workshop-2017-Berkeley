@@ -43,7 +43,8 @@ doc ///
          (criticalExponentApproximation,ZZ,Ideal,Ideal)
          (criticalExponentApproximation,ZZ,RingElement,Ideal)
      Headline
-        gives a list of \mu_I^J(p^d)/p^d or \mu_f^J(p^d)/p^d for d = 0,...,e.
+        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal.
+        --\mu_I^J(p^d)/p^d or \mu_f^J(p^d)/p^d for d = 0,...,e.
      Usage
           criticalExponentApproximation(e,I,J)
           criticalExponentApproximation(e,f,J)
@@ -58,12 +59,13 @@ doc ///
          Text
              This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
 	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
+
 	 Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
-             f = x^2 + y^3;
              m = ideal(x,y);
              criticalExponentApproximation(2,I,m)
+             f = x^2 + y^3;
              criticalExponentApproximation(2,f,m)
 ///
 
@@ -103,7 +105,7 @@ doc ///
 	     ZZ/5[x,y,z];
              fpt( x^3+y^3+z^3+x*y*z )
              fpt( x^5+y^6+z^7+(x*y*z)^3 )
-	 Text     
+	 Text
 	      If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
 	      If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
 	 Example
@@ -111,7 +113,7 @@ doc ///
 	     fpt( x^2*y^6*z^10+x^10*y^5*z^3 ) -- a binomial
 	     ZZ/5[x,y];
 	     fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
-         Text	        
+         Text
 	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
 	      The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
 	 Example
@@ -120,7 +122,7 @@ doc ///
 	     fpt( f, NuCheck => false, SearchDepth => 3 )
 	     fpt( f, SearchDepth => 3 )
 	     oo == (nu(3,f)+1)/5^3
-         Text	      
+         Text
 	      If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
 
 	      When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
@@ -356,7 +358,7 @@ doc ///
      Key
           UseColonIdeals
      Headline
-          An option for nu and nuList
+          An option for nu and nuList to use colon ideals to compute nus in an iterative way. 
      Description
           Text
                Valid values are {\tt true} and {\tt false}.

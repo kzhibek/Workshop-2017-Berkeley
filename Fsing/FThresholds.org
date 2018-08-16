@@ -1,7 +1,7 @@
 #+TITLE: F-Thresholds Package
 
 * Master file: [[file:./FThresholdsPackage/FThresholds.m2][FThresholds.m2]]
-* Basic functions: [[file:./FThresholdsPackage/FThresholds/BasicFunctions.m2][BasicFunctions.m2]] [2/5]
+* Basic functions: [[file:./FThresholdsPackage/FThresholds/BasicFunctions.m2][BasicFunctions.m2]] [3/5]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -43,13 +43,16 @@
 **** TODO Determine to what class of polynomials this applies
 **** DONE Move to BasicFunctions
      CLOSED: [2018-08-13 Mon 11:40]
+*** checkOptions [1/1]
+**** DONE Include tests with functions that return boolean values.
+     CLOSED: [2018-08-16 Thu 08:58]
 * Main functions: [[file:./FThresholdsPackage/FThresholds/MainFunctions.m2][MainFunctions.m2]] [2/6]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-** Functions [3/7]
+** Functions [7/11]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -69,8 +72,17 @@
 **** TODO Incorporate in fpt
 *** fSig
 *** isFRegularPoly
-*** fpt
-**** TODO Check if SeachDepth is positive
+*** fpt [4/5]
+**** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.
+    CLOSED: [2018-08-14 Tue 17:31]
+    Now second argument was replaced with the option DepthOfSearch
+**** DONE Alternatively, the exponent e could be an option value (if you pass this option, fpt will try the nu computations and everything after; if not, then it won't).
+     CLOSED: [2018-08-16 Thu 09:05]
+**** DONE Maybe DiagonalCheck, BinomialCheck, etc, is too much, and we could have only one option, say "UseSpecialAlgorithms" (default True). If set to false, it will go straight to the nu computation.
+     CLOSED: [2018-08-16 Thu 09:04]
+**** DONE Check if SeachDepth is positive
+     CLOSED: [2018-08-16 Thu 09:00]
+**** TODO binaryFormFPT has a template that doesn't fit the fpt function; add that template 
 *** isFPT [2/3]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:24]
@@ -88,7 +100,7 @@
 :COOKIE_DATA: todo recursive
 :END:
 ** Tests: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholdsTest.m2][SpecialFThresholdsTest.m2]] 
-** Functions [0/4]
+** Functions [1/4]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -111,11 +123,12 @@
 *** isCP
 *** findCPBelow
 *** binaryFormFPTInternal
-*** binaryFormFPT [0/4]
+*** binaryFormFPT [1/4]
 **** TODO Check for proper way to define ring
 **** TODO Replace PrintCP with a Verbose option
-**** TODO Replace MaxExt with DepthOfSearch
-**** TODO Replace Nontrivial with "Nontrivial"
+**** TODO Get rid of MaxExp
+**** DONE Replace Nontrivial with "Nontrivial"
+     CLOSED: [2018-08-16 Thu 09:06]
 * General TODOs, notes, questions, etc. [3/4]
 
 ** TODO Add output type to every method function 
@@ -124,9 +137,3 @@
    CLOSED: [2018-08-14 Tue 10:14]
 ** DONE Add checkOptions wherever appropriate
    CLOSED: [2018-08-14 Tue 17:30]
-** binaryFormFPT has a template that doesn't fit the fpt function 
-** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.
-   CLOSED: [2018-08-14 Tue 17:31]
-   Now second argument was replaced with the option DepthOfSearch
-** Alternatively, the exponent e could be an option value (if you pass this option, fpt will try the nu computations and everything after; if not, then it won't).
-** Maybe DiagonalCheck, BinomialCheck, etc, is too much, and we could have only one option, say "UseSpecialAlgorithms" (default True). If set to false, it will go straight to the nu computation.
