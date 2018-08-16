@@ -173,7 +173,7 @@ HSLGModule(ZZ, List, List, Ideal) :=  o-> (ee, expList, u1, canIdeal) -> (
     HSLCount := 0;
     while (not (idealIn + I1 == idealOut + I1)) do (
         idealIn = idealOut;
-        idealOut = frobeniusRoot(ee, expList, u2, idealIn, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
+        idealOut = frobeniusRoot(ee, expList, u2, idealIn + I1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
         HSLCount = HSLCount+1;
     );
     {sub(idealIn, R1), canIdeal, u1, HSLCount}

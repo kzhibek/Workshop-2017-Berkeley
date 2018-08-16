@@ -232,7 +232,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 
-nuList = method( Options => optNuList, TypicalValue => List )
+nuList = method( Options => optNuList, TypicalValue => List );
 
 nuList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
@@ -250,7 +250,7 @@ nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
 
 
-nu = method( Options => optNu, TypicalValue => ZZ )
+nu = method( Options => optNu, TypicalValue => ZZ );
 
 nu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
     last nuInternal( e, I, J, o )
@@ -265,11 +265,27 @@ nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 -- Nus can be computed using generalized Frobenius powers, by using
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
 
-muList = optNuList >> o -> x ->
-    nuList( x, o, ContainmentTest => FrobeniusPower )
+muList = method( Options => optNuList );
+muList ( ZZ, Ideal, Ideal) := o -> (e, I, J) ->
+    nuList( e, I, J, o, ContainmentTest => FrobeniusPower );
 
-mu = optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower )
+muList ( ZZ, Ideal) := o -> (e, I) ->
+    nuList( e, I, o, ContainmentTest => FrobeniusPower );
 
+muList ( ZZ, RingElement, Ideal) := o -> (e, f, J) ->
+    nuList( e, f, J, o, ContainmentTest => FrobeniusPower );
+
+muList ( ZZ, RingElement ) := o -> (e, f) ->
+    nuList( e, f, o, ContainmentTest => FrobeniusPower );
+
+mu = method( Options => optNu);
+mu ( ZZ, Ideal, Ideal) := o -> (e, I, J) -> nu( e, I, J, ContainmentTest => FrobeniusPower );
+
+mu ( ZZ, Ideal) := o -> (e, I) -> nu( e, I, ContainmentTest => FrobeniusPower );
+
+mu ( ZZ, RingElement, Ideal) := o -> (e, f, J) -> nu( e, f, J, ContainmentTest => FrobeniusPower );
+
+mu ( ZZ, RingElement) := o -> (e, f) -> nu(e, f, ContainmentTest => FrobeniusPower );
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
@@ -642,7 +658,7 @@ compareFPT(Number, RingElement) := o -> (t, f) -> (
     if (isSubset(ideal(sub(1, ambient R1)), computedTau)) then return -1;  --at this point we know that this is not the FPT
 
     --now we have to run the sigma computation
-    if (not (h1 == (sub(0, R1)))) then (
+    if (not (h1 == (sub(0, S1)))) then (
         baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
         if (not isSubset(ideal(sub(1, R1)), (baseTau#0))) then error "compareFPT: The ambient ring must be F-regular."; --the ambient isn't even F-regular
         decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
@@ -652,14 +668,14 @@ compareFPT(Number, RingElement) := o -> (t, f) -> (
         if (a1 > (pp^c1-1)) then(
             a1quot := floor( (a1-1)/(pp^c1 - 1));
             a1rem := a1 - (pp^c1-1)*a1quot;
-            computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
-            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
+            computedHSLGInitial = HSLGModule({a1rem/(pp^c1 - 1)}, {f}, baseTau#0, {h1});
+            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, sub(f, S1)}, sub(computedHSLGInitial#0, S1));
         )
         else (
             computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, sub(computedHSLGInitial#0, S1));
         );
-        if (not isSubset(ideal(sub(1, R1)), computedHSLG)) then return 1; --the fpt we picked is too small
+        if (not isSubset(ideal(sub(1, S1)), computedHSLG+I1)) then return 1; --the fpt we picked is too big
     )
     else(--there should be an algorithm that works here
         error "compareFPT:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
@@ -718,6 +734,7 @@ isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 (
     return (0 == compareFPT(t/1, f, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain, QGorensteinIndex => o.QGorensteinIndex ));
 );
+
 
 -- isFJumpingExponent determines if a given rational number is an
 -- F-jumping exponent
@@ -788,7 +805,7 @@ isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->
         computedTau = (runningIdeal*R1) : newDenom;
     );
     --now we have to run the sigma computation
-    if (not (h1 == (sub(0, R1)))) then (
+    if (not (h1 == (sub(0, S1)))) then (
         baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
         decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
         a1 := decomposedExponent#0;
@@ -798,20 +815,20 @@ isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->
             a1quot := floor( (a1-1)/(pp^c1 - 1));
             a1rem := a1 - (pp^c1-1)*a1quot;
             computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
-            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
+            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, sub(f, S1)}, sub(computedHSLGInitial#0, S1));
         )
         else (
             computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, sub(computedHSLGInitial#0, S1));
         );
     )
     else(--there should be an algorithm that works here
         error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
     );
-    return (not isSubset(computedHSLG, computedTau));
-)
+    return (not isSubset(computedHSLG, I1+sub(computedTau, S1)));
+);
 
-isFJumpingExponentPoly = method( Options => {FrobeniusRootStrategy => Substitution} )
+isFJumpingExponentPoly = method( Options => {FrobeniusRootStrategy => Substitution} );
 
 isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
 (

@@ -30,11 +30,14 @@ Authors => {
      {Name => "Sara Malec",
      Email => "malec@hood.edu"
      },
+     {Name => "Matthew Mastroeni",
+     Email => "mastroe2@illinois.edu"
+     },
      {Name => "Marcus Robinson",
      Email => "robinson@math.utah.edu"
      },
      {Name => "Karl Schwede",
-     Email => "schwede@math.utah.edu",
+      Email => "schwede@math.utah.edu",
      HomePage => "http://math.utah.edu/~schwede/"
      },
      {Name => "Dan Smolkin",
@@ -75,9 +78,9 @@ export{
     "compareFPT",
     "mu",
     "muList",
-    "nu", 
+    "nu",
     "NuCheck",
-    "nuList", 
+    "nuList",
     "Search",
     "StandardPower",
     "ContainmentTest",
