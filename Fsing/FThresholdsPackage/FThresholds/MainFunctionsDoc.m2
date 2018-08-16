@@ -143,7 +143,7 @@ doc ///
              This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$
          Example
            R = ZZ/13[x,y];
-           I = (x^2, y);
+           I = ideal(x^2, y);
            fptApproximation(2,I)
            f = x^5 + x^2*y^3;
            fptApproximation(2,f)
