@@ -266,26 +266,26 @@ nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
 
 muList = method( Options => optNuList );
-muList ( ZZ, Ideal, Ideal) := optNuList >> o -> x ->
-    nuList( x, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, Ideal, Ideal) := o -> (e, I, J) ->
+    nuList( e, I, J, o, ContainmentTest => FrobeniusPower );
 
-muList ( ZZ, Ideal) := optNuList >> o -> x ->
-    nuList( x, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, Ideal) := o -> (e, I) ->
+    nuList( e, I, o, ContainmentTest => FrobeniusPower );
 
-muList ( ZZ, RingElement, Ideal) := optNuList >> o -> x ->
-    nuList( x, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, RingElement, Ideal) := o -> (e, f, J) ->
+    nuList( e, f, J, o, ContainmentTest => FrobeniusPower );
 
-muList ( ZZ, RingElement ) := optNuList >> o -> x ->
-    nuList( x, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, RingElement ) := o -> (e, f) ->
+    nuList( e, f, o, ContainmentTest => FrobeniusPower );
 
 mu = method( Options => optNu);
-mu ( ZZ, Ideal, Ideal) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+mu ( ZZ, Ideal, Ideal) := o -> (e, I, J) -> nu( e, I, J, ContainmentTest => FrobeniusPower );
 
-mu ( ZZ, Ideal) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+mu ( ZZ, Ideal) := o -> (e, I) -> nu( e, I, ContainmentTest => FrobeniusPower );
 
-mu ( ZZ, RingElement, Ideal) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+mu ( ZZ, RingElement, Ideal) := o -> (e, f, J) -> nu( e, f, J, ContainmentTest => FrobeniusPower );
 
-mu ( ZZ, RingElement) := optNu >> o -> x -> nu( x, o, ContainmentTest => FrobeniusPower );
+mu ( ZZ, RingElement) := o -> (e, f) -> nu(e, f, ContainmentTest => FrobeniusPower );
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
