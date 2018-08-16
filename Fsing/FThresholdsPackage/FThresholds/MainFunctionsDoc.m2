@@ -20,6 +20,25 @@ doc ///
             This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
             It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
             Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
+        Example
+            R = ZZ/7[x,y];
+            f = y^2-x^3;
+            compareFPT(1/2, f)
+            compareFPT(5/6, f)
+            compareFPT(6/7, f)
+        Text
+            This function can also check the FPT in singular (but still strongly $F$-regular) ring,
+            so long as the ring is also Q-Gorenstein of index dividing $p-1$.  In the future we hope
+            that this functionality will be extended to all Q-Gorenstein rings.  In the following exam,
+            $x$ defines a Cartier divisor which is twice one of the rulings of the cone.  
+        Example
+             R = ZZ/5[x,y,z]/ideal(x*y-z^2);
+             f = x;
+             compareFPT(1/3, f)
+             compareFPT(1/2, f)
+             compareFPT(13/25, f)
+    SeeAlso
+        isFPT
 ///
 
 doc ///
