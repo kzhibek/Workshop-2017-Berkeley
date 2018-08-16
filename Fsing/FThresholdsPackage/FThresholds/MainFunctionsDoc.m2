@@ -137,7 +137,7 @@ doc ///
               If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
 
-              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, the function {\tt fpt(L, m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$. 
+              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, the function {\tt fpt(L, m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$.
 
          Example
               S = ZZ/5[x,y]
@@ -223,7 +223,7 @@ doc ///
               J = ideal(x^2, y^3);
               ftApproximation(2,I,J)
               f = x^3*y^2+x^5*y;
-              fptApproximation(2,f,J)
+              ftApproximation(2,f,J)
 ///
 
 doc ///
