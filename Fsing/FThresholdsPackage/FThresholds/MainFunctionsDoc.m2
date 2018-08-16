@@ -74,7 +74,7 @@ doc ///
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
 	 [fpt, UseSpecialAlgorithms]
---	 [fpt, DepthOfSearch]
+	 [fpt, SearchDepth]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
@@ -87,7 +87,9 @@ doc ///
         FRegularityCheck => Boolean
             specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
     	NuCheck => Boolean
-            specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt DepthOfSearch} and $\nu=\nu_f(p^e)$
+            specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt SearchDepth} and $\nu=\nu_f(p^e)$
+        SearchDepth => ZZ
+            specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
         :List
 	    which contains the endpoints of an interval containing the $F$-pure threshold of $f$
@@ -98,7 +100,7 @@ doc ///
               This function tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
 	      Otherwise, it returns an interval containing the $F$-pure threshold.
 	 Example
-             ZZ/5[x,y,z];
+	     ZZ/5[x,y,z];
              fpt( x^3+y^3+z^3+x*y*z )
              fpt ( x^5+y^6+z^7+(x*y*z)^3 )
 	 Text     
@@ -115,12 +117,12 @@ doc ///
 	 Example
 	     f = x^2*(x+y)^3*(x+3*y^2)^5;
 	     fpt f
---	     fpt( f, NuCheck => false, DepthOfSearch => 3 )
---	     fpt( f, DepthOfSearch => 3 )
---	     oo == (nu(3,f)+1)/5^3
+	     fpt( f, NuCheck => false, SearchDepth => 3 )
+	     fpt( f, SearchDepth => 3 )
+	     oo == (nu(3,f)+1)/5^3
          Text	      
-	      If the $F$-threshold has not been found, then it lies in the interval $(\nu/(p^e-1),(\nu+1)/p^e)$ or $[\nu/(p^e-1),(\nu+1)/p^e]$, depending on whether {\tt NuCheck} was performed.
-	      The function then uses the convexity of the $F$-signature function and a secant line argument to narrow down this interval containing the $F$-pure threshold.
+	      The $F$-pure threshold of $f$ is known to lie in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], or in the open interval ($\nu/(p^e-1),(\nu+1)/p^e$), if {\tt NuCheck} was performed and failed to find the exact $F$-pure threshold.
+	      The {\tt fpt} function then proceeds to uses the convexity of the $F$-signature function and a secant line argument to narrow down this interval containing the $F$-pure threshold.
 
 	      When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
 

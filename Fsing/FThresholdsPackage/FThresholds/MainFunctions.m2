@@ -362,7 +362,7 @@ fpt = method(
 	    Verbose => false,
 	    UseSpecialAlgorithms => true,
 	    NuCheck => true,
-	    DepthOfSearch => 1
+	    SearchDepth => 1
 	}
 )
 
@@ -378,7 +378,7 @@ fpt RingElement := QQ => o -> f ->
 	    Verbose => Boolean,
 	    UseSpecialAlgorithms => Boolean,
 	    NuCheck => Boolean,
-	    DepthOfSearch => ZZ
+	    SearchDepth => ZZ
 	}
     );
 
@@ -431,7 +431,7 @@ fpt RingElement := QQ => o -> f ->
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
 
     -- Compute nu(e,f)
-    e := o.DepthOfSearch;
+    e := o.SearchDepth;
     n := nu( e, f );
 
     if o.Verbose then
@@ -441,7 +441,7 @@ fpt RingElement := QQ => o -> f ->
     if n == 0 then
     (
 	if o.Verbose then
-	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option DepthOfSearch.";
+	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option SearchDepth.";
 	return { 0, 1/p^e }
     );
 

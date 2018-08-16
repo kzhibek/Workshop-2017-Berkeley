@@ -86,9 +86,8 @@
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
-** Documentation: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholdsDoc.m2][SpecialFThresholdsDoc.m2]]
 ** Tests: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholdsTest.m2][SpecialFThresholdsTest.m2]] 
-** Functions [0/2]
+** Functions [0/4]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -111,10 +110,11 @@
 *** isCP
 *** findCPBelow
 *** binaryFormFPTInternal
-*** binaryFormFPT [0/2]
+*** binaryFormFPT [0/4]
 **** TODO Check for proper way to define ring
-**** TODO Remove options MaxExp and PrintCP
-
+**** TODO Replace PrintCP with a Verbose option
+**** TODO Replace MaxExt with DepthOfSearch
+**** TODO Replace Nontrivial with "Nontrivial"
 * General TODOs, notes, questions, etc. [3/4]
 
 ** TODO Add output type to every method function 
