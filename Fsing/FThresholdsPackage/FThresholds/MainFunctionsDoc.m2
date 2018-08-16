@@ -2,12 +2,13 @@ doc ///
      Key
           UseSpecialAlgorithms
      Headline
-          An option for the function fpt to check whether the input is a diagonal, binomial, or binary form.
+          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
      Description
           Text
-               Default value for fpt is {\tt true}.  If {\tt true}, the function fpt first checks whether the input is a
-               diagonal, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is, the function fpt applies
-               specialized algorithms.  Can take on only Boolean values.
+              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
+              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+
      SeeAlso
           fpt
 ///
@@ -16,11 +17,12 @@ doc ///
      Key
           ComputePreviousNus
      Headline
-          An option for the function nu to compute nus recursively.
+          an option for the function nu (and mu) to compute values recursively
      Description
           Text
-               If {\tt true}, then nu values are computed recursively, in succession; otherwise, another method can be applied.
-	       Can take on only Boolean values. Default value for nu and nuList is {\tt true}.
+               If {\tt true}, then $\nu$-values (or $\mu$-values) are computed recursively, in succession; otherwise, another method can be applied.
+
+               Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
      SeeAlso
           nu
 ///
@@ -29,12 +31,13 @@ doc ///
      Key
           ContainmentTest
      Headline
-          An option for functions nu and nuList to specify containment test used.
+          an option for functions nu and nuList (and mu and muList) to specify the containment test used
      Description
           Text
-               Specifies which test you use to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
-	       {\tt FrobeniusRoot}, and {\tt StandardPower}.  Default for nu and nuList applied to a polynomial is {\tt FrobeniusRoot},
-	       and applied to an ideal is {\tt StandardPower}.
+               Specifies which test is used to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
+	             {\tt FrobeniusRoot}, and {\tt StandardPower}.  Default for @TO nu@ and @TO nuList@
+               (and @TO mu@ and @TO muList@) applied to a polynomial is {\tt FrobeniusRoot},
+	             and applied to an ideal is {\tt StandardPower}.
 ///
 
 doc ///
@@ -256,10 +259,10 @@ doc ///
          (nu,ZZ,Ideal)
          (nu,ZZ,RingElement,Ideal)
          (nu,ZZ,RingElement)
---         [nu, ComputePreviousNus]
---         [nu, ContainmentTest]
---         [nu, Search]
---         [nu, UseColonIdeals]
+         [nu, ComputePreviousNus]
+         [nu, ContainmentTest]
+         [nu, Search]
+         [nu, UseColonIdeals]
      Headline
         Gives $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
@@ -313,9 +316,9 @@ doc ///
          (nuList,ZZ,Ideal)
          (nuList,ZZ,RingElement,Ideal)
          (nuList,ZZ,RingElement)
---         [nuList, ContainmentTest]
---         [nuList, Search]
---         [nuList, UseColonIdeals]
+         [nuList, ContainmentTest]
+         [nuList, Search]
+         [nuList, UseColonIdeals]
      Headline
           Lists $\nu_I^J(p^d)$ or $\nu_f^J(p^d)$ for d = 1,...,e
      Usage
@@ -344,7 +347,7 @@ doc ///
      Key
           Search
      Headline
-          An option for the functions nu and nuList
+          an option for the functions nu and nuList
      Description
           Text
                Lets user specify the order in which ideal containment of powers are computed. Valid values are
@@ -358,7 +361,7 @@ doc ///
      Key
           UseColonIdeals
      Headline
-          An option for nu and nuList to use colon ideals to compute nus in an iterative way.
+          an option for nu and nuList to use colon ideals to compute nus in an iterative way
      Description
           Text
                Valid values are {\tt true} and {\tt false}.
