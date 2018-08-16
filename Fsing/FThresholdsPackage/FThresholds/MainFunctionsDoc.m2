@@ -7,7 +7,7 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        checks whether a given number is less than, greater than, or equal to the $F$-pure threshold
+        checks whether a given number is less than, greater than, or equal to the F-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
@@ -50,6 +50,7 @@ doc ///
               Can take on only Boolean values. Default value is {\tt true}.
      SeeAlso
           nu
+          mu
 ///
 
 doc ///
@@ -84,18 +85,22 @@ doc ///
      Outputs
          :List
      Description
-         Text
+          Text
              This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
 
-             As $d$ approaches $\infty$,
-	            the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
-	       Example
+             As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
+          Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
              criticalExponentApproximation(2,I,m)
              f = x^2 + y^3;
              criticalExponentApproximation(2,f,m)
+      SeeAlso
+          ftApproximation
+          fptApproximation
+          mu
+          muList
 ///
 
 doc ///
@@ -172,7 +177,10 @@ doc ///
               m = {2, 3}
               fpt(L, m)
               oo == fpt( (x+y)^2*(x+2*y)^3)
-
+        SeeAlso
+                  fptApproximation
+                  nu
+                  nuList
 ///
 
 doc ///
@@ -181,7 +189,7 @@ doc ///
          (fptApproximation,ZZ,Ideal)
          (fptApproximation,ZZ,RingElement)
      Headline
-         Gives a list of terms in the sequence whose limit defines the F-pure threshold
+         gives a list of terms in the sequence whose limit defines the F-pure threshold
      Usage
           fptApproximation(e,I)
           fptApproximation(e,f)
@@ -202,6 +210,12 @@ doc ///
            fptApproximation(2,I)
            f = x^5 + x^2*y^3;
            fptApproximation(2,f)
+     SeeAlso
+        fpt
+        ftApproximation
+        nu
+        nuList
+        criticalExponentApproximation
 ///
 
 
@@ -209,7 +223,7 @@ doc ///
      Key
           FRegularityCheck
      Headline
-          An option to use an F-regularity check to find an F-pure threshold
+          an option to use an F-regularity check to find an F-pure threshold
      Description
           Text
               This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
@@ -230,7 +244,7 @@ doc ///
          (ftApproximation,ZZ,Ideal,Ideal)
          (ftApproximation,ZZ,RingElement,Ideal)
      Headline
-         Gives a list of terms in the sequence whose limit defines an F-threshold
+         gives a list of terms in the sequence whose limit defines an F-threshold
      Usage
          ftApproximation(e,I,J)
          ftApproximation(e,f,J)
