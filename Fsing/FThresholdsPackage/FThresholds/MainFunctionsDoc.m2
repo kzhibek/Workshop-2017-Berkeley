@@ -264,6 +264,10 @@ doc ///
      Key
         isFJumpingExponent
         (isFJumpingExponent,Number,RingElement)
+        [isFJumpingExponent, AssumeDomain]
+        [isFJumpingExponent, FrobeniusRootStrategy]
+        [isFJumpingExponent, MaxCartierIndex]
+        [isFJumpingExponent, QGorensteinIndex]
      Headline
         Checks whether a given number is an F-jumping number
      Usage
@@ -272,6 +276,10 @@ doc ///
          t:QQ
          f:RingElement
          V:Boolean
+         AssumeDomain => Boolean
+         FrobeniusRootStrategy => Symbol
+         MaxCartierIndex => ZZ
+         QGorensteinIndex => ZZ
      Outputs
         :Boolean
      Description
