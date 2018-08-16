@@ -1,12 +1,25 @@
 doc ///
     Key
         compareFPT
+        (compareFPT, Number, RingElement)
         [compareFPT, MaxCartierIndex]
         [compareFPT, FrobeniusRootStrategy]
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        a function  for checking whether a given number is less than, equal to, or greater than the FPT
+        checks whether a given number is less than, greater than or equal to the FPT
+    Usage
+        compareFPT(t, f)
+    Inputs
+        t:QQ
+        f:RingElement
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+    Description
+        Text
+            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
+            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
+            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
 ///
 
 doc ///
@@ -282,29 +295,7 @@ doc ///
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
 ///
 
-doc ///
-    Key
-        compareFPT
-        (compareFPT, Number, RingElement)
-        [compareFPT, MaxCartierIndex]
-        [compareFPT, FrobeniusRootStrategy]
-        [compareFPT, AssumeDomain]
-        [compareFPT, QGorensteinIndex]
-    Headline
-        checks whether a given number is less than, greater than or equal to the FPT
-    Usage
-        compareFPT(t, f)
-    Inputs
-        t:QQ
-        f:RingElement
-        FrobeniusRootStrategy => Symbol
-            an option passed to computations in the TestIdeals package
-    Description
-        Text
-            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
-            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
-            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
-///
+
 
 
 doc ///
