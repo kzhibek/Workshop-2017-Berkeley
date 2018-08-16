@@ -1,4 +1,41 @@
 doc ///
+    Key
+        compareFPT
+        (compareFPT, Number, RingElement)
+        [compareFPT, MaxCartierIndex]
+        [compareFPT, FrobeniusRootStrategy]
+        [compareFPT, AssumeDomain]
+        [compareFPT, QGorensteinIndex]
+    Headline
+        checks whether a given number is less than, greater than or equal to the FPT
+    Usage
+        compareFPT(t, f)
+    Inputs
+        t:QQ
+        f:RingElement
+            an element of a $\mathbb{Q}$-Gorenstein ring
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+        AssumeDomain => Boolean
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
+    Description
+        Text
+            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
+            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
+            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
+
+            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
+
+            Let $R$ be the ambient ring of $f$.  If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+
+///
+
+doc ///
      Key
           ComputePreviousNus
      Headline
@@ -48,9 +85,11 @@ doc ///
          :List
      Description
          Text
-             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.  As $d$ approaches $\infty$,
-	            the sequence of these terms converges to the critical exponent of $I$, or $f$, with respect to $J$.
-	     Example
+             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
+
+             As $d$ approaches $\infty$,
+	            the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
+	       Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
@@ -62,25 +101,30 @@ doc ///
 doc ///
      Key
          fpt
-         (fpt, RingElement)
-         [fpt, FRegularityCheck]
-         [fpt, NuCheck]
-         [fpt, UseSpecialAlgorithms]
-         [fpt, SearchDepth]
+	 (fpt, RingElement)
+	 [fpt, FRegularityCheck]
+	 [fpt, NuCheck]
+	 [fpt, UseSpecialAlgorithms]
+	 [fpt, DepthOfSearch]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
          fpt(f)
+         fpt(L, m)
      Inputs
          f:RingElement
              a polynomial with coefficients in a finite field
+         L:List
+             A list of linear forms in two variables
+         m:List
+             A list of positive integers
          UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
+             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
-             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt SearchDepth} and $\nu=\nu_f(p^e)$
-         SearchDepth => ZZ
+             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt DepthOfSearch} and $\nu=\nu_f(p^e)$
+         DepthOfSearch => ZZ
              specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
         :List
@@ -89,7 +133,7 @@ doc ///
             the $F$-pure threshold of $f$
      Description
           Text
-              This function tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
+              The function {\tt fpt(f)} tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
               Otherwise, it returns an interval containing the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
@@ -104,13 +148,13 @@ doc ///
              ZZ/5[x,y];
              fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
-             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
+             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to 1.
               The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
          Example
              f = x^2*(x+y)^3*(x+3*y^2)^5;
              fpt f
-             fpt( f, NuCheck => false, SearchDepth => 3 )
-             fpt( f, SearchDepth => 3 )
+             fpt( f, NuCheck => false, DepthOfSearch => 3 )
+             fpt( f, DepthOfSearch => 3 )
              oo == (nu(3,f)+1)/5^3
          Text
               If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
@@ -119,6 +163,16 @@ doc ///
 
               If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+
+              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, the function {\tt fpt(L, m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$.
+
+         Example
+              S = ZZ/5[x,y]
+              L = {x+y, x+2*y}
+              m = {2, 3}
+              fpt(L, m)
+              oo == fpt( (x+y)^2*(x+2*y)^3)
+
 ///
 
 doc ///
@@ -127,7 +181,7 @@ doc ///
          (fptApproximation,ZZ,Ideal)
          (fptApproximation,ZZ,RingElement)
      Headline
-         Gives a list of terms in the sequence whose limit is the F-pure threshold
+         Gives a list of terms in the sequence whose limit defines the F-pure threshold
      Usage
           fptApproximation(e,I)
           fptApproximation(e,f)
@@ -139,8 +193,9 @@ doc ///
          :List
      Description
          Text
-             This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$.
-             This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$
+             This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
+
+             This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
            R = ZZ/13[x,y];
            I = ideal(x^2, y);
@@ -161,9 +216,9 @@ doc ///
               at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
 		          Only takes on Boolean values.
 
-               Enables the user to check whether the given pair is F-regular at the given maximal ideal
+              Enables the user to check whether the given pair is F-regular at the given maximal ideal
 	            (so that if not, the F-pure threshold can be determined from the F-signature function).
-                Only takes on Boolean values.
+              Only takes on Boolean values.
      SeeAlso
           fpt
 ///
@@ -175,7 +230,7 @@ doc ///
          (ftApproximation,ZZ,Ideal,Ideal)
          (ftApproximation,ZZ,RingElement,Ideal)
      Headline
-         Gives a list of terms in the sequence whose limit is an F-threshold
+         Gives a list of terms in the sequence whose limit defines an F-threshold
      Usage
          ftApproximation(e,I,J)
          ftApproximation(e,f,J)
@@ -188,8 +243,16 @@ doc ///
          :List
      Description
          Text
-            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or $f$, with respect to $J$.
+            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or of $f$, with respect to $J$.
+
             This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
+         Example
+              R = ZZ/7[x,y];
+              I = ideal(x^5, y^5);
+              J = ideal(x^2, y^3);
+              ftApproximation(2,I,J)
+              f = x^3*y^2+x^5*y;
+              ftApproximation(2,f,J)
 ///
 
 doc ///
@@ -207,13 +270,17 @@ doc ///
         :List
      Description
         Text
-             This tries to guess the FPT.  In particular, it computes the number nu such that nu/(p^e - 1) <= FPT < (nu+1)/p^e.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
+             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
 ///
 
 doc ///
      Key
         isFJumpingExponent
         (isFJumpingExponent,Number,RingElement)
+        [isFJumpingExponent, AssumeDomain]
+        [isFJumpingExponent, FrobeniusRootStrategy]
+        [isFJumpingExponent, MaxCartierIndex]
+        [isFJumpingExponent, QGorensteinIndex]
      Headline
         Checks whether a given number is an F-jumping number
      Usage
@@ -221,20 +288,38 @@ doc ///
      Inputs
          t:QQ
          f:RingElement
+            an element of a $\mathbb{Q}$-Gorenstein ring
          V:Boolean
+         AssumeDomain => Boolean
+         FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+         MaxCartierIndex => ZZ
+         QGorensteinIndex => ZZ
      Outputs
         :Boolean
      Description
         Text
-            Returns true if t is an F-jumping number, otherwise it returns false.
+            Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
+
+            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
+
+            Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 ///
 
 doc ///
      Key
         isFPT
         (isFPT,Number,RingElement)
+        [isFPT, FrobeniusRootStrategy]
+        [isFPT, AssumeDomain]
+        [isFPT, MaxCartierIndex]
+        [isFPT, QGorensteinIndex]
      Headline
-        Checks whether a given number is the FPT
+        Checks whether a given number is the $F$-pure threshold
      Usage
           isFPT(t,f,Verbose=>V,Origin=>W)
      Inputs
@@ -242,12 +327,25 @@ doc ///
         f:RingElement
         V:Boolean
         W:Boolean
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+        AssumeDomain => Boolean
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
      Outputs
         :Boolean
      Description
         Text
-             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
+             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
+
+             The options are the same as in @TO compareFPT@.
+
+     SeeAlso
+        compareFPT
 ///
+
+
+
 
 doc ///
      Key
@@ -312,8 +410,8 @@ doc ///
           an option to check whether certain values equal the F-pure threshold.
      Description
           Text
-              An option for the function fpt to specify whether to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
-              is the $F$-pure threshold.  Takes on only Boolean values.  Default value for fpt is {\tt true}.
+              An option for the function @TO fpt@ to specify whether to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
+              is the $F$-pure threshold.  Takes on only Boolean values.  Default value is {\tt true}.
      SeeAlso
           fpt
 ///
@@ -336,6 +434,7 @@ doc ///
           nuList(e,f,J)
           nuList(e,f)
           ContainmentTest => Symbol
+              specifies the containment test used
           Search => Symbol
           UseColonIdeals => Boolean
      Inputs

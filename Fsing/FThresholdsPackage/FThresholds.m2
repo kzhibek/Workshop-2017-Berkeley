@@ -71,16 +71,14 @@ export{
     "FrobeniusRoot",
     "ftApproximation",
     "isFJumpingExponent",
-    --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
     "compareFPT",
     "mu",
     "muList",
-    "nu", --Dan: add the mu options
+    "nu", 
     "NuCheck",
-    "nuList", --Dan: add the mu options
+    "nuList", 
     "Search",
-    "SearchDepth",
     "StandardPower",
     "ContainmentTest",
     "UseColonIdeals",
