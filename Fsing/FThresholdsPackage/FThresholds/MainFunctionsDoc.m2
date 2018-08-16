@@ -147,6 +147,8 @@ doc ///
          Text
              This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$.
              This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$
+         Example
+
 ///
 
 
@@ -157,15 +159,13 @@ doc ///
           An option to use an F-regularity check to find an F-pure threshold
      Description
           Text
-<<<<<<< HEAD
               This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
               at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
 		          Only takes on Boolean values.
-=======
+
                Enables the user to check whether the given pair is F-regular at the given maximal ideal
 	            (so that if not, the F-pure threshold can be determined from the F-signature function).
                 Only takes on Boolean values.
->>>>>>> 2128c78ac3177fad9f97190522a86fbf1aa09eb2
      SeeAlso
           fpt
 ///
@@ -177,7 +177,7 @@ doc ///
          (ftApproximation,ZZ,Ideal,Ideal)
          (ftApproximation,ZZ,RingElement,Ideal)
      Headline
-         Gives a list of nu_I^J(p^d)/p^d for d=0,...,e.
+         Gives a list of terms in the sequence whose limit is an F-threshold
      Usage
          ftApproximation(e,I,J)
          ftApproximation(e,f,J)
@@ -190,8 +190,8 @@ doc ///
          :List
      Description
          Text
-             This returns a list of nu_I^J(p^d)/p^d for d = 0,...,e.  As d approaches infinity, the sequence {nu_I^J(p^d)/p^d} converges
-	     to the F-threshold of I or f with respect to J.
+         This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$, with respect to $J$.
+         This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$
 ///
 
 doc ///
@@ -392,13 +392,13 @@ doc ///
      Key
           UseSpecialAlgorithms
      Headline
-          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
+          an option to check whether the input is a diagonal polynomial, binomial, or binary form
      Description
           Text
-              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
+              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial, or a binary form.
+              If {\tt true}, the function @TO fpt@ first checks whether the input
               is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
-
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.   Default value is {\tt true}.
      SeeAlso
           fpt
 ///
