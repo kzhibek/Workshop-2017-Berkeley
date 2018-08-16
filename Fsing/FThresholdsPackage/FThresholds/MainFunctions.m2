@@ -424,7 +424,7 @@ fpt RingElement := QQ => o -> f ->
         (
             if o.Verbose then
 	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
-            return binaryFormFPT f
+            return binaryFormFPT( f, Verbose => o.Verbose )
         )
     );
 
@@ -514,6 +514,9 @@ fpt RingElement := QQ => o -> f ->
         );
     { a, (n+1)/p^e }
 )
+
+fpt ( List, List ) := QQ => o -> ( L, m ) -> 
+binaryFormFPT( L, m, Verbose => o.Verbose )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------

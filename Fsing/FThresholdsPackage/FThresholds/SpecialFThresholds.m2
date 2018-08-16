@@ -316,36 +316,37 @@ findCPBelow ( List, FTData ) := List => ( pt, S ) ->
 )
 
 -*
-findCPBelow ( List, FTData ) := List => ( pt, S ) ->
-(
-    if isInLowerRegion( pt, S ) then 
-        error "findCPBelow: the point must be in the upper region";
-    nbr := neighborInUpperRegion( pt, S );
-    if nbr === null then return pt else findCPBelow( nbr, S )
-)
-*-
-
--*
     Computation of FPTs
 *-
 
--- binaryFormFPTInternal({a1,...an},S): if S#"polylist={L1,...,Ln} is a list 
--- of linear forms, binaryFormFPTInternal({a1,...an},S) finds the FPT of the 
--- polynomial F=L1^(a1)...Ln^(an)
+-*
+    binaryFormFPTInternal({a1,...an},S): if S#"polylist={L1,...,Ln} is a list 
+    of linear forms, binaryFormFPTInternal({a1,...an},S) finds the FPT of the 
+    polynomial F=L1^(a1)...Ln^(an)
+*-
 binaryFormFPTInternal = method(
     TypicalValue => QQ, 
-    Options => { "MaxExp" => infinity, "PrintCP" => false, "Nontrivial" => false }
+    Options => { Verbose => false, "Nontrivial" => false }
 )
 
 binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
 (
+    -- Start by dealing with a simple degenerate case
+    -- If some multiplicity a_i is "too big", return 1/a_i
     deg := taxicabNorm a;
     pos := positions( a, k -> k >= deg/2 );
-    if pos != {} then return( 1/a_(pos_0) ); 
-       -- if some multiplicity a_i is "too big", return 1/a_i
+    if pos != {} then
+    (
+	if opt#Verbose then
+	    print( "\nOne of the multiplicities, a_i = " | toString a_(pos_0) | ", is >= degree(F)/2, so fpt(F) = 1/a_i.");
+	return  1/a_(pos_0)
+    );
+
     p := S#"char";
     den := denominator( 2/deg );
+
     local mult;
+    -- Nontrivial is set to true when its known that fpt != lct = 2/deg
     if opt#"Nontrivial" then mult = infinity
     else
     ( 
@@ -353,10 +354,15 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
 	else
 	(
 	    F := product( S#"polylist", a, (f,i) -> f^i );
-	    if isFPT( 2/deg, F ) then return 2/deg
+	    if isFPT( 2/deg, F ) then 
+	    (
+		if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
+		return 2/deg
+	    )
 	    else mult = infinity
 	)
     );    
+
     rng := S#"ring";
     polys := S#"polylist";
     I := S#"ideal";
@@ -364,17 +370,17 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     e := 0;
     dgt := 0;
     u := 2*a/deg;
-    while I != ideal( 1_rng ) and e < opt#"MaxExp" and e < mult do 
+    while I != ideal( 1_rng ) and e < mult do 
     (
 	e = e+1;
 	dgt = adicDigit( p, e, u );
 	I = frobenius( I ) : product( polys, dgt, (f,k) -> f^k );
 	ideals = append( ideals, I )
     );
-    if I != ideal( 1_rng ) then 
+    if I != ideal( 1_rng ) and e == mult then 
     (
-	if e == mult then return 2/deg 
-	else error "binaryFormFPTInternal: reached MaxExp"
+	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
+	return 2/deg 
     );    
     e0 := e-1;
     S1 := setFTData( ideals_e0, polys );
@@ -388,27 +394,35 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
 	cp = findCPBelow( cp/p + adicDigit( p, e0+1, u )/p, S1 ) 
     );
     cp = cp/p^e0 + adicTruncation( p, e0, u ); -- "zoom out"
-    if opt#"PrintCP" then print toString cp;
+    if opt#Verbose then 
+        print ( "\nThe fpt is determined by the critical point " | toString cp );
     max apply( cp, a, (c,k) -> c/k )
 )
 
 -----------------------
 binaryFormFPT = method(
     TypicalValue => QQ, 
-    Options => { "MaxExp" => infinity, "PrintCP" => false }
+    Options => { Verbose => false }
 )
 
--- binaryFormFPT(RingElement)
--- FPT(F) computes the F-pure threshold of a form F in two variables. 
--- KNOWN ISSUE: if the splitting field of F is too big, factor will not work.
+-*
+    binaryFormFPT(RingElement)
+    FPT(F) computes the F-pure threshold of a form F in two variables. 
+    KNOWN ISSUE: if the splitting field of F is too big, factor will not work.
+*-
 binaryFormFPT RingElement :=  QQ => opt ->  F ->
 (    
    if not isNonConstantBinaryForm F then
-       error "binaryFormFPT expects a nonconstant homogeneous polynomial in 2 variables";
+       error "binaryFormFPT: a nonconstant homogeneous polynomial in 2 variables is expected";
     -- because factoring is the weakness of this algorithm, we try to avoid it
     -- by first checking if fpt=lct
     deg := (degree F)_0;
-    if isFPT( 2/deg, F ) then return 2/deg;
+    if isFPT( 2/deg, F ) then 
+    (
+	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
+	return 2/deg
+    );
+
     R := ring F;
     vv := R_*;
     kk := splittingField F;
@@ -420,8 +434,7 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     binaryFormFPTInternal( 
 	m, 
 	setFTData(S_*,L), 
-	"MaxExp" => opt#"MaxExp", 
-	"PrintCP" => opt#"PrintCP", 
+	Verbose => opt#Verbose, 
 	"Nontrivial" => true 
     )
 )
@@ -442,12 +455,12 @@ binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) ->
         error  "binaryFormFPT: expected the second argument to be a list of positive integers";
     if not all( m, x -> x > 0 ) then 
         error  "binaryFormFPT: expected the second argument to be a list of positive integers";
+
     -- now pass things to binaryFormFPTInternal 
     binaryFormFPTInternal( 
 	m, 
 	setFTData( gens ring L_0, L ),
-	"MaxExp" => opt#"MaxExp",
-	"PrintCP" => opt#"PrintCP"
+	Verbose => opt#Verbose
     )
 )
 
