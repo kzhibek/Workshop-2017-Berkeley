@@ -297,10 +297,10 @@ doc ///
      Key
           NuCheck
      Headline
-          an option to check whether certain estimates equal the $F$-pure threshold.
+          an option to check whether certain values equal the F-pure threshold.
      Description
           Text
-              An option for the function fpt to specify whether the user would like to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
+              An option for the function fpt to specify whether to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
               is the $F$-pure threshold.  Takes on only Boolean values.  Default value for fpt is {\tt true}.
      SeeAlso
           fpt
@@ -333,7 +333,7 @@ doc ///
          f:RingElement
      Outputs
         :List
-          a list of the $e$-th $\nu$-approximates for $e = 0,\ldots,d$
+          a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
@@ -348,11 +348,12 @@ doc ///
      Key
           Search
      Headline
-          an option for the functions nu and nuList
+          an option to specify the search method
      Description
           Text
-               Lets user specify the order in which ideal containment of powers are computed. Valid values are
-	            {\tt Binary, BinaryRecursive}, and {\tt Linear}.
+              An option for functions @TO nu@ and @TO nuList@ to specify
+              the order in which ideal the containment of powers are computed. Valid values are
+	            {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
           nuList
@@ -362,10 +363,11 @@ doc ///
      Key
           UseColonIdeals
      Headline
-          an option for nu and nuList to use colon ideals to compute nus in an iterative way
+          an option to use colon ideals to compute nus in an iterative way
      Description
           Text
-               Valid values are {\tt true} and {\tt false}.
+              An option for @TO nu$ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
+              Valid values are {\tt true} and {\tt false}.
      SeeAlso
           nu
           nuList
