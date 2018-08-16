@@ -362,9 +362,9 @@ fpt = method(
 	    Verbose => false,
 	    UseSpecialAlgorithms => true,
 	    NuCheck => true,
-	    SearchDepth => 1
+	    DepthOfSearch => 1
 	}
-)
+);
 
 fpt RingElement := QQ => o -> f ->
 (
@@ -378,7 +378,7 @@ fpt RingElement := QQ => o -> f ->
 	    Verbose => Boolean,
 	    UseSpecialAlgorithms => Boolean,
 	    NuCheck => Boolean,
-	    SearchDepth => ( k -> instance( k, ZZ ) and k > 0 )
+	    DepthOfSearch => ( k -> instance( k, ZZ ) and k > 0 )
 	}
     );
 
@@ -431,7 +431,7 @@ fpt RingElement := QQ => o -> f ->
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
 
     -- Compute nu(e,f)
-    e := o.SearchDepth;
+    e := o.DepthOfSearch;
     n := nu( e, f );
 
     if o.Verbose then
@@ -441,7 +441,7 @@ fpt RingElement := QQ => o -> f ->
     if n == 0 then
     (
 	if o.Verbose then
-	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option SearchDepth.";
+	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option DepthOfSearch.";
 	return { 0, 1/p^e }
     );
 
@@ -594,6 +594,8 @@ compareFPT(Number, RingElement) := o -> (t, f) -> (
     fList := {f};
     tList := {t};
     local computedTau;
+    local computedHSLGInitial;
+    local computedHSLG;
     --computedTau := ideal(sub(0, R1));
 
     if (o.QGorensteinIndex > 0) then (
@@ -643,8 +645,16 @@ compareFPT(Number, RingElement) := o -> (t, f) -> (
         a1 := decomposedExponent#0;
         b1 := decomposedExponent#1;
         c1 := decomposedExponent#2;
-        computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-        computedHSLG := frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+        if (a1 > (pp^c1-1)) then(
+            a1quot := floor( (a1-1)/(pp^c1 - 1));
+            a1rem := a1 - (pp^c1-1)*a1quot;
+            computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
+            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
+        )
+        else (
+            computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+        );
         if (not isSubset(ideal(sub(1, R1)), computedHSLG)) then return 1; --the fpt we picked is too small
     )
     else(--there should be an algorithm that works here
@@ -663,6 +673,8 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     fList := {f};
     tList := {t};
     local computedTau;
+    local computedHSLG;
+    local computedHSLGInitial;
     --computedTau := ideal(sub(0, R1));
 
     h1 := sub(1, S1);
@@ -675,8 +687,16 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     a1 := decomposedExponent#0;
     b1 := decomposedExponent#1;
     c1 := decomposedExponent#2;
-    computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-    computedHSLG := frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+    if (a1 > (pp^c1-1)) then(
+        a1quot := floor( (a1-1)/(pp^c1 - 1));
+        a1rem := a1 - (pp^c1-1)*a1quot;
+        computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, ideal(sub(1, S1)), {h1});
+        computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
+    )
+    else (
+        computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+        computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+    );
     if (not isSubset(ideal(sub(1, S1)), computedHSLG)) then return 1; --the fpt we picked is too small
 
     return 0; --it is the FPT!
@@ -716,6 +736,7 @@ isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->
     tList := {t};
     computedTau := null;
     computedHSLG := null;
+    computedHSLGInitial := null;
     --computedTau := ideal(sub(0, R1));
 
     if (o.QGorensteinIndex > 0) then (
@@ -767,9 +788,16 @@ isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->
         a1 := decomposedExponent#0;
         b1 := decomposedExponent#1;
         c1 := decomposedExponent#2;
-        computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-        computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
-
+        if (a1 > (pp^c1-1)) then(
+            a1quot := floor( (a1-1)/(pp^c1 - 1));
+            a1rem := a1 - (pp^c1-1)*a1quot;
+            computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
+            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
+        )
+        else (
+            computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+        );
     )
     else(--there should be an algorithm that works here
         error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
@@ -788,6 +816,7 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     tList := {t};
     computedTau := null;
     computedHSLG := null;
+    computedHSLGInitial := null;
     --computedTau := ideal(sub(0, R1));
 
     h1 := sub(1, S1);
@@ -799,8 +828,16 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     a1 := decomposedExponent#0;
     b1 := decomposedExponent#1;
     c1 := decomposedExponent#2;
-    computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-    computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+    if (a1 > (pp^c1-1)) then(
+        a1quot := floor( (a1-1)/(pp^c1 - 1));
+        a1rem := a1 - (pp^c1-1)*a1quot;
+        computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, ideal(sub(1, S1)), {h1});
+        computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
+    )
+    else (
+        computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+        computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+    );
 
     return (not isSubset(computedHSLG, computedTau));
 )

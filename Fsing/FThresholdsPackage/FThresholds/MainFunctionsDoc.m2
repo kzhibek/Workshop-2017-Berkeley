@@ -79,7 +79,7 @@ doc ///
 	 [fpt, FRegularityCheck]
 	 [fpt, NuCheck]
 	 [fpt, UseSpecialAlgorithms]
-	 [fpt, SearchDepth]
+	 [fpt, DepthOfSearch]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
@@ -92,8 +92,8 @@ doc ///
         FRegularityCheck => Boolean
             specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
     	NuCheck => Boolean
-            specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt SearchDepth} and $\nu=\nu_f(p^e)$
-        SearchDepth => ZZ
+            specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt DepthOfSearch} and $\nu=\nu_f(p^e)$
+        DepthOfSearch => ZZ
             specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
         :List
@@ -117,13 +117,13 @@ doc ///
 	     ZZ/5[x,y];
 	     fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
-	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSeach}, which conservatively defaults to 1.
+	      When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to 1.
 	      The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
 	 Example
 	     f = x^2*(x+y)^3*(x+3*y^2)^5;
 	     fpt f
-	     fpt( f, NuCheck => false, SearchDepth => 3 )
-	     fpt( f, SearchDepth => 3 )
+	     fpt( f, NuCheck => false, DepthOfSearch => 3 )
+	     fpt( f, DepthOfSearch => 3 )
 	     oo == (nu(3,f)+1)/5^3
          Text
 	      If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
@@ -238,7 +238,7 @@ doc ///
      Headline
         Checks whether a given number is the FPT
      Usage
-          isFPT(t,f,Verbose=>V,Origin=>W)
+          isFPT(t,f)
      Inputs
         t:QQ
         f:RingElement
@@ -249,6 +249,30 @@ doc ///
      Description
         Text
              Returns true if t is the FPT, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
+///
+
+doc ///
+    Key
+        compareFPT
+        (compareFPT, Number, RingElement)
+        [compareFPT, MaxCartierIndex]
+        [compareFPT, FrobeniusRootStrategy]
+        [compareFPT, AssumeDomain]
+        [compareFPT, QGorensteinIndex]
+    Headline
+        checks whether a given number is less than, greater than or equal to the FPT
+    Usage
+        compareFPT(t, f)
+    Inputs
+        t:QQ
+        f:RingElement
+        FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
+    Description
+        Text
+            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
+            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
+            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
 ///
 
 
