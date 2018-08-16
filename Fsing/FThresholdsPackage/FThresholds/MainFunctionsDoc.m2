@@ -34,7 +34,7 @@ doc ///
           an option for functions nu and nuList (and mu and muList) to specify the containment test used
      Description
           Text
-               Specifies which test used to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
+               Specifies which test is used to check containment of powers of ideals. Valid values are {\tt FrobeniusPower},
 	             {\tt FrobeniusRoot}, and {\tt StandardPower}.  Default for @TO nu@ and @TO nuList@
                (and @TO mu@ and @TO muList@) applied to a polynomial is {\tt FrobeniusRoot},
 	             and applied to an ideal is {\tt StandardPower}.
@@ -215,7 +215,7 @@ doc ///
 doc ///
      Key
         isFJumpingExponent
-        (isFJumpingExponent,QQ,RingElement)
+        (isFJumpingExponent,Number,RingElement)
      Headline
         Checks whether a given number is an F-jumping number
      Usage
@@ -234,7 +234,7 @@ doc ///
 doc ///
      Key
         isFPT
-        (isFPT,QQ,RingElement)
+        (isFPT,Number,RingElement)
      Headline
         Checks whether a given number is the FPT
      Usage

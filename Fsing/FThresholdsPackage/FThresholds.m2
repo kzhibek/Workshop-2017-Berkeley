@@ -1,3 +1,4 @@
+
 newPackage( "FThresholds",
 Version => "0.1",
 Date => "August 13th, 2018",
@@ -52,10 +53,10 @@ Authors => {
 Headline => "A package for calculations of F-thresholds",
 DebuggingMode => true,
 Reload => true,
-AuxiliaryFiles => true
+AuxiliaryFiles => true,
+PackageExports => {"TestIdeals"}
 )
 
-needsPackage("TestIdeals", LoadDocumentation => true);
 
 export{
 --F-thresholds computations (MainFunctions.m2)
@@ -85,6 +86,9 @@ export{
     "UseColonIdeals",
     "UseSpecialAlgorithms"
 }
+
+--loadPackage("TestIdeals", LoadDocumentation => true, Reload=>true);
+
 
 --*************************************************
 
