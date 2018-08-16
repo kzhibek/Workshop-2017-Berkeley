@@ -1,26 +1,13 @@
 doc ///
      Key
-          UseSpecialAlgorithms
-     Headline
-          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
-     Description
-          Text
-              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
-              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
-
-     SeeAlso
-          fpt
-///
-
-doc ///
-     Key
           ComputePreviousNus
      Headline
-          an option for the function nu (and mu) to compute values recursively
+          an option to compute nu-values recursively
      Description
           Text
-               If {\tt true}, then $\nu$-values (or $\mu$-values) are computed recursively, in succession; otherwise, another method can be applied.
+              An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
+
+               If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession; otherwise, another method can be applied.
 
                Can take on only Boolean values. Default value for functions @TO nu@ and @TO mu@ is {\tt true}.
      SeeAlso
@@ -251,7 +238,6 @@ doc ///
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If Origin is true, it only checks it at the homogeneous maximal ideal.
 ///
 
-
 doc ///
      Key
          nu
@@ -305,17 +291,19 @@ doc ///
             The option {\tt UseColonIdeals} specifies whether or not {\tt nu} uses colon ideals to compute $\nu$ in an iterative way.
 
      SeeAlso
-        nuList, mu, muList
+        nuList
+        --, mu, muList
 ///
 
 doc ///
      Key
           NuCheck
      Headline
-          An option for the function fpt to specify whether the user would like to check whether nu/(p^e-1) or (nu+1)/p^e is the F-pure threshold.
+          an option to check whether certain estimates equal the $F$-pure threshold.
      Description
           Text
-               Takes on only Boolean values.  Default value for fpt is {\tt true}.
+              An option for the function fpt to specify whether the user would like to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
+              is the $F$-pure threshold.  Takes on only Boolean values.  Default value for fpt is {\tt true}.
      SeeAlso
           fpt
 ///
@@ -347,7 +335,7 @@ doc ///
          f:RingElement
      Outputs
         :List
-          a list of the $e$-th $\nu$-approximates for $e = 0,\ldots,d"
+          a list of the $e$-th $\nu$-approximates for $e = 0,\ldots,d$
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
@@ -355,6 +343,7 @@ doc ///
             or {\tt nu(d,f,J)}
      SeeAlso
         nu
+        --, mu, muList
 ///
 
 doc ///
@@ -382,4 +371,19 @@ doc ///
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+     Key
+          UseSpecialAlgorithms
+     Headline
+          an option for the function fpt to check whether the input is a diagonal, binomial, or binary form
+     Description
+          Text
+              Default value for @TO fpt@ is {\tt true}.  If {\tt true}, the function @TO fpt@ first checks whether the input
+              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+
+     SeeAlso
+          fpt
 ///
