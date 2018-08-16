@@ -1,4 +1,15 @@
 doc ///
+    Key
+        compareFPT
+        [compareFPT, MaxCartierIndex]
+        [compareFPT, FrobeniusRootStrategy]
+        [compareFPT, AssumeDomain]
+        [compareFPT, QGorensteinIndex]
+     Headline
+        a function  for checking whether a given number is less than, equal to, or greater than the FPT
+///
+
+doc ///
      Key
           ComputePreviousNus
      Headline

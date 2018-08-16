@@ -76,9 +76,9 @@ export{
     "compareFPT",
     "mu",
     "muList",
-    "nu", --Dan: add the mu options
+    "nu", 
     "NuCheck",
-    "nuList", --Dan: add the mu options
+    "nuList", 
     "Search",
     "SearchDepth",
     "StandardPower",
