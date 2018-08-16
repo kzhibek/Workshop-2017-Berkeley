@@ -48,15 +48,9 @@ doc ///
          :List
      Description
          Text
-<<<<<<< HEAD
-             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,...,e$.  As $d$ approaches $\infty$,
+             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.  As $d$ approaches $\infty$,
 	            the sequence of these terms converges to the critical exponent of $I$, or $f$, with respect to $J$.
-	   Example
-=======
-             This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
-             the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
 	     Example
->>>>>>> 2128c78ac3177fad9f97190522a86fbf1aa09eb2
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
@@ -148,7 +142,11 @@ doc ///
              This returns a list consisting of the terms whose limit defines the $F$-pure threshold of $I$, or $f$.
              This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$
          Example
-
+           R = ZZ/13[x,y];
+           I = (x^2, y);
+           fptApproximation(2,I)
+           f = x^5 + x^2*y^3;
+           fptApproximation(2,f)
 ///
 
 
@@ -284,7 +282,7 @@ doc ///
           the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1, ..., x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
             maximal integer $N$ such that $I^N$ or $f^N$ is not contained in the ideal $J^{[p^e]}$. This number is denoted
             $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$ in "F-thresholds and Bernstein-Sato Polynomials" by Mustata-Takagi-Watanabe.
 
@@ -305,7 +303,6 @@ doc ///
 
      SeeAlso
         nuList
-        --, mu, muList
 ///
 
 doc ///
@@ -351,12 +348,11 @@ doc ///
           a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)} recursively for $d = 0,...,e$.  If {\tt nu(d, I, J)}
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt nu(d, I, J)}
+            or {\tt nu(d,f,J)} recursively for $d = 0,\ldots,e$.  If {\tt nu(d, I, J)}
             or {\tt nu(d,f,J)}
      SeeAlso
         nu
-        --, mu, muList
 ///
 
 doc ///
