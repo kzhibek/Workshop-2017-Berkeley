@@ -24,16 +24,25 @@ doc ///
             This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
             It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
             Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
-
-            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
-            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
-
-            Let $R$ be the ambient ring of $f$.  If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
-
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+        Example
+            R = ZZ/7[x,y];
+            f = y^2-x^3;
+            compareFPT(1/2, f)
+            compareFPT(5/6, f)
+            compareFPT(6/7, f)
+        Text
+            This function can also check the FPT in singular (but still strongly $F$-regular) ring,
+            so long as the ring is also Q-Gorenstein of index dividing $p-1$.  In the future we hope
+            that this functionality will be extended to all Q-Gorenstein rings.  In the following exam,
+            $x$ defines a Cartier divisor which is twice one of the rulings of the cone.
+        Example
+             R = ZZ/5[x,y,z]/ideal(x*y-z^2);
+             f = x;
+             compareFPT(1/3, f)
+             compareFPT(1/2, f)
+             compareFPT(13/25, f)
     SeeAlso
-        fpt
+        isFPT
 ///
 
 doc ///
