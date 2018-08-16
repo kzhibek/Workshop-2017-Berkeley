@@ -61,6 +61,7 @@ doc ///
      Key
          fpt
          (fpt, RingElement)
+         (fpt, List, List)
          [fpt, FRegularityCheck]
          [fpt, NuCheck]
          [fpt, UseSpecialAlgorithms]
@@ -69,9 +70,14 @@ doc ///
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
          fpt(f)
+         fpt(L, m)
      Inputs
          f:RingElement
              a polynomial with coefficients in a finite field
+         L:List
+             A list of linear forms in two variables
+         m:List
+             A list of positive integers
          UseSpecialAlgorithms => Boolean
              specifies whether to check if $f$ is diagonal, binomial, or a binary form, and then apply appropriate algorithms
          FRegularityCheck => Boolean
@@ -87,7 +93,7 @@ doc ///
             the $F$-pure threshold of $f$
      Description
           Text
-              This function tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
+              The function {\tt fpt(f)} tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
               Otherwise, it returns an interval containing the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
@@ -117,6 +123,16 @@ doc ///
 
               If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+
+              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, the function {\tt fpt(L, m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$. 
+
+         Example
+              S = ZZ/5[x,y]
+              L = {x+y, x+2*y}
+              m = {2, 3}
+              fpt(L, m)
+              oo == fpt( (x+y)^2*(x+2*y)^3)
+
 ///
 
 doc ///
