@@ -568,6 +568,7 @@ isLocallyPrincipalIdeal := (I2) -> (
 );
 
 --helper function for compareFPT
+getDivisorIndex = method();
 getDivisorIndex := (maxIndex, divisorialIdeal) -> (
     fflag := false;
     cartIndex := 0;
@@ -583,7 +584,7 @@ getDivisorIndex := (maxIndex, divisorialIdeal) -> (
     );
     if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
     return cartIndex;
-)
+);
 
 compareFPT(Number, RingElement) := o -> (t, f) -> (
     --first we gather background info on the ring (QGorenstein generators, etc.)

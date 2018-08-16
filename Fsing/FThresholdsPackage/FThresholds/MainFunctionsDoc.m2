@@ -13,13 +13,26 @@ doc ///
     Inputs
         t:QQ
         f:RingElement
+            an element of a $\mathbb{Q}$-Gorenstein ring
         FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
+        AssumeDomain => Boolean
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
     Description
         Text
             This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
             It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
             Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
+
+            If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order 
+            to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.  
+
+            Let $R$ be the ambient ring of $f$.  If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
+            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}. 
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+
 ///
 
 doc ///
@@ -275,9 +288,11 @@ doc ///
      Inputs
          t:QQ
          f:RingElement
+            an element of a $\mathbb{Q}$-Gorenstein ring
          V:Boolean
          AssumeDomain => Boolean
          FrobeniusRootStrategy => Symbol
+            an option passed to computations in the TestIdeals package
          MaxCartierIndex => ZZ
          QGorensteinIndex => ZZ
      Outputs
