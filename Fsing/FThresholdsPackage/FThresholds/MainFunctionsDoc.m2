@@ -46,81 +46,81 @@ doc ///
 ///
 
 doc ///
-     Key
-          ComputePreviousNus
-     Headline
-          an option to compute nu-values recursively
-     Description
-          Text
-              An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
-          Text
-              If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession.
-              Otherwise, another method can be applied.
-          Text
-              Can take on only Boolean values. Default value is {\tt true}.
-     SeeAlso
-          nu
-          mu
+    Key
+        ComputePreviousNus
+    Headline
+        an option to compute nu-values recursively
+    Description
+        Text
+            An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
+
+            If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession.
+            Otherwise, another method can be applied.
+
+            Can take on only Boolean values. Default value is {\tt true}.
+    SeeAlso
+        nu
+        mu
 ///
 
 doc ///
-     Key
-          ContainmentTest
-     Headline
-          an option to specify the containment test used
-     Description
-          Text
-               Specifies which test is used to check containment of powers of ideals.
-               Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
-               Default for @TO nu@ and @TO nuList@
-               (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
-               and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
+    Key
+        ContainmentTest
+    Headline
+        an option to specify the containment test used
+    Description
+        Text
+            Specifies which test is used to check containment of powers of ideals.
+            Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            Default for @TO nu@ and @TO nuList@
+            (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
+            and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
 ///
 
 doc ///
-     Key
-         criticalExponentApproximation
-         (criticalExponentApproximation,ZZ,Ideal,Ideal)
-         (criticalExponentApproximation,ZZ,RingElement,Ideal)
-     Headline
-          gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
-     Usage
-          criticalExponentApproximation(e,I,J)
-          criticalExponentApproximation(e,f,J)
-     Inputs
-         e:ZZ
-         I:Ideal
-         J:Ideal
-         f:RingElement
-     Outputs
-         :List
-     Description
-         Text
-             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
-         Text
-             As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
-         Example
+    Key
+        criticalExponentApproximation
+        (criticalExponentApproximation,ZZ,Ideal,Ideal)
+        (criticalExponentApproximation,ZZ,RingElement,Ideal)
+    Headline
+        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
+    Usage
+        criticalExponentApproximation(e,I,J)
+        criticalExponentApproximation(e,f,J)
+    Inputs
+        e:ZZ
+        I:Ideal
+        J:Ideal
+        f:RingElement
+    Outputs
+        :List
+    Description
+        Text
+            This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
+
+            As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
+        Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
              criticalExponentApproximation(2,I,m)
              f = x^2 + y^3;
              criticalExponentApproximation(2,f,m)
-     SeeAlso
-          ftApproximation
-          fptApproximation
-          mu
-          muList
+    SeeAlso
+        ftApproximation
+        fptApproximation
+        mu
+        muList
 ///
 
 doc ///
      Key
          fpt
-	 (fpt, RingElement)
-	 [fpt, FRegularityCheck]
-	 [fpt, NuCheck]
-	 [fpt, UseSpecialAlgorithms]
-	 [fpt, DepthOfSearch]
+         (fpt, RingElement)
+         [fpt, FRegularityCheck]
+         [fpt, NuCheck]
+         [fpt, UseSpecialAlgorithms]
+         [fpt, DepthOfSearch]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
@@ -187,10 +187,10 @@ doc ///
               m = {2, 3}
               fpt(L, m)
               oo == fpt( (x+y)^2*(x+2*y)^3)
-        SeeAlso
-                  fptApproximation
-                  nu
-                  nuList
+    SeeAlso
+              fptApproximation
+              nu
+              nuList
 ///
 
 doc ///
@@ -210,35 +210,41 @@ doc ///
      Outputs
          :List
      Description
-         Text
-             This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
+        Text
+            This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
 
-             This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
-         Example
-           R = ZZ/13[x,y];
-           I = ideal(x^2, y);
-           fptApproximation(2,I)
-           f = x^5 + x^2*y^3;
-           fptApproximation(2,f)
+            This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
+        Example
+            R = ZZ/13[x,y];
+            I = ideal(x^2, y);
+            fptApproximation(2,I)
+            f = x^5 + x^2*y^3;
+            fptApproximation(2,f)
+    SeeAlso
+        fpt
+        ftApproximation
+        nu
+        nuList
+        criticalExponentApproximation
 ///
 
 
 doc ///
-     Key
-          FRegularityCheck
-     Headline
-          An option to use an F-regularity check to find an F-pure threshold
-     Description
-          Text
-              This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
-              at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
-		          Only takes on Boolean values.
+    Key
+        FRegularityCheck
+    Headline
+        an option to use an F-regularity check to find an F-pure threshold
+    Description
+        Text
+            This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
+            at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
+            Only takes on Boolean values.
 
-              Enables the user to check whether the given pair is F-regular at the given maximal ideal
-	            (so that if not, the F-pure threshold can be determined from the F-signature function).
-              Only takes on Boolean values.
-     SeeAlso
-          fpt
+            Enables the user to check whether the given pair is F-regular at the given maximal ideal
+            (so that if not, the F-pure threshold can be determined from the F-signature function).
+            Only takes on Boolean values.
+    SeeAlso
+        fpt
 ///
 
 
@@ -248,7 +254,7 @@ doc ///
          (ftApproximation,ZZ,Ideal,Ideal)
          (ftApproximation,ZZ,RingElement,Ideal)
      Headline
-         Gives a list of terms in the sequence whose limit defines an F-threshold
+         gives a list of terms in the sequence whose limit defines an F-threshold
      Usage
          ftApproximation(e,I,J)
          ftApproximation(e,f,J)
@@ -394,7 +400,7 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
-            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power.
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. 
      SeeAlso
         nu
         muList
@@ -518,7 +524,7 @@ doc ///
           Text
               An option for functions @TO nu@ and @TO nuList@ to specify
               the order in which ideal the containment of powers are computed. Valid values are
-	            {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
+              {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
           nuList
