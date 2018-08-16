@@ -160,6 +160,9 @@ optNu := optNuList | { ComputePreviousNus => true }
 
 nuInternal = optNu >> o -> ( n, f, J ) ->
 (
+    -- Return answer in a trivial case (per Blickle-Mustata-Smith convention)
+    if f == 0 then return toList( (n+1):0 );
+    
     -- Verify if option values are valid
     checkOptions( o,
 	{
@@ -170,28 +173,24 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	}
     );
 
-    -- Return error if f is 0
-    if f == 0 then
-        error "nuInternal: zero is not a valid input";
-
     -- Check if f is in a polynomial ring over a finite field
     if not isPolynomialRingOverFiniteField ring f then
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
-
-    -- decide which containment test to use, if not specified by user
-    comTest := o.ContainmentTest;
-    if comTest === null then
-	comTest = if instance(f, RingElement) then FrobeniusRoot
-	    else StandardPower;
-
+    -- Setup
     p := char ring f;
-    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
-    theList := { nu };
     isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
     searchFct := search#(o.Search);
+    comTest := o.ContainmentTest;
+    -- choose appropriate containment test, if not specified by user
+    if comTest === null then 
+	comTest = if instance(f, RingElement) then FrobeniusRoot 
+	    else StandardPower;
     testFct := test#(comTest);
     local N;
 
+    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
+    theList := { nu };
+    
     if not o.ComputePreviousNus then
     (
 	-- This computes nu in a non-recursive way
@@ -247,8 +246,7 @@ nuList ( ZZ, RingElement, Ideal ) := o -> ( e, I, J ) ->
 nuList ( ZZ, Ideal ) :=  o -> ( e, I ) ->
     nuList( e, I, maxIdeal I, o )
 
-
-nuList ( ZZ, RingElement ) := o -> ( e, f ) ->
+nuList ( ZZ, RingElement ) := o -> ( e, f ) -> 
     nuList( e, f, maxIdeal f, o )
 
 
@@ -353,10 +351,6 @@ fSig = ( f, a, e ) ->
      1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal( fastExponentiation( a, f ) ) )
 )
 
---Determines if a pair (R, f^t) is F-regular at a prime
---ideal Q in R, where R is a polynomial ring
-isFRegularPoly = ( f, t, Q ) -> not isSubset( testIdeal( t, f ), Q )
-
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
 -- FRegularityCheck is whether the last isFRegularPoly is run (which can take a significant amount of time).
@@ -368,7 +362,7 @@ fpt = method(
 	    Verbose => false,
 	    UseSpecialAlgorithms => true,
 	    NuCheck => true,
-	    DepthOfSearch => 1
+	    SearchDepth => 1
 	}
 )
 
@@ -384,7 +378,7 @@ fpt RingElement := QQ => o -> f ->
 	    Verbose => Boolean,
 	    UseSpecialAlgorithms => Boolean,
 	    NuCheck => Boolean,
-	    DepthOfSearch => ZZ
+	    SearchDepth => ( k -> instance( k, ZZ ) and k > 0 )
 	}
     );
 
@@ -437,7 +431,7 @@ fpt RingElement := QQ => o -> f ->
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
 
     -- Compute nu(e,f)
-    e := o.DepthOfSearch;
+    e := o.SearchDepth;
     n := nu( e, f );
 
     if o.Verbose then
@@ -447,7 +441,7 @@ fpt RingElement := QQ => o -> f ->
     if n == 0 then
     (
 	if o.Verbose then
-	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option DepthOfSearch.";
+	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option SearchDepth.";
 	return { 0, 1/p^e }
     );
 
@@ -456,7 +450,7 @@ fpt RingElement := QQ => o -> f ->
     (
         -- Check to see if nu/(p^e-1) is the fpt
 	-- (uses the fact that there are no fpts between nu/p^e and nu/(p^e-1))
-	if not isFRegularPoly( f, n/(p^e-1), M ) then
+	if not isFregular( n/(p^e-1), f ) then 
 	(
 	    if o.Verbose then print "\nFound answer via nu/(p^e-1).";
 	    return n/(p^e-1)
@@ -499,11 +493,11 @@ fpt RingElement := QQ => o -> f ->
 
     if o.FRegularityCheck then
     (
-	if o.Verbose then print "\nStarting final check ...";
-        if not isFRegularPoly( f, a, M ) then
-        (
-	   if o.Verbose then
-	       print "\nFinal check successful; fpt is the F-signature intercept.";
+	if o.Verbose then print "\nStarting final check ..."; 
+        if not isFregular( a, f ) then 
+        (	
+	   if o.Verbose then 
+	       print "\nFinal check successful; fpt is the F-signature intercept."; 
 	   return a
       	)
 	else if o.Verbose then print "\nFinal check didn't find the fpt ..."
@@ -526,6 +520,168 @@ fpt RingElement := QQ => o -> f ->
 -- Functions for checking if given numbers are F-jumping numbers
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+--compareFPT see if a number is less than, equal to, or greater than the FPT.
+--It returns -1 if less
+--it returns 0 if equal
+--it returns 1 if greater
+compareFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0});
+
+--gets a nonzero generator of an ideal.
+getNonzeroGenerator := (I2) -> (
+    i := 0;
+    flag := false;
+    genList := first entries gens I2;
+    localZero := sub(0, ring I2);
+    while ((i < #genList) and (flag == false)) do (
+        if (genList#i != localZero) then (
+            flag = true;
+        );
+        i = i + 1;
+    );
+    if (flag == true) then (
+        genList#(i-1)
+    )
+    else (
+        null
+    )
+);
+
+isLocallyPrincipalIdeal := (I2) -> (
+    localGen := getNonzeroGenerator(I2);
+    if (localGen === null) then (
+        return {false, sub(0, ring I2)};
+    );
+    inverseIdeal := (ideal(localGen) : I2);
+    idealProduct := inverseIdeal*I2;
+    isLocPrinc := (reflexify(idealProduct) == idealProduct);
+    if (isLocPrinc == true) then (
+        return {true, inverseIdeal};
+    )
+    else (
+        return {false, sub(0, ring I2)};
+    );
+
+);
+
+--helper function for compareFPT
+getDivisorIndex := (maxIndex, divisorialIdeal) -> (
+    fflag := false;
+    cartIndex := 0;
+    curIdeal := null;
+    locPrincList := null;
+    while ( (fflag == false) and (cartIndex < maxIndex) ) do (
+        cartIndex = cartIndex + 1;
+        curIdeal = reflexivePower(cartIndex, divisorialIdeal);
+        locPrincList = isLocallyPrincipalIdeal(curIdeal);
+        if (locPrincList#0 == true) then (
+            fflag = true;
+        );
+    );
+    if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
+    return cartIndex;
+)
+
+compareFPT(Number, RingElement) := o -> (t, f) -> (
+    --first we gather background info on the ring (QGorenstein generators, etc.)
+    R1 := ring f;
+    if (class(R1) === PolynomialRing) then return compareFPTPoly(t, f);
+    S1 := ambient R1;
+    I1 := ideal R1;
+    canIdeal := canonicalIdeal(R1);
+    pp := char R1;
+    cartIndex := 0;
+    fList := {f};
+    tList := {t};
+    local computedTau;
+    --computedTau := ideal(sub(0, R1));
+
+    if (o.QGorensteinIndex > 0) then (
+        cartIndex = o.QGorensteinIndex;
+    )
+    else (
+        cartIndex = getDivisorIndex(o.MaxCartierIndex, canIdeal);
+    );
+    h1 := sub(0, S1);
+    --first we do a quick check to see if the test ideal is easy to compute
+    if ((pp-1)%cartIndex == 0) then (
+        J1 := testElement( R1 );
+        try (h1 = QGorensteinGenerator( 1, R1)) then (
+            computedTau = testModule(tList, fList, ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
+            if (isSubset(ideal(sub(1, R1)), computedTau#0)) then return -1;  --at this point we know that this is not the FPT
+        ) else (
+             h1 = sub(0, S1);
+        )
+    );
+    --now compute the test ideal in the general way (if the index does not divide...)
+    gg := first first entries gens trim canIdeal;
+    dualCanIdeal := (ideal(gg) : canIdeal);
+    nMinusKX := reflexivePower(cartIndex, dualCanIdeal);
+    gensList := first entries gens trim nMinusKX;
+
+    runningIdeal := ideal(sub(0, R1));
+    omegaAmb := sub(canIdeal, S1) + ideal(R1);
+    u1 := (frobeniusTraceOnCanonicalModule(I1, omegaAmb));
+
+    t2 := append(tList, 1/cartIndex);
+    f2 := fList;
+
+    for x in gensList do (
+        f2 = append(fList, x);
+        runningIdeal = runningIdeal + (testModule(t2, f2, canIdeal, u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain))#0;
+    );
+
+    newDenom := reflexify(canIdeal*dualCanIdeal);
+    computedTau = (runningIdeal*R1) : newDenom;
+    if (isSubset(ideal(sub(1, ambient R1)), computedTau)) then return -1;  --at this point we know that this is not the FPT
+
+    --now we have to run the sigma computation
+    if (not (h1 == (sub(0, R1)))) then (
+        baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
+        if (not isSubset(ideal(sub(1, R1)), (baseTau#0))) then error "compareFPT: The ambient ring must be F-regular."; --the ambient isn't even F-regular
+        decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
+        a1 := decomposedExponent#0;
+        b1 := decomposedExponent#1;
+        c1 := decomposedExponent#2;
+        computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+        computedHSLG := frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+        if (not isSubset(ideal(sub(1, R1)), computedHSLG)) then return 1; --the fpt we picked is too small
+    )
+    else(--there should be an algorithm that works here
+        error "compareFPT:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
+    );
+    return 0; --it is the FPT!
+);
+
+compareFPTPoly = method(Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0});
+
+compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
+    --first we gather background info on the ring (QGorenstein generators, etc.)
+    S1 := ring f;
+    pp := char S1;
+    cartIndex := 0;
+    fList := {f};
+    tList := {t};
+    local computedTau;
+    --computedTau := ideal(sub(0, R1));
+
+    h1 := sub(1, S1);
+    --first we do a quick check to see if the test ideal is easy to compute
+    computedTau = testModule(tList, fList, ideal(sub(1, S1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
+    if (isSubset(ideal(sub(1, S1)), computedTau#0)) then return -1;  --at this point we know that this is not the FPT
+
+    --now we have to run the sigma computation
+    decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
+    a1 := decomposedExponent#0;
+    b1 := decomposedExponent#1;
+    c1 := decomposedExponent#2;
+    computedHSLGInitial := HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+    computedHSLG := frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
+    if (not isSubset(ideal(sub(1, S1)), computedHSLG)) then return 1; --the fpt we picked is too small
+
+    return 0; --it is the FPT!
+);
+
 
 --isFPT, determines if a given rational number is the FPT of a pair in a
 -- polynomial ring.

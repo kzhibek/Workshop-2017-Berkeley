@@ -331,10 +331,11 @@ splittingField RingElement := GaloisField => F ->
 -- checkOptions checks whether the option values passed to a function are valid.
 -- The arguments are:
 -- 1. An option table.
--- 2. A list of the form { Option1 => validValues1, Option2 => validValues2, ...}
---     where validValues is either a type or a list of valid values.
--- If an option value is not of the expected class or not in the appropriate
---     set, an intelligible error message is returned. 
+-- 2. A list of the form { Option => check, ... } where check is an expected 
+--    Type or a list of valid values or a function that must return true for 
+--    valid values of Option.
+-- If an option value is not appropriate, a user-friendly error message 
+-- is returned. 
 
 checkOptions = method()
 
@@ -350,6 +351,10 @@ checkOptions ( OptionTable, List ) := (o, L) ->
 	    if instance( opts#k, Type ) and not instance( o#k, opts#k ) then
 	        (
 		    error ( "checkOptions: value for option " | toString( k ) | " must be of class " | toString( opts#k ) )
+		);
+	    if instance( opts#k, Function ) and not opts#k o#k  then
+	        (
+		    error ( "checkOptions: value for option " | toString( k ) | " is not valid" )
 		)
 	) 
     )

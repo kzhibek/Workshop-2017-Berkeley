@@ -55,14 +55,13 @@ Reload => true,
 AuxiliaryFiles => true
 )
 
-needsPackage "TestIdeals"
+needsPackage("TestIdeals", LoadDocumentation => true);
 
 export{
 --F-thresholds computations (MainFunctions.m2)
     "BinaryRecursive",
     "ComputePreviousNus",
     "criticalExponentApproximation",
-    --"DepthOfSearch",
     "fpt",
     "fptApproximation",
     "fptGuessList", --Karl (probably should be incorporated into fpt
@@ -73,23 +72,23 @@ export{
     "isFJumpingExponent",
     --Karl (should be redone, so as not to assume a polynomial ring)
     "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
+    "compareFPT",
     "mu",
     "muList",
     "nu", --Dan: add the mu options
     "NuCheck",
     "nuList", --Dan: add the mu options
     "Search",
+    "SearchDepth",
     "StandardPower",
     "ContainmentTest",
     "UseColonIdeals",
-    "UseSpecialAlgorithms",
-
-    "Nontrivial",
-    "MaxExp", -- Dan ( **no doc**)
-    "PrintCP" -- Dan ( **no doc**)
+    "UseSpecialAlgorithms"
 }
 
 --*************************************************
+
+load "./FThresholds/DivisorPatch.m2" --some helper functions
 
 load "./FThresholds/BasicFunctions.m2"
 

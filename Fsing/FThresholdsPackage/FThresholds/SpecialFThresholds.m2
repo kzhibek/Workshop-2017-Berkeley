@@ -309,7 +309,7 @@ findCPBelow ( List, FTData ) := List => ( pt, S ) ->
 -- polynomial F=L1^(a1)...Ln^(an)
 binaryFormFPTInternal = method(
     TypicalValue => QQ, 
-    Options => { MaxExp => infinity, PrintCP => false, Nontrivial => false }
+    Options => { "MaxExp" => infinity, "PrintCP" => false, "Nontrivial" => false }
 )
 
 binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
@@ -321,7 +321,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     p := S#"char";
     den := denominator( 2/deg );
     local mult;
-    if opt.Nontrivial then mult = infinity
+    if opt#"Nontrivial" then mult = infinity
     else
     ( 
     	if gcd( S#"char", den) == 1 then mult = multiplicativeOrder( p, den )
@@ -339,7 +339,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     e := 0;
     dgt := 0;
     u := 2*a/deg;
-    while I != ideal( 1_rng ) and e < opt.MaxExp and e < mult do 
+    while I != ideal( 1_rng ) and e < opt#"MaxExp" and e < mult do 
     (
 	e = e+1;
 	dgt = adicDigit( p, e, u );
@@ -363,14 +363,14 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
 	cp = findCPBelow( cp/p + adicDigit( p, e0+1, u )/p, S1 ) 
     );
     cp = cp/p^e0 + adicTruncation( p, e0, u ); -- "zoom out"
-    if opt.PrintCP then print toString cp;
+    if opt#"PrintCP" then print toString cp;
     max apply( cp, a, (c,k) -> c/k )
 )
 
 -----------------------
 binaryFormFPT = method(
     TypicalValue => QQ, 
-    Options => { MaxExp => infinity, PrintCP => false }
+    Options => { "MaxExp" => infinity, "PrintCP" => false }
 )
 
 -- binaryFormFPT(RingElement)
@@ -395,9 +395,9 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     binaryFormFPTInternal( 
 	m, 
 	setFTData(S_*,L), 
-	MaxExp => opt.MaxExp, 
-	PrintCP => opt.PrintCP, 
-	Nontrivial => true 
+	"MaxExp" => opt#"MaxExp", 
+	"PrintCP" => opt#"PrintCP", 
+	"Nontrivial" => true 
     )
 )
 
@@ -421,8 +421,8 @@ binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) ->
     binaryFormFPTInternal( 
 	m, 
 	setFTData( gens ring L_0, L ),
-	MaxExp => opt.MaxExp,
-	PrintCP => opt.PrintCP
+	"MaxExp" => opt#"MaxExp",
+	"PrintCP" => opt#"PrintCP"
     )
 )
 
