@@ -34,7 +34,6 @@ doc ///
          (criticalExponentApproximation,ZZ,RingElement,Ideal)
      Headline
         gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
-        --\mu_I^J(p^d)/p^d or \mu_f^J(p^d)/p^d for d = 0,...,e.
      Usage
           criticalExponentApproximation(e,I,J)
           criticalExponentApproximation(e,f,J)
@@ -48,9 +47,8 @@ doc ///
      Description
          Text
              This returns a list of $\mu_I^J(p^d)/p^d$ or $\mu_f^J(p^d)/p^d$ for $d = 0,...,e$.  As $d$ approaches $\infty$,
-	     the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
-
-	 Example
+	            the sequence of these terms converges to the critical exponent of $I$ or $f$ with respect to $J$.
+	   Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
@@ -250,7 +248,7 @@ doc ///
          [nu, Search]
          [nu, UseColonIdeals]
      Headline
-        computes nu-approximates of a given F-threshold or F-pure threshold
+        computes nu-values associated to a given F-threshold or F-pure threshold
         --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
      Usage
           nu(e,I,J)
@@ -268,7 +266,7 @@ doc ///
          f:RingElement
      Outputs
         :ZZ
-          the $e$-th approximate $\nu$ of the $F$-threshold or $F$-pure threshold
+          the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, ..., x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
@@ -319,7 +317,7 @@ doc ///
          [nuList, Search]
          [nuList, UseColonIdeals]
      Headline
-          computes a list of nu-approximates of a given F-threshold or F-pure threshold
+          computes a list of nu-values associated to a given F-threshold or F-pure threshold
      Usage
           nuList(e,I,J)
           nuList(e,I)
