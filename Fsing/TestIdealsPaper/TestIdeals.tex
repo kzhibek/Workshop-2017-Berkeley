@@ -237,7 +237,8 @@ Thus the complexity of  computing $(gR)^{[1/p^e]}$ is proportional to the number
 
 This package includes a method for checking if a ring of finite type over a prime field is $F$-injective or not.
 \begin{definition}
-A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$ is injective for all $i >0$. An arbitrary ring is called $F$-injective if each of the localizations at a prime ideal are $F$-injective.
+A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$
+induced from the Frobenius map on $R$ is injective for all $i \geq 0$. An arbitrary ring is called $F$-injective if each of the localizations at a prime ideal are $F$-injective.
 \end{definition}
 
 \begin{verbatim}
@@ -249,7 +250,7 @@ i5 : isFinjective(R)
 o5 = false
 \end{verbatim}
 
-The algorithm {\tt isFinjective} determines whether the ring  $R = S/I$ is F-injective or not. The algorithm works by checking the injectivity of the frobenius map using the functoriality of $\Ext$.  The algorithm starts by computing  the map $R \rightarrow F_{*}R$ using {\tt frobPFMap}. This outputs a map represented as a matrix over $R$, using {\tt pushFwdToAmbient} to allows this map to instead be represented over the ambient ring $S$. The next step computes the module $\Ext^{i}( \blank, S)$ using the map from the previous step. Finally the algorithm checks the dimension of the cokernel of  $\Ext^{i}( \blank, S)$. If the dimension does not equal negative one then the Frobenius action is not injective and the algorithm terminates and returns false. Otherwise the algorithm continues on and checks the next degree in the same way.
+The algorithm {\tt isFinjective} determines whether the ring  $R = S/I$ is F-injective or not. The algorithm works by checking the injectivity of the Frobenius map using the functoriality of $\Ext$.  The algorithm starts by computing  the map $R \rightarrow F_{*}R$ using {\tt frobPFMap}. This outputs a map represented as a matrix over $R$, using {\tt pushFwdToAmbient} to allows this map to instead be represented over the ambient ring $S$. The next step computes the module $\Ext^{i}( \blank, S)$ using the map from the previous step. Finally the algorithm checks the dimension of the cokernel of  $\Ext^{i}( \blank, S)$. If the dimension does not equal negative one then the Frobenius action is not injective and the algorithm terminates and returns false. Otherwise the algorithm continues on and checks the next degree in the same way.
 
 The {\tt CanonicalStrategy} tag can be used to modify the strategy the algorithm uses to check the Frobenius action on the top local cohomology. By default the algorithm is set to {\tt CanonicalStrategy => Katzman} which then uses the strategy of Katzman  {\hfill\large\color{red} [Add references]}. If the tag is set to anything else {\tt CanonicalStrategy => null} the algorithm checks the top local cohomology using the same brute force strategy used to check the injectivity at lower degrees. The Katzman strategy is typically much faster.
 
