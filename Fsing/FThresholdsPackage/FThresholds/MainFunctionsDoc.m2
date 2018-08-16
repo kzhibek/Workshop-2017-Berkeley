@@ -282,7 +282,7 @@ doc ///
          f:RingElement
      Outputs
         :ZZ
---      the $e$-th approximate $\nu$ of the $F$-threshold or $F$-pure threshold  
+          the $e$-th approximate $\nu$ of the $F$-threshold or $F$-pure threshold
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, ..., x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
@@ -305,7 +305,7 @@ doc ///
             The option {\tt UseColonIdeals} specifies whether or not {\tt nu} uses colon ideals to compute $\nu$ in an iterative way.
 
      SeeAlso
-        nuList
+        nuList, mu, muList
 ///
 
 doc ///
@@ -331,7 +331,7 @@ doc ///
          [nuList, Search]
          [nuList, UseColonIdeals]
      Headline
-          Lists $\nu_I^J(p^d)$ or $\nu_f^J(p^d)$ for d = 1,...,e
+          computes a list of nu-approximates of a given F-threshold or F-pure threshold
      Usage
           nuList(e,I,J)
           nuList(e,I)
@@ -349,7 +349,9 @@ doc ///
         :List
      Description
         Text
-            Given an ideal I in a polynomial ring k[x_1,...,x_n], this function computes nu(d, I, J) recursively for d = 0,...,e; see @TO nu@, and similarly if nuList is passed (ZZ, Ideal), (ZZ, RingElement, Ideal), or (ZZ, RingElement).
+            Given an ideal $I$ in a polynomial ring $k[x_1,...,x_n]$, this function computes {\tt nu(d, I, J)}
+            or {\tt nu(d,f,J)} recursively for $d = 0,...,e$; see @TO nu@, and similarly if {\tt nuList} is passed 
+            (ZZ, Ideal), (ZZ, RingElement, Ideal), or (ZZ, RingElement).
      SeeAlso
         nu
 ///
