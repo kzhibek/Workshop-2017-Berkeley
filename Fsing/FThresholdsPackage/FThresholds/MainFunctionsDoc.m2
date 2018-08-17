@@ -243,6 +243,23 @@ doc ///
         criticalExponentApproximation
 ///
 
+doc ///
+     Key
+        fptGuessList
+     Headline
+        Tries to guess the FPT in a really naive way (this should be improved).
+     Usage
+         fptGuessList(f,e,d)
+     Inputs
+         f:RingElement
+         e:ZZ
+         d:ZZ
+     Outputs
+        :List
+     Description
+        Text
+             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
+///
 
 doc ///
     Key
@@ -268,6 +285,7 @@ doc ///
             a value for the option {\tt ContainmentTest} to consider containment of Frobenius powers of ideals
     SeeAlso
         nu
+        nuList
 ///
 
 doc ///
@@ -280,6 +298,7 @@ doc ///
             a value for the option {\tt ContainmentTest} to consider containment of Frobenius roots of ideals
     SeeAlso
         nu
+        nuList
 ///
 
 doc ///
@@ -311,24 +330,6 @@ doc ///
               ftApproximation(2,I,J)
               f = x^3*y^2+x^5*y;
               ftApproximation(2,f,J)
-///
-
-doc ///
-     Key
-        fptGuessList
-     Headline
-        Tries to guess the FPT in a really naive way (this should be improved).
-     Usage
-         fptGuessList(f,e,d)
-     Inputs
-         f:RingElement
-         e:ZZ
-         d:ZZ
-     Outputs
-        :List
-     Description
-        Text
-             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
 ///
 
 doc ///
@@ -718,6 +719,20 @@ doc ///
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+    Key
+        StandardPower
+    Headline
+        an option value to consider containment of standard power of an ideal in Frobenius power of another ideal
+    Description
+        Text
+            a value for the option {\tt ContainmentTest} to consider containment of the standard power of an ideal in the
+            Frobenius power of another ideal
+    SeeAlso
+        nu
+        nuList
 ///
 
 doc ///
