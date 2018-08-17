@@ -64,34 +64,33 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the \emph{TestIdeals} package for the computer algebra software \emph{Macaulay2}.
+This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the {\tt TestIdeals.m2} package for the computer algebra system Macaulay2.
 A ring $R$ of prime characteristic $p>0$ comes equipped with the Frobenius endomorphism
 \[ F: R \to R \ \text{ given by } F(x) =  x^p \]
-which is the basis for many constructions and definitions, while also affording handles on many problems,  in this setting. 
-Two notable applications of Frobenius are the theory of tight closure
-(see \cite{HochsterHunekeTC1} for an introduction)
-and the resulting theory of test ideals
-(cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
-That said, it remains a fundamental tool in the expanding area of prime characteristic commutative algebra.
+which is the basis for many constructions and definitions.  Notably, Frobenius can be used to detect if a ring is regular \cite{KunzCharacterizationsOfRegularLocalRings} and more generally can be used to evaluate the severity of singularities.
 
-The \emph{TestIdeals} package was created during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University.  Its main goals were to implement basic functionality in prime characteristic, to collect useful algorithms that had already been implemented by various authors, and to implement other useful algorithms. 
+In this direction, two notable applications of Frobenius are the theory of tight closure
+(see \cite{HochsterHunekeTC1,HochsterFoundations} for an introduction)
+and the resulting theory of test ideals
+(cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).  These methods are used by a wide variety of commutative algebraists and algebraic geometers.  
+%That said, it remains a fundamental tool in the expanding area of prime characteristic commutative algebra.
+
+The {\tt TestIdeals.m2} package was started during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University (at the time, the package was called {\tt PosChar.m2}.  The goal of this package was to provide a unified and efficient set of tools to study singularities in characteristic $p > 0$, and in particular collect and implement algorithms that had been described in several papers.  The package {\tt PosChar.m2} was split into two packages, {\tt TestIdeals.m2} and {\tt FThresholds.m2}.
+%Its main goals were to implement basic functionality in prime characteristic, to collect useful algorithms that had already been implemented by various authors, and to implement other useful algorithms.
 Since then, much more functionality has been added by many contributors, including in several more \emph{Macaulay2} development workshops.\footnote{Development workshops hosted by the University of California, Berkeley (2014, 2017), Boise State University (2015), and the University of Utah (2016).}
 
-
-{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
-
-Some of the first algorithms included were methods for computing Frobenius roots and $\star$-closures, algorithms for computing parameter test ideals
-developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls}, and algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp} and \cite{HernandezFPureThresholdOfBinomial}.
-Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and used to produce the examples in that paper. 
-{\hfill\large\color{red} [Expand: how were the test module methods conceived?]}\\
+%{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
+Starting at least with \cite{FedderFPureRat}, it has been known that the Frobenius endormorphism offers \emph{effective} methods for measuring singularities in characteristic $p > 0$.  However, the algorithms that form the basis of this package were the methods for computing Frobenius roots and $\star$-closures, and algorithms for computing parameter test ideals.  These were first appeared in \cite{KatzmanParameterTestIdealOfCMRings,BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,BlickleMustataSmithFThresholdsOfHypersurfaces,KatzmanFrobeniusMapsOnInjectiveHulls}. Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp} and \cite{HernandezFPureThresholdOfBinomial} form some of the key methods in the forthcoming {\tt FThresholds} package.
+Other algorithm in \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and used to produce the examples in that paper.  The methods for computing the test ideal and test module that were used implicitly in papers such as \cite{BlickleSchwedeTakagiZhang,KatzmanLyubeznikZhangOnDiscretenessAndRationality,SchwedeTuckerTestIdealFiniteMaps} became implementable via the Frobenius roots functionality.
+%{\hfill\large\color{red} [Expand: how were the test module methods conceived?]}\\
 
 
 
 
 \subsection*{Acknowledgements}
-The authors thank those who have made contributions to the \emph{TestIdeals} package, which includes
-Erin Bela, Alberto Boix, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Sara Malec, Matthew Mastroeni, and Maral Mostafazadehfard. 
-This paper, and the finishing touches to the \emph{TestIdeals} package, were made at the University of Utah in 2018, and the authors visiting thank the Department of Mathematics for its hospitality. 
+The authors thank those who have made contributions to the {\tt TestIdeals.m2} package, which includes
+Erin Bela, Alberto Boix, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Sara Malec, Matthew Mastroeni, and Maral Mostafazadehfard.
+This paper, and the finishing touches to the {\tt TestIdeals.m2} package, were made at the University of Utah in 2018, and the authors visiting thank the Department of Mathematics for its hospitality.
 
 
 
@@ -102,7 +101,7 @@ This paper, and the finishing touches to the \emph{TestIdeals} package, were mad
 Let $S$ denote a commutative ring of prime characteristic $p$.
 
 \begin{definition}
-Given an ideal $I\subseteq S$ and an integer $e\geq 0$, we define the \emph{$e$-th Frobenius power of $I$}, denoted $I^{[p^e]}$, to be the ideal 
+Given an ideal $I\subseteq S$ and an integer $e\geq 0$, we define the \emph{$e$-th Frobenius power of $I$}, denoted $I^{[p^e]}$, to be the ideal
 generated by all $p^e$-th powers of elements the elements of $I$.
 \end{definition}
 
@@ -113,8 +112,8 @@ It is easy to see that, if $I$ is generated by $g_1, \dots, g_\ell$, then $I^{[p
 Given an ideal $I\subseteq S$ and an integer $e\geq I$, we define the \emph{$e$-th Frobenius root of $I$}, denoted $I^{[1/p^{e}]}$, to be the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$, if such an ideal exists.
 \end{definition}
 
-Frobenius roots exist in polynomial and power series rings
-(cf.~\cite[\S 2]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds} and \cite[\S 5]{KatzmanParameterTestIdealOfCMRings}).
+Frobenius roots exist in polynomial and power series rings 
+(cf.~\cite[\S 2]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds} and \cite[\S 5]{KatzmanParameterTestIdealOfCMRings}).  They also exist in $F$-finite regular rings.  In all such rings, we can also describe Frobenius roots as follows.  In a regular ring, 
 
 
 \begin{verbatim}
@@ -133,10 +132,10 @@ We can extend the definition of Frobenius powers as follows:
 Let  $I\subseteq S$ be an ideal.
 \begin{enumerate}
  \item[(a)] If $a$ is a positive integer with base $p$ expansion  $a=a_0 + a_1 p +  \dots + a_r p^r$, we define
-\[ I^{[n]}=I^{a_0} \left(I^{a_1}\right)^{[p]} \dots  (I^{a_r})^{[p^r]}.\] 
+\[ I^{[n]}=I^{a_0} \left(I^{a_1}\right)^{[p]} \dots  (I^{a_r})^{[p^r]}.\]
  \item[(b)] If $t$ is a nonnegative rational number of the form $t = a/p^e$, we define  $I^{[t]} = (I^{[a]})^{[1/p^e]}.$
  \item[(c)] If $t$ is any nonnegative rational number, and $\{a_n/p^{e_n}\}_{n\geq 1}$ is a sequence of rational numbers converging to $t$ from above, we define $I^{[t]}$
- to be the stable value of the non-decreasgin chain of ideals $\{I^{[a_n/p^{e_n}]}\}_{n\geq 1}$.
+ to be the stable value of the non-decreasing chain of ideals $\{I^{[a_n/p^{e_n}]}\}_{n\geq 1}$.
 \end{enumerate}
 \end{definition}
 
@@ -152,11 +151,11 @@ o6 : Ideal of R
 
 \subsection{Frobenius  roots of submodules of free modules}
 
-Given a submodule $M$ of the free module $S^k$, there is a smallest submodule $N$ of $S^k$ that contains $M$, for which $M\subseteq N^{[p^e]}$. 
+Given a submodule $M$ of the free module $S^k$, there is a smallest submodule $N$ of $S^k$ that contains $M$, for which $M\subseteq N^{[p^e]}$.
 Here,  $N^{[p^e]}$ is the submodule  of $S^k$ whose generators are the vectors of $N$ with all coordinates raised to the $p^e$-th power. (Cf.~\cite{KatzmanZhangAlgorithm}).
 
 \begin{example}
-Let $R=\ZZ/p\ZZ[a,b,c,d]$, and consider the ideals $\mathfrak{m}=(a,b,c,d)$ and 
+Let $R=\ZZ/p\ZZ[a,b,c,d]$, and consider the ideals $\mathfrak{m}=(a,b,c,d)$ and
 $$I= (a,b) \cap (a,c) \cap (c,d) \cap (c+d, a^3+b d^2)$$
 of $R$; in fact, $R/I$ is a $3$-dimensional Cohen-Macaulay ring.
 Matlis Duality applied to $H^2_{\mathfrak{m}} (R/I)$ with its natural Frobenius map
@@ -214,8 +213,8 @@ o13 : Matrix R  <--- R
 so $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
 This calculation also shows that $H^2_{\mathfrak{m}} (R/I)\cong \Ann_{E^2} A^t$
 where $E$ is the injective hull of $R_{\mathfrak{m}}/ {\mathfrak{m}} R_{\mathfrak{m}}$,
-and the Frobenius map on  $H^2_{\mathfrak{m}} (R/I)$ induced from Frobeniuson $R$
-is given by $U^t T$ where $T$ is the induced Frobenius on $E$.
+and the Frobenius map on  $H^2_{\mathfrak{m}} (R/I)$ induced from Frobenius on $R$
+is given by $U^t \Theta$ where $\Theta$ is the induced Frobenius on $E$.
 The submodule of nilpotent elements in  $H^2_{\mathfrak{m}} (R/I)$ is
 given by $\Ann_{E^2} B^t$ where $B$ is the smallest submodule of $R^2$ containing $\Image A + \Image U$ such that $U  B \subseteq B^{[p]}$.
 The method \emph{ascendModule} can be used to calculate  $B$ (see detailed description of similar method \emph{ascendIdeal} in Section \ref{Section: Test Ideals}).
@@ -257,7 +256,7 @@ The $e$-th Frobenius map $f:S \rightarrow S$  raising elements to their $p^e$-th
 Furthermore, for any ideal $I\subseteq S$ and $k\geq 0$, $f$ induces a $p^{e}$-linear map $H_I^k (S) \rightarrow H_I^k (S)$.
 \end{example}
 
-Let $R$ be a polynomial ring with irrelevant ideal $\mathfrak{m}$ and let $g$ be a nonzero element of $R$. 
+Let $R$ be a polynomial ring with irrelevant ideal $\mathfrak{m}$ and let $g$ be a nonzero element of $R$.
 Let $E=E_{R_{\mathfrak{m}}}(R_{\mathfrak{m}}/\mathfrak{m})$ denote the injective hull of $R_{\mathfrak{m}}/\mathfrak{m}$.
 
 The Frobenius map on $R$ induces a Frobenius map $S$ and on
@@ -284,7 +283,7 @@ when the characteristic of $\mathbb{K}$ is $7$ and non-injective when the charac
 
 \subsection{Implementation and complexity}
 
-The computation of Frobenius roots is the workhorse behind many of the methods in \emph{TestIdeals}.
+The computation of Frobenius roots is the workhorse behind many of the methods in {\tt TestIdeals.m2}.
 Hence it is important to understand how this is implemented, and its computational complexity.
 
 Let $R=\mathbb{K}[x_1, \dots, x_n]$ and fix $B$ to be $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$.
@@ -339,7 +338,7 @@ The algorithm {\tt isFinjective} determines whether the ring $R = S/I$ is
 $F$-injective. The algorithm works by checking the injectivity of the
 Frobenius map using the fact that $\Ext^{i}(\blank, S) \cong H^{\dim S -
 i}_{\mathfrak{m}}(\blank) $. The algorithm starts by computing the map $R
-\rightarrow F_{*}R$ using {\tt frobPFMap}. Next the algorithm computes
+\rightarrow R^{1/p}$ using {\tt frobPFMap}. Next the algorithm computes
 $\Ext^{i}( \blank, S)$ applied to the map from the previous step. Then the
 Frobenius action will be injective precisely when the dimension of the
 cokernel of $\Ext^{i}( \blank, S)$ is trivial. If the cokernel is
@@ -360,12 +359,12 @@ strategy is typically much faster.
 The performance of the algorithm can be improved if the ring of interest is
 nice enough. If the ring is Cohen-Macaulay then, setting {\tt AssumeCM =>
 true} lets the algorithm check the Frobenius action only on top cohomology
-(which is typically much faster). 
-%The default value for the option {\tt AssumeCM} is {\tt false}. 
+(which is typically much faster).
+%The default value for the option {\tt AssumeCM} is {\tt false}.
 %Of
 %course, telling the algorithm to assume the ring is Cohen-Macaulay when it
 %is not can lead to an incorrect answer if the non-injective Frobenius
-%occurs in a lower degree. For an example of this see the documentation. 
+%occurs in a lower degree. For an example of this see the documentation.
 When entering a reduced ring,  setting {\tt AssumedReduced => true} avoids
 computing the bottom local cohomology, and when entering a normal ring, setting
 {\tt AssumeNormal => true} avoids computing the bottom two local
@@ -435,7 +434,7 @@ computing the test ideal $\tau$ of the ring  (or the pair) using {\tt testIdeal}
 and checking whether $\tau=R$.
 In the non-$\mathbb{Q}$-Gorenstein case the algorithm checks for
 strong $F$-regularity by computing better and
-better approximations of the test ideal, and checking whether any of these is the unit ideal. 
+better approximations of the test ideal, and checking whether any of these is the unit ideal.
 To compute approximations of the
 test ideal the algorithm computes a test element $c$ with {\tt testElement}
 and then uses {\tt frobeniusRoot} to compute the $e$-th root of
@@ -456,10 +455,9 @@ allows the user to specify the $\mathbb{Q}$-Gorenstein index of the ring.
 
 
 The default behavior of {\tt isFregular} checks for strong $F$-regularity
-everywhere. If the option {\tt IsLocal => true}, the algorithm will only
-check at the origin (this uses a similar computation but checks for the
-containment of $(1)$ instead of the test ideal plus the maximal ideal at
-the origin). Below is an example for both a ring and a pair.
+globally. If the option {\tt IsLocal => true}, the algorithm will only
+check at the origin by checking whether the computed test ideal is in the irrelevant ideal.
+Below is an example for both a ring and a pair.
 
 
 \begin{verbatim}
@@ -519,7 +517,7 @@ Suppose that $R$ is a Cohen-Macaulay ring and that $\Phi_{R} :
 \omega_{R^{1/p}} \rightarrow \omega_{R}$ is the canonical dual of
 Frobenius. We say that $R$ has \emph{$F$-rational singularities} if there
 are no non-zero proper submodules $M$ of $\omega_{R}$ such that
-$\Phi_{R}(F_{*}M) \subseteq M$.
+$\Phi_{R}(M^{1/p}) \subseteq M$.
 \end{definition}
 
 
@@ -810,10 +808,10 @@ o4 : List
 
 The defining condition $u I = I^{[p]}$ for $\phi$-compatible ideals allows us to
 think of these in a dual form: write $\mathfrak{m}=(x_1, \dots, x_n)R$,
-$E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let $T: E \rightarrow E$ be the $p^e$-linear map
+$E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let $\Theta: E \rightarrow E$ be the $p^e$-linear map
 induced from the Frobenius map on $R$.
-If $\psi=u T$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
-Thus finding all $R$-submodules of $E$ compatible with $\psi=u T$ also amounts to finding all
+If $\psi=u \Theta$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
+Thus finding all $R$-submodules of $E$ compatible with $\psi=u \Theta$ also amounts to finding all
 $\phi=\pi \circ u^{1/p^e}$-compatible ideals.
 
 \begin{example}
@@ -822,7 +820,7 @@ We return to Example \ref{Example: parameter test ideal}.
 In (cf.~\cite[\S 9]{KatzmanParameterTestIdealOfCMRings}) it is shown that
 there is a surjection $\Ann_E I \rightarrow H^2_{\mathfrak{m}} (R/I)$
 which is compatible with with the induced $p^1$-linear map on $H^2_{\mathfrak{m}} (R/I)$
-and the $p^1$-linear map $u T$ on $\Ann_E I$ where $u$ is computed as follows.
+and the $p^1$-linear map $u \Theta$ on $\Ann_E I$ where $u$ is computed as follows.
 \begin{verbatim}
 i2 :      R=ZZ/2[x_1..x_5];
 i3 :      E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
@@ -919,7 +917,7 @@ o14 : List
 \section{Future plans}
 
 In \cite{KatzmanZhangAlgorithm} the algorithms behind the method in Section \ref{Section: compatible ideals} were extended
-to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map. 
+to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map.
 This would require, among other things, a faster implementation of our method for finding Frobenius roots of submodules of free modules.
 We hope to achieve this during a future \emph{Macaulay2} workshop.
 
