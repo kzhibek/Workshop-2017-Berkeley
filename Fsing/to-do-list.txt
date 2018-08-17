@@ -1,9 +1,9 @@
-1) Test Ideals paper
+1) TestIdeals paper
 
 -- Everyone should look at, and edit, the paper
 -- Email all other contributors regarding authorship
 
-2) Test Ideals Package
+2) TestIdeals Package
 
 -- Minor documentation improvements
 -- Front page improvements/examples
