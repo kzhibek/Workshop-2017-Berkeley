@@ -182,14 +182,14 @@ HSLGModule(ZZ, List, List, Ideal) :=  o-> (ee, expList, u1, canIdeal) -> (
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 --****************************************************
---*** isFinjective checks if a ring is F-injective ***
+--*** isFInjective checks if a ring is F-injective ***
 --****************************************************
 
 
-isFinjective = method(Options => {FrobeniusRootStrategy => Substitution, CanonicalStrategy => Katzman, AssumeCM => false, AssumeReduced => true, AssumeNormal => false, IsLocal => false});
+isFInjective = method(Options => {FrobeniusRootStrategy => Substitution, CanonicalStrategy => Katzman, AssumeCM => false, AssumeReduced => true, AssumeNormal => false, IsLocal => false});
 --originally written by Drew Ellingson, with assistance from Karl Schwede
 
-isFinjective(Ring) := o-> (R1) ->
+isFInjective(Ring) := o-> (R1) ->
 (
     d := dim R1;
     S1 := ambient R1;
@@ -204,7 +204,7 @@ isFinjective(Ring) := o-> (R1) ->
 
     -- F-Injectivity fast to compute on dim(S)-dim(R), so we check there seperately by default
     if (o.CanonicalStrategy === Katzman) then (
-        if (isFinjectiveCanonicalStrategy(R1, IsLocal => o.IsLocal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy) == false) then ( -- if F-injectivity fails in top dimension, no need to try any others
+        if (isFInjectiveCanonicalStrategy(R1, IsLocal => o.IsLocal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy) == false) then ( -- if F-injectivity fails in top dimension, no need to try any others
         	return false;
     	);
     )
@@ -237,9 +237,9 @@ isFinjective(Ring) := o-> (R1) ->
 );
 
 --the following is an internal function, it checks if is F-injective at the top cohomology (quickly)
-isFinjectiveCanonicalStrategy = method(Options => {FrobeniusRootStrategy => Substitution, IsLocal => false});
+isFInjectiveCanonicalStrategy = method(Options => {FrobeniusRootStrategy => Substitution, IsLocal => false});
 
-isFinjectiveCanonicalStrategy(Ring) := o->(R1) -> (
+isFInjectiveCanonicalStrategy(Ring) := o->(R1) -> (
     S1 := ambient R1;
 	I1 := ideal R1;
 	canIdeal := trim canonicalIdeal(R1);

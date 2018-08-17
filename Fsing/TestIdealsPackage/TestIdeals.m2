@@ -124,7 +124,7 @@ export{
 
 -- Finjective.m2
     "HSLGModule", --produces the non-F-injective module, ie the submodule of the canonical module
-    "isFinjective",
+    "isFInjective",
     "CanonicalStrategy", --how to check F-injectivity on the canonical module (Ext or Katzman)
     "Katzman", --an option for CanonicalStrategy
 
@@ -136,7 +136,7 @@ export{
     "QGorensteinIndex", --if you already know the Q-Gorenstein index, you can pass it
     "DepthOfSearch",
     "isFRegular",
-    "isFpure",
+    "isFPure",
     "compatibleIdeals" ---MK
 }
 

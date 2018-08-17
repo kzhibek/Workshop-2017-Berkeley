@@ -90,23 +90,23 @@ doc ///
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
         testModule
-        isFinjective
+        isFInjective
 ///
 
 doc ///
     Key
-        isFinjective
-        (isFinjective, Ring)
-        [isFinjective, FrobeniusRootStrategy]
-        [isFinjective, IsLocal]
-        [isFinjective, AssumeCM]
-        [isFinjective, AssumeNormal]
-        [isFinjective, AssumeReduced]
-        [isFinjective, CanonicalStrategy]
+        isFInjective
+        (isFInjective, Ring)
+        [isFInjective, FrobeniusRootStrategy]
+        [isFInjective, IsLocal]
+        [isFInjective, AssumeCM]
+        [isFInjective, AssumeNormal]
+        [isFInjective, AssumeReduced]
+        [isFInjective, CanonicalStrategy]
     Headline
         whether a ring is F-injective
     Usage
-        isFinjective(R)
+        isFInjective(R)
     Inputs
         R:Ring
         FrobeniusRootStrategy => Symbol
@@ -134,8 +134,8 @@ doc ///
              M = matrix{ {a^2 + t^m, b, d}, {c, a^2, b^n-d} };
              I = minors(2, M);
              R = S/I;
-             isFinjective(R)
-             isFpure(R)
+             isFInjective(R)
+             isFPure(R)
         Text
             Next let's form the cone over $P^1 \times E$ where $E$ is an elliptic curve.  We begin with a supersingular elliptic curve.  This should be F-injective and only if it is F-pure.
         Example
@@ -143,8 +143,8 @@ doc ///
             EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3+y^2*z-x*z^2); --supersingular elliptic curve
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
-            isFinjective(R)
-            isFpure(R)
+            isFInjective(R)
+            isFPure(R)
         Text
             Now we do a similar computation this time with an ordinary elliptic curve.
         Example
@@ -152,20 +152,20 @@ doc ///
             EP1 = ZZ/3[x,y,z,s,t]/ideal(y^2*z-x^3+x*y*z); --ordinary elliptic curve
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
-            isFinjective(R)
-            isFpure(R)
+            isFInjective(R)
+            isFPure(R)
         Text
             If {\tt CanonicalStrategy=>Katzman} which is the default behavior, then the Frobenius action on the top local cohomology (bottom $Ext$) is computed via the method of Katzman.  If it is set to anything else, it is simply brute forced in Macaulay2 using the fuctoriality of Ext.  {\tt CanonicalStrategy=>Katzman} typically is much faster.
         Example
             R = ZZ/5[x,y,z]/ideal(y^2*z + x*y*z-x^3)
-            time isFinjective(R)
-            time isFinjective(R, CanonicalStrategy=>null)
+            time isFInjective(R)
+            time isFInjective(R, CanonicalStrategy=>null)
         Text
             If you set the option {\tt IsLocal => true} (default {\tt false}) it will only check F-injectivity at the origin.  Otherwise it will check it everywhere.  Note checking at the origin can be slower than checking it everywhere.  Consider the example of the following non-F-injective ring.
         Example
             R = ZZ/5[x,y,z]/ideal( (x-1)^4 + y^4 + z^4 );
-            isFinjective(R)
-            isFinjective(R, IsLocal=>true)
+            isFInjective(R)
+            isFInjective(R, IsLocal=>true)
         Text
             If {\tt AssumeCM=>true} then the function only checks the Frobenius action on top cohomology (which is typically much faster).  The default value is {\tt false}.  Note, that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $P^1$.
         Example
@@ -173,8 +173,8 @@ doc ///
             EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3+y^2*z-x*z^2);
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
-            time isFinjective(R)
-            time isFinjective(R, AssumeCM=>true)
+            time isFInjective(R)
+            time isFInjective(R, AssumeCM=>true)
         Text
             If {\tt AssumedReduced=>true} (default {\tt true}) then the bottom local cohomology is avoided (this means the Frobenius action on the top potentially nonzero Ext is not computed).
         Text
@@ -182,7 +182,7 @@ doc ///
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
-        isFpure
+        isFPure
         testModule
 ///
 
@@ -205,9 +205,9 @@ doc ///
     Key
         CanonicalStrategy
     Headline
-        an option for isFinjective
+        an option for isFInjective
     SeeAlso
-        isFinjective
+        isFInjective
 ///
 
 doc ///
@@ -216,5 +216,5 @@ doc ///
     Headline
         a valid value for the option CanonicalStrategy
     SeeAlso
-        isFinjective
+        isFInjective
 ///
