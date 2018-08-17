@@ -86,7 +86,7 @@ doc ///
         (criticalExponentApproximation,ZZ,Ideal,Ideal)
         (criticalExponentApproximation,ZZ,RingElement,Ideal)
     Headline
-        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
+        gives a list of approximates of a critical exponent
     Usage
         criticalExponentApproximation(e,I,J)
         criticalExponentApproximation(e,f,J)
@@ -240,10 +240,6 @@ doc ///
             This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
             at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
             Only takes on Boolean values.
-
-            Enables the user to check whether the given pair is F-regular at the given maximal ideal
-            (so that if not, the F-pure threshold can be determined from the F-signature function).
-            Only takes on Boolean values.
     SeeAlso
         fpt
 ///
@@ -268,7 +264,7 @@ doc ///
          :List
      Description
          Text
-            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or of $f$, with respect to $J$.
+            This returns a list of terms of the sequence whose limit defines the $F$-threshold of $I$, or of $f$, with respect to $J$.
 
             This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
@@ -330,9 +326,18 @@ doc ///
             to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
 
             Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+            the function attempts find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+        Example
+            R = ZZ/5[x,y];
+            f =  x^4 + y^3 + x^2*y^2;
+            isFJumpingExponent(7/12,f)
+            isFJumpingExponent(4/5,f)
+            isFJumpingExponent(5/6,f)
+            isFJumpingExponent(11/12,f)
+    SeeAlso
+        isFPT
 ///
 
 doc ///
@@ -361,12 +366,17 @@ doc ///
         :Boolean
      Description
         Text
-             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
+            Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
 
-             The options are the same as in @TO compareFPT@.
+            The options are the same as in @TO compareFPT@.
+        Example
+            R = ZZ/11[x,y];
+            f = x^3+y^2;
+            isFPT(9/11,f)
      SeeAlso
         compareFPT
         fpt
+        isFJumpingExponent
 ///
 
 doc ///
@@ -380,7 +390,7 @@ doc ///
          [mu, Search]
          [mu, UseColonIdeals]
      Headline
-        computes the largest Frobenius power of an ideal not contained in some Frobenius power
+        computes the largest Frobenius power of an ideal not contained in a specified Frobenius power
      Usage
           mu(e,I,J)
           mu(e,I)
@@ -435,7 +445,9 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt mu(d, I, J)}
-            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$. In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest} set to {\tt FrobeniusPower}.
+            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$.
+            In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest}
+            set to {\tt FrobeniusPower}.
      SeeAlso
         mu
         nuList
@@ -453,21 +465,25 @@ doc ///
          [nu, Search]
          [nu, UseColonIdeals]
      Headline
-        computes the largest power of an ideal not contained in some Frobenius power
+        computes the largest power of an ideal not contained in a specified Frobenius power
      Usage
           nu(e,I,J)
           nu(e,I)
           nu(e,f,J)
           nu(e,f)
-          ComputePreviousNus => Boolean
-          ContainmentTest => Symbol
-          Search => Symbol
-          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
          J:Ideal
          f:RingElement
+         ComputePreviousNus => Boolean
+             specifies whether to compute {\tt nu(d,I,J)} for $d = 0, \cdots, e-1$ to aid in the computation of {\tt nu(e,I,J)}
+         ContainmentTest => Symbol
+             specifies the manner in which to verify the containment of a power of $I$ in some specified Frobenius power of $J$
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$ such that $I^n$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt nu(e,I,J)}
      Outputs
         :ZZ
           the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
@@ -502,8 +518,8 @@ doc ///
             generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  This relation implies that when searching
             for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
 
-            The option {\tt ComputePreviousNus}, whose default value is {\tt true}, exploits this observation, and
-            usually leads to faster computations.
+            The option {\tt ComputePreviousNus}, whose default value is {\tt true}, exploits this observation, and computes {\tt nu(d,I,J)}
+            for $d = 0, \cdots, e-1$ to aid in the computation of {\tt nu(e,I,J)}.  It usually leads to faster computations.
         Example
             S=ZZ/79[x,y];
             f=x^5+x^4*y+x^3*y^2+x^2*y^3+x*y^4+y^5; -- a homogeneous polynomial of degree 5 in x,y
@@ -558,9 +574,8 @@ doc ///
           a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)} recursively for $d = 0,\ldots,e$.  If {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)}
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes a list with indices
+            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input. 
      SeeAlso
         nu
 ///
