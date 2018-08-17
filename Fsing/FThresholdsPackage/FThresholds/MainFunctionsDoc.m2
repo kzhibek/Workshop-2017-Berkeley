@@ -139,6 +139,7 @@ doc ///
          [fpt, NuCheck]
          [fpt, UseFSignature]
          [fpt, UseSpecialAlgorithms]
+         [fpt, Verbose]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
@@ -151,14 +152,18 @@ doc ///
              containing forms in two variables
          m:List
              containing positive integers
-         UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
+         DepthOfSearch => ZZ
+             specifies the power of the characteristic to be used in a search for the F-pure threshold
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
              specifies whether to check if $\nu_f(p^e)/(p^e-1)$ or $(\nu_f(p^e)+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option  @TO DepthOfSearch@
-         DepthOfSearch => ZZ
-             specifies the power of the characteristic to be used in a search for the F-pure threshold
+         UseFSignature => Boolean
+             specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate 
+         UseSpecialAlgorithms => Boolean
+             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
+	 Verbose => Boolean
+	     requests verbose feedback
      Outputs
         :List
             which contains the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
