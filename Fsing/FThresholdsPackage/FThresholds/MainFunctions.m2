@@ -146,7 +146,7 @@ search := new HashTable from
 ---------------------------------------------------------------------------------
 -- OPTION PACKAGES
 
-optMuList := 
+optMuList :=
 {
     UseColonIdeals => false,
     Search => Binary
@@ -482,14 +482,14 @@ fpt RingElement := o -> f ->
     if o.NuCheck then
     (
         -- Check to see if lowerBound is the fpt
-	if not isFregular( lowerBound, f ) then
+	if not isFRegular( lowerBound, f ) then
 	(
 	    if o.Verbose then print "\nfpt is the lower bound nu/(p^e-1).";
 	    return lowerBound
 	)
       	else
-	( 
-	    if o.Verbose then 
+	(
+	    if o.Verbose then
 	        print "\nThe lower bound nu/(p^e-1) is not the fpt ...";
 	    strictLowerBound = true
 	);
@@ -501,7 +501,7 @@ fpt RingElement := o -> f ->
 	)
       	else
 	(
-	    if o.Verbose then 
+	    if o.Verbose then
                 print "\nThe upper bound (nu+1)/p^e is not the fpt ...";
 	    strictUpperBound = true
 	)
@@ -534,29 +534,29 @@ fpt RingElement := o -> f ->
 	        print "\nF-signature line crosses at the upper bound (nu+1)/p^e, so that is the fpt.";
 	    return int
         );
-    
+
         -- Compare the intercept with the current lower bound, nu/(p^e-1)
         if lowerBound < int then
         (
-	    if o.Verbose then 
+	    if o.Verbose then
 	        print "\nF-signature intercept is an improved lower bound ...";
 	    lowerBound = int;
 	    strictLowerBound = false;
         )
-        else if o.Verbose then 
-            print "\nF-signature computation failed to find an improved lower bound ...";	 
+        else if o.Verbose then
+            print "\nF-signature computation failed to find an improved lower bound ...";
     );
 
     if o.FRegularityCheck and not strictLowerBound then
     (
 	if o.Verbose then print "\nStarting final check ...";
-        if not isFregular( lowerBound, f ) then
+        if not isFRegular( lowerBound, f ) then
         (
 	   if o.Verbose then
 	       print "\nFinal check successful; fpt is the lower bound.";
 	   return int
       	)
-	else 
+	else
 	(
 	    if o.Verbose then print "\nFRegularityCheck did not find the fpt ...";
 	    strictLowerBound = true
@@ -651,7 +651,7 @@ getDivisorIndex := (maxIndex, divisorialIdeal) -> (
             fflag = true;
         );
     );
-    if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein; perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
+    if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein; perhaps increase the option MaxCartierIndex.  Also see the documentation for isFRegular.";
     return cartIndex;
 );
 

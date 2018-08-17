@@ -11,7 +11,7 @@
 
 --version history
 --0.2 first public version
---0.2a added AssumeDomain options to isFregular and isFrational
+--0.2a added AssumeDomain options to isFRegular and isFRational
 --1.0 first complete version
 --protect QGorensteinIndex;
 --protect MaxCartierIndex;
@@ -116,8 +116,8 @@ export{
     "canonicalIdeal", --Karl (still needs more tests / documentation), this is based on Moty's old code.
     "frobeniusTraceOnCanonicalModule", --Karl (this is Moty's find u function, but it returns a list if Macaulay2 doesn't identify 1 element).
     "isCohenMacaulay", --Karl (added recently, if anyone has ideas to improve this...)
-    "isFrational", --Karl (added recently).
-    "IsLocal", --an option for isCohenMacaulay, isFrational, etc.
+    "isFRational", --Karl (added recently).
+    "IsLocal", --an option for isCohenMacaulay, isFRational, etc.
     "testModule", --Karl (this subsumes a bunch of older functions)
     "MTries",
     "parameterTestIdeal",
@@ -135,7 +135,7 @@ export{
     "testIdeal", --Karl (the new version)
     "QGorensteinIndex", --if you already know the Q-Gorenstein index, you can pass it
     "DepthOfSearch",
-    "isFregular",
+    "isFRegular",
     "isFpure",
     "compatibleIdeals" ---MK
 }

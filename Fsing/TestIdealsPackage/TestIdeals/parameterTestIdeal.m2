@@ -319,11 +319,11 @@ isCohenMacaulay(Ring) := o->(R1) ->(
     )
 );
 
---next we write an isFrational function
+--next we write an isFRational function
 
-isFrational = method(Options => {AssumeDomain => false, IsLocal => false, AssumeCM => false, FrobeniusRootStrategy=>Substitution });
+isFRational = method(Options => {AssumeDomain => false, IsLocal => false, AssumeCM => false, FrobeniusRootStrategy=>Substitution });
 
-isFrational(Ring) := o->(R1) ->(
+isFRational(Ring) := o->(R1) ->(
     flag := true;
     --first verify if it is CM
     if (o.AssumeCM == false) then(

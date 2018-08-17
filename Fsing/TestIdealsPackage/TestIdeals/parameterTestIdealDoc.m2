@@ -238,16 +238,16 @@ doc ///
 
 doc ///
     Key
-        isFrational
-        (isFrational, Ring)
-        [isFrational, IsLocal]
-        [isFrational, AssumeCM]
-        [isFrational, AssumeDomain]
-        [isFrational, FrobeniusRootStrategy]
+        isFRational
+        (isFRational, Ring)
+        [isFRational, IsLocal]
+        [isFRational, AssumeCM]
+        [isFRational, AssumeDomain]
+        [isFRational, FrobeniusRootStrategy]
     Headline
         whether a ring is F-rational
     Usage
-        isFrational(R)
+        isFRational(R)
     Inputs
         R:Ring
         IsLocal => Boolean
@@ -268,10 +268,10 @@ doc ///
             S = ZZ/5[a,b,c,d];
             g = map(T, S, {x^3, x^2*y, x*y^2, y^3});
             R = S/(ker g);
-            isFrational(R)
+            isFRational(R)
         Example
             R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-            isFrational(R)
+            isFRational(R)
         Text
             We conclude with a more interesting example of a ring that is F-rational but not F-regular.  This example first appeared in A. K. Singh's work on deformation of F-regularity.
         Example
@@ -281,7 +281,7 @@ doc ///
              M = matrix{ {a^2 + t^m, b, d}, {c, a^2, b^n-d} };
              I = minors(2, M);
              R = S/I;
-             isFrational(R)
+             isFRational(R)
         Text
             The option {\tt AssumeDomain} is used when computing a test element.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     Caveat
