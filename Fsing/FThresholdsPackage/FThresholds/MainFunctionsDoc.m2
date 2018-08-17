@@ -553,19 +553,55 @@ doc ///
             time nu(10,f)
             time nu(10,f, ComputePreviousNus=>false)
         Text
-            The option {\tt ContainmentTest} specifies the algorithm used to test the containment of $I^n$ in the $p^e$-th
-            Frobenius power of $J$. Valid values for {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
+            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
+            The default value of this option depends on what is passed to {\tt nu}.  Indeed, by default, {\tt ContainmentTest} is set to
+            {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
+            We describe the consequences of setting {\tt ContainmentTest} to each of these values below.
 
-            By default, {\tt ContainmentTest} is set to {\tt FrobeniusPower} if {\tt nu} is passed a ring element $f$,
-            and {\tt ContainmentTest} is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
+            First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments that occur when computing
+            {\tt nu(e,I,J)} are verified directly.  That is, the standard power $I^n$ is first computed, and a check is then run to see if
+            it lies in the $p^e$-th Frobenius power of $J$.
 
-            The function {\tt nu} works by searching a list of integers for the above number $\nu$.
-            The option {\tt Search} specifies the search algorithm used to do so.
-            Valid values for {\tt Search} are {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
-
+            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments that occur when computing
+            {\tt nu(e,I,J)} are verified using Frobenius Roots.  That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and
+            a check is then run to see if it lies in $J$.  The output is unaffected, but this option often speeds up computations.
+        Example
+            ZZ/11[x,y,z];
+            f=x^3+y^3+z^3+x*y*z;
+            time nu(3,f) -- ContainmentTest is set to frobeniusRoot, by default
+            time nu(3,f,ContainmentTest=>StandardPower)
+        Text
+            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above,
+            {\tt nu(e,I,J, ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th Frobenius power of $I$ is not contained in the $p^e$-th Frobenius
+            power of $J$.  Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
+            Hernandez, Teixeira, and Witt.  In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree!  However,
+            they will when $I$ is a principal ideal.  We note that the output of {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} is the same as that of
+            {\tt mu(e,I,J)}.
+        Example
+            ZZ/3[x,y];
+            M=ideal(x,y);
+            nu(3,M^5)
+            nu(3,M^5,ContainmentTest=>FrobeniusPower)
+            mu(3,M^5) -- should produce the same output as preceding command
+        Text
+            The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
+            The option {\tt Search} specifies the search algorithm used to do so search for the exponent $n$ among a list of possibilities.
+            Valid values for {\tt Search} are {\tt Binary}, the default value, {\tt BinaryRecursive}, and {\tt Linear}.
+        Example
+            ZZ/17[x,y];
+            M=ideal(x,y);
+            time nu(2,M,M^2,Search=>Binary)
+            time nu(2,M,M^2,Search=>BinaryRecursive)
+            time nu(2,M,M^2,Search=>Linear)
+        Text
             The option {\tt UseColonIdeals} specifies whether or not {\tt nu} uses colon ideals to compute $\nu$ in an iterative way.
-
-     SeeAlso
+--to do:  Add example that illustrates the difference.  If we can't find one, maybe remove this option.
+        Example
+            ZZ/5[x,y,z];
+            f=2*x^2*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4
+            time nu(5,f) --Use ColonIdeals is set to false, by default
+            time nu(5,f, UseColonIdeals=>true)
+    SeeAlso
         mu
         nuList
 ///
