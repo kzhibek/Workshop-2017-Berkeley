@@ -262,30 +262,37 @@ nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
 nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
--- Nus can be computed using generalized Frobenius powers, by using
+-- Mus can be computed using generalized Frobenius powers, by using
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
 
-muList = method( Options => optNuList );
-muList ( ZZ, Ideal, Ideal) := o -> (e, I, J) ->
-    nuList( e, I, J, o, ContainmentTest => FrobeniusPower );
+muList = method( Options => optNuList, TypicalValue => List )
 
-muList ( ZZ, Ideal) := o -> (e, I) ->
-    nuList( e, I, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, Ideal, Ideal ) := List => o -> (e, I, J) ->
+    nuList( e, I, J, o, ContainmentTest => FrobeniusPower )
 
-muList ( ZZ, RingElement, Ideal) := o -> (e, f, J) ->
-    nuList( e, f, J, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, Ideal ) := List => o -> (e, I) ->
+    nuList( e, I, o, ContainmentTest => FrobeniusPower )
 
-muList ( ZZ, RingElement ) := o -> (e, f) ->
-    nuList( e, f, o, ContainmentTest => FrobeniusPower );
+muList ( ZZ, RingElement, Ideal ) := List => o -> (e, f, J) ->
+    nuList( e, f, J, o, ContainmentTest => FrobeniusPower )
 
-mu = method( Options => optNu);
-mu ( ZZ, Ideal, Ideal) := o -> (e, I, J) -> nu( e, I, J, ContainmentTest => FrobeniusPower );
+muList ( ZZ, RingElement ) := List => o -> (e, f) ->
+    nuList( e, f, o, ContainmentTest => FrobeniusPower )
 
-mu ( ZZ, Ideal) := o -> (e, I) -> nu( e, I, ContainmentTest => FrobeniusPower );
+mu = method( Options => optNu, TypicalValue => ZZ )
 
-mu ( ZZ, RingElement, Ideal) := o -> (e, f, J) -> nu( e, f, J, ContainmentTest => FrobeniusPower );
+mu ( ZZ, Ideal, Ideal ) := ZZ => o -> (e, I, J) -> 
+    nu( e, I, J, ContainmentTest => FrobeniusPower )
 
-mu ( ZZ, RingElement) := o -> (e, f) -> nu(e, f, ContainmentTest => FrobeniusPower );
+mu ( ZZ, Ideal ) := ZZ => o -> (e, I) -> 
+    nu( e, I, ContainmentTest => FrobeniusPower )
+
+mu ( ZZ, RingElement, Ideal ) := ZZ => o -> (e, f, J) -> 
+    nu( e, f, J, ContainmentTest => FrobeniusPower )
+
+mu ( ZZ, RingElement ) := ZZ => o -> (e, f) -> 
+    nu(e, f, ContainmentTest => FrobeniusPower )
+    
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
@@ -380,7 +387,7 @@ fpt = method(
 	    NuCheck => true,
 	    DepthOfSearch => 1
 	}
-);
+)
 
 fpt RingElement := o -> f ->
 (
@@ -532,7 +539,7 @@ fpt RingElement := o -> f ->
 )
 
 fpt ( List, List ) := o -> ( L, m ) -> 
-binaryFormFPT( L, m, Verbose => o.Verbose )
+    binaryFormFPT( L, m, Verbose => o.Verbose )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
@@ -544,7 +551,16 @@ binaryFormFPT( L, m, Verbose => o.Verbose )
 --It returns -1 if less
 --it returns 0 if equal
 --it returns 1 if greater
-compareFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0});
+compareFPT = method( 
+    Options => 
+    { 
+	MaxCartierIndex => 10, 
+	FrobeniusRootStrategy => Substitution, 
+	AssumeDomain => true, 
+	QGorensteinIndex => 0
+    },
+    TypicalValue => ZZ
+)
 
 --gets a nonzero generator of an ideal.
 getNonzeroGenerator := (I2) -> (
@@ -598,11 +614,11 @@ getDivisorIndex := (maxIndex, divisorialIdeal) -> (
             fflag = true;
         );
     );
-    if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
+    if ((cartIndex <= 0) or (fflag == false)) then error "getDivisorIndex: Ring does not appear to be Q-Gorenstein; perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
     return cartIndex;
 );
 
-compareFPT(Number, RingElement) := o -> (t, f) -> (
+compareFPT(Number, RingElement) := ZZ => o -> (t, f) -> (
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;
     if (class(R1) === PolynomialRing) then return compareFPTPoly(t, f);
@@ -726,11 +742,13 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 --isFPT, determines if a given rational number is the FPT of a pair in a
 -- polynomial ring.
 
-isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
+isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0},
+    TypicalValue => Boolean 
+)    
 
 
 -- Dan: We should use the "Origin" option somehow... 
-isFPT ( Number, RingElement ) := o -> ( t, f ) ->
+isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
     return (0 == compareFPT(t/1, f, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain, QGorensteinIndex => o.QGorensteinIndex ));
 );
@@ -743,9 +761,9 @@ isFPT ( Number, RingElement ) := o -> ( t, f ) ->
 --***************************************************************************
 
 -- Dan: isn't is safer to have AssumeDomain default to "false" here?
-isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0} )
+isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0}, TypicalValue => Boolean )
 
-isFJumpingExponent ( Number, RingElement ) := o -> ( t, f ) ->
+isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;

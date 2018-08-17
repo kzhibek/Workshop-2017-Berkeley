@@ -190,6 +190,8 @@ binomialFPT RingElement := QQ => g ->
      min( FPT, monFPT )
 )
 
+
+
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for computing FPTs of forms in two variables
@@ -418,7 +420,11 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     (
 	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
 	return 2/deg 
-    );    
+    )   
+    else
+    (
+	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";	
+    );
     e0 := e-1;
     S1 := setFTData( ideals_e0, polys );
     cp := findCPBelow( dgt/p, S1 ); 
@@ -458,15 +464,17 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     (
 	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
 	return 2/deg
+    )
+    else
+    (
+	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";	
     );
 
     R := ring F;
     vv := R_*;
     kk := splittingField F;
-    a := symbol a;
-    b := symbol b;
-    S :=kk[a,b];
-    G := sub( F, { vv#0 => a, vv#1 => b } );
+    S := kk( monoid[getSymbol "a", getSymbol "b"] );
+    G := sub( F, { vv#0 => (S_*)#0, vv#1 => (S_*)#1 } );
     ( L, m ) := toSequence transpose factorsAndMultiplicities G;
     binaryFormFPTInternal( 
 	m, 
