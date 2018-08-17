@@ -86,7 +86,7 @@ doc ///
         (criticalExponentApproximation,ZZ,Ideal,Ideal)
         (criticalExponentApproximation,ZZ,RingElement,Ideal)
     Headline
-        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
+        gives a list of approximates of a critical exponent
     Usage
         criticalExponentApproximation(e,I,J)
         criticalExponentApproximation(e,f,J)
@@ -239,10 +239,6 @@ doc ///
         Text
             This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
             at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
-            Only takes on Boolean values.
-
-            Enables the user to check whether the given pair is F-regular at the given maximal ideal
-            (so that if not, the F-pure threshold can be determined from the F-signature function).
             Only takes on Boolean values.
     SeeAlso
         fpt
