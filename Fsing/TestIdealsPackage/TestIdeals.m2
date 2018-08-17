@@ -19,7 +19,7 @@
 
 newPackage( "TestIdeals",
 Version => "0.2a",
-Date => "3/13/2018, 2018",
+Date => "8/17/2018, 2018",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -91,7 +91,7 @@ export{
     "NoZeroC", --option to force certain behavior from a function
 
 --ethRootFunctions (EthRoots.m2)
-    "ascendIdeal", 
+    "ascendIdeal",
     "ascendModule",
     "AscentCount",
     "FrobeniusRootStrategy",

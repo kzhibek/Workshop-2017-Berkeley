@@ -1,7 +1,7 @@
 
 newPackage( "FThresholds",
-Version => "0.1",
-Date => "August 13th, 2018",
+Version => "1.0",
+Date => "August 17th, 2018",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -84,6 +84,8 @@ export{
     "UseColonIdeals",
     "UseSpecialAlgorithms"
 }
+
+
 
 --loadPackage("TestIdeals", LoadDocumentation => true, Reload=>true);
 
