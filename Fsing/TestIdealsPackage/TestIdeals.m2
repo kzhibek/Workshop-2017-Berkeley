@@ -1,25 +1,26 @@
 --*************************************************
 --*************************************************
 --This is the revised (and cleaned up) version
---of the PosChar package, which has been under
+--of the TestIdeals.m2 package, which has been under
 --continuous development since the Wake Forest
 --Macaulay2 workshop of August 2012.
---Only well documented and working functions are
---migrated to this package.
+--TestIdeals.m2 and FThresholds.m2 broke off from
+--the original package, called PosChar.m2
 --*************************************************
 --*************************************************
 
 --version history
 --0.2 first public version
 --0.2a added AssumeDomain options to isFregular and isFrational
+--1.0 first complete version
 --protect QGorensteinIndex;
 --protect MaxCartierIndex;
 --protect DepthOfSearch;
 --protect FrobeniusPowerStrategy;
 
 newPackage( "TestIdeals",
-Version => "0.2a",
-Date => "3/13/2018, 2018",
+Version => "1.0",
+Date => "8/17/2018, 2018",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -91,7 +92,7 @@ export{
     "NoZeroC", --option to force certain behavior from a function
 
 --ethRootFunctions (EthRoots.m2)
-    "ascendIdeal", 
+    "ascendIdeal",
     "ascendModule",
     "AscentCount",
     "FrobeniusRootStrategy",
