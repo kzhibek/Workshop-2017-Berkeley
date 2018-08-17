@@ -410,8 +410,8 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt mu(e, I, J)} or {\tt mu(e, f, J)} outputs the
-            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. In other words, calling the function {\tt mu} is the same as calling the function @TO nu@ with the option {\tt ContainmentTest} set to {\tt FrobeniusPower}.
-        Example
+            maximal integer $N$ such that the $N$-th generalized Frobenius power of $I$, or $f^N$,
+            is not contained in the $p^e$-th Frobenius power of $J$.
         Example
             R = ZZ/3[x,y];
             I = ideal(x^2, x+y);
