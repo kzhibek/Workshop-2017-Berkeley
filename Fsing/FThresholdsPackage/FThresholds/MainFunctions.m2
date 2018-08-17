@@ -262,7 +262,7 @@ nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
 nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
--- Mus can be computed using generalized Frobenius powers, by using
+-- Can be computed using generalized Frobenius powers, by using
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
 
 muList = method( Options => optNuList, TypicalValue => List )
@@ -281,18 +281,18 @@ muList ( ZZ, RingElement ) := List => o -> (e, f) ->
 
 mu = method( Options => optNu, TypicalValue => ZZ )
 
-mu ( ZZ, Ideal, Ideal ) := ZZ => o -> (e, I, J) -> 
+mu ( ZZ, Ideal, Ideal ) := ZZ => o -> (e, I, J) ->
     nu( e, I, J, ContainmentTest => FrobeniusPower )
 
-mu ( ZZ, Ideal ) := ZZ => o -> (e, I) -> 
+mu ( ZZ, Ideal ) := ZZ => o -> (e, I) ->
     nu( e, I, ContainmentTest => FrobeniusPower )
 
-mu ( ZZ, RingElement, Ideal ) := ZZ => o -> (e, f, J) -> 
+mu ( ZZ, RingElement, Ideal ) := ZZ => o -> (e, f, J) ->
     nu( e, f, J, ContainmentTest => FrobeniusPower )
 
-mu ( ZZ, RingElement ) := ZZ => o -> (e, f) -> 
+mu ( ZZ, RingElement ) := ZZ => o -> (e, f) ->
     nu(e, f, ContainmentTest => FrobeniusPower )
-    
+
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
@@ -573,7 +573,7 @@ fpt RingElement := o -> f ->
     { lowerBound, upperBound }
 )
 
-fpt ( List, List ) := o -> ( L, m ) -> 
+fpt ( List, List ) := o -> ( L, m ) ->
     binaryFormFPT( L, m, Verbose => o.Verbose )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -586,12 +586,12 @@ fpt ( List, List ) := o -> ( L, m ) ->
 --It returns -1 if less
 --it returns 0 if equal
 --it returns 1 if greater
-compareFPT = method( 
-    Options => 
-    { 
-	MaxCartierIndex => 10, 
-	FrobeniusRootStrategy => Substitution, 
-	AssumeDomain => true, 
+compareFPT = method(
+    Options =>
+    {
+	MaxCartierIndex => 10,
+	FrobeniusRootStrategy => Substitution,
+	AssumeDomain => true,
 	QGorensteinIndex => 0
     },
     TypicalValue => ZZ
@@ -778,11 +778,11 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 -- polynomial ring.
 
 isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0},
-    TypicalValue => Boolean 
-)    
+    TypicalValue => Boolean
+)
 
 
--- Dan: We should use the "Origin" option somehow... 
+-- Dan: We should use the "Origin" option somehow...
 isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
     return (0 == compareFPT(t/1, f, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain, QGorensteinIndex => o.QGorensteinIndex ));
