@@ -154,21 +154,12 @@ testIdeal(Ring) := o->(R1) -> (
     computedTau
 )
 
-testIdeal(QQ, RingElement, Ring) := o->(t1, f1, R1) -> (
-    --this computes \tau(R, f^t)
-    testIdeal({t1}, {f1}, R1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
-);
-
-testIdeal(ZZ, RingElement, Ring) := o->(t1, f1, R1) -> (
+testIdeal(Number, RingElement, Ring) := o->(t1, f1, R1) -> (
     --this computes \tau(R, f^t)
     testIdeal({t1/1}, {f1}, R1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
 );
 
-testIdeal(QQ, RingElement) := o->(t1, f1) -> (
-    testIdeal({t1}, {f1}, ring f1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
-);
-
-testIdeal(ZZ, RingElement) := o->(t1, f1) -> (
+testIdeal(Number, RingElement) := o->(t1, f1) -> (
     testIdeal({t1/1}, {f1}, ring f1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
 );
 
@@ -250,7 +241,8 @@ isFRegular(Ring) := o->R1 -> (
     )
 );
 
-isFRegular(QQ, RingElement) := o->(tt, ff) -> (
+isFRegular(Number, RingElement) := o->(tt, ff) -> (
+    tt = tt/1;
     if (o.QGorensteinIndex == infinity) then (
         return nonQGorensteinIsFregular(o.DepthOfSearch, {tt}, {ff}, ring ff, AssumeDomain=>o.AssumeDomain,  FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
     );
@@ -264,19 +256,6 @@ isFRegular(QQ, RingElement) := o->(tt, ff) -> (
     )
 );
 
-isFRegular(ZZ, RingElement) := o->(tt, ff) -> (
-    if (o.QGorensteinIndex == infinity) then (
-        return nonQGorensteinIsFregular(o.DepthOfSearch, {tt}, {ff}, ring ff, AssumeDomain => o.AssumeDomain,  FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
-    );
-    R1 := ring ff;
-    tau := testIdeal(tt, ff, MaxCartierIndex=>o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex, AssumeDomain => o.AssumeDomain);
-    if (o.IsLocal == true) then (
-        if (isSubset(ideal(sub(1, R1)), tau+maxIdeal( R1 ))) then true else false
-    )
-    else(
-        if (isSubset(ideal(sub(1, R1)), tau)) then true else false
-    )
-);
 
 isFRegular(List, List) := o->(ttList, ffList) -> (
     if (o.QGorensteinIndex == infinity) then (
