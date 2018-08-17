@@ -42,6 +42,7 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
     SeeAlso
+        fpt
         isFPT
 ///
 
@@ -138,7 +139,7 @@ doc ///
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
-             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option {\tt DepthOfSearch} and $\nu=\nu_f(p^e)$
+             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option  @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$
          DepthOfSearch => ZZ
              specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
@@ -148,14 +149,14 @@ doc ///
             the $F$-pure threshold of $f$
      Description
           Text
-              The function {\tt fpt(f)} tries to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
+              The function @TO fpt@ tries to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
               Otherwise, it returns an interval containing the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
               fpt( x^3+y^3+z^3+x*y*z )
               fpt( x^5+y^6+z^7+(x*y*z)^3 )
          Text
-              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
+              If the option @TO UseSpecialAlgorithms@ is set to @TO true@ (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
               If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
          Example
              fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
@@ -163,8 +164,8 @@ doc ///
              ZZ/5[x,y];
              fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
-             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu = \nu_f(p^e)$, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to 1.
-              The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if {\tt NuCheck} is set to {\tt true} (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
+             When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to @TO false@, @TO fpt@ computes $\nu = \nu_f(p^e)$ (see @ TO nu @), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
+              The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if @TO NuCheck@ is set to @TO true@ (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
          Example
              f = x^2*(x+y)^3*(x+3*y^2)^5;
              fpt f
@@ -172,21 +173,19 @@ doc ///
              fpt( f, DepthOfSearch => 3 )
              oo == (nu(3,f)+1)/5^3
          Text
-              If {\tt Nucheck} is unsuccessful, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
+              If @TO NuCheck@ is unsuccessful, the @TO fpt@ function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
 
-              When {\tt FRegularityCheck} is set to {\tt true} (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
+              When @TO FRegularityCheck@ is set to @TO true@ (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
 
               If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
-              Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+              Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to @TO true@, the precise interval will be printed.
 
-              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, the function {\tt fpt(L, m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$.
+              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, {\tt fpt(L m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$.
 
          Example
-              S = ZZ/5[x,y]
-              L = {x+y, x+2*y}
-              m = {2, 3}
+              L = {x, y, x+y, x+3*y};
+              m = {2, 6, 9, 10};
               fpt(L, m)
-              oo == fpt( (x+y)^2*(x+2*y)^3)
     SeeAlso
               fptApproximation
               nu
@@ -343,7 +342,7 @@ doc ///
         [isFPT, MaxCartierIndex]
         [isFPT, QGorensteinIndex]
      Headline
-        Checks whether a given number is the $F$-pure threshold
+        Checks whether a given number is the F-pure threshold
      Usage
           isFPT(t,f,Verbose=>V,Origin=>W)
      Inputs
@@ -406,7 +405,6 @@ doc ///
         muList
 ///
 
-<<<<<<< HEAD
 doc ///
      Key
          muList
@@ -441,9 +439,6 @@ doc ///
         mu
         nuList
 ///
-=======
->>>>>>> 656912f6f4e27bcaa88c0661a9b7bfdc068b53b3
-
 
 doc ///
      Key
