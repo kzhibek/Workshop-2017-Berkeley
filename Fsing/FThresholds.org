@@ -43,13 +43,13 @@
 *** checkOptions [1/1]
 **** DONE Include tests with functions that return boolean values.
      CLOSED: [2018-08-16 Thu 08:58]
-* Main functions: [[file:./FThresholdsPackage/FThresholds/MainFunctions.m2][MainFunctions.m2]] [8/12]
+* Main functions: [[file:./FThresholdsPackage/FThresholds/MainFunctions.m2][MainFunctions.m2]] [10/12]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-** Functions [8/12]
+** Functions [10/12]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -69,7 +69,7 @@
 **** TODO Incorporate in fpt
 *** fSig
 *** isFRegularPoly
-*** fpt [5/6]
+*** fpt [6/6]
 **** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.
     CLOSED: [2018-08-14 Tue 17:31]
     Now second argument was replaced with the option DepthOfSearch
@@ -81,11 +81,13 @@
      CLOSED: [2018-08-16 Thu 09:00]
 **** DONE binaryFormFPT has a template that doesn't fit the fpt function; add that template 
      CLOSED: [2018-08-16 Thu 12:22]
-**** TODO Now document that template
-*** isFPT [2/3]
+**** DONE Now document that template
+     CLOSED: [2018-08-16 Thu 17:55]
+*** isFPT [3/3]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:24]
-**** TODO Rewrite, so as not to assume a polynomial ring
+**** DONE Rewrite, so as not to assume a polynomial ring
+     CLOSED: [2018-08-16 Thu 17:54]
 **** DONE Origin does not seem to do anything (KILLED)
      CLOSED: [2018-08-13 Mon 13:01]
 
