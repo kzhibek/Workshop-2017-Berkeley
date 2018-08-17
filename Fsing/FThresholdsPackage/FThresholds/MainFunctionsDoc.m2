@@ -326,9 +326,11 @@ doc ///
             to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
 
             Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+            the function attempts find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+    SeeAlso
+        isFPT
 ///
 
 doc ///
@@ -363,6 +365,7 @@ doc ///
      SeeAlso
         compareFPT
         fpt
+        isFJumpingExponent
 ///
 
 doc ///
@@ -376,7 +379,7 @@ doc ///
          [mu, Search]
          [mu, UseColonIdeals]
      Headline
-        computes the largest Frobenius power of an ideal not contained in some Frobenius power
+        computes the largest Frobenius power of an ideal not contained in a specified Frobenius power
      Usage
           mu(e,I,J)
           mu(e,I)
