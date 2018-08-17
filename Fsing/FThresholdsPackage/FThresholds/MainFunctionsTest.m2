@@ -143,3 +143,23 @@ time assert( mu(1,I,J,ComputePreviousNus => false) == 48 )
 time assert( nuList(1,I,J,ContainmentTest=> FrobeniusPower) == {6, 48} )
 time assert( muList(1,I,J) == {6, 48} )
 ///
+
+TEST ///
+R = ZZ/11[x,y,z]/ideal(x*y-z^2);
+f = sub(x, R);
+assert(compareFPT(5/11, f) < 0);
+assert(compareFPT(1/2, f) == 0);
+assert(compareFPT(61/120, f) > 0);
+///
+
+TEST ///
+T = ZZ/7[a,b];
+S = ZZ/7[x,y,z,w];
+f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
+I = ker f;
+R = S/I;
+g = sub(x, R);
+assert(compareFPT(113/342, g) < 0);
+assert(compareFPT(1/3, g) == 0);
+assert(compareFPT(17/49, g) > 0);
+///
