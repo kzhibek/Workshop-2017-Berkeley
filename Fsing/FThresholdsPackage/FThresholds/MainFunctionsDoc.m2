@@ -369,6 +369,10 @@ doc ///
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
 
              The options are the same as in @TO compareFPT@.
+        Example
+            R = ZZ/11[x,y];
+            f = x^3+y^2;
+            isFPT(9/11,f)
      SeeAlso
         compareFPT
         fpt
