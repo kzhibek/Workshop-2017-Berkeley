@@ -81,7 +81,7 @@ Since then, much more functionality has been added by many contributors, includi
 
 %{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
 Starting at least with \cite{FedderFPureRat}, it has been known that the Frobenius endormorphism offers \emph{effective} methods for measuring singularities in characteristic $p > 0$.  However, the algorithms that form the basis of this package were the methods for computing Frobenius roots and $\star$-closures, and algorithms for computing parameter test ideals.  These were first appeared in \cite{KatzmanParameterTestIdealOfCMRings,BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,BlickleMustataSmithFThresholdsOfHypersurfaces,KatzmanFrobeniusMapsOnInjectiveHulls}. Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp} and \cite{HernandezFPureThresholdOfBinomial} form some of the key methods in the forthcoming {\tt FThresholds} package.
-Other algorithm in \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and used to produce the examples in that paper.  The methods for computing the test ideal and test module that were used implicitly in papers such as \cite{BlickleSchwedeTakagiZhang,KatzmanLyubeznikZhangOnDiscretenessAndRationality,SchwedeTuckerTestIdealFiniteMaps} became implementable via the Frobenius roots functionality.
+Another algorithm in \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and used to produce the examples in that paper.  The methods for computing the test ideal and test module that were used implicitly in papers such as \cite{BlickleSchwedeTakagiZhang,KatzmanLyubeznikZhangOnDiscretenessAndRationality,SchwedeTuckerTestIdealFiniteMaps} became implementable via the Frobenius roots functionality.
 %{\hfill\large\color{red} [Expand: how were the test module methods conceived?]}\\
 
 
@@ -777,14 +777,14 @@ We call these ideals $\phi$-compatible.
 
 Recall that in section \ref{Section: p-linear maps} we identified $p^{-e}$ linear maps
 with elements of $\Hom_R( R^{1/p^e}, R)$ and it turns out that this is a principal $R^{1/p^e}$-module generated
-the \emph{trace map} $\pi\in \Hom_R(^{1/p^e}, R)$, constructed as follows (cf. \cite[Lemma 1.6]{FedderFPureRat} and \cite[Example 1.3.1]{BrionKumarFrobeniusSplitting}).
-Recall that if $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$;
+the \emph{trace map} $T\in \Hom_R(R^{1/p^e}, R)$, constructed as follows (cf. \cite[Lemma 1.6]{FedderFPureRat} and \cite[Example 1.3.1]{BrionKumarFrobeniusSplitting}).
+Recall that, if $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$ (with $1\in B$),
 $R^{1/p^e}$ is a free $R$-module with basis
 $$\left\{ b x_1^{\alpha_1/p^e} \dots x_n^{\alpha_n/p^e} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e \right\} ;$$
-the trace map $\pi$ is the projection onto the free summand
+the trace map $T$ is the projection onto the free summand
 $R x_1^{(p^e-1)/p^e} \dots x_n^{(p^e-1)/p^e}\cong R$.
 
-We can now write our given $\phi$ as multiplication by some $u^{1/p^e}$ followed by $\pi$ and it is not hard to see that
+We can now write our given $\phi$ as multiplication by some $u^{1/p^e}$ followed by $T$ and it is not hard to see that
 an ideal $I\subseteq R$ is $\phi$-compatible if and only if $u I \subseteq I^{[p^e]}$.
 
 \begin{theorem}\label{Theorem: finitely many compatible primes}
@@ -812,7 +812,7 @@ $E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, an
 induced from the Frobenius map on $R$.
 If $\psi=u \Theta$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
 Thus finding all $R$-submodules of $E$ compatible with $\psi=u \Theta$ also amounts to finding all
-$\phi=\pi \circ u^{1/p^e}$-compatible ideals.
+$\phi=T \circ u^{1/p^e}$-compatible ideals.
 
 \begin{example}
 
