@@ -1,7 +1,7 @@
 
 newPackage( "FThresholds",
-Version => "0.1",
-Date => "August 13th, 2018",
+Version => "1.0",
+Date => "August 17th, 2018",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -86,6 +86,8 @@ export{
     "UseSpecialAlgorithms"
 }
 
+
+
 --loadPackage("TestIdeals", LoadDocumentation => true, Reload=>true);
 
 
@@ -100,6 +102,8 @@ load "./FThresholds/MainFunctions.m2"
 load "./FThresholds/SpecialFThresholds.m2"
 
 beginDocumentation()
+
+load "./FThresholds/FThresholdsDoc.m2"
 
 load "./FThresholds/MainFunctionsDoc.m2"
 

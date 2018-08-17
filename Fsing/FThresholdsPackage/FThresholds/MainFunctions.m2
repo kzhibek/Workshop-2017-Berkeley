@@ -146,13 +146,15 @@ search := new HashTable from
 ---------------------------------------------------------------------------------
 -- OPTION PACKAGES
 
-optNuList :=
+optMuList := 
 {
-    ContainmentTest => null,
     UseColonIdeals => false,
     Search => Binary
 }
 
+optNuList := optMuList | { ContainmentTest => null }
+
+optMu := optMuList | { ComputePreviousNus => true }
 optNu := optNuList | { ComputePreviousNus => true }
 
 ---------------------------------------------------------------------------------
@@ -265,7 +267,7 @@ nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 -- Can be computed using generalized Frobenius powers, by using
 -- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
 
-muList = method( Options => optNuList, TypicalValue => List )
+muList = method( Options => optMuList, TypicalValue => List )
 
 muList ( ZZ, Ideal, Ideal ) := List => o -> (e, I, J) ->
     nuList( e, I, J, o, ContainmentTest => FrobeniusPower )
@@ -279,7 +281,7 @@ muList ( ZZ, RingElement, Ideal ) := List => o -> (e, f, J) ->
 muList ( ZZ, RingElement ) := List => o -> (e, f) ->
     nuList( e, f, o, ContainmentTest => FrobeniusPower )
 
-mu = method( Options => optNu, TypicalValue => ZZ )
+mu = method( Options => optMu, TypicalValue => ZZ )
 
 mu ( ZZ, Ideal, Ideal ) := ZZ => o -> (e, I, J) ->
     nu( e, I, J, ContainmentTest => FrobeniusPower )
