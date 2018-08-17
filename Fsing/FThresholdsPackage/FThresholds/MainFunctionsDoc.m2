@@ -60,8 +60,8 @@ doc ///
 
             Can take on only Boolean values. Default value is {\tt true}.
     SeeAlso
-        nu
         mu
+        nu
 ///
 
 doc ///
@@ -73,9 +73,11 @@ doc ///
         Text
             Specifies which test is used to check containment of powers of ideals.
             Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
-            Default for @TO nu@ and @TO nuList@
-            (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
-            and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
+            Default for @TO nu@ and @TO nuList@ applied to a polynomial is {\tt FrobeniusRoot},
+            and applied to an ideal is {\tt StandardPower}.
+    SeeAlso
+        nu
+        nuList
 ///
 
 doc ///
@@ -84,7 +86,7 @@ doc ///
         (criticalExponentApproximation,ZZ,Ideal,Ideal)
         (criticalExponentApproximation,ZZ,RingElement,Ideal)
     Headline
-        gives a list of approximates of the critical exponent of an ideal or polynomial with respect to an ideal
+        gives a list of approximates of a critical exponent
     Usage
         criticalExponentApproximation(e,I,J)
         criticalExponentApproximation(e,f,J)
@@ -238,10 +240,6 @@ doc ///
             This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
             at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
             Only takes on Boolean values.
-
-            Enables the user to check whether the given pair is F-regular at the given maximal ideal
-            (so that if not, the F-pure threshold can be determined from the F-signature function).
-            Only takes on Boolean values.
     SeeAlso
         fpt
 ///
@@ -266,7 +264,7 @@ doc ///
          :List
      Description
          Text
-            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or of $f$, with respect to $J$.
+            This returns a list of terms of the sequence whose limit defines the $F$-threshold of $I$, or of $f$, with respect to $J$.
 
             This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
@@ -328,9 +326,11 @@ doc ///
             to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
 
             Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function uses @TO getDivisorIndex@ to find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+            the function attempts find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+    SeeAlso
+        isFPT
 ///
 
 doc ///
@@ -365,6 +365,7 @@ doc ///
      SeeAlso
         compareFPT
         fpt
+        isFJumpingExponent
 ///
 
 doc ///
@@ -378,8 +379,7 @@ doc ///
          [mu, Search]
          [mu, UseColonIdeals]
      Headline
-        computes mu-values associated to a given F-threshold or F-pure threshold
-        --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
+        computes the largest Frobenius power of an ideal not contained in a specified Frobenius power
      Usage
           mu(e,I,J)
           mu(e,I)
