@@ -214,8 +214,8 @@ o13 : Matrix R  <--- R
 so $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
 This calculation also shows that $H^2_{\mathfrak{m}} (R/I)\cong \Ann_{E^2} A^t$
 where $E$ is the injective hull of $R_{\mathfrak{m}}/ {\mathfrak{m}} R_{\mathfrak{m}}$,
-and the Frobenius map on  $H^2_{\mathfrak{m}} (R/I)$ induced from Frobeniuson $R$
-is given by $U^t T$ where $T$ is the induced Frobenius on $E$.
+and the Frobenius map on  $H^2_{\mathfrak{m}} (R/I)$ induced from Frobenius on $R$
+is given by $U^t \Theta$ where $\Theta$ is the induced Frobenius on $E$.
 The submodule of nilpotent elements in  $H^2_{\mathfrak{m}} (R/I)$ is
 given by $\Ann_{E^2} B^t$ where $B$ is the smallest submodule of $R^2$ containing $\Image A + \Image U$ such that $U  B \subseteq B^{[p]}$.
 The method \emph{ascendModule} can be used to calculate  $B$ (see detailed description of similar method \emph{ascendIdeal} in Section \ref{Section: Test Ideals}).
@@ -339,7 +339,7 @@ The algorithm {\tt isFinjective} determines whether the ring $R = S/I$ is
 $F$-injective. The algorithm works by checking the injectivity of the
 Frobenius map using the fact that $\Ext^{i}(\blank, S) \cong H^{\dim S -
 i}_{\mathfrak{m}}(\blank) $. The algorithm starts by computing the map $R
-\rightarrow F_{*}R$ using {\tt frobPFMap}. Next the algorithm computes
+\rightarrow R^{1/p}$ using {\tt frobPFMap}. Next the algorithm computes
 $\Ext^{i}( \blank, S)$ applied to the map from the previous step. Then the
 Frobenius action will be injective precisely when the dimension of the
 cokernel of $\Ext^{i}( \blank, S)$ is trivial. If the cokernel is
@@ -456,10 +456,9 @@ allows the user to specify the $\mathbb{Q}$-Gorenstein index of the ring.
 
 
 The default behavior of {\tt isFregular} checks for strong $F$-regularity
-everywhere. If the option {\tt IsLocal => true}, the algorithm will only
-check at the origin (this uses a similar computation but checks for the
-containment of $(1)$ instead of the test ideal plus the maximal ideal at
-the origin). Below is an example for both a ring and a pair.
+globally. If the option {\tt IsLocal => true}, the algorithm will only
+check at the origin by checking whether the computed test ideal is in the irrelevant ideal.
+Below is an example for both a ring and a pair.
 
 
 \begin{verbatim}
@@ -519,7 +518,7 @@ Suppose that $R$ is a Cohen-Macaulay ring and that $\Phi_{R} :
 \omega_{R^{1/p}} \rightarrow \omega_{R}$ is the canonical dual of
 Frobenius. We say that $R$ has \emph{$F$-rational singularities} if there
 are no non-zero proper submodules $M$ of $\omega_{R}$ such that
-$\Phi_{R}(F_{*}M) \subseteq M$.
+$\Phi_{R}(M^{1/p}) \subseteq M$.
 \end{definition}
 
 
@@ -810,10 +809,10 @@ o4 : List
 
 The defining condition $u I = I^{[p]}$ for $\phi$-compatible ideals allows us to
 think of these in a dual form: write $\mathfrak{m}=(x_1, \dots, x_n)R$,
-$E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let $T: E \rightarrow E$ be the $p^e$-linear map
+$E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let $\Theta: E \rightarrow E$ be the $p^e$-linear map
 induced from the Frobenius map on $R$.
-If $\psi=u T$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
-Thus finding all $R$-submodules of $E$ compatible with $\psi=u T$ also amounts to finding all
+If $\psi=u \Theta$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
+Thus finding all $R$-submodules of $E$ compatible with $\psi=u \Theta$ also amounts to finding all
 $\phi=\pi \circ u^{1/p^e}$-compatible ideals.
 
 \begin{example}
@@ -822,7 +821,7 @@ We return to Example \ref{Example: parameter test ideal}.
 In (cf.~\cite[\S 9]{KatzmanParameterTestIdealOfCMRings}) it is shown that
 there is a surjection $\Ann_E I \rightarrow H^2_{\mathfrak{m}} (R/I)$
 which is compatible with with the induced $p^1$-linear map on $H^2_{\mathfrak{m}} (R/I)$
-and the $p^1$-linear map $u T$ on $\Ann_E I$ where $u$ is computed as follows.
+and the $p^1$-linear map $u \Theta$ on $\Ann_E I$ where $u$ is computed as follows.
 \begin{verbatim}
 i2 :      R=ZZ/2[x_1..x_5];
 i3 :      E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
