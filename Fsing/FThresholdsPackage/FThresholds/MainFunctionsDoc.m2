@@ -182,11 +182,9 @@ doc ///
               Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, the function {\tt fpt(L, m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$.
 
          Example
-              S = ZZ/5[x,y]
-              L = {x+y, x+2*y}
-              m = {2, 3}
+              L = {x, y, x+y, x+3*y};
+              m = {2, 6, 9, 10};
               fpt(L, m)
-              oo == fpt( (x+y)^2*(x+2*y)^3)
     SeeAlso
               fptApproximation
               nu
@@ -406,7 +404,6 @@ doc ///
         muList
 ///
 
-<<<<<<< HEAD
 doc ///
      Key
          muList
@@ -441,9 +438,6 @@ doc ///
         mu
         nuList
 ///
-=======
->>>>>>> 656912f6f4e27bcaa88c0661a9b7bfdc068b53b3
-
 
 doc ///
      Key
