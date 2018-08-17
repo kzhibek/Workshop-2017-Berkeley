@@ -100,6 +100,8 @@ load "./FThresholds/SpecialFThresholds.m2"
 
 beginDocumentation()
 
+load "./FThresholds/FThresholdsDoc.m2"
+
 load "./FThresholds/MainFunctionsDoc.m2"
 
 load "./FThresholds/SpecialFThresholdsDoc.m2"
