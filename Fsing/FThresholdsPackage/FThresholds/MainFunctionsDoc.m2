@@ -399,13 +399,55 @@ doc ///
           the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
+<<<<<<< HEAD
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt mu(e, I, J)} or {\tt mu(e, f, J)} outputs the
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. In other words, calling the function {\tt mu} is the same as calling the function @TO nu@ with the option {\tt ContainmentTest} set to {\tt FrobeniusPower}.
+=======
             Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
             maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power.
+>>>>>>> 656912f6f4e27bcaa88c0661a9b7bfdc068b53b3
      SeeAlso
         nu
         muList
 ///
 
+<<<<<<< HEAD
+doc ///
+     Key
+         muList
+         (muList,ZZ,Ideal,Ideal)
+         (muList,ZZ,Ideal)
+         (muList,ZZ,RingElement,Ideal)
+         (muList,ZZ,RingElement)
+         [muList, Search]
+         [muList, UseColonIdeals]
+     Headline
+          computes a list of mu-values associated to a given F-threshold or F-pure threshold
+     Usage
+          muList(e,I,J)
+          muList(e,I)
+          muList(e,f,J)
+          muList(e,f)
+          Search => Symbol
+          UseColonIdeals => Boolean
+     Inputs
+         e:ZZ
+         I:Ideal
+         J:Ideal
+         f:RingElement
+     Outputs
+        :List
+          a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
+     Description
+        Text
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt mu(d, I, J)}
+            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$. In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest} set to {\tt FrobeniusPower}.
+     SeeAlso
+        mu
+        nuList
+///
+=======
+>>>>>>> 656912f6f4e27bcaa88c0661a9b7bfdc068b53b3
 
 
 doc ///
@@ -420,8 +462,7 @@ doc ///
          [nu, Search]
          [nu, UseColonIdeals]
      Headline
-        computes nu-values associated to a given F-threshold or F-pure threshold
-        --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
+        computes the largest power of an ideal not contained in some Frobenius power
      Usage
           nu(e,I,J)
           nu(e,I)
@@ -441,16 +482,46 @@ doc ///
           the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
-            maximal integer $N$ such that $I^N$ or $f^N$ is not contained in the ideal $J^{[p^e]}$. This number is denoted
-            $\nu_I^J(p^e)$ or $\nu_f^J(p^e)$ in "F-thresholds and Bernstein-Sato Polynomials" by Mustata-Takagi-Watanabe.
+            Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
+            If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e, f, J)} outputs the maximal exponent
+            $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.  More generally, if $I$ is an ideal contained in the
+            radical of $J$, then {\tt nu(e, I, J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the
+            $p^e$-th Frobenius power of $J$.
 
-            The commands {\nu(e,I)} or {\nu(e,f)} do the same for $J = (x_1,\ldots,x_n)$.
+            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper
+            "F-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
+        Example
+            S=ZZ/11[x,y];
+            I=ideal(x^2+y^3, x*y);
+            J=ideal(x^2,y^3);
+            nu(1,I,J)
+            f=x*y*(x^2+y^2);
+            nu(1,f,J)
+        Text
+            When the ideal $J$ is omitted from the argument, it is assumed to be the homogeneous maximal ideal.
+        Example
+            S=ZZ/17[x,y,z];
+            f=x^3+y^4+z^5;
+            J=ideal(x,y,z);
+            nu(2,f)
+            nu(2,f,J)
+        Text
+            It is well-known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where
+            the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$, and the number of
+            generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  This relation implies that when searching
+            for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
 
-            If the option {\tt ComputePreviousNus} is set to {\tt true}, {\tt nu} will recursively compute nu(d, I) for $d = 0,\ldots, e$.
+            The option {\tt ComputePreviousNus}, whose default value is {\tt true}, exploits this observation, and
+            usually leads to faster computations.
+        Example
+            S=ZZ/79[x,y];
+            f=x^5+x^4*y+x^3*y^2+x^2*y^3+x*y^4+y^5; -- a homogeneous polynomial of degree 5 in x,y
+            time nu(10,f)
+            time nu(10,f, ComputePreviousNus=>false)
+        Text
+            The option {\tt ContainmentTest} specifies the algorithm used to test the containment of $I^n$ in the $p^e$-th
+            Frobenius power of $J$. Valid values for {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
 
-            The option {\tt ContainmentTest} specifies the algorithm used to test the containment of $I^n$ in $J^{[p^e]}$.
-            Valid values for {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
             By default, {\tt ContainmentTest} is set to {\tt FrobeniusPower} if {\tt nu} is passed a ring element $f$,
             and {\tt ContainmentTest} is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
 
@@ -461,20 +532,8 @@ doc ///
             The option {\tt UseColonIdeals} specifies whether or not {\tt nu} uses colon ideals to compute $\nu$ in an iterative way.
 
      SeeAlso
+        mu
         nuList
-///
-
-doc ///
-     Key
-          NuCheck
-     Headline
-          an option to check whether certain values equal the F-pure threshold.
-     Description
-          Text
-              An option for the function @TO fpt@ to specify whether to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$
-              is the $F$-pure threshold.  Takes on only Boolean values.  Default value is {\tt true}.
-     SeeAlso
-          fpt
 ///
 
 doc ///
