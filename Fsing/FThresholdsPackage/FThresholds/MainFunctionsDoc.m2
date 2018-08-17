@@ -60,8 +60,8 @@ doc ///
 
             Can take on only Boolean values. Default value is {\tt true}.
     SeeAlso
-        nu
         mu
+        nu
 ///
 
 doc ///
@@ -76,6 +76,11 @@ doc ///
             Default for @TO nu@ and @TO nuList@
             (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
             and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
+    SeeAlso
+        mu
+        muList
+        nu
+        nuList
 ///
 
 doc ///
@@ -378,8 +383,7 @@ doc ///
          [mu, Search]
          [mu, UseColonIdeals]
      Headline
-        computes mu-values associated to a given F-threshold or F-pure threshold
-        --$\nu_I^J(p^e)$ or $\nu_f^J(p^e)$
+        computes the largest Frobenius power of an ideal not contained in some Frobenius power
      Usage
           mu(e,I,J)
           mu(e,I)
