@@ -404,13 +404,28 @@ doc ///
          I:Ideal
          J:Ideal
          f:RingElement
+         ComputePreviousNus => Boolean
+             specifies whether to compute {\tt nu(d,I,J)} for $d = 0, \cdots, e-1$ to aid in the computation of {\tt mu(e,I,J)}
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$
+            such that the $n$-th generalized Frobenius power of $I$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt mu(e,I,J)}
      Outputs
         :ZZ
           the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt mu(e, I, J)} or {\tt mu(e, f, J)} outputs the
-            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. In other words, calling the function {\tt mu} is the same as calling the function @TO nu@ with the option {\tt ContainmentTest} set to {\tt FrobeniusPower}.
+            maximal integer $N$ such that the $N$-th generalized Frobenius power of $I$, or $f^N$,
+            is not contained in the $p^e$-th Frobenius power of $J$.
+        Example
+            R = ZZ/3[x,y];
+            I = ideal(x^2, x+y);
+            J = ideal(x, y^2);
+            mu(2,I,J)
+            mu(3,I)
+            mu(3,x^3+y^3,J)
      SeeAlso
         nu
         muList
@@ -439,6 +454,11 @@ doc ///
          I:Ideal
          J:Ideal
          f:RingElement
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$
+            such that the $n$-th generalized Frobenius power of $I$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt mu(e,I,J)}
      Outputs
         :List
           a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
@@ -448,6 +468,13 @@ doc ///
             or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$.
             In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest}
             set to {\tt FrobeniusPower}.
+        Example
+            R = ZZ/3[x,y];
+            I = ideal(x^2, x+y);
+            J = ideal(x, y^2);
+            muList(2,I,J)
+            muList(3,I)
+            muList(3,x^3+y^3,J)
      SeeAlso
         mu
         nuList
@@ -575,7 +602,14 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes a list with indices
-            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input. 
+            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input.
+        Example
+            S=ZZ/7[x,y];
+            I=ideal(x^3+y, x^2*y);
+            J=ideal(x^2,y);
+            nuList(2,I,J)
+            f=y + x^3;
+            nuList(2,f,J)
      SeeAlso
         nu
 ///
@@ -587,8 +621,10 @@ doc ///
           an option to specify the search method
      Description
           Text
-              An option for functions @TO nu@ and @TO nuList@ to specify
-              the order in which ideal the containment of powers are computed. Valid values are
+              An option for functions @TO nu@ and @TO nuList@ (and @TO mu@ and @TO muList@) to specify
+              the order in which ideal the containment of powers are computed.
+
+              Valid values are
               {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
@@ -602,7 +638,8 @@ doc ///
           an option to use colon ideals to compute nus in an iterative way
      Description
           Text
-              An option for @TO nu@ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
+              An option for @TO nu@ and @TO nuList@ (and @TO mu@ and @TO muList@) to use colon ideals to compute nus in an iterative way.
+
               Valid values are {\tt true} and {\tt false}.
      SeeAlso
           nu
@@ -616,10 +653,14 @@ doc ///
           an option to check whether the input is a diagonal polynomial, binomial, or binary form
      Description
           Text
-              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial, or a binary form.
+              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial,
+              or a binary form.
               If {\tt true}, the function @TO fpt@ first checks whether the input
-              is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+              is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).
+              If it is,
+              the function @TO fpt@ applies specialized algorithms of D. Hernandez, or D. Hernandez and P. Teixeira.
+
+              Can take on only Boolean values.
               Default value is {\tt true}.
      SeeAlso
           fpt
