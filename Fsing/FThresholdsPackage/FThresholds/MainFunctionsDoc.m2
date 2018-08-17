@@ -404,6 +404,13 @@ doc ///
          I:Ideal
          J:Ideal
          f:RingElement
+         ComputePreviousNus => Boolean
+             specifies whether to compute {\tt nu(d,I,J)} for $d = 0, \cdots, e-1$ to aid in the computation of {\tt mu(e,I,J)}
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$
+            such that the $n$-th generalized Frobenius power of $I$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt mu(e,I,J)}
      Outputs
         :ZZ
           the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
@@ -447,6 +454,11 @@ doc ///
          I:Ideal
          J:Ideal
          f:RingElement
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$
+            such that the $n$-th generalized Frobenius power of $I$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt mu(e,I,J)}
      Outputs
         :List
           a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
