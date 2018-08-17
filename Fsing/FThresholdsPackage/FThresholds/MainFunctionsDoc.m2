@@ -448,6 +448,10 @@ doc ///
             or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$.
             In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest}
             set to {\tt FrobeniusPower}.
+        Example
+            R = ZZ/3[x,y];
+            I = ideal(x^2, x+y);
+            J = ideal(x, y^2);
      SeeAlso
         mu
         nuList
@@ -576,6 +580,13 @@ doc ///
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes a list with indices
             $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input.
+        Example
+            S=ZZ/7[x,y];
+            I=ideal(x^3+y, x^2*y);
+            J=ideal(x^2,y);
+            nuList(2,I,J)
+            f=y + x^3;
+            nuList(2,f,J)
      SeeAlso
         nu
 ///
