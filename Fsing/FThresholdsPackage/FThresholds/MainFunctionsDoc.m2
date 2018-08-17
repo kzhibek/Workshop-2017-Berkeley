@@ -513,7 +513,7 @@ doc ///
              specifies whether to use colon ideals in a recursive manner when computing {\tt nu(e,I,J)}
      Outputs
         :ZZ
-          the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
+          the $nu$-invarants whose normalized limits compute the $F$-pure threshold, and more generally, $F$-thresholds.
      Description
         Text
             Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
