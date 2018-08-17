@@ -608,6 +608,22 @@ doc ///
 
 doc ///
      Key
+          NuCheck
+     Headline
+          an option to check whether certain values in term of nu are the F-pure threshold
+     Description
+          Text
+              an option for function @TO fpt@ to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$,
+              where $e$ is the value of the option @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$.
+
+              Valid values are {\tt true} and {\tt false}.  Default value is {\tt true}.
+     SeeAlso
+          nu
+          nuList
+///
+
+doc ///
+     Key
          nuList
          (nuList,ZZ,Ideal,Ideal)
          (nuList,ZZ,Ideal)
