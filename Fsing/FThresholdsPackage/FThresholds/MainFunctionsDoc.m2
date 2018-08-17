@@ -73,12 +73,9 @@ doc ///
         Text
             Specifies which test is used to check containment of powers of ideals.
             Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
-            Default for @TO nu@ and @TO nuList@
-            (and @TO mu@ and @TO muList@, respectively) applied to a polynomial is {\tt FrobeniusRoot},
-            and applied to an ideal is {\tt StandardPower} (or {\tt Frobenius Power}, respectively).
+            Default for @TO nu@ and @TO nuList@ applied to a polynomial is {\tt FrobeniusRoot},
+            and applied to an ideal is {\tt StandardPower}.
     SeeAlso
-        mu
-        muList
         nu
         nuList
 ///
