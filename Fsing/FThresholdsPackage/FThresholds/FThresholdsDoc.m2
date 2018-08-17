@@ -22,8 +22,6 @@ doc ///
             which provides some important functionality for researchers in positive characteristic
             commutative algebra, the package @TO FThresholds@ implements known algorithms, as well as new methods,
             to estimate and compute numerical invariants in prime characteristic.
-
-            {\bold Notable functions:}
     SeeAlso
         TestIdeals
 ///
