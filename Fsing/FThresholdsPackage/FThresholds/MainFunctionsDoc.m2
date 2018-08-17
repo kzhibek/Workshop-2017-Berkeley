@@ -187,10 +187,10 @@ doc ///
               m = {2, 3}
               fpt(L, m)
               oo == fpt( (x+y)^2*(x+2*y)^3)
-     SeeAlso
-          fptApproximation
-          nu
-          nuList
+    SeeAlso
+              fptApproximation
+              nu
+              nuList
 ///
 
 doc ///
@@ -363,9 +363,9 @@ doc ///
              Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
 
              The options are the same as in @TO compareFPT@.
-
      SeeAlso
         compareFPT
+        fpt
 ///
 
 doc ///
@@ -399,13 +399,19 @@ doc ///
           the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
      Description
         Text
+<<<<<<< HEAD
             Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt mu(e, I, J)} or {\tt mu(e, f, J)} outputs the
             maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power. In other words, calling the function {\tt mu} is the same as calling the function @TO nu@ with the option {\tt ContainmentTest} set to {\tt FrobeniusPower}.
+=======
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt nu(e, I, J)} or {\tt nu(e, f, J)} outputs the
+            maximal integer $N$ such that $I^{[N]}$ or $f^N$ is not contained in the ideal $J^{[p^e]}$, where $I^{[N]}$ denotes the generalized frobenius power.
+>>>>>>> 656912f6f4e27bcaa88c0661a9b7bfdc068b53b3
      SeeAlso
         nu
         muList
 ///
 
+<<<<<<< HEAD
 doc ///
      Key
          muList
@@ -440,6 +446,8 @@ doc ///
         mu
         nuList
 ///
+=======
+>>>>>>> 656912f6f4e27bcaa88c0661a9b7bfdc068b53b3
 
 
 doc ///
@@ -573,14 +581,12 @@ doc ///
           an option to specify the search method
      Description
           Text
-              An option for functions @TO nu@, @TO nuList@, @TO mu@, and @TO muList@ to specify
+              An option for functions @TO nu@ and @TO nuList@ to specify
               the order in which ideal the containment of powers are computed. Valid values are
               {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
           nuList
-          mu
-          muList
 ///
 
 doc ///
@@ -590,13 +596,11 @@ doc ///
           an option to use colon ideals to compute nus in an iterative way
      Description
           Text
-              An option for @TO nu@, @TO nuList@, @TO mu@, and @TO muList@ to use colon ideals to compute nus in an iterative way.
+              An option for @TO nu@ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
               Valid values are {\tt true} and {\tt false}.
      SeeAlso
           nu
           nuList
-          mu
-          muList
 ///
 
 doc ///
@@ -608,8 +612,9 @@ doc ///
           Text
               An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial, or a binary form.
               If {\tt true}, the function @TO fpt@ first checks whether the input
-              is a diagonal polynomial, binomial, or binary form (i.e., a homogeneous polynomial in 2 variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.   Default value is {\tt true}.
+              is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).  If it is,
+              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+              Default value is {\tt true}.
      SeeAlso
           fpt
 ///

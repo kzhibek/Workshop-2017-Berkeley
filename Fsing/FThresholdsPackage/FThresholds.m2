@@ -30,6 +30,9 @@ Authors => {
      {Name => "Sara Malec",
      Email => "malec@hood.edu"
      },
+     {Name => "Matthew Mastroeni",
+     Email => "mastroe2@illinois.edu"
+     },
      {Name => "Marcus Robinson",
      Email => "robinson@math.utah.edu"
      },
@@ -75,9 +78,9 @@ export{
     "compareFPT",
     "mu",
     "muList",
-    "nu", 
+    "nu",
     "NuCheck",
-    "nuList", 
+    "nuList",
     "Search",
     "StandardPower",
     "ContainmentTest",
