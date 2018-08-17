@@ -366,9 +366,9 @@ doc ///
         :Boolean
      Description
         Text
-             Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
+            Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
 
-             The options are the same as in @TO compareFPT@.
+            The options are the same as in @TO compareFPT@.
         Example
             R = ZZ/11[x,y];
             f = x^3+y^2;
@@ -445,7 +445,9 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt mu(d, I, J)}
-            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$. In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest} set to {\tt FrobeniusPower}.
+            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$.
+            In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest}
+            set to {\tt FrobeniusPower}.
      SeeAlso
         mu
         nuList
@@ -572,9 +574,8 @@ doc ///
           a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
      Description
         Text
-            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)} recursively for $d = 0,\ldots,e$.  If {\tt nu(d, I, J)}
-            or {\tt nu(d,f,J)}
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes a list with indices
+            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input. 
      SeeAlso
         nu
 ///
