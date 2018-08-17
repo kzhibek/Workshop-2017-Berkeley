@@ -459,21 +459,25 @@ doc ///
          [nu, Search]
          [nu, UseColonIdeals]
      Headline
-        computes the largest power of an ideal not contained in some Frobenius power
+        computes the largest power of an ideal not contained in a specified Frobenius power
      Usage
           nu(e,I,J)
           nu(e,I)
           nu(e,f,J)
           nu(e,f)
-          ComputePreviousNus => Boolean
-          ContainmentTest => Symbol
-          Search => Symbol
-          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
          J:Ideal
          f:RingElement
+         ComputePreviousNus => Boolean
+             specifies whether to compute {\tt nu(d,I,J)} for $d = 0, \cdots, e-1$ to aid in the computation of {\tt nu(e,I,J)}
+         ContainmentTest => Symbol
+             specifies the manner in which to verify the containment of a power of $I$ in some specified Frobenius power of $J$
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$ such that $I^n$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt nu(e,I,J)}
      Outputs
         :ZZ
           the $e$-th value $\nu$ associated to the $F$-threshold or $F$-pure threshold
@@ -508,8 +512,8 @@ doc ///
             generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  This relation implies that when searching
             for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
 
-            The option {\tt ComputePreviousNus}, whose default value is {\tt true}, exploits this observation, and
-            usually leads to faster computations.
+            The option {\tt ComputePreviousNus}, whose default value is {\tt true}, exploits this observation, and computes {\tt nu(d,I,J)}
+            for $d = 0, \cdots, e-1$ to aid in the computation of {\tt nu(e,I,J)}.  It usually leads to faster computations.
         Example
             S=ZZ/79[x,y];
             f=x^5+x^4*y+x^3*y^2+x^2*y^3+x*y^4+y^5; -- a homogeneous polynomial of degree 5 in x,y
