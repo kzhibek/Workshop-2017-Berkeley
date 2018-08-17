@@ -194,17 +194,17 @@ doc ///
          Example
 	      f = x^3*(x^2+y^3)^6;
 	      numeric fpt( f, DepthOfSearch => 3, UseFSignature => false )
-	      numeric fpt( f, DepthOfSearch => 3 ) -- UseFSignature improves the answer              
-	 Text     
+	      numeric fpt( f, DepthOfSearch => 3 ) -- UseFSignature improves the answer
+	 Text
               When @TO FRegularityCheck@ is set to @TO true@ (its default value), a check is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
          Example
 	      f = (x+y)^4*(x^2+y^3)^6;
 	      fpt( f, DepthOfSearch => 3, UseFSignature => false, FRegularityCheck => false )
 	      fpt( f, DepthOfSearch => 3, FRegularityCheck => false ) -- using FSignatures the answer is improved
-	      fpt( f, DepthOfSearch => 3 ) -- FRegularityCheck verifies that FSignature actually found the answer              
+	      fpt( f, DepthOfSearch => 3 ) -- FRegularityCheck verifies that FSignature actually found the answer
          Text
 	      The computations performed by @TO NuCheck@, @TO UseFSignature@, and @TO FRegularityCheck@ often take a long time, and for this reason the user is given the option to disable them.
-	 
+
               As seen above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to @TO true@, the precise interval will be printed.
          Example
