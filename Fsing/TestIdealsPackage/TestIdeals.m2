@@ -12,7 +12,7 @@
 --version history
 --0.2 first public version
 --0.2a added AssumeDomain options to isFregular and isFrational
---1.0 complete version
+--1.0 first complete version
 --protect QGorensteinIndex;
 --protect MaxCartierIndex;
 --protect DepthOfSearch;
