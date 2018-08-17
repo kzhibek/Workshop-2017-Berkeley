@@ -264,7 +264,7 @@ doc ///
          :List
      Description
          Text
-            This returns a list of terms of the sequence whose terms limit to the $F$-threshold of $I$, or of $f$, with respect to $J$.
+            This returns a list of terms of the sequence whose limit defines the $F$-threshold of $I$, or of $f$, with respect to $J$.
 
             This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
          Example
