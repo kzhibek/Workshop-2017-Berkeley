@@ -1,0 +1,20 @@
+1) Test Ideals paper
+
+-- Everyone should look at, and edit, the paper
+-- Email all other contributors regarding authorship
+
+2) Test Ideals Package
+
+-- Minor documentation improvements
+-- Front page improvements/examples
+-- Describe big differences in the new version (this can be commented out in the 
+main file, need not be available to the user)
+
+3) FThresholds Package
+
+-- Minor documentation improvements
+-- Front page improvements/examples
+-- Using specialized algorithms to compute nu's
+-- F-thresholds of monomial with respect to monomial
+-- Using monomial ideals to get faster bounds for 
+-- Build "fpt guess and check" into fpt.   This is assigned to Pedro.
