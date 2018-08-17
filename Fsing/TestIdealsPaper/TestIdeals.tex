@@ -482,14 +482,11 @@ o7 = true
 
 All of these checks are done by actually computing the test ideal (as described in the next section).  
 
-The inputs for {\tt isFregular} can be a ring, an integer and a ring
-element, a rational number and a ring element or a list of rational numbers
-and a list of ring elements. If the input ring is $\mathbb{Q}$-Gorenstein
-then in each of the cases above the output is a boolean indicating if the
+If the input ring is $\mathbb{Q}$-Gorenstein then in each of the cases above the output is a boolean indicating if the
 ring is strongly $F$-regular. If the input ring is not
 $\mathbb{Q}$-Gorenstein then the algorithm can be used to determine if a
 ring is strongly $F$-regular but cannot prove a ring is not strongly
-$F$-regular
+$F$-regular (you can enable this latter functionality by setting {\tt QGorensteinIndex => infinity}. 
 
 
 In the case that $R$ is $\mathbb{Q}$-Gorenstein, the algorithm works by
@@ -537,14 +534,11 @@ i8 : isFregular(5/6, f, IsLocal=>true)
 o8 = true
 \end{verbatim}
 
-
+\subsection{$F$-purity}
 \begin{definition}
-
-A ring $R$ is called \emph{$F$-pure} if the inclusions $R \subset
+A ring $R$ is called \emph{$F$-pure} if the inclusion $R \subset
 R^{1/p^{e}}$ split.
-
 \end{definition}
-
 
 Macaulay2 can compute if a ring is $F$-pure using {\tt isFpure}. Either a
 ring or a defining ideal can be input as seen in this example.
@@ -565,7 +559,7 @@ o7 = true
 \end{verbatim}
 
 
-The algorithm works by applying Fedder's Criterion, which states that a
+The algorithm works by applying Fedder's Criterion {\cite{FedderFPureRat}}, which states that a
 local ring $(R, \mathfrak{m})$ is $F$-pure if and only if $(I^{[p]} : I)
 \not\subseteq \mathfrak{m}^{[p]}$. In the local case the tag {\tt IsLocal
 => true} checks $F$-purity at the origin by explicitly checking the above
@@ -574,13 +568,14 @@ algorithm computes the non $F$-pure locus by applying {\tt frobeniusRoot}
 to $I^{[p]} :I$. If the non $F$-pure locus is the whole ring the algorithm
 returns true.
 
+\subsection{$F$-rationality}
 
 \begin{definition}
-Suppose that $R$ is a Cohen-Macaulay ring and that $\Phi_{R} :
+Suppose that $R$ is a Cohen-Macaulay ring and that $T_{R} :
 \omega_{R^{1/p}} \rightarrow \omega_{R}$ is the canonical dual of
 Frobenius. We say that $R$ has \emph{$F$-rational singularities} if there
 are no non-zero proper submodules $M$ of $\omega_{R}$ such that
-$\Phi_{R}(M^{1/p}) \subseteq M$.
+$T_{R}(M^{1/p}) \subseteq M$.
 \end{definition}
 
 
@@ -597,15 +592,15 @@ o8 = true
 
 
 The command {\tt isFrational} checks if a ring is $F$-rational. First the
-algorithm checks if the ring is Cohen-Macaulay using {\tt isCohenMacaulay},
-this check can be skipped by setting {\tt isCohenMacaulay => true}. If the ring
+algorithm checks if the ring is Cohen-Macaulay.  
+This check can be skipped by setting {\tt isCohenMacaulay => true}. If the ring
 is not Cohen-Macaulay then {\tt false} is returned. Next the algorithm
 computes a test module $M \subseteq \omega_{R}$ and checks to see if
-$\omega_{R} \subseteq M$.
+$\omega_{R} \subseteq M$.  See the next section for the description of a test module.
 
 
 The option tags {\tt AssumeDomain} and {\tt FrobeniusRootStrategy} can be
-used to improved the speed the {\tt testModule} computation. By default
+used to improved the speed of the {\tt testModule} computation. By default
 these tags are set to {\tt false} and {\tt Substitution} respectively. The
 {\tt IsLocal => true} tag can be used to check for $F$-rationality only at
 the origin.
