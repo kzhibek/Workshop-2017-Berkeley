@@ -26,9 +26,11 @@ doc ///
     Inputs
         R:Ring
         canonicalIdeal:Ideal
+            an ideal isomorphic to the canonical ideal
         f:RingElement
             a ring element, to make a pair
         expList:List
+            a list of formal exponents for ring elements, for pairs
         eltList:List
             a list of ring elements, for pairs
         t:Number
@@ -36,6 +38,7 @@ doc ///
         expList:List
             a list of formal exponents
         e:ZZ
+            an integer, what root of Frobenius to take
         uList:List
             the trace generator in the ambient polynomial ring (a list of elements that generate the trace map)
         FrobeniusRootStrategy=>Symbol
@@ -55,9 +58,9 @@ doc ///
             HSLList#2 --the element representing trace of Frobenius
             HSLList#3 --how many times it took until the image stabilized
         Text
-            If you don't want the function to compute the canonical module, you can also pass the canonical module as an ideal.
+            If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal.
             You can also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
-            In the following example, we compute the non-F-pure ideal of a Q-Gorenstein ring by using this functionality.
+            In the following example, we compute the non-F-pure ideal of a Q-Gorenstein ring by hijacking this functionality.
         Example
             T = ZZ/7[a,b];
             S = ZZ/7[x,y,z,w];
@@ -85,6 +88,9 @@ doc ///
             HSLGModule({1/2, 1/2, 1/2}, {y,z,y+z})
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
+    SeeAlso
+        testModule
+        isFinjective
 ///
 
 doc ///
@@ -177,6 +183,7 @@ doc ///
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
         isFpure
+        testModule
 ///
 
 
@@ -199,6 +206,8 @@ doc ///
         CanonicalStrategy
     Headline
         an option for isFinjective
+    SeeAlso
+        isFinjective
 ///
 
 doc ///
@@ -206,4 +215,6 @@ doc ///
         Katzman
     Headline
         a valid value for the option CanonicalStrategy
+    SeeAlso
+        isFinjective
 ///
