@@ -82,6 +82,7 @@ export{
     "StandardPower",
     "ContainmentTest",
     "UseColonIdeals",
+    "UseFSignature",
     "UseSpecialAlgorithms"
 }
 

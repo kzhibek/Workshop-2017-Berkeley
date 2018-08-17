@@ -134,10 +134,11 @@ doc ///
      Key
          fpt
          (fpt, RingElement)
+         [fpt, DepthOfSearch]
          [fpt, FRegularityCheck]
          [fpt, NuCheck]
+         [fpt, UseFSignature]
          [fpt, UseSpecialAlgorithms]
-         [fpt, DepthOfSearch]
      Headline
          attempts to compute the F-pure threshold of a polynomial at the origin
      Usage
@@ -147,26 +148,26 @@ doc ///
          f:RingElement
              a polynomial with coefficients in a finite field
          L:List
-             A list of linear forms in two variables
+             containing forms in two variables
          m:List
-             A list of positive integers
+             containing positive integers
          UseSpecialAlgorithms => Boolean
              specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
          FRegularityCheck => Boolean
              specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
          NuCheck => Boolean
-             specifies whether to check if $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option  @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$
+             specifies whether to check if $\nu_f(p^e)/(p^e-1)$ or $(\nu_f(p^e)+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option  @TO DepthOfSearch@
          DepthOfSearch => ZZ
              specifies the power of the characteristic to be used in a search for the F-pure threshold
      Outputs
         :List
-            which contains the endpoints of an interval containing the $F$-pure threshold of $f$
+            which contains the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
         Q:QQ
             the $F$-pure threshold of $f$
      Description
           Text
-              The function @TO fpt@ tries to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
-              Otherwise, it returns an interval containing the $F$-pure threshold.
+              The function fpt tries to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
+              Otherwise, it returns lower and upper bounds for the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
               fpt( x^3+y^3+z^3+x*y*z )
@@ -189,19 +190,33 @@ doc ///
              fpt( f, DepthOfSearch => 3 )
              oo == (nu(3,f)+1)/5^3
          Text
-              If @TO NuCheck@ is unsuccessful, the @TO fpt@ function proceeds to use the convexity of the $F$-signature function and a secant line argument to narrow down the interval bounding the $F$-pure threshold.
-
-              When @TO FRegularityCheck@ is set to @TO true@ (its default value), a check (which can take significant time) is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
-
-              If no exact answer was found, then a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
+              If @TO NuCheck@ is unsuccessful and @TO UseFSignature@ is set to @TO true@ (its default value), the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+         Example
+	      f = x^3*(x^2+y^3)^6;
+	      numeric fpt( f, DepthOfSearch => 3, UseFSignature => false )
+	      numeric fpt( f, DepthOfSearch => 3 ) -- UseFSignature improves the answer              
+	 Text     
+              When @TO FRegularityCheck@ is set to @TO true@ (its default value), a check is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
+         Example
+	      f = (x+y)^4*(x^2+y^3)^6;
+	      fpt( f, DepthOfSearch => 3, UseFSignature => false, FRegularityCheck => false )
+	      fpt( f, DepthOfSearch => 3, FRegularityCheck => false ) -- using FSignatures the answer is improved
+	      fpt( f, DepthOfSearch => 3 ) -- FRegularityCheck verifies that FSignature actually found the answer              
+         Text
+	      The computations performed by @TO NuCheck@, @TO UseFSignature@, and @TO FRegularityCheck@ often take a long time, and for this reason the user is given the option to disable them.
+	 
+              As seen above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to @TO true@, the precise interval will be printed.
-
-              Now suppose we have a polynomial ring in two variables over a finite field. Given a list of linear forms in this ring, $L = \{ L_1, \ldots, L_n \}$, and a list of multiplicities $m = \{ m_1, \ldots, m_n \}$, {\tt fpt(L m)}  computes the $F$-pure threshold of the polynomial $L_1^{m_1} \cdots L_n^{m_n}$.
-
+         Example
+	      f = x^2*(x^2+y^3)^4;
+	      fpt( f, DepthOfSearch => 3, NuCheck => false, Verbose => true )
+	 Text
+              The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to fpt a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
          Example
               L = {x, y, x+y, x+3*y};
               m = {2, 6, 9, 10};
               fpt(L, m)
+	      fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 )
     SeeAlso
               fptApproximation
               nu
@@ -243,6 +258,23 @@ doc ///
         criticalExponentApproximation
 ///
 
+doc ///
+     Key
+        fptGuessList
+     Headline
+        Tries to guess the FPT in a really naive way (this should be improved).
+     Usage
+         fptGuessList(f,e,d)
+     Inputs
+         f:RingElement
+         e:ZZ
+         d:ZZ
+     Outputs
+        :List
+     Description
+        Text
+             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
+///
 
 doc ///
     Key
@@ -268,6 +300,7 @@ doc ///
             a value for the option {\tt ContainmentTest} to consider containment of Frobenius powers of ideals
     SeeAlso
         nu
+        nuList
 ///
 
 doc ///
@@ -280,6 +313,7 @@ doc ///
             a value for the option {\tt ContainmentTest} to consider containment of Frobenius roots of ideals
     SeeAlso
         nu
+        nuList
 ///
 
 doc ///
@@ -311,24 +345,6 @@ doc ///
               ftApproximation(2,I,J)
               f = x^3*y^2+x^5*y;
               ftApproximation(2,f,J)
-///
-
-doc ///
-     Key
-        fptGuessList
-     Headline
-        Tries to guess the FPT in a really naive way (this should be improved).
-     Usage
-         fptGuessList(f,e,d)
-     Inputs
-         f:RingElement
-         e:ZZ
-         d:ZZ
-     Outputs
-        :List
-     Description
-        Text
-             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
 ///
 
 doc ///
@@ -718,6 +734,20 @@ doc ///
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+    Key
+        StandardPower
+    Headline
+        an option value to consider containment of standard power of an ideal in Frobenius power of another ideal
+    Description
+        Text
+            a value for the option {\tt ContainmentTest} to consider containment of the standard power of an ideal in the
+            Frobenius power of another ideal
+    SeeAlso
+        nu
+        nuList
 ///
 
 doc ///

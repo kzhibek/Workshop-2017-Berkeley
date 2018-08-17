@@ -464,10 +464,6 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     (
 	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
 	return 2/deg
-    )
-    else
-    (
-	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";	
     );
 
     R := ring F;
