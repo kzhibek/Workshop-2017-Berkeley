@@ -329,6 +329,13 @@ doc ///
             the function attempts find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+        Example
+            R = ZZ/5[x,y];
+            f =  x^4 + y^3 + x^2*y^2;
+            isFJumpingExponent(7/12,f)
+            isFJumpingExponent(4/5,f)
+            isFJumpingExponent(5/6,f)
+            isFJumpingExponent(11/12,f)
     SeeAlso
         isFPT
 ///
