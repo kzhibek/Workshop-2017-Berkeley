@@ -185,8 +185,11 @@ resf=res f
 G=Hom(resf, R^1)
 E2=HH^2 G
 
-U=matrix entries E2
-A=matrix entries relations source E2
+source E2
+target E2
+
+U=matrix entries E2;
+A=matrix entries relations source E2;
 frobeniusRoot(1,U)
 
 V=ascendModule (1,A,U) 

@@ -74,7 +74,7 @@ which afford handles on many problems not otherwise available. Two notable examp
 and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).
 
-Work on the \emph{TestIdeals} package started as a library of methods to compute  Frobenius roots  and $\star$-closures, and to implement the algorithm for computing parameter-test-ideals
+Work on the \emph{TestIdeals} package started as a library of methods to compute  Frobenius roots  and $\star$-closures, and to implement the algorithm for computing parameter test ideals
 developed in \cite{KatzmanParameterTestIdealOfCMRings} and \cite{KatzmanFrobeniusMapsOnInjectiveHulls}.
 Later, the algorithm in  \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and 
 used to produce the examples in that paper. The work to turn these libraries into a comprehensive package for computations related to test-ideals
@@ -149,6 +149,72 @@ i6 :      frobeniusPower(5/6, ideal(y^2-x^3))
 o6 = ideal (y, x)
 o6 : Ideal of R
 \end{verbatim}
+
+\subsection{Frobenius  roots of submodules of free modules}
+
+Given a submodule $M$ of $S^k$ there is a smallest submodule $M \subseteq N \subseteq S^k$ such that $M\subseteq N^{[p^e]}$, where 
+$N^{[p^e]$} is the submodule  of $S^k$ whose generators are the vectors of $N$ with all coordinates raised to the $p^e$th power. (Cf.~\cite{KatzmanZhangAlgorithm}).
+
+\begin{example}
+Let $R=ZZ/p[a,b,c,d]$, and let $I= (a,b)R \cap (a,c)R \cap ideal(c,d)R \cap ideal(c+d, a^3+b*d^2)R$;
+$R/I$ is a $3$-dimensional Cohen-Macaulay ring.
+Matlis Duality applied to $\HH^2_(a,b,c,d) (R/I)$ with its natural Frobenius map
+induces a $p^1$-linear map $\Ext^2(R/ I, R) \xrightarrow{U} \Ext^2(R/I, R)$.
+
+\begin{verbatim}
+i2 :      p=2;
+i3 :      R=ZZ/p[a,b,c,d];
+i4 :      I=intersect( ideal(a,b), ideal(a,c), ideal(c,d), ideal(c+d, a^3+b*d^2));
+o4 : Ideal of R
+i5 :      f=inducedMap (coker gens I, coker gens frobeniusPower(p,I) );
+o5 : Matrix
+i6 :      resf=res f
+          1             1
+o6 = 0 : R  <--------- R  : 0
+               | 1 |
+          3                                      3
+     1 : R  <---------------------------------- R  : 1
+               {2} | ac+ad 0       0        |
+               {3} | 0     bc2+bcd 0        |
+               {4} | 0     0       a3d+bcd2 |
+          2                                              2
+     2 : R  <------------------------------------------ R  : 2
+               {4} | abc2+abcd a2cd3+a2d4           |
+               {5} | 0         a3cd+a3d2+bc2d2+bcd3 |
+     3 : 0 <----- 0 : 3
+              0
+o6 : ChainComplexMap
+i7 :      G=Hom(resf, R^1);
+i8 :      E2=HH^2 G
+o8 = {-8}  | a4+abc2+abcd a2b            |
+     {-10} | a2cd3        a3cd+a3d2+bcd3 |
+o8 : Matrix
+i9 :      source E2
+o9 = cokernel {-4} | bc  a  0   |
+              {-5} | a2d d2 c+d |
+                            2
+o9 : R-module, quotient of R
+i10 :       target E2
+o10 = cokernel {-8}  | b2c2 a2 0     |
+               {-10} | a4d2 d4 c2+d2 |
+                             2
+o10 : R-module, quotient of R
+\end{verbatim}
+Frobenius on $\HH^2_(a,b,c,d) (R/I)$ is injective if and only if
+$(\Image U)^{[1/p]}=R^2$
+\begin{verbatim}
+i11 :       U=matrix entries E2;
+i12 :       A=matrix entries relations source E2;
+i13 :       frobeniusRoot(1,U)
+o13 = {-2} | 1 0 0 |
+      {0}  | 0 d a |
+              2       3
+o13 : Matrix R  <--- R
+\end{verbatim}
+so $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
+This calculation 
+\end{example}
+
 
 
 
@@ -233,11 +299,12 @@ Thus the complexity of  computing $(gR)^{[1/p^e]}$ is proportional to the number
 
 
 
-\section{$F$-singularities}
+\section{$F$-singularities}\label{Section: F-singularities}
 
 This package includes a method for checking if a ring of finite type over a prime field is $F$-injective or not.
 \begin{definition}
-A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$ is injective for all $i >0$. An arbitrary ring is called $F$-injective if each of the localizations at a prime ideal are $F$-injective.
+A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$
+induced from the Frobenius map on $R$ is injective for all $i \geq 0$. An arbitrary ring is called $F$-injective if each of the localizations at a prime ideal are $F$-injective.
 \end{definition}
 
 \begin{verbatim}
@@ -249,7 +316,7 @@ i5 : isFinjective(R)
 o5 = false
 \end{verbatim}
 
-The algorithm {\tt isFinjective} determines whether the ring  $R = S/I$ is F-injective or not. The algorithm works by checking the injectivity of the frobenius map using the functoriality of $\Ext$.  The algorithm starts by computing  the map $R \rightarrow F_{*}R$ using {\tt frobPFMap}. This outputs a map represented as a matrix over $R$, using {\tt pushFwdToAmbient} to allows this map to instead be represented over the ambient ring $S$. The next step computes the module $\Ext^{i}( \blank, S)$ using the map from the previous step. Finally the algorithm checks the dimension of the cokernel of  $\Ext^{i}( \blank, S)$. If the dimension does not equal negative one then the Frobenius action is not injective and the algorithm terminates and returns false. Otherwise the algorithm continues on and checks the next degree in the same way.
+The algorithm {\tt isFinjective} determines whether the ring  $R = S/I$ is F-injective or not. The algorithm works by checking the injectivity of the Frobenius map using the functoriality of $\Ext$.  The algorithm starts by computing  the map $R \rightarrow F_{*}R$ using {\tt frobPFMap}. This outputs a map represented as a matrix over $R$, using {\tt pushFwdToAmbient} to allows this map to instead be represented over the ambient ring $S$. The next step computes the module $\Ext^{i}( \blank, S)$ using the map from the previous step. Finally the algorithm checks the dimension of the cokernel of  $\Ext^{i}( \blank, S)$. If the dimension does not equal negative one then the Frobenius action is not injective and the algorithm terminates and returns false. Otherwise the algorithm continues on and checks the next degree in the same way.
 
 The {\tt CanonicalStrategy} tag can be used to modify the strategy the algorithm uses to check the Frobenius action on the top local cohomology. By default the algorithm is set to {\tt CanonicalStrategy => Katzman} which then uses the strategy of Katzman  {\hfill\large\color{red} [Add references]}. If the tag is set to anything else {\tt CanonicalStrategy => null} the algorithm checks the top local cohomology using the same brute force strategy used to check the injectivity at lower degrees. The Katzman strategy is typically much faster.
 
@@ -269,7 +336,7 @@ o4 = true
 A ring $R$ is called strongly $F$-regular if $\tau(R) = R$.
 \end{definition}
 
-The command {\tt isFregular} checks whether a ring or pair is strongly $F$-regular. Below are two examples one $F$-regulare and one not.
+The command {\tt isFregular} checks whether a ring or pair is strongly $F$-regular. Below are two examples one $F$-regular and one not.
 
 \begin{verbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(x^2 + y*z);
@@ -622,7 +689,8 @@ o7 : Ideal of R
 i8 :      u=intersect((frobeniusPower(2,I)):I,(frobeniusPower(2,omega)):omega);
 o8 : Ideal of R
 i9 :      u=compress((gens u)%(gens(frobeniusPower(2,I))))
-o9 = | x_1^3x_2x_3+x_1^3x_2x_4+x_1^2x_3x_4x_5+x_1x_2x_3x_4x_5+x_1x_2x_4^2x_5+x_2^2x_4^2x_5+x_3x_4^2x_5^2+x_4^3x_5^2 |
+o9 = | x_1^3x_2x_3+x_1^3x_2x_4+x_1^2x_3x_4x_5+x_1x_2x_3x_4x_5+x_1x_2x_4^2x_5+
+     x_2^2x_4^2x_5+x_3x_4^2x_5^2+x_4^3x_5^2 |
              1       1
 o9 : Matrix R  <--- R
 i10 :       u=first first entries  u
