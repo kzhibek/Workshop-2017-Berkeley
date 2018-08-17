@@ -29,7 +29,15 @@ document {
 	  {TO "isFInjective", " checks if a  ring is F-injective."},
 	  {TO "compatibleIdeals", " finds the compatibly F-split ideals with a (near) F-splitting."},
 	},
-	BR{},
+	BR{},"Consider for instance the test ideal of the cone over an elliptic curve",
+    EXAMPLE{"R = ZZ/5[x,y,z]/ideal(z*y^2-x*(x-z)*(x+z));", "testIdeal(R)" },
+    BR{}, "The following example was studied by Anurag Singh when showing that F-regularity does not deform",
+    EXAMPLE{"S = ZZ/3[A,B,C,D,T];",
+    "m = 4;", "n = 3;",
+    "M = matrix{{A^2+T^m, B, D}, {C, A^2, B^n-D}};",
+    "I = ideal(T) + minors(2, M);",
+    "isFRegular(S/I)"},
+    BR{},BR{},
 	BOLD "Acknowledgements:",BR{},BR{},
 	"The authors would like to thank David Eisenbud, Daniel Grayson, Anurag Singh, Greg Smith, and Mike Stillman for useful conversations and comments on the development of this package.",BR{}
 }
