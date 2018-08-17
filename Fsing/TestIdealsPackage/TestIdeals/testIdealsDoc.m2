@@ -190,23 +190,23 @@ doc ///
 
 doc ///
     Key
-        isFregular
-        (isFregular, Ring)
-        (isFregular, ZZ, RingElement)
-        (isFregular, QQ, RingElement)
-        (isFregular, List, List)
-        [isFregular, AssumeDomain]
-        [isFregular, FrobeniusRootStrategy]
-        [isFregular, MaxCartierIndex]
-        [isFregular, QGorensteinIndex]
-        [isFregular, IsLocal]
-        [isFregular, DepthOfSearch]
+        isFRegular
+        (isFRegular, Ring)
+        (isFRegular, ZZ, RingElement)
+        (isFRegular, QQ, RingElement)
+        (isFRegular, List, List)
+        [isFRegular, AssumeDomain]
+        [isFRegular, FrobeniusRootStrategy]
+        [isFRegular, MaxCartierIndex]
+        [isFRegular, QGorensteinIndex]
+        [isFRegular, IsLocal]
+        [isFRegular, DepthOfSearch]
     Headline
         whether a ring or pair is strongly F-regular
     Usage
-        isFregular(R)
-        isFregular(t, f)
-        isFregular(Lexp, Lelts)
+        isFRegular(R)
+        isFRegular(t, f)
+        isFRegular(Lexp, Lelts)
     Inputs
         R: Ring
         t: QQ
@@ -233,38 +233,38 @@ doc ///
             Given a normal Q-Gorenstein ring $R$, this computes whether the ring is strongly F-regular.  It can also prove that a non-Q-Gorenstein ring is F-regular (but cannot show it is not).  See below for how to access this functionality.
         Example
             R = ZZ/5[x,y,z]/ideal(x^2+y*z);
-            isFregular(R)
+            isFRegular(R)
         Example
             R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-            isFregular(R)
+            isFRegular(R)
         Text
             It can also do the same computation for a pair.
         Example
             R = ZZ/5[x,y];
             f = y^2-x^3;
-            isFregular(1/2, f)
-            isFregular(5/6, f)
-            isFregular(4/5, f)
-            isFregular(4/5-1/100000, f)
+            isFRegular(1/2, f)
+            isFRegular(5/6, f)
+            isFRegular(4/5, f)
+            isFRegular(4/5-1/100000, f)
         Text
             When checking whether a ring or pair is strongly F-regular, the option IsLocal determines if this is checked at the origin or everywhere (default is {\tt false}, which corresponds to everywhere).  If you set {\tt IsLocal=>true}, it will only check this at the origin.
         Example
             R = ZZ/7[x,y,z]/ideal((x-1)^3+(y-2)^3+z^3);
-            isFregular(R)
-            isFregular(R, IsLocal=>true)
+            isFRegular(R)
+            isFRegular(R, IsLocal=>true)
             S = ZZ/13[x,y,z]/ideal(x^3+y^3+z^3);
-            isFregular(S)
-            isFregular(S, IsLocal=>true)
+            isFRegular(S)
+            isFRegular(S, IsLocal=>true)
         Text
             Here is an example of {\tt IsLocal} behavior with a pair.
         Example
             R = ZZ/13[x,y];
             f = (y-2)^2 - (x-3)^3;
-            isFregular(5/6, f)
-            isFregular(5/6, f, IsLocal=>true)
+            isFRegular(5/6, f)
+            isFRegular(5/6, f, IsLocal=>true)
             g = y^2 - x^3;
-            isFregular(5/6, g)
-            isFregular(5/6, g, IsLocal=>true)
+            isFRegular(5/6, g)
+            isFRegular(5/6, g, IsLocal=>true)
         Text
             The option {\tt AssumeDomain => true} is used when finding a test element.  The default value is {\tt false}.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
         Text
@@ -275,8 +275,8 @@ doc ///
             S = ZZ/7[x,y,z,u,v,w];
             I = minors(2, matrix{{x,y,z},{u,v,w}});
             debugLevel = 1;
-            time isFregular(S/I, QGorensteinIndex=>infinity, DepthOfSearch=>1)
-            time isFregular(S/I, QGorensteinIndex=>infinity, DepthOfSearch=>2)
+            time isFRegular(S/I, QGorensteinIndex=>infinity, DepthOfSearch=>1)
+            time isFRegular(S/I, QGorensteinIndex=>infinity, DepthOfSearch=>2)
             debugLevel = 0;
 ///
 

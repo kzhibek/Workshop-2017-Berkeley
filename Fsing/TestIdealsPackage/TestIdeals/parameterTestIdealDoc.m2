@@ -8,7 +8,7 @@ doc ///
     Usage
         canonicalIdeal(R)
     Inputs
-        R:Ring  
+        R:Ring
         MTries => ZZ
             how many times the function should try to embed the canonical module as an ideal before giving up
     Outputs
@@ -26,20 +26,22 @@ doc ///
             Here's an example in a non-domain.
         Example
             R = ZZ/13[x,y,z]/ideal(x*y, x*z, y*z);
-            canonicalIdeal(R)     
+            canonicalIdeal(R)
         Text
-            The option MTries is passed to embedAsIdeal.            
+            The option {\tt MTries} is passed to an internal function which embeds the canonical module as an ideal.  This tells it how many times to try before giving up.
 ///
 
 doc ///
     Key
         MTries
     Headline
-        an option to pass through to embedAsIdeal
+        an option to pass through to an internal embedAsIdeal
     Description
         Text
-            Used when embedding a module (such as the canonical module) as an ideal.  This is passed through to {\tt embedAsIdeal} from the Divisor package.
-///            
+            Used when embedding a module (such as the canonical module) as an ideal.
+            This is passed through to the internal function {\tt embedAsIdeal} which tries to embed a module as an ideal and it tells the function
+            how many times to try embedding before giving up.
+///
 
 doc ///
     Key
@@ -50,13 +52,15 @@ doc ///
         frobeniusTraceOnCanonicalModule(canIdeal, defIdeal)
     Inputs
         canIdeal:Ideal
+            a ring representing the canonical ideal
         defIdeal:Ideal
+            the defining ideal of the ring
     Outputs
         :RingElement
     Description
         Text
-            Given $R = S/I$, where $S$ is a polynomial ring, there is a map from the canonical module of $R$ back to itself, dual to the Frobenius: $\omega_R^{1/p^e} \to \omega_R$.  
-            By embedding $\omega_R$ as an ideal $J$ of $R$, one can interpret this map as a $p^e$-inverse linear map on $S$.  But every $p$ inverse linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element $u$.  This function finds the $u$.  
+            Given $R = S/I$, where $S$ is a polynomial ring, there is a map from the canonical module of $R$ back to itself, dual to the Frobenius: $\omega_R^{1/p^e} \to \omega_R$.
+            By embedding $\omega_R$ as an ideal $J$ of $R$, one can interpret this map as a $p^e$-inverse linear map on $S$.  But every $p$ inverse linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element $u$.  This function finds the $u$.
         Text
             However, because Macaulay2 does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single $u$ and instead find a list of $u$s, a linear combination of which is the desired $u$.
         Text
@@ -77,9 +81,8 @@ doc ///
         testModule
         (testModule, Ring)
         (testModule, Ring, Ideal)
-        (testModule, QQ, RingElement)
-        (testModule, ZZ, RingElement)
-        (testModule, QQ, RingElement, Ideal, List)
+        (testModule, Number, RingElement)
+        (testModule, Number, RingElement, Ideal, List)
         (testModule, List, List)
         (testModule, List, List, Ideal, List)
         [testModule, AssumeDomain]
@@ -94,9 +97,11 @@ doc ///
     Inputs
         R:Ring
         canIdeal:Ideal
+            an ideal isomorphic to the canonical module
         tt:QQ
-        tt:ZZ
+            the formal exponent that ff is raised to
         u1:List
+            a list of elements describing the map on hte canonical module
         AssumeDomain => Boolean
             assume whether the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
@@ -105,12 +110,12 @@ doc ///
         :Sequence
     Description
         Text
-            Computes the parameter test module (as a submodule of the canonical module).  The function returns three values, the parameter test submodule, the canonical module of which it is a subset, and the element $u$ (or $u$s) used to compute this ideal via the method @TO frobeniusTraceOnCanonicalModule@.  
+            Computes the parameter test module (as a submodule of the canonical module).  The function returns three values, the parameter test submodule, the canonical module of which it is a subset, and the element $u$ (or $u$s) used to compute this ideal via the method @TO frobeniusTraceOnCanonicalModule@.
         Example
             R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
             testModule(R)
         Text
-            The canonical module returned is always embedded as an ideal of $R$ (not of the ambient polynomial ring).  Likewise the parameter test submodule is then viewed as a subideal of that.  
+            The canonical module returned is always embedded as an ideal of $R$ (not of the ambient polynomial ring).  Likewise the parameter test submodule is then viewed as a subideal of that.
             With this in mind, because the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.  The next example is not Gorenstein.
         Example
             S = ZZ/3[x,y,u,v];
@@ -127,7 +132,7 @@ doc ///
         Text
             This function can be used to compute parameter test ideals in Cohen-Macaulay rings
         Example
-            S=ZZ/2[X_1..X_5]; 
+            S=ZZ/2[X_1..X_5];
             E=matrix {{X_1,X_2,X_2,X_5},{X_4,X_4,X_3,X_1}};
             I=minors(2,E);
             tau=testModule(S/I);
@@ -145,9 +150,11 @@ doc ///
             R = ZZ/7[x,y];
             f = y^2 - x^3;
             g = x^2 - y^3;
-            testModule({1/2, 1/2}, {f, g})        
+            testModule({1/2, 1/2}, {f, g})
         Text
             Sometimes you would like to specify the ambient canonical module (and choice of u) across multiple calls of testModule.  Those are what the $canIdeal$ or $u1$ can be used to specify.  Finally, the option {\tt FrobeniusRootStrategy} is passed to any calls of @TO frobeniusRoot@ and the option {\tt AssumeDomain} is used when computing a test element.
+    SeeAlso
+        testIdeal
 ///
 
 doc ///
@@ -172,7 +179,7 @@ doc ///
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
             g = map(T, S, {x^3, x^2*y, x*y^2, y^3});
-            R = S/(ker g);   
+            R = S/(ker g);
             parameterTestIdeal(R)
         Text
             Consider now a non-F-rational Gorenstein ring where the @TO testIdeal@ and parameterTestIdeal coincide.
@@ -183,7 +190,7 @@ doc ///
     SeeAlso
         testModule
         testIdeal
-///        
+///
 
 
 doc ///
@@ -216,7 +223,7 @@ doc ///
         Text
             The function works as follows.  It considers $R$ as a quotient of an ambient polynomial ring, $R = S/I$.  It takes a resolution of $I$.  If the resolution has length equal to dim $R$ - dim $S$, then it is Cohen-Macaulay.  If the resolution has a different length, and $I$ is homogeneous, then it is not Cohen-Macaulay.  Finally, if the resolution has a different length and I is not homogeneous, the function looks at the $Ext$ groups which compute the depth.
     Caveat
-        Warning, this function assumes that Spec $R$ is connected.  In particular, if you pass it a non-equidimensional Cohen-Macaulay ring (for example, if Spec $R$ has two connected components of different dimensions), this function will return false.  
+        Warning, this function assumes that Spec $R$ is connected.  In particular, if you pass it a non-equidimensional Cohen-Macaulay ring (for example, if Spec $R$ has two connected components of different dimensions), this function will return false.
 ///
 
 doc ///
@@ -231,16 +238,16 @@ doc ///
 
 doc ///
     Key
-        isFrational
-        (isFrational, Ring)
-        [isFrational, IsLocal]
-        [isFrational, AssumeCM]
-        [isFrational, AssumeDomain]
-        [isFrational, FrobeniusRootStrategy]
+        isFRational
+        (isFRational, Ring)
+        [isFRational, IsLocal]
+        [isFRational, AssumeCM]
+        [isFRational, AssumeDomain]
+        [isFRational, FrobeniusRootStrategy]
     Headline
         whether a ring is F-rational
     Usage
-        isFrational(R)
+        isFRational(R)
     Inputs
         R:Ring
         IsLocal => Boolean
@@ -250,7 +257,7 @@ doc ///
         AssumeDomain => Boolean
             assume whether the ring is an integral domain
         FrobeniusRootStrategy=>Symbol
-            choose the strategy for internal frobeniusRoot calls 
+            choose the strategy for internal frobeniusRoot calls
     Outputs
         :Boolean
     Description
@@ -261,22 +268,22 @@ doc ///
             S = ZZ/5[a,b,c,d];
             g = map(T, S, {x^3, x^2*y, x*y^2, y^3});
             R = S/(ker g);
-            isFrational(R)
+            isFRational(R)
         Example
             R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-            isFrational(R)
+            isFRational(R)
         Text
             We conclude with a more interesting example of a ring that is F-rational but not F-regular.  This example first appeared in A. K. Singh's work on deformation of F-regularity.
         Example
              S = ZZ/3[a,b,c,d,t];
-             m = 4; 
+             m = 4;
              n = 3;
              M = matrix{ {a^2 + t^m, b, d}, {c, a^2, b^n-d} };
              I = minors(2, M);
              R = S/I;
-             isFrational(R)
+             isFRational(R)
         Text
             The option {\tt AssumeDomain} is used when computing a test element.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     Caveat
-        Warning, this function assumes that Spec R is connected.  Like {\tt isCohenMacaulay}, if you pass it a non-equidimensional F-rational ring (for example, if Spec R has two connected components of different dimensions), this function will return false.  
+        Warning, this function assumes that Spec R is connected.  Like {\tt isCohenMacaulay}, if you pass it a non-equidimensional F-rational ring (for example, if Spec R has two connected components of different dimensions), this function will return false.
 ///
