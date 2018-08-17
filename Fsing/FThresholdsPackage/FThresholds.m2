@@ -82,6 +82,7 @@ export{
     "StandardPower",
     "ContainmentTest",
     "UseColonIdeals",
+    "UseFSignature",
     "UseSpecialAlgorithms"
 }
 
@@ -101,6 +102,8 @@ load "./FThresholds/MainFunctions.m2"
 load "./FThresholds/SpecialFThresholds.m2"
 
 beginDocumentation()
+
+load "./FThresholds/FThresholdsDoc.m2"
 
 load "./FThresholds/MainFunctionsDoc.m2"
 
