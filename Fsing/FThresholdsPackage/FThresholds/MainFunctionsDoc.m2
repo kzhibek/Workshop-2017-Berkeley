@@ -575,7 +575,7 @@ doc ///
      Description
         Text
             Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes a list with indices
-            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input. 
+            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input.
      SeeAlso
         nu
 ///
@@ -587,8 +587,10 @@ doc ///
           an option to specify the search method
      Description
           Text
-              An option for functions @TO nu@ and @TO nuList@ to specify
-              the order in which ideal the containment of powers are computed. Valid values are
+              An option for functions @TO nu@ and @TO nuList@ (and @TO mu@ and @TO muList@) to specify
+              the order in which ideal the containment of powers are computed.
+
+              Valid values are
               {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
@@ -602,7 +604,8 @@ doc ///
           an option to use colon ideals to compute nus in an iterative way
      Description
           Text
-              An option for @TO nu@ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
+              An option for @TO nu@ and @TO nuList@ (and @TO mu@ and @TO muList@) to use colon ideals to compute nus in an iterative way.
+
               Valid values are {\tt true} and {\tt false}.
      SeeAlso
           nu
@@ -616,10 +619,14 @@ doc ///
           an option to check whether the input is a diagonal polynomial, binomial, or binary form
      Description
           Text
-              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial, or a binary form.
+              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial,
+              or a binary form.
               If {\tt true}, the function @TO fpt@ first checks whether the input
-              is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).  If it is,
-              the function @TO fpt@ applies specialized algorithms.  Can take on only Boolean values.
+              is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).
+              If it is,
+              the function @TO fpt@ applies specialized algorithms of D. Hernandez, or D. Hernandez and P. Teixeira.
+
+              Can take on only Boolean values.
               Default value is {\tt true}.
      SeeAlso
           fpt
