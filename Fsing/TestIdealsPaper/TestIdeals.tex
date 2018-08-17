@@ -173,7 +173,7 @@ Hence the complexity of  computing $(gR)^{[1/p^e]}$ is proportional to the numbe
 \emph{The calculation of Frobenius roots does not involve the calculation of Gr\"obner bases.}
 
 \subsection{Dual to Frobenius on quotient rings and Frobenius on top local cohomology}
-
+\label{subsec.DualToFrobeniusOnQuotientRings}
 For \emph{any} reduced ring $R$ with finite $e$-iterated Frobenius map identified with $R \hookrightarrow R^{1/p^e}$, we always have a map 
 \[
 T_R : \omega_{R^{1/p^e}} \to \omega_R.
@@ -364,17 +364,17 @@ o14 = | 0   a  bc  |
 
 \section{$F$-singularities}\label{Section: F-singularities}
 
+This package includes methods for determining if a ring is $F$-injective, $F$-pure, $F$-rational or $F$-regular.
 
-
-This package includes a method for checking whether a ring of finite type over a
-prime field is $F$-injective.
+\subsection{$F$-injectivity}
 
 \begin{definition}
 A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map
 $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$ is
 injective for all $i >0$. An arbitrary ring is called \emph{$F$-injective} if its
-localization at each prime ideal of $R$ is $F$-injective.
+localization at each prime ideal of $R$ is $F$-injective.  
 \end{definition}
+
 
 
 \begin{verbatim}
@@ -386,28 +386,37 @@ i5 : isFinjective(R)
 o5 = false
 \end{verbatim}
 
+Equivalently, a ring is $F$-injective if the maps on the cohomology of the dualizing complex
+\[
+h^{-i} \omega_{R^{1/p}}^{\mydot} \to h^{-i} \omega_R^{\mydot}
+\]
+surject for all $i$.  
 
 The algorithm {\tt isFinjective} determines whether the ring $R = S/I$ is
-$F$-injective. The algorithm works by checking the injectivity of the
-Frobenius map using the fact that $\Ext^{i}(\blank, S) \cong H^{\dim S -
-i}_{\mathfrak{m}}(\blank) $. The algorithm starts by computing the map $R
-\rightarrow R^{1/p}$ using {\tt frobPFMap}. Next the algorithm computes
-$\Ext^{i}( \blank, S)$ applied to the map from the previous step. Then the
-Frobenius action will be injective precisely when the dimension of the
-cokernel of $\Ext^{i}( \blank, S)$ is trivial. If the cokernel is
-nontrivial then the algorithm terminates and returns false, otherwise $i$
-is decremented and the next cohomology class is checked.
+$F$-injective where $S$ is a polynomial ring.  Note that $h^{-i} \omega_R^{\mydot} \cong \Ext^{\dim S - i}(R, S)$, the latter of which Macaulay2 readily computes.
+The algorithm works by checking the surjectivity of the dual Frobenius map 
+\[
+\Ext^{\dim S - i}(R^{1/p}, S) \to \Ext^{\dim S - i}(R, S).
+\]
+%using the fact that the Matlist dual of \Ext^{i}(\blank, S)$ \cong H^{\dim S -
+%i}_{\mathfrak{m}}(\blank) $. 
+We begin by computing the map $R
+\rightarrow R^{1/p}$ using the {\tt PushForward} package \cite{}. 
+Next the algorithm computes
+$\Ext^{i}( \blank, S)$ applied to the map from the previous step.  Then $R$ is $F$-injective precisely when the
+cokernel of $\Ext^{i}( \blank, S)$ is trivial for $i$. 
+
+The Frobenius action on top local cohomology (dual to $\omega_R$) is usually computed in a different (faster) way than the other cohomologies, and this is modified by the {\tt CanonicalStrategy} option.  The default option is {\tt CanonicalStrategy => Katzman} which instead relies on the fact that we already know how to compute the Frobenius action on the canonical module, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings}.  
 
 
-The {\tt CanonicalStrategy} tag can be used to modify the strategy the
-algorithm uses to check the Frobenius action on the top local cohomology.
-By default the algorithm is set to {\tt CanonicalStrategy => Katzman} which
-then uses the strategy of Katzman {\hfill\large\color{red} [Add
-references]}. If the tag is set to anything else {\tt CanonicalStrategy =>
-null} the algorithm checks the top local cohomology using the same brute
-force strategy used to check the injectivity at lower degrees. The Katzman
-strategy is typically much faster.
-
+%The {\tt CanonicalStrategy} tag can be used to modify the strategy the
+%algorithm uses to check the Frobenius action on the top local cohomology.
+%By default the algorithm is set to {\tt CanonicalStrategy => Katzman} which
+%then uses the strategy of Katzman {\hfill\large\color{red} [Add
+%references]}. If the tag is set to anything else {\tt CanonicalStrategy =>
+%null} the algorithm checks the top local cohomology using the same brute
+%force strategy used to check the injectivity at lower degrees. The Katzman
+%strategy is typically much faster.
 
 The performance of the algorithm can be improved if the ring of interest is
 nice enough. If the ring is Cohen-Macaulay then, setting {\tt AssumeCM =>
@@ -423,8 +432,7 @@ computing the bottom local cohomology, and when entering a normal ring, setting
 {\tt AssumeNormal => true} avoids computing the bottom two local
 cohomologies. The default setting for both of these tags is {\tt false}.
 
-
-By default the algorithm checks for $F$-injectivity everywhere however one
+By default the algorithm checks for $F$-injectivity at all points of $\Spec R$.  However one
 can choose to check $F$-injectivity only at the origin by setting the
 option {\tt IsLocal => true}.
 
@@ -436,8 +444,10 @@ i4 : isFinjective(R, IsLocal=>true)
 o4 = true
 \end{verbatim}
 
-\begin{definition}
-A ring $R$ is called \emph{strongly $F$-regular} if $\tau(R) = R$.
+\subsection{$F$-regularity}
+
+\begin{definition}[\cite{HochsterHunekeTC1,HaraWatanabeFRegFPure}]
+A ring $R$ is called \emph{strongly $F$-regular} if the (big) test ideal $\tau(R) = R$.  Likewise a pair $(R, f^t)$ is called \emph{strongly $F$-regular} if $\tau(R, f^t) = R$.  
 \end{definition}
 
 
@@ -454,9 +464,7 @@ i5 : isFregular(R)
 o5 = false
 \end{verbatim}
 
-
-We can also perform these types of computations for pairs.
-
+We can also check whether a pair $(R, f^t)$ is $F$-regular.
 
 \begin{verbatim}
 i2 : R = ZZ/5[x,y];
@@ -471,6 +479,7 @@ i7 : isFregular(4/5-1/100000, f)
 o7 = true
 \end{verbatim}
 
+All of these checks are done by actually computing the test ideal (as described in the next section).  
 
 The inputs for {\tt isFregular} can be a ring, an integer and a ring
 element, a rational number and a ring element or a list of rational numbers
