@@ -384,6 +384,7 @@ fpt = method(
 	    FRegularityCheck => true,
 	    Verbose => false,
 	    UseSpecialAlgorithms => true,
+	    UseFSignature => true,
 	    NuCheck => true,
 	    DepthOfSearch => 1
 	}
@@ -400,6 +401,7 @@ fpt RingElement := o -> f ->
 	    FRegularityCheck => Boolean,
 	    Verbose => Boolean,
 	    UseSpecialAlgorithms => Boolean,
+	    UseFSignature => Boolean,
 	    NuCheck => Boolean,
 	    DepthOfSearch => ( k -> instance( k, ZZ ) and k > 0 )
 	}
@@ -456,9 +458,15 @@ fpt RingElement := o -> f ->
     -- Compute nu(e,f)
     e := o.DepthOfSearch;
     n := nu( e, f );
-
+    lowerBound := n/(p^e-1); -- because there are no fpts between n/p^e and this
+    upperBound := (n+1)/p^e;
+    strictLowerBound := false;
+    strictUpperBound := false;
     if o.Verbose then
-         print( "\nnu has been computed: nu(" | toString(e) | ",f) = " | toString n | " ..." );
+    (
+         print( "\nnu has been computed: nu = nu(" | toString(e) | ",f) = " | toString n | " ..." );
+	 print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString lowerBound | ", " | toString upperBound | " ] ..." )
+    );
 
     -- If nu = 0, we just return some information
     if n == 0 then
@@ -468,74 +476,101 @@ fpt RingElement := o -> f ->
 	return { 0, 1/p^e }
     );
 
-    -- Check to see if either nu/(p^e-1) or (nu+1)/p^e is the fpt
+    -- Check to see if either lowerBound or upperBound is the fpt
     if o.NuCheck then
     (
-        -- Check to see if nu/(p^e-1) is the fpt
-	-- (uses the fact that there are no fpts between nu/p^e and nu/(p^e-1))
-	if not isFregular( n/(p^e-1), f ) then
+        -- Check to see if lowerBound is the fpt
+	if not isFregular( lowerBound, f ) then
 	(
-	    if o.Verbose then print "\nFound answer via nu/(p^e-1).";
-	    return n/(p^e-1)
+	    if o.Verbose then print "\nfpt is the lower bound nu/(p^e-1).";
+	    return lowerBound
 	)
-      	else if o.Verbose then print "\nnu/(p^e-1) is not the fpt ...";
-
-        --check to see if (nu+1)/p^e is the FPT
-	if isFPT( (n+1)/p^e, f ) then
+      	else
+	( 
+	    if o.Verbose then 
+	        print "\nThe lower bound nu/(p^e-1) is not the fpt ...";
+	    strictLowerBound = true
+	);
+        --check to see if upperBound is the FPT
+	if isFPT( upperBound, f ) then
 	(
-	    if o.Verbose then print "\nFound answer via (nu+1)/(p^e).";
-	    return (n+1)/p^e
+	    if o.Verbose then print "\nfpt is the upper bound (nu+1)/(p^e).";
+	    return upperBound
 	)
-      	else if o.Verbose then print "\n(nu+1)/p^e is not the fpt ..."
+      	else
+	(
+	    if o.Verbose then 
+                print "\nThe upper bound (nu+1)/p^e is not the fpt ...";
+	    strictUpperBound = true
+	)
     );
 
     -- Do the F-signature computation
-    local s1;
-    local s2;
-
-    if o.Verbose then print "\nBeginning F-signature computation ...";
-    s2 = fSig( f, n, e );
-    if o.Verbose then
-        print( "\nFirst F-signature computed: s(f,nu/p^e) = " | toString s2 | " ..." );
-    s1 = fSig( f, n-1, e );
-    if o.Verbose then
-	print( "\nSecond F-signature computed: s(f,(nu-1)/p^e) = " | toString s1 | " ..." );
-
-    a := xInt( (n-1)/p^e, s1, n/p^e, s2 );
-
-    if o.Verbose then
-        print( "\nComputed F-signature intercept: " | toString a | " ..." );
-
-    -- Now check to see if F-signature line crosses at (nu+1)/p^e. If so, then that's the fpt
-    if (n+1)/p^e == a then
+    local int;
+    if o.UseFSignature then
     (
-	if  o.Verbose then
-	    print "\nF-signature line crosses at (nu+1)/p^e, so that is the fpt.";
-	return a
+	local s1;
+        local s2;
+
+        if o.Verbose then print "\nBeginning F-signature computation ...";
+        s1 = fSig( f, n-1, e );
+        if o.Verbose then
+	    print( "\nFirst F-signature computed: s(f,(nu-1)/p^e) = " | toString s1 | " ..." );
+        s2 = fSig( f, n, e );
+        if o.Verbose then
+            print( "\nSecond F-signature computed: s(f,nu/p^e) = " | toString s2 | " ..." );
+        -- Compute intercept of line through ((nu-1)/p^2,s1) and (nu/p^e,s2)
+        int = xInt( (n-1)/p^e, s1, n/p^e, s2 );
+
+        if o.Verbose then
+            print("\nComputed F-signature intercept: " | toString int | " ...");
+
+        -- Now check to see if F-signature line crosses at upperBound. If so, then that's the fpt
+        if upperBound == int then
+        (
+	    if  o.Verbose then
+	        print "\nF-signature line crosses at the upper bound (nu+1)/p^e, so that is the fpt.";
+	    return int
+        );
+    
+        -- Compare the intercept with the current lower bound, nu/(p^e-1)
+        if lowerBound < int then
+        (
+	    if o.Verbose then 
+	        print "\nF-signature intercept is an improved lower bound ...";
+	    lowerBound = int;
+	    strictLowerBound = false;
+        )
+        else if o.Verbose then 
+            print "\nF-signature computation failed to find an improved lower bound ...";	 
     );
 
-    if o.FRegularityCheck then
+    if o.FRegularityCheck and not strictLowerBound then
     (
 	if o.Verbose then print "\nStarting final check ...";
-        if not isFregular( a, f ) then
+        if not isFregular( lowerBound, f ) then
         (
 	   if o.Verbose then
-	       print "\nFinal check successful; fpt is the F-signature intercept.";
-	   return a
+	       print "\nFinal check successful; fpt is the lower bound.";
+	   return int
       	)
-	else if o.Verbose then print "\nFinal check didn't find the fpt ..."
+	else 
+	(
+	    if o.Verbose then print "\nFRegularityCheck did not find the fpt ...";
+	    strictLowerBound = true
+	)
     );
 
     if o.Verbose then
         print(
 	    "\nfpt lies in the interval " |
-	    ( if o.FRegularityCheck then "( " else "[ " ) |
-	    toString a |
+	    ( if strictLowerBound then "( " else "[ " ) |
+	    toString lowerBound |
 	    ", " |
-	    toString( (n+1)/p^e ) |
-	    ( if o.NuCheck then " )." else " ]." )
+	    toString upperBound |
+	    ( if strictUpperBound then " )." else " ]." )
         );
-    { a, (n+1)/p^e }
+    { lowerBound, upperBound }
 )
 
 fpt ( List, List ) := o -> ( L, m ) -> 
