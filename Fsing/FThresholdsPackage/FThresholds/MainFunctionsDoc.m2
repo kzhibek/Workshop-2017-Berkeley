@@ -584,9 +584,9 @@ doc ///
             nu(3,M^5,ContainmentTest=>FrobeniusPower)
             mu(3,M^5) -- should produce the same output as preceding command
         Text
-            The function {\tt nu} works by searching through list of integers and checking containments of powers of ideals in others.
-            The option {\tt Search} specifies the search algorithm used to do so.
-            Valid values for {\tt Search} are {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
+            The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
+            The option {\tt Search} specifies the search algorithm used to do so search for the exponent $n$ among a list of possibilities.
+            Valid values for {\tt Search} are {\tt Binary}, the default value, {\tt BinaryRecursive}, and {\tt Linear}.
         Example
             ZZ/17[x,y];
             M=ideal(x,y);
@@ -596,7 +596,12 @@ doc ///
         Text
             The option {\tt UseColonIdeals} specifies whether or not {\tt nu} uses colon ideals to compute $\nu$ in an iterative way.
 --to do:  Add example that illustrates the difference.  If we can't find one, maybe remove this option.
-     SeeAlso
+        Example
+            ZZ/5[x,y,z];
+            f=2*x^2*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4
+            time nu(5,f) --Use ColonIdeals is set to false, by default
+            time nu(5,f, UseColonIdeals=>true)
+    SeeAlso
         mu
         nuList
 ///
