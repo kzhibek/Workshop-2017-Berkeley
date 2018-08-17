@@ -154,7 +154,9 @@ testModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
     tau := I1;
     curTau := I1;
     if (#u1 > 1) then(
-        print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+        if (debugLevel > 0) then (
+            print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+        );
         j := 0;
         while (j < #u1) do (
             curTau = ascendIdeal(ccc, {floor((pp^ccc - 1)/(pp-1)),  aaa}, {u1#j, fff}, (ideal(fff))*C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
