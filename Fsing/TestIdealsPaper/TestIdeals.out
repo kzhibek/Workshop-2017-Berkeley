@@ -1,15 +1,17 @@
 \BOOKMARK [1][]{section.1}{1. Introduction}{}% 1
 \BOOKMARK [2][]{section*.1}{Acknowledgements}{section.1}% 2
 \BOOKMARK [1][]{section.2}{2. Frobenius powers and Frobenius roots}{}% 3
-\BOOKMARK [2][]{subsection.2.1}{2.1. Frobenius roots of submodules of free modules}{section.2}% 4
-\BOOKMARK [1][]{section.3}{3. p-e- and pe-linear maps}{}% 5
-\BOOKMARK [2][]{subsection.3.1}{3.1. Implementation and complexity}{section.3}% 6
-\BOOKMARK [1][]{section.4}{4. F-singularities}{}% 7
-\BOOKMARK [1][]{section.5}{5. Test ideals}{}% 8
-\BOOKMARK [2][]{subsection.5.1}{5.1. Parameter test modules}{section.5}% 9
-\BOOKMARK [2][]{subsection.5.2}{5.2. Parameter test ideals}{section.5}% 10
-\BOOKMARK [2][]{subsection.5.3}{5.3. Test ideals}{section.5}% 11
-\BOOKMARK [2][]{subsection.5.4}{5.4. HSLG module, computing F-pure submodules of rank-1 Cartier modules}{section.5}% 12
-\BOOKMARK [1][]{section.6}{6. Ideals compatible with given p-e-linear map}{}% 13
-\BOOKMARK [1][]{section.7}{7. Future plans}{}% 14
-\BOOKMARK [1][]{section*.2}{References}{}% 15
+\BOOKMARK [2][]{subsection.2.1}{2.1. The math behind the Frobenius roots algorithm}{section.2}% 4
+\BOOKMARK [2][]{subsection.2.2}{2.2. A generalization of Frobenius powers and roots}{section.2}% 5
+\BOOKMARK [2][]{subsection.2.3}{2.3. Frobenius roots of submodules of free modules}{section.2}% 6
+\BOOKMARK [1][]{section.3}{3. p-e- and pe-linear maps}{}% 7
+\BOOKMARK [2][]{subsection.3.1}{3.1. Implementation and complexity}{section.3}% 8
+\BOOKMARK [1][]{section.4}{4. F-singularities}{}% 9
+\BOOKMARK [1][]{section.5}{5. Test ideals}{}% 10
+\BOOKMARK [2][]{subsection.5.1}{5.1. Parameter test modules}{section.5}% 11
+\BOOKMARK [2][]{subsection.5.2}{5.2. Parameter test ideals}{section.5}% 12
+\BOOKMARK [2][]{subsection.5.3}{5.3. Test ideals}{section.5}% 13
+\BOOKMARK [2][]{subsection.5.4}{5.4. HSLG module, computing F-pure submodules of rank-1 Cartier modules}{section.5}% 14
+\BOOKMARK [1][]{section.6}{6. Ideals compatible with given p-e-linear map}{}% 15
+\BOOKMARK [1][]{section.7}{7. Future plans}{}% 16
+\BOOKMARK [1][]{section*.2}{References}{}% 17
