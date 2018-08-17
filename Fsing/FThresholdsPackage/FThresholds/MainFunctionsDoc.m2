@@ -1,3 +1,17 @@
+
+doc ///
+    Key
+        BinaryRecursive
+    Headline
+        an option value specifying a binary recursive search method
+    Description
+        Text
+            a value for the option {\tt Search} to specify a binary recursive search method
+    SeeAlso
+        nu
+        nuList
+///
+
 doc ///
     Key
         compareFPT
@@ -244,6 +258,29 @@ doc ///
         fpt
 ///
 
+doc ///
+    Key
+        FrobeniusPower
+    Headline
+        an option value to consider containment of Frobenius powers of ideals
+    Description
+        Text
+            a value for the option {\tt ContainmentTest} to consider containment of Frobenius powers of ideals
+    SeeAlso
+        nu
+///
+
+doc ///
+    Key
+        FrobeniusRoot
+    Headline
+        an option value to consider containment of Frobenius roots of ideals
+    Description
+        Text
+            a value for the option {\tt ContainmentTest} to consider containment of Frobenius roots of ideals
+    SeeAlso
+        nu
+///
 
 doc ///
      Key
@@ -610,7 +647,7 @@ doc ///
      Key
           NuCheck
      Headline
-          an option to check whether certain values in term of nu are the F-pure threshold
+          an option to check whether certain guesses, in term of nu, are the F-pure threshold
      Description
           Text
               an option for function @TO fpt@ to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$,
@@ -618,8 +655,8 @@ doc ///
 
               Valid values are {\tt true} and {\tt false}.  Default value is {\tt true}.
      SeeAlso
-          nu
-          nuList
+        fpt
+        nu
 ///
 
 doc ///
