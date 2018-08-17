@@ -42,6 +42,7 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
     SeeAlso
+        fpt
         isFPT
 ///
 
@@ -341,7 +342,7 @@ doc ///
         [isFPT, MaxCartierIndex]
         [isFPT, QGorensteinIndex]
      Headline
-        Checks whether a given number is the $F$-pure threshold
+        Checks whether a given number is the F-pure threshold
      Usage
           isFPT(t,f,Verbose=>V,Origin=>W)
      Inputs
