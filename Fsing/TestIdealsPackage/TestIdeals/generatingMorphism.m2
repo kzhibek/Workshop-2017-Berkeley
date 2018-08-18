@@ -63,7 +63,7 @@ generatingMorphism= (I) ->(
 
 
 
-isFinjectiveViaExt= (I) ->(
+isFInjectiveViaExt= (I) ->(
     local i;
     answer:=true;
     g:=generatingMorphism (I);

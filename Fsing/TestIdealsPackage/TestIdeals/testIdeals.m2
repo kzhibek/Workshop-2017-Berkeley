@@ -119,7 +119,7 @@ testIdeal(Ring) := o->(R1) -> (
         );
     );
     --print "debug2";
-    if ((cartIndex <= 0) or (fflag == false)) then error "testIdeal: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
+    if ((cartIndex <= 0) or (fflag == false)) then error "testIdeal: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFRegular.";
     if ((pp-1)%cartIndex == 0) then (
         J1 := testElement( R1, AssumeDomain=>o.AssumeDomain );
         h1 := sub(0, ambient R1);
@@ -154,21 +154,12 @@ testIdeal(Ring) := o->(R1) -> (
     computedTau
 )
 
-testIdeal(QQ, RingElement, Ring) := o->(t1, f1, R1) -> (
-    --this computes \tau(R, f^t)
-    testIdeal({t1}, {f1}, R1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
-);
-
-testIdeal(ZZ, RingElement, Ring) := o->(t1, f1, R1) -> (
+testIdeal(Number, RingElement, Ring) := o->(t1, f1, R1) -> (
     --this computes \tau(R, f^t)
     testIdeal({t1/1}, {f1}, R1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
 );
 
-testIdeal(QQ, RingElement) := o->(t1, f1) -> (
-    testIdeal({t1}, {f1}, ring f1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
-);
-
-testIdeal(ZZ, RingElement) := o->(t1, f1) -> (
+testIdeal(Number, RingElement) := o->(t1, f1) -> (
     testIdeal({t1/1}, {f1}, ring f1, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex)
 );
 
@@ -198,7 +189,7 @@ testIdeal(List, List, Ring) := o->(tList, fList, R1) ->(
             );
         );
     );
-    if (fflag == false) then error "testIdeal: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFregular.";
+    if (fflag == false) then error "testIdeal: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFRegular.";
     if ((pp-1)%cartIndex == 0) then (
         J1 := testElement( R1 );
         h1 := sub(0, ambient R1);
@@ -235,9 +226,9 @@ testIdeal(List, List, Ring) := o->(tList, fList, R1) ->(
 
 --We can now check F-regularity
 
-isFregular = method(Options => {AssumeDomain => false, DepthOfSearch => 2, MaxCartierIndex => 10, IsLocal=>false, FrobeniusRootStrategy => Substitution, QGorensteinIndex => 0});
+isFRegular = method(Options => {AssumeDomain => false, DepthOfSearch => 2, MaxCartierIndex => 10, IsLocal=>false, FrobeniusRootStrategy => Substitution, QGorensteinIndex => 0});
 
-isFregular(Ring) := o->R1 -> (
+isFRegular(Ring) := o->R1 -> (
     if (o.QGorensteinIndex == infinity) then (
         return nonQGorensteinIsFregular(o.DepthOfSearch, {0}, {sub(1, R1)}, R1, AssumeDomain => o.AssumeDomain, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
     );
@@ -250,7 +241,8 @@ isFregular(Ring) := o->R1 -> (
     )
 );
 
-isFregular(QQ, RingElement) := o->(tt, ff) -> (
+isFRegular(Number, RingElement) := o->(tt, ff) -> (
+    tt = tt/1;
     if (o.QGorensteinIndex == infinity) then (
         return nonQGorensteinIsFregular(o.DepthOfSearch, {tt}, {ff}, ring ff, AssumeDomain=>o.AssumeDomain,  FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
     );
@@ -264,21 +256,8 @@ isFregular(QQ, RingElement) := o->(tt, ff) -> (
     )
 );
 
-isFregular(ZZ, RingElement) := o->(tt, ff) -> (
-    if (o.QGorensteinIndex == infinity) then (
-        return nonQGorensteinIsFregular(o.DepthOfSearch, {tt}, {ff}, ring ff, AssumeDomain => o.AssumeDomain,  FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
-    );
-    R1 := ring ff;
-    tau := testIdeal(tt, ff, MaxCartierIndex=>o.MaxCartierIndex, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex, AssumeDomain => o.AssumeDomain);
-    if (o.IsLocal == true) then (
-        if (isSubset(ideal(sub(1, R1)), tau+maxIdeal( R1 ))) then true else false
-    )
-    else(
-        if (isSubset(ideal(sub(1, R1)), tau)) then true else false
-    )
-);
 
-isFregular(List, List) := o->(ttList, ffList) -> (
+isFRegular(List, List) := o->(ttList, ffList) -> (
     if (o.QGorensteinIndex == infinity) then (
         return nonQGorensteinIsFregular(o.DepthOfSearch, ttList, ffList, ring (ffList#0), AssumeDomain => o.AssumeDomain,  FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
     );
@@ -310,7 +289,7 @@ nonQGorensteinIsFregular(ZZ, List, List, Ring) := o -> (n1, ttList, ffList, R1) 
         if (isSubset(ideal(sub(1, ambient(R1))), testApproximate)) then return true;
         e = e+1;
     );
-    if (debugLevel > 0) then print "isFregular: This ring does not appear to be F-regular.  Increasing DepthOfSearch will let the function search more deeply.";
+    if (debugLevel > 0) then print "isFRegular: This ring does not appear to be F-regular.  Increasing DepthOfSearch will let the function search more deeply.";
     return false;
 );
 
@@ -325,13 +304,13 @@ nonQGorensteinIsFregular(ZZ, List, List, Ring) := o -> (n1, ttList, ffList, R1) 
 -- Recall that this involves checking if I^[p]:I is in m^[p]
 -- Note:  We first check if I is generated by a regular sequence.
 
-isFpure = method(Options => {FrobeniusRootStrategy => Substitution, IsLocal=>false});
+isFPure = method(Options => {FrobeniusRootStrategy => Substitution, IsLocal=>false});
 
-isFpure(Ring) := o->R1->(
-    isFpure(ideal R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, IsLocal=>o.IsLocal)
+isFPure(Ring) := o->R1->(
+    isFPure(ideal R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, IsLocal=>o.IsLocal)
 );
 
-isFpure(Ideal) := o->I1->(
+isFPure(Ideal) := o->I1->(
     local answer;
     p1:=char ring I1;
     if (o.IsLocal == true) then (
