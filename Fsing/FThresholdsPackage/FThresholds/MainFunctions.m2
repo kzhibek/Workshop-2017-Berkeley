@@ -1,35 +1,36 @@
---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%s
-----------------------------------------------------------------------------------
+--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---------------------------------------------------------------------------------
 -- CONTENTS
-----------------------------------------------------------------------------------
---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---------------------------------------------------------------------------------
+--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 -- Nu computations
 
--- Main functions: nuList, nu
+-- Main functions: nuList, nu, muList, mu
 
 -- Auxiliary Functions: nu1, binarySearch, binarySearchRecursive, linearSearch,
 --     testPower, testRoot, testFrobeniusPower, nuInternal
 
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 -- FThreshold approximations
 
--- Main functions: fptApproximation, ftApproximation, criticalExponentApproximation
+-- Main functions: fptApproximation, ftApproximation, 
+--     criticalExponentApproximation
 
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 -- FThreshold computations and estimates
 
 -- Main function: fpt
 
--- Auxiliary functions: fSig, isFRegularPoly
+-- Auxiliary functions: fSig, guessFPT(?)
 
 ----------------------------------------------------------------------------------
--- FPT/F-Jumping number check
+-- FPT/F-Jumping exponent check
 
--- Main functions: isFPT, isFJumpingExponent
+-- Main functions: compareFPT, isFPT, isFJumpingExponent
 
--- Auxiliary functions: sigma
+-- Auxiliary functions: getNonzeroGenerator, isLocallyPrincipalIdeal, getDivisorIndex, compareFPTPoly, isFJumpingExponentPoly
 
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -376,10 +377,11 @@ fSig = ( f, a, e ) ->
      1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal( fastExponentiation( a, f ) ) )
 )
 
+
+
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
 -- FRegularityCheck is whether the last isFRegularPoly is run (which can take a significant amount of time).
--- This is essentially the same as the old estFPT, with a couple more tests, and changes to make the code clearer.
 fpt = method(
     Options =>
         {

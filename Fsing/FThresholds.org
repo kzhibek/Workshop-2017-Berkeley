@@ -49,7 +49,7 @@
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-** Functions [10/12]
+* Functions [11/18]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -60,7 +60,9 @@
 *** binarySearch
 *** binarySearchRecursive
 *** linearSearch
-*** nuInternal
+*** nuInternal [0/2]
+**** TODO Use special algorithms for binomials and diagonal polynomials (and mayne forms?) 
+**** TODO If some nu is q-1, return answer right away
 *** nu
 *** fptApproximation
 *** ftApproximation
@@ -68,7 +70,6 @@
 *** guessFPT [0/1]
 **** TODO Incorporate in fpt
 *** fSig
-*** isFRegularPoly
 *** fpt [6/6]
 **** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.
     CLOSED: [2018-08-14 Tue 17:31]
@@ -83,19 +84,30 @@
      CLOSED: [2018-08-16 Thu 12:22]
 **** DONE Now document that template
      CLOSED: [2018-08-16 Thu 17:55]
-*** isFPT [3/3]
+*** getNonzeroGenerator
+*** isLocallyPrincipalIdeal
+*** getDivisorIndex
+*** compareFPT
+**** TODO Add CheckOptions
+*** compareFPTPoly
+*** isFPT [3/4]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:24]
 **** DONE Rewrite, so as not to assume a polynomial ring
      CLOSED: [2018-08-16 Thu 17:54]
 **** DONE Origin does not seem to do anything (KILLED)
      CLOSED: [2018-08-13 Mon 13:01]
-
-*** isFJumpingExponent [1/2]
+**** TODO Add CheckOptions
+*** isFJumpingExponent [2/3]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:25]
-**** TODO Rewrite, so as not to assume a polynomial ring
-*** sigma (was sigmaAOverPEMinus1Poly)  
+**** DONE Rewrite, so as not to assume a polynomial ring
+     CLOSED: [2018-08-17 Fri 22:26]
+**** TODO Add CheckOptions
+*** isFJumpingExponentPoly
+*** isInForbiddenInterval [0/1]
+**** TODO Implement and use it as a first test for isFPT
+  
 * Special FT functions: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholds.m2][SpecialFThresholds.m2]] [4/4]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
