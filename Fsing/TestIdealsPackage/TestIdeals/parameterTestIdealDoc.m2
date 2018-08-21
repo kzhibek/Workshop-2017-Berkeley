@@ -2,14 +2,14 @@ doc ///
     Key
         canonicalIdeal
         (canonicalIdeal, Ring)
-        [canonicalIdeal, MTries]
+        [canonicalIdeal, Attempts]
     Headline
         given a ring, produces an ideal isomorphic to the canonical module
     Usage
         canonicalIdeal(R)
     Inputs
         R:Ring
-        MTries => ZZ
+        Attempts => ZZ
             how many times the function should try to embed the canonical module as an ideal before giving up
     Outputs
         :Ideal
@@ -28,12 +28,12 @@ doc ///
             R = ZZ/13[x,y,z]/ideal(x*y, x*z, y*z);
             canonicalIdeal(R)
         Text
-            The option {\tt MTries} is passed to an internal function which embeds the canonical module as an ideal.  This tells it how many times to try before giving up.
+            The option {\tt Attempts} is passed to an internal function which embeds the canonical module as an ideal.  This tells it how many times to try before giving up.
 ///
 
 doc ///
     Key
-        MTries
+        Attempts
     Headline
         an option to pass through to an internal embedAsIdeal
     Description

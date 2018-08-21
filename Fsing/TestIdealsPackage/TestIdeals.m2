@@ -119,7 +119,7 @@ export{
     "isFRational", --Karl (added recently).
     "IsLocal", --an option for isCohenMacaulay, isFRational, etc.
     "testModule", --Karl (this subsumes a bunch of older functions)
-    "MTries",
+    "Attempts",
     "parameterTestIdeal",
 
 -- Finjective.m2

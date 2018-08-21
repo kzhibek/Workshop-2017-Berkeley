@@ -10,7 +10,7 @@
 --it returns the lift of the canonical module to the ambient ring
 --needsPackage "Divisor";
 
-canonicalIdeal = method(Options=>{MTries=>10});
+canonicalIdeal = method(Options=>{Attempts=>10});
 
 canonicalIdeal(Ring) := o->(R1) -> (
     S1 := ambient R1;
@@ -26,7 +26,7 @@ canonicalIdeal(Ring) := o->(R1) -> (
 	    	degList = apply(varList, q -> (degree(q))); );
     );
 	M1 := (Ext^(dS - dR)(S1^1/I1, S1^{-(sum degList)}))**R1;
-	embedAsIdeal(M1, MTries=>o.MTries)
+	embedAsIdeal(M1, Attempts=>o.Attempts)
 );
 
 
