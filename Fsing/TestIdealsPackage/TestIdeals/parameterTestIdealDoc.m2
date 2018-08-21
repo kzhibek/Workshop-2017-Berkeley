@@ -33,18 +33,6 @@ doc ///
 
 doc ///
     Key
-        Attempts
-    Headline
-        an option to pass through to an internal embedAsIdeal
-    Description
-        Text
-            Used when embedding a module (such as the canonical module) as an ideal.
-            This is passed through to the internal function {\tt embedAsIdeal} which tries to embed a module as an ideal and it tells the function
-            how many times to try embedding before giving up.
-///
-
-doc ///
-    Key
         frobeniusTraceOnCanonicalModule
     Headline
         finds the u, which in a polynomial ring, determines the Frobenius trace on the canonical module of a quotient of that ring

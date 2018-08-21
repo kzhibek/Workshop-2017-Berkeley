@@ -78,7 +78,8 @@ Authors => {
 Headline => "A package for calculations of singularities in positive characteristic",
 DebuggingMode => true,
 Reload => true,
-AuxiliaryFiles=>true
+AuxiliaryFiles=>true,
+PackageExports=>{"Depth"}
 )
 
 export{
@@ -119,7 +120,6 @@ export{
     "isFRational", --Karl (added recently).
     "IsLocal", --an option for isCohenMacaulay, isFRational, etc.
     "testModule", --Karl (this subsumes a bunch of older functions)
-    "Attempts",
     "parameterTestIdeal",
 
 -- Finjective.m2

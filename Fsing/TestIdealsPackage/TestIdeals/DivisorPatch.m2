@@ -1,6 +1,5 @@
 --symbols
 
-protect Attempts;
 protect NoStrategy;
 protect ReturnMap;
 protect IdealStrategy;

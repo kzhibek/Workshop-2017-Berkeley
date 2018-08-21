@@ -282,7 +282,7 @@ parameterTestIdeal(Ring) := o-> (R1) -> (
 --Below is an isCohenMacaulay function.  There are other implementations of this in the packages
 --Depth and LexIdeals.  This one has the advantage that it works even if the ring is not local/graded.
 --If you pass it the Local=>true option, then it calls the isCM function in Depth.
-needsPackage "Depth";
+
 
 --warning, this only works if R is equidimensional.  If Spec R has disjoint components of different dimensions
 --then this function will return false, even if R is Cohen-Macaulay.
