@@ -136,7 +136,7 @@ doc ///
          (fpt, RingElement)
          [fpt, DepthOfSearch]
          [fpt, FRegularityCheck]
-         [fpt, NuCheck]
+         [fpt, MaxChecks]
          [fpt, UseFSignature]
          [fpt, UseSpecialAlgorithms]
          [fpt, Verbose]
@@ -155,9 +155,9 @@ doc ///
          DepthOfSearch => ZZ
              specifies the power of the characteristic to be used in a search for the F-pure threshold
          FRegularityCheck => Boolean
-             specifies whether to check if the lower bound derived from the $F$-signature function is the $F$-pure threshold of $f$
-         NuCheck => Boolean
-             specifies whether to check if $\nu_f(p^e)/(p^e-1)$ or $(\nu_f(p^e)+1)/p^e$ is the $F$-pure threshold of $f$, where $e$ is the value of the option  @TO DepthOfSearch@
+             specifies whether to check if the final lower bound is the $F$-pure threshold of $f$
+         MaxChecks => ZZ
+             specifies the number of "guess and check" attempts to make
          UseFSignature => Boolean
              specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate 
          UseSpecialAlgorithms => Boolean
@@ -178,7 +178,7 @@ doc ///
               fpt( x^3+y^3+z^3+x*y*z )
               fpt( x^5+y^6+z^7+(x*y*z)^3 )
          Text
-              If the option @TO UseSpecialAlgorithms@ is set to @TO true@ (the default value), then the function first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
+              If the option @TO UseSpecialAlgorithms@ is set to @TO true@ (the default value), then {\tt fpt} first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
               If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
          Example
              fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
@@ -186,35 +186,61 @@ doc ///
              ZZ/5[x,y];
              fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
-             When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to @TO false@, @TO fpt@ computes $\nu = \nu_f(p^e)$ (see @ TO nu @), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
-              The $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and if @TO NuCheck@ is set to @TO true@ (its default value), then checks are run to verify whether either endpoint of this interval is the $F$-pure threshold.
+             When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to @TO false@, {\tt fpt} computes $\nu = \nu_f(p^e)$ (see @ TO nu@), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
+              At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval. 
+	      
+	      The number of "guesses" is controlled by the option @TO MaxChecks@, which conservatively defaults to 3.
+	      If @TO MaxChecks@ is set to 0, {\tt guessFPT} is bypassed.
+	      If @TO MaxChecks@ is set to at least 1, then a first check is run to verify whether the right-hand endpoint of this interval is the $F$-pure threshold.
          Example
              f = x^2*(x+y)^3*(x+3*y^2)^5;
-             fpt f
-             fpt( f, NuCheck => false, DepthOfSearch => 3 )
-             fpt( f, DepthOfSearch => 3 )
-             oo == (nu(3,f)+1)/5^3
+             fpt( f, MaxChecks => 0 ) -- a bad estimate
+             fpt( f, MaxChecks => 0, DepthOfSearch => 3 ) -- a better estimate
+             fpt( f, MaxChecks => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
          Text
-              If @TO NuCheck@ is unsuccessful and @TO UseFSignature@ is set to @TO true@ (its default value), the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
-         Example
-	      f = x^3*(x^2+y^3)^6;
-	      numeric fpt( f, DepthOfSearch => 3, UseFSignature => false )
-	      numeric fpt( f, DepthOfSearch => 3 ) -- UseFSignature improves the answer
+	      If @TO MaxChecks@ is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
+	 Example
+ 	      f = x^6*y^4+x^4*y^9+(x^2+y^3)^3;
+	      fpt( f, MaxChecks => 1, DepthOfSearch => 3 )
+	      fpt( f, MaxChecks => 2, DepthOfSearch => 3 ) -- the left-hand endpoint is the fpt
 	 Text
-              When @TO FRegularityCheck@ is set to @TO true@ (its default value), a check is run to verify whether the left-hand endpoint of the interval containing the $F$-pure threshold is the exact answer.
+	      If neither endpoint is the $F$-pure threshold, and @TO MaxChecks@ is set to more than 2, additional checks are performed at numbers in the interval.
+	      A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number. 
+	      If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by @TO MaxChecks@.
+	 Example
+              f = x^3*y^11*(x+y)^8*(x^2+y^3)^8;
+	      fpt( f, DepthOfSearch => 3, MaxChecks => 2 )
+	      fpt( f, DepthOfSearch => 3, MaxChecks => 3 ) -- an additional check sharpens the estimate
+	      fpt( f, DepthOfSearch => 3, MaxChecks => 4 ) -- and one more finds the exact answer
+	 Text
+              If guessFPT is unsuccessful and @TO UseFSignature@ is set to @TO true@, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+         Example
+              f = x^5*y^6*(x+y)^9*(x^2+y^3)^4;
+	      fpt( f, DepthOfSearch => 3 )
+	      fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) 
+	      numeric ooo 
+	      numeric ooo -- UseFSignature sharpened the estimate a bit
+	 Text
+              When @TO FRegularityCheck@ is set to @TO true@ and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
          Example
 	      f = (x+y)^4*(x^2+y^3)^6;
-	      fpt( f, DepthOfSearch => 3, UseFSignature => false, FRegularityCheck => false )
-	      fpt( f, DepthOfSearch => 3, FRegularityCheck => false ) -- using FSignatures the answer is improved
-	      fpt( f, DepthOfSearch => 3 ) -- FRegularityCheck verifies that FSignature actually found the answer
+	      fpt( f, MaxChecks => 2, DepthOfSearch => 3 )
+	      fpt( f, MaxChecks => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
+ 	      fpt( f, MaxChecks => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
          Text
-	      The computations performed by @TO NuCheck@, @TO UseFSignature@, and @TO FRegularityCheck@ often take a long time, and for this reason the user is given the option to disable them.
-
-              As seen above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
+	      The computations performed when @TO UseFSignature@ and @TO FRegularityCheck@ are set to @TO true@ are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
+	      It is often more effective to increase the values of @TO MaxChecks@ or @TO DepthOfSearch@, instead. 
+         Example
+              f = x^7*y^5*(x+y)^5*(x^2+y^3)^4;
+ 	      timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) 
+	      timing numeric fpt( f, MaxChecks => 5, DepthOfSearch => 3 ) -- a better answer in less time
+	      timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
+	 Text
+              As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to @TO true@, the precise interval will be printed.
          Example
-	      f = x^2*(x^2+y^3)^4;
-	      fpt( f, DepthOfSearch => 3, NuCheck => false, Verbose => true )
+              f = x^7*y^5*(x+y)^5*(x^2+y^3)^4;
+              fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true ) 
 	 Text
               The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to fpt a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
          Example
@@ -264,21 +290,16 @@ doc ///
 ///
 
 doc ///
-     Key
-        fptGuessList
-     Headline
-        Tries to guess the FPT in a really naive way (this should be improved).
-     Usage
-         fptGuessList(f,e,d)
-     Inputs
-         f:RingElement
-         e:ZZ
-         d:ZZ
-     Outputs
-        :List
-     Description
+    Key
+        UseFSignature
+    Headline
+        whether to use the F-signature function in the search for an F-pure threshold
+    Description
         Text
-             This function tries to guess the F-pure threshold of $f$.  In particular, it computes the number $\nu$ such that $\nu/(p^e - 1) \leq$ fpt(f) $< (\nu+1)/p^e$.  It then outputs a list of all rational numbers with denominators less than or equal to d, which lie in that range.  WARNING:  There are several improvements which should be made to this function to rule out many of the possibilies.
+            This option for the function @TO fpt@ specifies that the convexity of the $F$-signature function and a secant line argument be used, in an attempt to narrow down the interval bounding the $F$-pure threshold.
+            Only takes on Boolean values.             
+    SeeAlso
+        fpt
 ///
 
 doc ///
@@ -288,8 +309,7 @@ doc ///
         an option to use an F-regularity check to find an F-pure threshold
     Description
         Text
-            This option for the function @TO fpt@ enables the user to check whether the given pair is $F$-regular
-            at the given maximal ideal (so that if not, the $F$-pure threshold can be determined from the $F$-signature function).
+            This option for the function @TO fpt@ specifies that, in a situation where the exact $F$-pure threshold was not found, a final check be run to determine whether the final lower bound for the $F$-pure threshold is actually its exact value.
             Only takes on Boolean values.
     SeeAlso
         fpt
@@ -656,9 +676,9 @@ doc ///
 --to do:  Add example that illustrates the difference.  If we can't find one, maybe remove this option.
         Example
             ZZ/5[x,y,z];
-            f=2*x^2*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4
-            time nu(5,f) --Use ColonIdeals is set to false, by default
-            time nu(5,f, UseColonIdeals=>true)
+            f = 2*x^2*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4;
+            time nu( 5, f ) --Use ColonIdeals is set to false, by default
+            time nu( 5, f, UseColonIdeals => true )
     SeeAlso
         mu
         nuList
@@ -666,15 +686,14 @@ doc ///
 
 doc ///
      Key
-          NuCheck
+          MaxChecks
      Headline
-          an option to check whether certain guesses, in term of nu, are the F-pure threshold
+          specifies the number of "guess and check" attempts to make in an F-pure threshold computation
      Description
           Text
-              an option for function @TO fpt@ to check whether $\nu/(p^e-1)$ or $(\nu+1)/p^e$ is the $F$-pure threshold of $f$,
-              where $e$ is the value of the option @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$.
-
-              Valid values are {\tt true} and {\tt false}.  Default value is {\tt true}.
+              an option for function @TO fpt@, which specifies the number of "guess and check" tries to be performed. 
+	      The first number checked is always the upper bound $(\nu+1)/p^e$, where $e$ is the value of the option @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$.
+	      The second number checked is always the lower bound $\nu/(p^e-1)$.
      SeeAlso
         fpt
         nu

@@ -370,14 +370,80 @@ fptGuessList = ( f, e, maxDenom ) ->
 --- Output:
 ---	returns value of the F-signature of the pair (R, f^{a/p^e})
 --- Code is based on work of Eric Canton
-fSig = ( f, a, e ) ->
+fSig := ( f, a, e ) ->
 (
      R := ring f;
      p := char R;
      1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal( fastExponentiation( a, f ) ) )
 )
 
+-- isInteger checks if a rational number is an integer
+isInteger := x -> x == floor x
 
+-- numberWithMinDenom is a super dumb implementation that find a number with
+-- minimal denominator in an open interval (a,b), where a and b are rational.
+-- It will be improved.    
+numberWithMinDenom := ( a, b ) ->
+(
+    d := 2;
+    while floor(d*b) < ceiling(d*a) or isInteger(d*b) or isInteger(d*a) do 
+        d = d+1;
+    if isInteger(d*a) then (d*a+1)/d else ceiling(d*a)/d  	
+)
+
+-- guessFPT takes a polynomial f, endpoints a and b of an interval that contains 
+-- the F-pure threshold of f, and a positive integer that tells the max number 
+-- of checks the user wants to perform.
+-- It returns either fpt(f), if found, or an interval containing it, if not.
+-- It currently chooses numbers in the interval with minimal denominator.
+-- In the future, different strategies should be implemented (e.g., use 
+-- only/first denominators that are multiple of the characteristic). 
+guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
+(
+    if o.Verbose then print "\nStarting guessFPT ...";
+    -- Check if fpt is the upper bound b         
+    if isFPT( b, f ) then 
+    (
+        if o.Verbose then print( "\nfpt is the right-hand endpoint." ); 
+        return b
+    )
+    else if o.Verbose then print "\nThe right-hand endpoint is not the fpt ...";
+    -- Check if fpt is the lower bound a
+    if maxChecks >= 2 then 
+        if not isFRegular( a, f ) then 
+	(
+	    if o.Verbose then 
+	        print( "\nfpt is the left-hand endpoint." ); 
+	    return a
+	)
+        else if o.Verbose then print "\nThe left-hand endpoint is not the fpt ...";
+    -- Now proceed with more checks, selecting numbers in the current 
+    --   interval with minimal denominator
+    counter := 3;
+    local t;
+    local comp;
+    ( A, B ) := ( a, b );
+    while counter <= maxChecks do
+    (   
+        t = numberWithMinDenom( A, B );
+        comp = compareFPT(t,f);
+	if comp == 0 then  -- found exact FPT!
+	(
+	    if o.Verbose then
+	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString( counter ) | "." );
+	    return t
+	); 
+        if comp == 1 then B = t; -- fpt < t       
+	if comp == -1 then A = t; -- fpt > t
+	counter = counter + 1
+    );
+    if o.Verbose then 
+        print( "\nguessFPT narrowed the interval down to ( " | toString( A ) | ", " | toString( B ) | " ) ..." );    
+    { A, B }
+)
+
+-- The default number of "random" checks to be performed
+maxChecks := 3;
 
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
@@ -385,12 +451,12 @@ fSig = ( f, a, e ) ->
 fpt = method(
     Options =>
         {
-	    FRegularityCheck => true,
-	    Verbose => false,
+	    DepthOfSearch => 1,
+	    FRegularityCheck => false,
+	    MaxChecks => maxChecks,
 	    UseSpecialAlgorithms => true,
-	    UseFSignature => true,
-	    NuCheck => true,
-	    DepthOfSearch => 1
+	    UseFSignature => false,	    
+	    Verbose => false
 	}
 )
 
@@ -398,42 +464,40 @@ fpt RingElement := o -> f ->
 (
     -- give an answer in a trivial case
     if f == 0 then return 0;
-
+    ---------------------
+    -- RUN SEVERAL CHECKS
+    ---------------------
     -- Check if option values are valid
     checkOptions( o,
         {
+	    DepthOfSearch => ( k -> instance( k, ZZ ) and k > 0 ),
 	    FRegularityCheck => Boolean,
-	    Verbose => Boolean,
+	    MaxChecks => ( k -> instance( k, ZZ ) and k >= 0 ),
 	    UseSpecialAlgorithms => Boolean,
-	    UseFSignature => Boolean,
-	    NuCheck => Boolean,
-	    DepthOfSearch => ( k -> instance( k, ZZ ) and k > 0 )
+	    UseFSignature => Boolean,	    
+	    Verbose => Boolean
 	}
     );
-
     -- Check if polynomial has coefficients in a finite field
     if not isPolynomialOverFiniteField f  then
         error "fpt: expected polynomial with coefficients in a finite field";
-
     -- Check if polynomial is in the homogeneous maximal ideal
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
     if not isSubset( ideal f, M ) then
         error "fpt: polynomial is not in the homogeneous maximal ideal";
-
+    ------------------
+    -- GETTING STARTED
+    ------------------
     if o.Verbose then print "\nStarting fpt ...";
-
     -- Check if fpt equals 1
     if not isSubset( ideal f^(p-1), frobenius M ) then
     (
         if o.Verbose then print "\nnu(1,f) = p-1, so fpt(f) = 1.";
         return 1
     );
-
     if o.Verbose then print "\nfpt is not 1 ...";
-
     -- Check if one of the special FPT functions can be used...
-
     if o.UseSpecialAlgorithms then
     (
 	if o.Verbose then print "\nVerifying if special algorithms apply...";
@@ -456,125 +520,89 @@ fpt RingElement := o -> f ->
             return binaryFormFPT( f, Verbose => o.Verbose )
         )
     );
-
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
-
     -- Compute nu(e,f)
     e := o.DepthOfSearch;
     n := nu( e, f );
-    lowerBound := n/(p^e-1); -- because there are no fpts between n/p^e and this
-    upperBound := (n+1)/p^e;
-    strictLowerBound := false;
-    strictUpperBound := false;
+    LB := n/(p^e-1); -- lower bound (because of forbidden intervals)
+    UB := (n+1)/p^e; -- upper bound
+    strictLB := false; -- at this point, LB and UB *could* be the fpt
+    strictUB := false;
     if o.Verbose then
     (
-         print( "\nnu has been computed: nu = nu(" | toString(e) | ",f) = " | toString n | " ..." );
-	 print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString lowerBound | ", " | toString upperBound | " ] ..." )
+         print( "\nnu has been computed: nu = nu(" | toString e | ",f) = " | toString n | " ..." );
+	 print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString LB | ", " | toString UB | " ] ..." )
     );
-
-    -- If nu = 0, we just return some information
-    if n == 0 then
+    -- Call guessFPT
+    if o.MaxChecks > 0 then
     (
-	if o.Verbose then
-	    print "\nThe nu computed isn't fine enough. Try using a higher value for the option DepthOfSearch.";
-	return { 0, 1/p^e }
+	guess := guessFPT( f, LB, UB, o.MaxChecks, Verbose => o.Verbose );
+	if class guess =!= List then return guess; -- guessFPT was successful
+	-- if not sucessful, adjust bounds and their strictness
+	( LB, UB ) = toSequence guess; 
+	strictUB = true;
+	if o.MaxChecks >= 2 then strictLB = true	
     );
-
-    -- Check to see if either lowerBound or upperBound is the fpt
-    if o.NuCheck then
-    (
-        -- Check to see if lowerBound is the fpt
-	if not isFRegular( lowerBound, f ) then
-	(
-	    if o.Verbose then print "\nfpt is the lower bound nu/(p^e-1).";
-	    return lowerBound
-	)
-      	else
-	(
-	    if o.Verbose then
-	        print "\nThe lower bound nu/(p^e-1) is not the fpt ...";
-	    strictLowerBound = true
-	);
-        --check to see if upperBound is the FPT
-	if isFPT( upperBound, f ) then
-	(
-	    if o.Verbose then print "\nfpt is the upper bound (nu+1)/(p^e).";
-	    return upperBound
-	)
-      	else
-	(
-	    if o.Verbose then
-                print "\nThe upper bound (nu+1)/p^e is not the fpt ...";
-	    strictUpperBound = true
-	)
-    );
-
     -- Do the F-signature computation
-    local int;
     if o.UseFSignature then
     (
-	local s1;
-        local s2;
-
         if o.Verbose then print "\nBeginning F-signature computation ...";
-        s1 = fSig( f, n-1, e );
+        s1 := fSig( f, n-1, e );
         if o.Verbose then
 	    print( "\nFirst F-signature computed: s(f,(nu-1)/p^e) = " | toString s1 | " ..." );
-        s2 = fSig( f, n, e );
+        s2 := fSig( f, n, e );
         if o.Verbose then
             print( "\nSecond F-signature computed: s(f,nu/p^e) = " | toString s2 | " ..." );
         -- Compute intercept of line through ((nu-1)/p^2,s1) and (nu/p^e,s2)
-        int = xInt( (n-1)/p^e, s1, n/p^e, s2 );
-
+        int := xInt( (n-1)/p^e, s1, n/p^e, s2 );
         if o.Verbose then
-            print("\nComputed F-signature intercept: " | toString int | " ...");
-
-        -- Now check to see if F-signature line crosses at upperBound. If so, then that's the fpt
-        if upperBound == int then
+            print("\nComputed F-signature secant line intercept: " | toString int | " ...");
+        -- Now check to see if F-signature line crosses at UB. If so, then that's the fpt
+        if UB == int then
         (
 	    if  o.Verbose then
-	        print "\nF-signature line crosses at the upper bound (nu+1)/p^e, so that is the fpt.";
+	        print "\nF-signature secant line crosses at the upper bound, so that is the fpt.";
 	    return int
         );
-
-        -- Compare the intercept with the current lower bound, nu/(p^e-1)
-        if lowerBound < int then
+        -- Compare the intercept with the current lower bound        
+	if LB < int then
         (
 	    if o.Verbose then
 	        print "\nF-signature intercept is an improved lower bound ...";
-	    lowerBound = int;
-	    strictLowerBound = false;
+	    LB = int;
+	    strictLB = false;
         )
         else if o.Verbose then
             print "\nF-signature computation failed to find an improved lower bound ...";
     );
-
-    if o.FRegularityCheck and not strictLowerBound then
+    if o.FRegularityCheck and not strictLB then
     (
 	if o.Verbose then print "\nStarting final check ...";
-        if not isFRegular( lowerBound, f ) then
+        if not isFRegular( LB, f ) then
         (
 	   if o.Verbose then
 	       print "\nFinal check successful; fpt is the lower bound.";
-	   return int
+	   return LB
       	)
 	else
 	(
 	    if o.Verbose then print "\nFRegularityCheck did not find the fpt ...";
-	    strictLowerBound = true
+	    strictLB = true
 	)
     );
-
     if o.Verbose then
+    (
+	print "\nfpt failed to find the exact answer; try increasing the value of DepthOfSearch or MaxChecks.";
         print(
 	    "\nfpt lies in the interval " |
-	    ( if strictLowerBound then "( " else "[ " ) |
-	    toString lowerBound |
+	    ( if strictLB then "( " else "[ " ) |
+	    toString LB |
 	    ", " |
-	    toString upperBound |
-	    ( if strictUpperBound then " )." else " ]." )
-        );
-    { lowerBound, upperBound }
+	    toString UB |
+	    ( if strictUB then " )." else " ]." )
+        )
+    );
+    { LB, UB }
 )
 
 fpt ( List, List ) := o -> ( L, m ) ->

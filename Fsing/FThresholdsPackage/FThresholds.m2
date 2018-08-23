@@ -59,33 +59,32 @@ PackageExports => {"TestIdeals"}
 
 
 export{
+    "Attempts",
 --F-thresholds computations (MainFunctions.m2)
     "BinaryRecursive",
+    "compareFPT",
     "ComputePreviousNus",
+    "ContainmentTest",
     "criticalExponentApproximation",
     "fpt",
     "fptApproximation",
-    "fptGuessList", --Karl (probably should be incorporated into fpt
     "FRegularityCheck",
     "FrobeniusPower",
     "FrobeniusRoot",
     "ftApproximation",
     "isFJumpingExponent",
-    "isFPT", --Karl (should be redone, so as not to assume a polynomial ring)
-    "compareFPT",
+    "isFPT",
+    "MaxChecks",
     "mu",
     "muList",
     "nu",
-    "NuCheck",
     "nuList",
     "Search",
     "StandardPower",
-    "ContainmentTest",
     "UseColonIdeals",
     "UseFSignature",
     "UseSpecialAlgorithms"
 }
-
 
 
 --loadPackage("TestIdeals", LoadDocumentation => true, Reload=>true);
