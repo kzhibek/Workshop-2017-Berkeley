@@ -217,7 +217,7 @@ doc ///
          Example
               f = x^5*y^6*(x+y)^9*(x^2+y^3)^4;
 	      fpt( f, DepthOfSearch => 3 )
-	      fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) 
+	      fpt( f, DepthOfSearch => 3, UseFSignature => true ) 
 	      numeric ooo 
 	      numeric ooo -- UseFSignature sharpened the estimate a bit
 	 Text
