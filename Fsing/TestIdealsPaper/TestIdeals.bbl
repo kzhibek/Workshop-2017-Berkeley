@@ -23,10 +23,18 @@
   \textbf{361} (2009), no.~12, 6549--6565. {\sf\scriptsize 2538604
   (2011a:13006)}
 
+\bibitem[BS12]{BlickleSchwedeSurveyPMinusE}
+{\sc M.~Blickle and K.~Schwede}: \emph{$p^{-1}$-linear maps in algebra and
+  geometry}, arXiv:1205.4577, to appear in a volume published by Springer.
+
 \bibitem[BSTZ10]{BlickleSchwedeTakagiZhang}
 {\sc M.~Blickle, K.~Schwede, S.~Takagi, and W.~Zhang}: \emph{Discreteness and
   rationality of {$F$}-jumping numbers on singular varieties}, Math. Ann.
   \textbf{347} (2010), no.~4, 917--949. {\sf\scriptsize 2658149}
+
+\bibitem[BST11]{BlickleSchwedeTuckerTestAlterations}
+{\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-singularities via
+  alterations}, arXiv:1107.3807.
 
 \bibitem[BK05]{BrionKumarFrobeniusSplitting}
 {\sc M.~Brion and S.~Kumar}: \emph{Frobenius splitting methods in geometry and
@@ -43,10 +51,20 @@
   Math. Soc. \textbf{278} (1983), no.~2, 461--480. {\sf\scriptsize MR701505
   (84h:13031)}
 
+\bibitem[Gab04]{Gabber.tStruc}
+{\sc O.~Gabber}: \emph{Notes on some {$t$}-structures}, Geometric aspects of
+  Dwork theory. Vol. I, II, Walter de Gruyter GmbH \& Co. KG, Berlin, 2004,
+  pp.~711--734.
+
 \bibitem[HW02]{HaraWatanabeFRegFPure}
 {\sc N.~Hara and K.-I. Watanabe}: \emph{F-regular and {F}-pure rings vs. log
   terminal and log canonical singularities}, J. Algebraic Geom. \textbf{11}
   (2002), no.~2, 363--392. {\sf\scriptsize MR1874118 (2002k:13009)}
+
+\bibitem[HS77]{HartshorneSpeiserLocalCohomologyInCharacteristicP}
+{\sc R.~Hartshorne and R.~Speiser}: \emph{Local cohomological dimension in
+  characteristic {$p$}}, Ann. of Math. (2) \textbf{105} (1977), no.~1, 45--79.
+  {\sf\scriptsize MR0441962 (56 \#353)}
 
 \bibitem[Her11a]{HernandezFInvariantsOfDiagonalHyp}
 {\sc D.~Hern{\'a}ndez}: \emph{F-invariants of diagonal hypersurfaces},
@@ -104,6 +122,14 @@
   characteristic {$p$}}, Amer. J. Math. \textbf{91} (1969), 772--784.
   {\sf\scriptsize MR0252389 (40 \#5609)}
 
+\bibitem[Lyu97]{LyubeznikFModulesApplicationsToLocalCohomology}
+{\sc G.~Lyubeznik}: \emph{{$F$}-modules: applications to local cohomology and
+  {$D$}-modules in characteristic {$p>0$}}, J. Reine Angew. Math. \textbf{491}
+  (1997), 65--130. {\sf\scriptsize MR1476089 (99c:13005)}
+
+\bibitem[Rai]{PushForward}
+{\sc C.~Raicu}: \emph{Pushforward.m2}.
+
 \bibitem[Sch09]{SchwedeFAdjunction}
 {\sc K.~Schwede}: \emph{{$F$}-adjunction}, Algebra Number Theory \textbf{3}
   (2009), no.~8, 907--950. {\sf\scriptsize 2587408 (2011b:14006)}
@@ -117,6 +143,11 @@
   Commutative Algebra 2. Closures, Finiteness and Factorization (C.~Francisco,
   L.~C. Klinger, S.~M. Sather-Wagstaff, and J.~C. Vassilev, eds.), Walter de
   Gruyter GmbH \& Co. KG, Berlin, 2012, pp.~39--99.
+
+\bibitem[ST14]{SchwedeTuckerTestIdealsOfNonPrincipal}
+{\sc K.~Schwede and K.~Tucker}: \emph{Test ideals of non-principal ideals:
+  Computations, jumping numbers, alterations and division theorems}, Journal de
+  Mathématiques Pures et Appliquées \textbf{102} (2014), no.~5, 891 -- 929.
 
 \bibitem[Sha07]{SharpGradedAnnihilatorsOfModulesOverTheFrobeniusSkewPolynomialRing}
 {\sc R.~Y. Sharp}: \emph{Graded annihilators of modules over the {F}robenius

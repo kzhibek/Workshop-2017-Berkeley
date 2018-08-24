@@ -68,7 +68,7 @@ urlcolor=OliveGreen
 This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the {\tt TestIdeals.m2} package for the computer algebra system Macaulay2.
 A ring $R$ of prime characteristic $p>0$ comes equipped with the Frobenius endomorphism
 \[ F: R \to R \ \text{ given by } F(x) =  x^p \]
-which is the basis for many constructions and methods.  Notably, Frobenius can be used to detect whether a ring is regular \cite{KunzCharacterizationsOfRegularLocalRings}, and further, and   
+which is the basis for many constructions and methods.  Notably, Frobenius can be used to detect whether a ring is regular \cite{KunzCharacterizationsOfRegularLocalRings}, and further, and
 how far a ring is from being regular, measuring on the severity of a singularity.
 
 In this direction, two notable applications of Frobenius are the theory of tight closure
@@ -77,7 +77,7 @@ and the resulting theory of test ideals
 (cf. the survey \cite{SchwedeTuckerTestIdealSurvey}).  These methods are used by a wide variety of commutative algebraists and algebraic geometers.
 %That said, it remains a fundamental tool in the expanding area of prime characteristic commutative algebra.
 
-The {\tt TestIdeals.m2} package was started during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University (at the time, the package was called {\tt PosChar.m2}).  The goal of this package was to provide a unified and efficient set of tools to study singularities in characteristic $p > 0$, and in particular, to collect and implement several algorithms that had been described in research papers.  Since then, the package {\tt PosChar.m2} was split into two packages, {\tt TestIdeals.m2} and {\tt FThresholds.m2}, and 
+The {\tt TestIdeals.m2} package was started during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University (at the time, the package was called {\tt PosChar.m2}).  The goal of this package was to provide a unified and efficient set of tools to study singularities in characteristic $p > 0$, and in particular, to collect and implement several algorithms that had been described in research papers.  Since then, the package {\tt PosChar.m2} was split into two packages, {\tt TestIdeals.m2} and {\tt FThresholds.m2}, and
 much more functionality has been added by many contributors, including during several more \emph{Macaulay2} development workshops.\footnote{Development workshops hosted by the University of California, Berkeley (2014, 2017), Boise State University (2015), and the University of Utah (2016).}
 
 %{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
@@ -146,15 +146,16 @@ then $R^{1/p^e}$ is a free $R$-module with basis consisting of the elements
 \[
  x_1^{\lambda_1/p^e} \cdots x_d^{\lambda_d/p^e}
 \]
-where $0 \leq \lambda_i \leq p^e-1$. 
+where $0 \leq \lambda_i \leq p^e-1$.
 Furthermore, the map $T : R^{1/p^e} \to R$ is simply the projection defined as follows:
 \[
-T(x_1^{\lambda_1/p^e} \cdots x_d^{\lambda_d/p^e}) = \left\{ \begin{array}{rl} 1 & \lambda_i = p^{e}-1 \text{ for all }i \\ 0 & \text{otherwise}  \end{array} \right. 
+T(x_1^{\lambda_1/p^e} \cdots x_d^{\lambda_d/p^e}) = \left\{ \begin{array}{rl} 1 & \lambda_i = p^{e}-1 \text{ for all }i \\ 0 & \text{otherwise}  \end{array} \right.
 \]
 Using this, it is not difficult to see that if
-\[
- = \sum f_{\bf \lambda} {\bf x}^{{\bf \lambda} / p^e}
-\]
+\begin{equation}
+\label{eqn1}
+f = \sum f_{\bf \lambda} {\bf x}^{{\bf \lambda} / p^e}
+\end{equation}
 where ${\bf \lambda}$ runs over the tuples $(\lambda_1, \dots, \lambda_d)$ with $0 \leq \lambda_j \leq p^e-1$ and $f_{\bf \lambda} \in R$, then
 \[
 (f)^{[1/p^e]} = T( (f)^{1/p^e}) = (\dots, f_{\bf \lambda}, \dots).
@@ -173,17 +174,17 @@ Hence the complexity of  computing $(gR)^{[1/p^e]}$ is proportional to the numbe
 
 \subsection{Dual to Frobenius on quotient rings and Frobenius on top local cohomology}
 \label{subsec.DualToFrobeniusOnQuotientRings}
-For \emph{any} reduced ring $R$ with finite $e$-iterated Frobenius map identified with $R \hookrightarrow R^{1/p^e}$, we always have a map 
+For \emph{any} reduced ring $R$ with finite $e$-iterated Frobenius map identified with $R \hookrightarrow R^{1/p^e}$, we always have a map
 \[
 T_R : \omega_{R^{1/p^e}} \to \omega_R.
 \]
 At a maximal ideal $\fram$ of height $d$, this map is Matlis dual to the Frobenius map on $H^d_{\fram}(R)$.  Hence we can study local cohomology by studying this map.  If $R = S/I$ where $S$ is a polynomial ring over a finite field, then this we can implement this map \cite{FedderFPureRat, KatzmanParameterTestIdealOfCMRings}.  We briefly explain the case of a hypersurface here.
 
-If $I = (f)$, then again $\omega_R \cong R = S/I$ and the action of $T_R$ can be computed on $S$.  In fact, if $\overline{J} \subseteq R \cong \omega_R$ corresponds to an ideal $J \subseteq S$, then
+If $I = (f)$, then again $\omega_R \cong R = S/I$ and the action of $T_R$ can be computed on $S$.  In fact, if $\overline{J} \subseteq R \cong \omega_R$ corresponds to an ideal $J \subseteq S$, then setting $u = f^{p^e-1}$,
 \[
-T_R({\overline J}^{1/p^e}) = \overline{(f^{p^e-1} J)^{[1/p^e]}}.
+T_R({\overline J}^{1/p^e}) = \overline{(u J)^{[1/p^e]}}.
 \]
-More generally, for non-hypersurfaces, the analog to $f$ is chosen carefully out of $I^{[p^e]} : I$.  See \cite{KatzmanParameterTestIdealOfCMRings} for details.  Here we compute two examples.
+More generally, for non-hypersurfaces, the analog to $u$ is chosen carefully out of $I^{[p^e]} : I$.  See \cite{KatzmanParameterTestIdealOfCMRings} for details.  Here we compute two examples.
 
 \begin{verbatim}
 i2 :      S=ZZ/5[x,y,z];
@@ -199,7 +200,7 @@ i9 :      frobeniusRoot(1,ideal(u))
 o9 = ideal 1
 \end{verbatim}
 
-The above example has shown that the map on top local cohomology of the cone over the Fermat elliptic curve is injective in characteristic $7$ (dually $\omega_{R^{1/p}} \to \omega_R$ surjects) and not injective in characteristic $5$ (the dual map $\omega_{R^{1/p}} \to \omega_R$ does not surject).  
+The above example has shown that the map on top local cohomology of the cone over the Fermat elliptic curve is injective in characteristic $7$ (dually $\omega_{R^{1/p}} \to \omega_R$ surjects) and not injective in characteristic $5$ (the dual map $\omega_{R^{1/p}} \to \omega_R$ does not surject).
 
 \subsection{A generalization of Frobenius powers and roots}
 We can extend the definition of Frobenius powers as follows:
@@ -371,7 +372,7 @@ This package includes methods for determining if a ring is $F$-injective, $F$-pu
 A local ring $(R, \mathfrak{m})$ is called \emph{F-injective} if the map
 $H^{i}_{\mathfrak{m}}(R) \rightarrow H^{i}_{\mathfrak{m}}(R^{1/p})$ is
 injective for all $i >0$. An arbitrary ring is called \emph{$F$-injective} if its
-localization at each prime ideal of $R$ is $F$-injective.  
+localization at each prime ideal of $R$ is $F$-injective.
 \end{definition}
 
 
@@ -389,23 +390,23 @@ Equivalently, a ring is $F$-injective if the maps on the cohomology of the duali
 \[
 h^{-i} \omega_{R^{1/p}}^{\mydot} \to h^{-i} \omega_R^{\mydot}
 \]
-surject for all $i$.  
+surject for all $i$.
 
 The algorithm {\tt isFinjective} determines whether the ring $R = S/I$ is
 $F$-injective where $S$ is a polynomial ring.  Note that $h^{-i} \omega_R^{\mydot} \cong \Ext^{\dim S - i}(R, S)$, the latter of which Macaulay2 readily computes.
-The algorithm works by checking the surjectivity of the dual Frobenius map 
+The algorithm works by checking the surjectivity of the dual Frobenius map
 \[
 \Ext^{\dim S - i}(R^{1/p}, S) \to \Ext^{\dim S - i}(R, S).
 \]
 %using the fact that the Matlist dual of \Ext^{i}(\blank, S)$ \cong H^{\dim S -
-%i}_{\mathfrak{m}}(\blank) $. 
+%i}_{\mathfrak{m}}(\blank) $.
 We begin by computing the map $R
-\rightarrow R^{1/p}$ using the {\tt PushForward} package \cite{}. 
+\rightarrow R^{1/p}$ using the {\tt PushForward.m2} package \cite{PushForward}.
 Next the algorithm computes
 $\Ext^{i}( \blank, S)$ applied to the map from the previous step.  Then $R$ is $F$-injective precisely when the
-cokernel of $\Ext^{i}( \blank, S)$ is trivial for $i$. 
+cokernel of $\Ext^{i}( \blank, S)$ is trivial for $i$.
 
-The Frobenius action on top local cohomology (dual to $\omega_R$) is usually computed in a different (faster) way than the other cohomologies, and this is modified by the {\tt CanonicalStrategy} option.  The default option is {\tt CanonicalStrategy => Katzman} which instead relies on the fact that we already know how to compute the Frobenius action on the canonical module, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings}.  
+The Frobenius action on top local cohomology (dual to $\omega_R$) is usually computed in a different (faster) way than the other cohomologies, and this is modified by the {\tt CanonicalStrategy} option.  The default option is {\tt CanonicalStrategy => Katzman} which instead of using the {\tt PushForward.m2} package, relies on the fact that we already know how to compute the Frobenius action on the canonical module, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings}.
 
 
 %The {\tt CanonicalStrategy} tag can be used to modify the strategy the
@@ -419,24 +420,24 @@ The Frobenius action on top local cohomology (dual to $\omega_R$) is usually com
 
 The performance of the algorithm can be improved if the ring of interest is
 nice enough. If the ring is Cohen-Macaulay then, setting {\tt AssumeCM =>
-true} lets the algorithm check the Frobenius action only on top cohomology
-(which is typically much faster).
+true} (the default is {\tt false}) lets the algorithm check the Frobenius action only on top cohomology
+(which is typically much faster as explained above).
 %The default value for the option {\tt AssumeCM} is {\tt false}.
 %Of
 %course, telling the algorithm to assume the ring is Cohen-Macaulay when it
 %is not can lead to an incorrect answer if the non-injective Frobenius
 %occurs in a lower degree. For an example of this see the documentation.
-When entering a reduced ring,  setting {\tt AssumedReduced => true} avoids
-computing the bottom local cohomology, and when entering a normal ring, setting
-{\tt AssumeNormal => true} avoids computing the bottom two local
-cohomologies. The default setting for both of these tags is {\tt false}.
+When studying a reduced ring,  setting {\tt AssumedReduced => true} (the default option) avoids
+computing the bottom local cohomology, and when studying a normal ring, setting
+{\tt AssumeNormal => true} (the default is {\tt false}) avoids computing the bottom two local
+cohomologies. 
 
 By default the algorithm checks for $F$-injectivity at all points of $\Spec R$.  However one
 can choose to check $F$-injectivity only at the origin by setting the
 option {\tt IsLocal => true}.
 
 \begin{verbatim}
-i2 : R = ZZ/5[x,y,z]/ideal( (x-1)^4 + y^4 + z^4 );
+i2 : R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
 i3 : isFinjective(R)
 o3 = false
 i4 : isFinjective(R, IsLocal=>true)
@@ -446,7 +447,7 @@ o4 = true
 \subsection{$F$-regularity}
 
 \begin{definition}[\cite{HochsterHunekeTC1,HaraWatanabeFRegFPure}]
-A ring $R$ is called \emph{strongly $F$-regular} if the (big) test ideal $\tau(R) = R$.  Likewise a pair $(R, f^t)$ is called \emph{strongly $F$-regular} if $\tau(R, f^t) = R$.  
+A ring $R$ is called \emph{strongly $F$-regular} if the (big) test ideal $\tau(R) = R$.  Likewise a pair $(R, f^t)$ is called \emph{strongly $F$-regular} if $\tau(R, f^t) = R$.
 \end{definition}
 
 
@@ -478,13 +479,13 @@ i7 : isFregular(4/5-1/100000, f)
 o7 = true
 \end{verbatim}
 
-All of these checks are done by actually computing the test ideal (as described in the next section).  
+All of these checks are done by actually computing the test ideal (as described in \autoref{Section: Test Ideals}).
 
 If the input ring is $\mathbb{Q}$-Gorenstein then in each of the cases above the output is a boolean indicating if the
 ring is strongly $F$-regular. If the input ring is not
 $\mathbb{Q}$-Gorenstein then the algorithm can be used to determine if a
 ring is strongly $F$-regular but cannot prove a ring is not strongly
-$F$-regular (you can enable this latter functionality by setting {\tt QGorensteinIndex => infinity}. 
+$F$-regular (you can enable this latter functionality by setting {\tt QGorensteinIndex => infinity}).
 
 
 In the case that $R$ is $\mathbb{Q}$-Gorenstein, the algorithm works by
@@ -500,7 +501,7 @@ $c(I^{[p^{e}]} : I)$ (appropriate modifications are made for pairs). If at
 any step the approximation is the unit ideal then then the algorithm
 returns {\tt true}. Otherwise the algorithm continues checking for each $e$
 until a specified limit is reached. The default limit is 2 and can be
-changed using {\tt DepthOfSearch => ZZ}.
+changed using the option {\tt DepthOfSearch}.
 
 
 A number of options can be used to speed up the performance of some of the
@@ -512,14 +513,14 @@ $\mathbb{Q}$-Gorenstein ambient ring and {\tt QGorensteinIndex => ZZ}
 allows the user to specify the $\mathbb{Q}$-Gorenstein index of the ring.
 
 
-The default behavior of {\tt isFregular} checks for strong $F$-regularity
+The default behavior of {\tt isFregular} is that it checks for strong $F$-regularity
 globally. If the option {\tt IsLocal => true}, the algorithm will only
 check at the origin by checking whether the computed test ideal is in the irrelevant ideal.
 Below is an example for both a ring and a pair.
 
 
 \begin{verbatim}
-i2 : R = ZZ/7[x,y,z]/ideal((x-1)^3+(y-2)^3+z^3);
+i2 : R = ZZ/7[x,y,z]/ideal((x-1)^3+(y+1)^3+z^3);
 i3 : isFregular(R)
 o3 = false
 i4 : isFregular(R, IsLocal=>true)
@@ -564,7 +565,7 @@ local ring $(R, \mathfrak{m})$ is $F$-pure if and only if $(I^{[p]} : I)
 containment. In the non-local case, which is the default option, the
 algorithm computes the non $F$-pure locus by applying {\tt frobeniusRoot}
 to $I^{[p]} :I$. If the non $F$-pure locus is the whole ring the algorithm
-returns true.
+returns {\tt true}.
 
 \subsection{$F$-rationality}
 
@@ -590,10 +591,10 @@ o8 = true
 
 
 The command {\tt isFrational} checks if a ring is $F$-rational. First the
-algorithm checks if the ring is Cohen-Macaulay.  
+algorithm checks if the ring is Cohen-Macaulay.
 This check can be skipped by setting {\tt isCohenMacaulay => true}. If the ring
 is not Cohen-Macaulay then {\tt false} is returned. Next the algorithm
-computes a test module $M \subseteq \omega_{R}$ and checks to see if
+computes the test module $M \subseteq \omega_{R}$ and checks to see if
 $\omega_{R} \subseteq M$.  See the next section for the description of a test module.
 
 
@@ -610,9 +611,9 @@ In this section, we explain how to compute parameter test modules, parameter tes
 
 \subsection{Parameter test modules}
 
-Given an $F$-finite reduced ring $R$, the Frobenius map $R \to R^{1/p^e}$ is dual to $T : \omega_{R^{1/p^e}} \to \omega_R$.  As before in \autoref{}, we can represent the canonical module $\omega_R \subseteq R$ as an ideal, we can write $R = S/I$, and so we can find a $u \in S^{1/p^e}$ representing the map $\omega_{R^{1/p^e}} \to \omega_R$ \cite{}.  See also \autoref{} below.
+Given an $F$-finite reduced ring $R$, the Frobenius map $R \to R^{1/p^e}$ is dual to $T : \omega_{R^{1/p^e}} \to \omega_R$.  As before in \autoref{subsec.DualToFrobeniusOnQuotientRings}, we can represent the canonical module $\omega_R \subseteq R$ as an ideal, we can write $R = S/I$, and so we can find a $u \in S^{1/p^e}$ representing the map $\omega_{R^{1/p^e}} \to \omega_R$, see \autoref{subsec.DualToFrobeniusOnQuotientRings} or \cite{KatzmanParameterTestIdealOfCMRings}.  
 
-The parameter test submodule is the smallest submodule $M \subseteq \omega_R$ (and hence ideal of $R$ since $M \subseteq R$) that agrees generically with $\omega_R$ and that satisfies
+The parameter test submodule is the smallest submodule $M \subseteq \omega_R$ (and hence ideal of $R$ since $M \subseteq \omega_R \subseteq R$) that agrees generically with $\omega_R$ and that satisfies
 \[
 T (M^{1/p^e}) \subseteq M.
 \]
@@ -628,7 +629,13 @@ i6 : N#1
 o6 = ideal 1
 o6 : Ideal of R
 \end{verbatim}
-The output of {\tt testModule} is a list, consisting of three items:  The first entry is the test module, the second is the canonical module (as an ideal) that it lives inside, and the third is the element $u$ described above (not listed here, since it is rather complicated).  Note since this ring is Gorenstein, the canonical module is simply represented as the unit ideal.
+The output of {\tt testModule} is a list, consisting of three items:
+\begin{enumerate}
+\item The first entry is the test module.
+\item The second is the canonical module (as an ideal) that it lives inside.  
+\item The third is the element $u$ described above (not displayed here, since it can take a lot of space).  
+\end{enumerate}
+Note since this ring is Gorenstein, the canonical module is simply represented as the unit ideal.
 
 Here is another example where the ring is not Gorenstein.
 \begin{verbatim}
@@ -646,23 +653,23 @@ o5 : Ideal of R
 We briefly explain how this is computed:  First we find a \emph{test element}.
 \begin{remark}[Computation of test elements]
 \label{rem.ComputationOfTestElements}
-Roughly, we recall that an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that doesn't vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If you know your ring is a domain, you can use the {\tt AssumeDomain} flag to speed this up further.
+Roughly, we recall that an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{HochsterFoundations}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that does not vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If you know your ring is a domain, you can use the {\tt AssumeDomain} flag to speed this up further.
 \end{remark}
 
 After the test element $c$ has been identified, we pullback the ideal $\omega_R$ to an ideal $J = S$.  Then we compute the following ascending sequence of ideals
 \begin{equation}
 \label{eq.AscendIdealExplanation}
 \begin{array}{rll}
-J_1 := & = J + (c J)^{[1/p]} & = {\tt J + frobeniusRoot(1, c*J)}\\
-J_2 := & = J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} & = {\tt J + frobeniusRoot(1, c*J_1)}\\
-J_3 := & = J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{[1/p^3]} & = {\tt J + frobeniusRoot(1, c*J_2)}.\\
+J_1 := &  J + (c J)^{[1/p]} & = {\tt J + frobeniusRoot(1, c*J)}\\
+J_2 := & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} & = {\tt J + frobeniusRoot(1, c*J_1)}\\
+J_3 := & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{[1/p^3]} & = {\tt J + frobeniusRoot(1, c*J_2)}.\\
 \dots
 \end{array}
 \end{equation}
 As soon as this ascending sequence of ideals stabilizes, we are done.
 In fact, because this strategy is used in several contexts, you can call it directly for a chosen ideal $J$ and $u$ with the function {\tt ascendIdeal} (this is done for test ideals below).
 
-We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in the denominator, we rely on the fact (see \cite{??}) that
+We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in the denominator, we rely on the fact (see \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,SchwedeTuckerTestIdealFiniteMaps}) that
 \[
 \begin{array}{rcl}
 T(\tau(\omega_R, f^a)) & = & \tau(\omega_R, f^{a/p})\\
@@ -676,12 +683,12 @@ Throughout the computations described above, we very frequently use the followin
 \[
 (f^p \cdot J)^{[1/p]} = f \cdot (J^{[1/p]}).
 \]
-To access this enhancement, one should try to pass functions like {\tt ascendIdeal} and {\tt frobeniusRoot} the elements and their exponents (see the documentation).  In particular, do not multiply out things like $f^n \cdot J$ if you will be applying {\tt frobeniusRoot}.
+To access this enhancement, one should try to pass functions like {\tt ascendIdeal} and {\tt frobeniusRoot} the elements and their exponents (see the documentation).  In particular, do not multiply out expressions like $f^n \cdot J$ if you will be applying {\tt frobeniusRoot}.
 \end{remark}
 
 \subsection{Parameter test ideals}
 
-The parameter test ideal is simply the annihilator of $\omega_R/\tau(\omega_R)$.  Or in other words, it is
+The parameter test ideal is simply the annihilator of $\omega_R/\tau(\omega_R)$.  In other words, it is
 \[
 \tau(\omega_R) : \omega_R.
 \]
@@ -725,13 +732,13 @@ For an $F$-finite reduced ring $R = S/I$ where $S$ is a regular ring, the test i
 \[
 \phi \in \Hom_R(R^{1/p^e}, R) \text{ we have } \phi(J^{1/p^e}) \subseteq J.
 \]
-In the case that $R$ is Gorenstein, there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  In fact this $\Phi_e$ is identified with the map $T$ above based on the identification $\omega_R \cong R$, \cite{??}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists \cite{}.
+In the case that $R$ is Gorenstein, there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  In fact this $\Phi_e$ is identified with the map $T$ above based on the identification $\omega_R \cong R$, \cite{BlickleSchwedeSurveyPMinusE}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists.
 
-If such a $\Phi_e$ exists, it can be identified as the generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma, \cite{}.  Hence we can find a corresponding\footnote{This is done via the function {\tt QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
+If such a $\Phi_e$ exists, it can be identified as the generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma, \cite{FedderFPureRat}.  Hence we can find a corresponding\footnote{This is done via the function {\tt QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
 \[
 \tau(R) = {\tt ascendIdeal(e, u, I_0)}.
 \]
-Recall that {\tt ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all $e$-th roots are taken as multiples of $e$.  See \cite{??}.
+Recall that {\tt ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all frobenius roots are taken as multiples of $e$.  
 
 Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this logic occurs.
 \begin{verbatim}
@@ -744,7 +751,7 @@ i8 : testIdeal(R)
 o8 = ideal 1
 o8 : Ideal of R
 \end{verbatim}
-However, the term $u$ constructed above can be quite involved if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example:
+However, the term $u$ constructed above can be quite complicated if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example:
 \begin{verbatim}
 i9 : toString(QGorensteinGenerator(1, R))
 o9 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*c^13*d+b^12
@@ -758,7 +765,7 @@ o9 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*c^13*d+b^12
       6*b^5*c^2*d^7+a^7*b^3*c^3*d^7+a^8*b*c^4*d^7+a^6*b^6*d^8+a^7*b^4*c*d^8+a^8
       *b^2*c^2*d^8+a^9*c^3*d^8+a^8*b^3*d^9+a^9*b*c*d^9+a^10*d^10
 \end{verbatim}
-Therefore, we use a different strategy if either $(p-1)K_R$ is not Cartier or more generally if $R$ is $\bQ$-Gorenstein of index divisible by $p$ which appears to typically be faster.  We rely on the following observation, see \cite{}.
+Therefore, we use a different strategy if either $(p-1)K_R$ is not Cartier or more generally if $R$ is $\bQ$-Gorenstein of index divisible by $p$.   In these situations, this alternate strategy typically appears to be faster.  We rely on the following observation, see \cite{BlickleSchwedeTuckerTestAlterations}.
 \[
 \tau(\omega_R, K_R) \cong \tau(R).
 \]
@@ -781,7 +788,7 @@ o7 : Ideal of R
 Which uses the logic described above.
 
 \begin{remark}[Non graded caveats]
-It frequently can happen that $(I^{[p^e]} : I)/I^{[p^e]}$ is principal but Macaulay2 cannot identify the principal generator (since Macaulay2 cannot always find minimal generators of non-graded ideals or modules).  The same thing can happen when computing the $u$ corresponding to the map $T : \omega_{R^{1/p}} \to \omega_R$, as described in \autoref{} above.  In such situations, instead of a single $u$, we Macaulay2 will produce $u_1, \dots, u_n$ (all multiples of $u$, and $u$ is a linear combination of the $u_i$).  Instead of computing things like
+It frequently can happen that $(I^{[p^e]} : I)/I^{[p^e]}$ is principal but Macaulay2 cannot identify the principal generator (since Macaulay2 cannot always find minimal generators of non-graded ideals or modules).  The same thing can happen when computing the $u$ corresponding to the map $T : \omega_{R^{1/p}} \to \omega_R$, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings} above.  In such situations, instead of a single $u$, we Macaulay2 will produce $u_1, \dots, u_n$ (all multiples of $u$, and $u$ is a linear combination of the $u_i$).  Instead of computing things like
 \[
 (u \cdot J)^{[1/p]},
 \]
@@ -796,7 +803,7 @@ We can similarly use the {\tt testIdeal} command to compute test ideals of pairs
 
 \subsection{HSLG module, computing $F$-pure submodules of rank-1 Cartier modules}
 
-Again consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have considered throughout this section.  It is a theorem of Hartshorne-Speiser, Lyubeznik, and Gabber \cite{} that the descending images
+Again consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have considered throughout this section.  It is a theorem of Hartshorne-Speiser, Lyubeznik, and Gabber \cite{HartshorneSpeiserLocalCohomologyInCharacteristicP,LyubeznikFModulesApplicationsToLocalCohomology,Gabber.tStruc} that the descending images
 \[
 \omega_R \supseteq T(\omega_{R^{1/p}}) \supseteq \dots \supseteq T^e(\omega_{R^{1/p^e}}) \supseteq T_{e+1}(\omega_{R^{1/p^{e+1}}}) \supseteq \dots
 \]
@@ -975,8 +982,10 @@ o14 : List
 In \cite{KatzmanZhangAlgorithm} the algorithms behind the method in Section \ref{Section: compatible ideals} were extended
 to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map.
 This would require, among other things, a faster implementation of our method for finding Frobenius roots of submodules of free modules.
-We hope to achieve this during a future \emph{Macaulay2} workshop.
 
+On the other hand, it should be possible to compute test ideals of pairs $(R, \fra^t)$ even when $\fra$ is not principal.  One strategy to do this is outlined in \cite{SchwedeTuckerTestIdealsOfNonPrincipal} although certain improvement can be made.
+
+We hope to achieve all these things during a future \emph{Macaulay2} workshop.  We also want to bring to the reader's attention the package {\tt FThresholds.m2} which computes $F$-pure thresholds, $F$-thresholds, $F$-jumping numbers and more!
 
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
