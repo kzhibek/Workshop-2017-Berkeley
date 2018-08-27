@@ -262,7 +262,7 @@ doc ///
         Text
             When checking whether a ring or pair is strongly F-regular, the option IsLocal determines if this is checked at the origin or everywhere (default is {\tt false}, which corresponds to everywhere).  If you set {\tt IsLocal=>true}, it will only check this at the origin.
         Example
-            R = ZZ/7[x,y,z]/ideal((x-1)^3+(y-2)^3+z^3);
+            R = ZZ/7[x,y,z]/ideal((x-1)^3+(y+1)^3+z^3);
             isFRegular(R)
             isFRegular(R, IsLocal=>true)
             S = ZZ/13[x,y,z]/ideal(x^3+y^3+z^3);

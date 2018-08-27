@@ -163,7 +163,7 @@ doc ///
         Text
             If you set the option {\tt IsLocal => true} (default {\tt false}) it will only check F-injectivity at the origin.  Otherwise it will check it everywhere.  Note checking at the origin can be slower than checking it everywhere.  Consider the example of the following non-F-injective ring.
         Example
-            R = ZZ/5[x,y,z]/ideal( (x-1)^4 + y^4 + z^4 );
+            R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
             isFInjective(R)
             isFInjective(R, IsLocal=>true)
         Text
