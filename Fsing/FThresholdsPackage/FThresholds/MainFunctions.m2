@@ -153,7 +153,7 @@ optMuList :=
     Search => Binary
 }
 
-optNuList := optMuList | { ContainmentTest => null }
+optNuList := optMuList | {ContainmentTest => null, UseSpecialAlgorithms => true}
 
 optMu := optMuList | { ComputePreviousNus => true }
 optNu := optNuList | { ComputePreviousNus => true }
@@ -169,10 +169,11 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Verify if option values are valid
     checkOptions( o,
 	{
+	    ComputePreviousNus => Boolean,
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
 	    Search => { Binary, Linear, BinaryRecursive },
 	    UseColonIdeals => Boolean,
-	    ComputePreviousNus => Boolean
+	    UseSpecialAlgorithms => Boolean
 	}
     );
 
@@ -180,27 +181,58 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     if not isPolynomialRingOverFiniteField ring f then
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
     -- Setup
-    p := char ring f;
-    isPrincipal := if isIdeal f then (numgens trim f) == 1 else true;
+    
+    -- Check if f is a principal ideal; if so, replace it with its generator, 
+    --   so that fastExponentiation can be used
+    isPrincipal := false;  
+    g := f;
+    if isIdeal g then
+    (
+        if numgens( g = trim g ) == 1 then
+        (
+	    isPrincipal = true;
+	    g = g_*_0
+        )
+    )
+    else isPrincipal = true;    
+
+    p := char ring g;
+
+    -- Deal with some special cases for principal ideals
+    if isPrincipal and J == maxIdeal g then
+    (
+	if not isSubset( ideal g, J ) then 
+	    error "nuInternal: the polynomial is not in the homogeneous maximal ideal";
+        if not isSubset( ideal g^(p-1), frobenius J ) then -- fpt = 1
+	    return apply( n+1, i -> p^i-1 );
+        if o.UseSpecialAlgorithms then
+        (
+	    fpt := null;
+	    if isDiagonal g then fpt = diagonalFPT g;
+            if isBinomial g then fpt = binomialFPT g;
+	    if fpt =!= null then 
+	        return apply( n+1, i -> p^i*adicTruncation( p, i, fpt ) )
+        )
+    );
+
     searchFct := search#(o.Search);
-    comTest := o.ContainmentTest;
+    conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
-    if comTest === null then
-	comTest = if instance(f, RingElement) then FrobeniusRoot
-	    else StandardPower;
-    testFct := test#(comTest);
+    if conTest === null then
+	conTest = if isPrincipal then FrobeniusRoot else StandardPower;
+    testFct := test#(conTest);
     local N;
 
-    nu := nu1( f, J ); -- if f is not in rad(J), nu1 will return an error
+    nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
 
     if not o.ComputePreviousNus then
     (
 	-- This computes nu in a non-recursive way
 	if n == 0 then return theList;
- 	N = if isPrincipal or comTest === FrobeniusPower
+ 	N = if isPrincipal or conTest === FrobeniusPower
 	     then p^n else (numgens trim J)*(p^n-1)+1;
-     	return { searchFct( f, J, n, nu*p^n, (nu+1)*N, testFct ) }
+     	return { searchFct( g, J, n, nu*p^n, (nu+1)*N, testFct ) }
     );
     if o.UseColonIdeals and isPrincipal then
     -- colon ideals only work for polynomials
@@ -208,11 +240,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	-- This computes nu recursively, using colon ideals.
 	-- Only nu(p)'s are computed, but with respect to ideals other than J
 	I := J;
-	g := if isIdeal f then (trim f)_*_0 else f;
 	scan( 1..n, e ->
 	    (
 		I = I : ideal( fastExponentiation( nu, g ) );
-		nu =  last nuInternal( 1, g, I, ContainmentTest => comTest );
+		nu =  last nuInternal( 1, g, I, ContainmentTest => conTest );
 	      	theList = append( theList, p*(last theList) + nu );
 	      	I = frobenius I
 	    )
@@ -220,11 +251,11 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     )
     else
     (
-	N = if isPrincipal or comTest === FrobeniusPower
+	N = if isPrincipal or conTest === FrobeniusPower
 	     then p else (numgens trim J)*(p-1)+1;
 	scan( 1..n, e ->
 	    (
-		nu = searchFct( f, J, e, p*nu, (nu+1)*N, testFct );
+		nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
     	       	theList = append( theList, nu )
     	    )
     	)
@@ -447,7 +478,8 @@ maxChecks := 3;
 
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
--- FRegularityCheck is whether the last isFRegularPoly is run (which can take a significant amount of time).
+-- FRegularityCheck is whether the last isFRegularPoly is run 
+--   (which can take a significant amount of time).
 fpt = method(
     Options =>
         {

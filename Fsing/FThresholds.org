@@ -49,7 +49,7 @@
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-* Functions [11/18]
+* Functions [14/20]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -60,15 +60,20 @@
 *** binarySearch
 *** binarySearchRecursive
 *** linearSearch
-*** nuInternal [0/2]
-**** TODO Use special algorithms for binomials and diagonal polynomials (and mayne forms?) 
-**** TODO If some nu is q-1, return answer right away
+*** nuInternal [2/4]
+**** DONE Use special algorithms for binomials and diagonal polynomials (and mayne forms?) 
+     CLOSED: [2018-08-27 Mon 15:30]
+**** DONE In the principal case, with respect to max ideal, if some nu is q-1, return answer right away
+     CLOSED: [2018-08-27 Mon 15:30]
+**** TODO Document above features
+**** TODO Try to use frobeniusPowers to get better upper bounds
 *** nu
 *** fptApproximation
 *** ftApproximation
 *** criticalExponentApproximation
-*** guessFPT [0/1]
-**** TODO Incorporate in fpt
+*** guessFPT [1/1]
+**** DONE Incorporate in fpt
+     CLOSED: [2018-08-27 Mon 13:34]
 *** fSig
 *** fpt [6/6]
 **** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.

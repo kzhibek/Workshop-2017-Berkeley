@@ -291,19 +291,6 @@ doc ///
 
 doc ///
     Key
-        UseFSignature
-    Headline
-        whether to use the F-signature function in the search for an F-pure threshold
-    Description
-        Text
-            This option for the function @TO fpt@ specifies that the convexity of the $F$-signature function and a secant line argument be used, in an attempt to narrow down the interval bounding the $F$-pure threshold.
-            Only takes on Boolean values.             
-    SeeAlso
-        fpt
-///
-
-doc ///
-    Key
         FRegularityCheck
     Headline
         an option to use an F-regularity check to find an F-pure threshold
@@ -455,6 +442,21 @@ doc ///
         compareFPT
         fpt
         isFJumpingExponent
+///
+
+doc ///
+     Key
+          MaxChecks
+     Headline
+          specifies the number of "guess and check" attempts to make in an F-pure threshold computation
+     Description
+          Text
+              an option for function @TO fpt@, which specifies the number of "guess and check" tries to be performed. 
+	      The first number checked is always the upper bound $(\nu+1)/p^e$, where $e$ is the value of the option @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$.
+	      The second number checked is always the lower bound $\nu/(p^e-1)$.
+     SeeAlso
+        fpt
+        nu
 ///
 
 doc ///
@@ -686,21 +688,6 @@ doc ///
 
 doc ///
      Key
-          MaxChecks
-     Headline
-          specifies the number of "guess and check" attempts to make in an F-pure threshold computation
-     Description
-          Text
-              an option for function @TO fpt@, which specifies the number of "guess and check" tries to be performed. 
-	      The first number checked is always the upper bound $(\nu+1)/p^e$, where $e$ is the value of the option @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$.
-	      The second number checked is always the lower bound $\nu/(p^e-1)$.
-     SeeAlso
-        fpt
-        nu
-///
-
-doc ///
-     Key
          nuList
          (nuList,ZZ,Ideal,Ideal)
          (nuList,ZZ,Ideal)
@@ -787,6 +774,19 @@ doc ///
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+    Key
+        UseFSignature
+    Headline
+        whether to use the F-signature function in the search for an F-pure threshold
+    Description
+        Text
+            This option for the function @TO fpt@ specifies that the convexity of the $F$-signature function and a secant line argument be used, in an attempt to narrow down the interval bounding the $F$-pure threshold.
+            Only takes on Boolean values.             
+    SeeAlso
+        fpt
 ///
 
 doc ///
