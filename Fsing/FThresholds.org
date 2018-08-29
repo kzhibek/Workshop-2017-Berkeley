@@ -5,8 +5,6 @@
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
-** Tests: [[file:./FThresholdsPackage/FThresholds/BasicFunctionsTest.m2][BasicFunctionsTest.m2]] [0/1]
-*** TODO Start tests file
 ** Functions [3/4]
 *** denominator
 *** numerator
@@ -49,7 +47,7 @@
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-* Functions [14/20]
+* Functions [17/20]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -93,22 +91,25 @@
 *** isLocallyPrincipalIdeal
 *** getDivisorIndex
 *** compareFPT
-**** TODO Add CheckOptions
+**** DONE Add CheckOptions
+     CLOSED: [2018-08-29 Wed 18:16]
 *** compareFPTPoly
-*** isFPT [3/4]
+*** isFPT [4/4]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:24]
 **** DONE Rewrite, so as not to assume a polynomial ring
      CLOSED: [2018-08-16 Thu 17:54]
 **** DONE Origin does not seem to do anything (KILLED)
      CLOSED: [2018-08-13 Mon 13:01]
-**** TODO Add CheckOptions
-*** isFJumpingExponent [2/3]
+**** DONE Add CheckOptions
+     CLOSED: [2018-08-29 Wed 18:16]
+*** isFJumpingExponent [3/3]
 **** DONE Change name so it doesn't refer to type of argument
      CLOSED: [2018-08-13 Mon 11:25]
 **** DONE Rewrite, so as not to assume a polynomial ring
      CLOSED: [2018-08-17 Fri 22:26]
-**** TODO Add CheckOptions
+**** DONE Add CheckOptions
+     CLOSED: [2018-08-29 Wed 18:16]
 *** isFJumpingExponentPoly
 *** isInForbiddenInterval [0/1]
 **** TODO Implement and use it as a first test for isFPT

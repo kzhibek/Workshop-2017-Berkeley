@@ -30,7 +30,8 @@
 
 -- Main functions: compareFPT, isFPT, isFJumpingExponent
 
--- Auxiliary functions: getNonzeroGenerator, isLocallyPrincipalIdeal, getDivisorIndex, compareFPTPoly, isFJumpingExponentPoly
+-- Auxiliary functions: getNonzeroGenerator, isLocallyPrincipalIdeal, 
+-- getDivisorIndex, compareFPTPoly, isFJumpingExponentPoly
 
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +39,6 @@
 -- Functions for computing (nu_I)^J(p^e), (nu_f)^J(p^e)
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 ---------------------------------------------------------------------------------
 -- nu1(I,J) finds the maximal N such that I^N is not contained in J, i.e., nu_I^J(1)
@@ -65,6 +65,8 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) ->
 
 ---------------------------------------------------------------------------------
 -- TESTS
+---------------------------------------------------------------------------------
+
 -- purpose is to verify containment in Frobenius powers
 
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
@@ -99,6 +101,7 @@ test := new HashTable from
 
 ---------------------------------------------------------------------------------
 -- SEARCH FUNCTIONS
+---------------------------------------------------------------------------------
 
 -- Each *Search(I,J,e,a,b,testFunction) searches for the last n in [a,b) such that
 -- testFunction(I,n,J,e) is false, assuming that test(I,a,J,e) is false and test(I,b,J,e)
@@ -146,6 +149,7 @@ search := new HashTable from
 
 ---------------------------------------------------------------------------------
 -- OPTION PACKAGES
+---------------------------------------------------------------------------------
 
 optMuList :=
 {
@@ -160,12 +164,19 @@ optNu := optNuList | { ComputePreviousNus => true }
 
 ---------------------------------------------------------------------------------
 -- INTERNAL FUNCTION
+---------------------------------------------------------------------------------
 
 nuInternal = optNu >> o -> ( n, f, J ) ->
 (
+    --------------------
+    -- A TRIVIAL CASE --
+    --------------------
     -- Return answer in a trivial case (per Blickle-Mustata-Smith convention)
     if f == 0 then return toList( (n+1):0 );
 
+    -----------------
+    -- SOME CHECKS --
+    -----------------
     -- Verify if option values are valid
     checkOptions( o,
 	{
@@ -176,12 +187,9 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	    UseSpecialAlgorithms => Boolean
 	}
     );
-
     -- Check if f is in a polynomial ring over a finite field
     if not isPolynomialRingOverFiniteField ring f then
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
-    -- Setup
-    
     -- Check if f is a principal ideal; if so, replace it with its generator, 
     --   so that fastExponentiation can be used
     isPrincipal := false;  
@@ -195,9 +203,13 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
         )
     )
     else isPrincipal = true;    
-
+    -----------------------------------------
+    
     p := char ring g;
 
+    -----------------------------------------
+    -- WHEN SPECIAL ALGORITHMS CAN BE USED --
+    -----------------------------------------
     -- Deal with some special cases for principal ideals
     if isPrincipal and J == maxIdeal g then
     (
@@ -215,6 +227,9 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
         )
     );
 
+    -----------
+    -- SETUP --
+    -----------
     searchFct := search#(o.Search);
     conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
@@ -222,10 +237,12 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	conTest = if isPrincipal then FrobeniusRoot else StandardPower;
     testFct := test#(conTest);
     local N;
-
     nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
 
+    --------------------------------------
+    -- WHEN COMPUTE PREVIOUS NUS IS OFF --
+    --------------------------------------
     if not o.ComputePreviousNus then
     (
 	-- This computes nu in a non-recursive way
@@ -234,6 +251,9 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	     then p^n else (numgens trim J)*(p^n-1)+1;
      	return { searchFct( g, J, n, nu*p^n, (nu+1)*N, testFct ) }
     );
+    ---------------------------------
+    -- WHEN USE COLON IDEALS IS ON --
+    ---------------------------------
     if o.UseColonIdeals and isPrincipal then
     -- colon ideals only work for polynomials
     (
@@ -250,6 +270,9 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	)
     )
     else
+    ----------------------
+    -- EVERY OTHER CASE --
+    ----------------------
     (
 	N = if isPrincipal or conTest === FrobeniusPower
 	     then p else (numgens trim J)*(p-1)+1;
@@ -265,14 +288,12 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
+---------------------------------------------------------------------------------
 
 nuList = method( Options => optNuList, TypicalValue => List );
 
 nuList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
-
--- Dan: I changed Options => true to Options => optNuList above in order to make
--- things compile, and I'm worried that's messing up our default options here.
 
 nuList ( ZZ, RingElement, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )
@@ -282,7 +303,6 @@ nuList ( ZZ, Ideal ) :=  List => o -> ( e, I ) ->
 
 nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
-
 
 nu = method( Options => optNu, TypicalValue => ZZ );
 
@@ -296,8 +316,8 @@ nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
 nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
--- Can be computed using generalized Frobenius powers, by using
--- ContainmentTest => FrobeniusPower. For convenience, here are some shortcuts:
+-- Mus can be computed using nus, by using ContainmentTest => FrobeniusPower. 
+-- For convenience, here are some shortcuts:
 
 muList = method( Options => optMuList, TypicalValue => List )
 
@@ -494,8 +514,11 @@ fpt = method(
 
 fpt RingElement := o -> f ->
 (
-    -- give an answer in a trivial case
+    ------------------------------
+    -- DEAL WITH A TRIVIAL CASE --
+    ------------------------------
     if f == 0 then return 0;
+
     ---------------------
     -- RUN SEVERAL CHECKS
     ---------------------
@@ -518,18 +541,22 @@ fpt RingElement := o -> f ->
     p := char ring f;
     if not isSubset( ideal f, M ) then
         error "fpt: polynomial is not in the homogeneous maximal ideal";
-    ------------------
-    -- GETTING STARTED
-    ------------------
+
+    ----------------------
+    -- CHECK IF FPT = 1 --
+    ----------------------
     if o.Verbose then print "\nStarting fpt ...";
-    -- Check if fpt equals 1
     if not isSubset( ideal f^(p-1), frobenius M ) then
     (
         if o.Verbose then print "\nnu(1,f) = p-1, so fpt(f) = 1.";
         return 1
     );
     if o.Verbose then print "\nfpt is not 1 ...";
-    -- Check if one of the special FPT functions can be used...
+    
+    
+    ---------------------------------------------
+    -- CHECK IF SPECIAL ALGORITHMS CAN BE USED --
+    ---------------------------------------------
     if o.UseSpecialAlgorithms then
     (
 	if o.Verbose then print "\nVerifying if special algorithms apply...";
@@ -553,7 +580,10 @@ fpt RingElement := o -> f ->
         )
     );
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
-    -- Compute nu(e,f)
+
+    -----------------------------------------------
+    -- COMPUTE NU TO FIND UPPER AND LOWER BOUNDS --
+    -----------------------------------------------
     e := o.DepthOfSearch;
     n := nu( e, f );
     LB := n/(p^e-1); -- lower bound (because of forbidden intervals)
@@ -565,7 +595,10 @@ fpt RingElement := o -> f ->
          print( "\nnu has been computed: nu = nu(" | toString e | ",f) = " | toString n | " ..." );
 	 print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString LB | ", " | toString UB | " ] ..." )
     );
-    -- Call guessFPT
+
+    --------------------
+    -- CALL GUESS FPT --
+    --------------------
     if o.MaxChecks > 0 then
     (
 	guess := guessFPT( f, LB, UB, o.MaxChecks, Verbose => o.Verbose );
@@ -575,7 +608,10 @@ fpt RingElement := o -> f ->
 	strictUB = true;
 	if o.MaxChecks >= 2 then strictLB = true	
     );
-    -- Do the F-signature computation
+
+    ---------------------------------------
+    -- F-SIGNATURE INTERCEPT COMPUTATION --
+    ---------------------------------------
     if o.UseFSignature then
     (
         if o.Verbose then print "\nBeginning F-signature computation ...";
@@ -607,6 +643,10 @@ fpt RingElement := o -> f ->
         else if o.Verbose then
             print "\nF-signature computation failed to find an improved lower bound ...";
     );
+
+    ------------------------------
+    -- FINAL F_REGULARITY CHECK --
+    ------------------------------
     if o.FRegularityCheck and not strictLB then
     (
 	if o.Verbose then print "\nStarting final check ...";
@@ -637,6 +677,7 @@ fpt RingElement := o -> f ->
     { LB, UB }
 )
 
+-- Special template for products of linear forms in two variables 
 fpt ( List, List ) := o -> ( L, m ) ->
     binaryFormFPT( L, m, Verbose => o.Verbose )
 
@@ -718,6 +759,17 @@ getDivisorIndex := (maxIndex, divisorialIdeal) -> (
 );
 
 compareFPT(Number, RingElement) := ZZ => o -> (t, f) -> (
+
+    -- Check if option values are valid
+    checkOptions( o,
+        {
+	    MaxCartierIndex => ZZ,
+	    FrobeniusRootStrategy => { Substitution, MonomialBasis },
+	    AssumeDomain => Boolean,
+	    QGorensteinIndex => ZZ
+	}
+    );
+
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;
     if (class(R1) === PolynomialRing) then return compareFPTPoly(t, f);
@@ -777,9 +829,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) -> (
         baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
         if (not isSubset(ideal(sub(1, R1)), (baseTau#0))) then error "compareFPT: The ambient ring must be F-regular."; --the ambient isn't even F-regular
         decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
-        a1 := decomposedExponent#0;
-        b1 := decomposedExponent#1;
-        c1 := decomposedExponent#2;
+        (a1,b1,c1) := toSequence decomposedExponent;
         if (a1 > (pp^c1-1)) then(
             a1quot := floor( (a1-1)/(pp^c1 - 1));
             a1rem := a1 - (pp^c1-1)*a1quot;
@@ -819,9 +869,7 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 
     --now we have to run the sigma computation
     decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
-    a1 := decomposedExponent#0;
-    b1 := decomposedExponent#1;
-    c1 := decomposedExponent#2;
+    (a1,b1,c1) := toSequence decomposedExponent;
     if (a1 > (pp^c1-1)) then(
         a1quot := floor( (a1-1)/(pp^c1 - 1));
         a1rem := a1 - (pp^c1-1)*a1quot;
@@ -849,8 +897,8 @@ isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Subs
 -- Dan: We should use the "Origin" option somehow...
 isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
-    return (0 == compareFPT(t/1, f, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain, QGorensteinIndex => o.QGorensteinIndex ));
-);
+    0 == compareFPT(t/1, f, o )
+)
 
 
 -- isFJumpingExponent determines if a given rational number is an
@@ -864,6 +912,16 @@ isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStr
 
 isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
+    -- Check if option values are valid
+    checkOptions( o,
+        {
+	    MaxCartierIndex => ZZ,
+	    FrobeniusRootStrategy => { Substitution, MonomialBasis },
+	    AssumeDomain => Boolean,
+	    QGorensteinIndex => ZZ
+	}
+    );
+
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;
     if (class(R1) === PolynomialRing) then return isFJumpingExponentPoly(t, f);
@@ -925,9 +983,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     if (not (h1 == (sub(0, S1)))) then (
         baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
         decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
-        a1 := decomposedExponent#0;
-        b1 := decomposedExponent#1;
-        c1 := decomposedExponent#2;
+        (a1,b1,c1) := toSequence decomposedExponent;
         if (a1 > (pp^c1-1)) then(
             a1quot := floor( (a1-1)/(pp^c1 - 1));
             a1rem := a1 - (pp^c1-1)*a1quot;
