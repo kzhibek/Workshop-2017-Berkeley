@@ -703,24 +703,11 @@ compareFPT = method(
 )
 
 --gets a nonzero generator of an ideal.
-getNonzeroGenerator := (I2) -> (
-    i := 0;
-    flag := false;
-    genList := first entries gens I2;
-    localZero := sub(0, ring I2);
-    while ((i < #genList) and (flag == false)) do (
-        if (genList#i != localZero) then (
-            flag = true;
-        );
-        i = i + 1;
-    );
-    if (flag == true) then (
-        genList#(i-1)
-    )
-    else (
-        null
-    )
-);
+getNonzeroGenerator := I -> 
+(
+    gen := select( 1, I_*, x -> x != 0 );
+    if gen === {} then null else first gen
+)
 
 isLocallyPrincipalIdeal := (I2) -> (
     localGen := getNonzeroGenerator(I2);
