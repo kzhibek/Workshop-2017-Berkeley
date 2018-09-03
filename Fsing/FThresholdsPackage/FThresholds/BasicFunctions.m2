@@ -249,6 +249,17 @@ maxIdeal Ideal := Ideal => I -> maxIdeal ring I
 
 --===============================================================================
 
+-- isProper and isUnitIdeal check if an ideal is proper or the unit ideal 
+isUnitIdeal = method( TypicalValue => Boolean )
+
+isUnitIdeal Ideal := Boolean => I ->  isSubset( ideal 1_(ring I), I )
+
+isProper = method( TypicalValue => Boolean )
+
+isProper Ideal := Boolean => I -> not isUnitIdeal I
+
+--===============================================================================
+
 -- Factorization of polynomials and splitting fields --
 
 -- factorsAndMultiplicities(F) factors the RingElement F and returns a list of pairs of 

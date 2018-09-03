@@ -389,14 +389,14 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     e := 0;
     dgt := 0;
     u := 2*a/deg;
-    while I != ideal( 1_rng ) and e < mult do 
+    while isProper I and e < mult do 
     (
 	e = e+1;
 	dgt = adicDigit( p, e, u );
 	I = frobenius( I ) : product( polys, dgt, (f,k) -> f^k );
 	ideals = append( ideals, I )
     );
-    if I != ideal( 1_rng ) and e == mult then 
+    if isProper I and e == mult then 
     (
 	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
 	return 2/deg 

@@ -5,7 +5,8 @@
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
-** Functions [3/4]
+** Functions [3/5]
+*** TODO Include a "isProper" function to check if ideals are proper.
 *** denominator
 *** numerator
 *** fracPart
