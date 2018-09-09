@@ -878,6 +878,28 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     return 0 --it is the FPT!
 )
 
+-- isInForbiddenInterval takes a prime number p and a rational number t
+-- and checks whether t lies in an interval of the form (a/p^e,a/(p^e-1)), 
+-- for some e. If it does, it cannot be an FPT in characteristic p.
+isInForbiddenInterval = method( TypicalValue => Boolean )
+
+isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->  
+(
+    if t < 0 or t > 1 then return true;
+    (a,b,c) := toSequence decomposeFraction( p, t );
+    valid := true;
+    e := 1;
+    while valid and e <= b+c do
+    (
+        if floor( (p^e-1)*t ) != p^e * adicTruncation( p, e, t ) then 
+	    valid = false;
+	e = e+1    
+    );
+    not valid 
+)
+
+isInForbiddenInterval ( ZZ, ZZ ) := Boolean => ( p, t ) -> 
+    isInForbiddenInterval( p, t/1 )
 
 --isFPT, determines if a given rational number is the FPT of a pair in a
 -- polynomial ring.
@@ -886,13 +908,12 @@ isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Subs
     TypicalValue => Boolean
 )
 
-
 -- Dan: We should use the "Origin" option somehow...
 isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
-    0 == compareFPT(t/1, f, o )
+    if isInForbiddenInterval( char ring f, t ) then false else
+        0 == compareFPT(t/1, f, o )
 )
-
 
 -- isFJumpingExponent determines if a given rational number is an
 -- F-jumping exponent

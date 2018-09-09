@@ -1,12 +1,13 @@
 #+TITLE: F-Thresholds Package
 
 * Master file: [[file:./FThresholdsPackage/FThresholds.m2][FThresholds.m2]]
-* Basic functions: [[file:./FThresholdsPackage/FThresholds/BasicFunctions.m2][BasicFunctions.m2]] [3/5]
+* Basic functions: [[file:./FThresholdsPackage/FThresholds/BasicFunctions.m2][BasicFunctions.m2]] [4/5]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
-** Functions [3/5]
-*** TODO Include a "isProper" function to check if ideals are proper.
+** Functions [4/5]
+*** DONE Include a "isProper" function to check if ideals are proper.
+    CLOSED: [2018-09-04 Tue 18:34]
 *** denominator
 *** numerator
 *** fracPart
@@ -48,7 +49,7 @@
 :END:
 ** Documentation: [[file:./FThresholdsPackage/FThresholds/MainFunctionsDoc.m2][MainFunctionsDoc.m2]] 
 ** Tests: [[file:./FThresholdsPackage/FThresholds/MainFunctionsTest.m2][MainFunctionsTest.m2]]
-* Functions [17/20]
+* Functions [18/22]
 :PROPERTIES:
 :COOKIE_DATA: todo recursive
 :END:
@@ -73,6 +74,8 @@
 *** guessFPT [1/1]
 **** DONE Incorporate in fpt
      CLOSED: [2018-08-27 Mon 13:34]
+**** TODO Improve the search for "guesses"
+**** TODO Implement different strategies for the search for "guesses"
 *** fSig
 *** fpt [6/6]
 **** DONE fpt needs a version with a single argument, for cases when the special algorithms are used.
@@ -112,8 +115,9 @@
 **** DONE Add CheckOptions
      CLOSED: [2018-08-29 Wed 18:16]
 *** isFJumpingExponentPoly
-*** isInForbiddenInterval [0/1]
-**** TODO Implement and use it as a first test for isFPT
+*** isInForbiddenInterval [1/1]
+**** DONE Implement and use it as a first test for isFPT
+     CLOSED: [2018-09-09 Sun 15:26]
   
 * Special FT functions: [[file:./FThresholdsPackage/FThresholds/SpecialFThresholds.m2][SpecialFThresholds.m2]] [4/4]
 :PROPERTIES:
@@ -154,9 +158,8 @@
      CLOSED: [2018-08-16 Thu 11:53]
 **** DONE Replace Nontrivial with "Nontrivial"
      CLOSED: [2018-08-16 Thu 09:06]
-* General TODOs, notes, questions, etc. [3/4]
-
-** TODO Add output type to every method function 
+* General TODOs, notes, questions, etc. [2/3]
+** WORKING Add output type to every method function 
     (e.g.,  divisor (BasicList, BasicList) := BasicDiv => o -> (l1, l2) -> ) 
 ** DONE Should a function reject non-valid options? If so, how? (This is now done with the function checkOptions)
    CLOSED: [2018-08-14 Tue 10:14]
