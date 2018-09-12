@@ -430,18 +430,7 @@ fSig := ( f, a, e ) ->
 
 -- isInteger checks if a rational number is an integer
 isInteger := x -> x == floor x
-
--- numberWithMinDenom is a super dumb implementation that find a number with
--- minimal denominator in an open interval (a,b), where a and b are rational.
--- It will be improved.    
-numberWithMinDenom := ( a, b ) ->
-(
-    d := 2;
-    while floor(d*b) < ceiling(d*a) or isInteger(d*b) or isInteger(d*a) do 
-        d = d+1;
-    if isInteger(d*a) then (d*a+1)/d else ceiling(d*a)/d  	
-)
-
+    
 -- guessFPT takes a polynomial f, endpoints a and b of an interval that contains 
 -- the F-pure threshold of f, and a positive integer that tells the max number 
 -- of checks the user wants to perform.
@@ -474,9 +463,13 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
     local t;
     local comp;
     ( A, B ) := ( a, b );
+    d := 2; 
     while counter <= maxChecks do
     (   
-        t = numberWithMinDenom( A, B );
+	-- search for number with minimal denominator in the open interval (A,B)
+	while floor(d*B) < ceiling(d*A) or isInteger(d*B) or isInteger(d*A) do 
+            d = d+1;
+        t = ceiling(d*A)/d;  	
         comp = compareFPT(t,f);
 	if comp == 0 then  -- found exact FPT!
 	(
@@ -722,7 +715,7 @@ isLocallyPrincipalIdeal := I ->
 )
 
 --helper function for compareFPT
-getDivisorIndex := ( maxIndex, divisorialIdeal) -> 
+getDivisorIndex := ( maxIndex, divisorialIdeal ) -> 
 (
     fflag := false;
     cartIndex := 0;
@@ -836,7 +829,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     --it is the FPT!
 )
 
-compareFPTPoly = method(Options => {FrobeniusRootStrategy => Substitution});
+compareFPTPoly = method(Options => {FrobeniusRootStrategy => Substitution})
 
 compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     --first we gather background info on the ring (QGorenstein generators, etc.)
@@ -904,7 +897,14 @@ isInForbiddenInterval ( ZZ, ZZ ) := Boolean => ( p, t ) ->
 --isFPT, determines if a given rational number is the FPT of a pair in a
 -- polynomial ring.
 
-isFPT = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0},
+isFPT = method( 
+    Options => 
+    {
+	MaxCartierIndex => 10, 
+	FrobeniusRootStrategy => Substitution, 
+	AssumeDomain => true, 
+	QGorensteinIndex => 0
+    },
     TypicalValue => Boolean
 )
 
@@ -922,7 +922,16 @@ isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 --***************************************************************************
 
 -- Dan: isn't is safer to have AssumeDomain default to "false" here?
-isFJumpingExponent = method( Options => {MaxCartierIndex => 10, FrobeniusRootStrategy => Substitution, AssumeDomain=>true, QGorensteinIndex => 0}, TypicalValue => Boolean )
+isFJumpingExponent = method( 
+    Options => 
+    {
+	MaxCartierIndex => 10, 
+	FrobeniusRootStrategy => Substitution, 
+	AssumeDomain=>true, 
+	QGorensteinIndex => 0
+    }, 
+    TypicalValue => Boolean 
+)
 
 isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
@@ -938,10 +947,10 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;
-    if (class(R1) === PolynomialRing) then return isFJumpingExponentPoly(t, f);
+    if class R1 === PolynomialRing then return isFJumpingExponentPoly(t, f);
     S1 := ambient R1;
     I1 := ideal R1;
-    canIdeal := canonicalIdeal(R1);
+    canIdeal := canonicalIdeal R1;
     pp := char R1;
     cartIndex := 0;
     fList := {f};
@@ -951,34 +960,29 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     computedHSLGInitial := null;
     --computedTau := ideal(sub(0, R1));
 
-    if (o.QGorensteinIndex > 0) then (
-        cartIndex = o.QGorensteinIndex;
-    )
-    else (
-        cartIndex = getDivisorIndex(o.MaxCartierIndex, canIdeal);
-    );
-    h1 := sub(0, S1);
+    if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
+    else cartIndex = getDivisorIndex(o.MaxCartierIndex, canIdeal);
+    h1 := 0_S1;
     --first we do a quick check to see if the test ideal is easy to compute
-    if ((pp-1)%cartIndex == 0) then (
-        J1 := testElement( R1 );
-        try (h1 = QGorensteinGenerator( 1, R1)) then (
-            computedTau = testModule(tList, fList, ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
-        ) else (
-             h1 = sub(0, S1);
-        )
+    if (pp-1) % cartIndex == 0 then 
+    (
+        J1 := testElement R1;
+        try h1 = QGorensteinGenerator( 1, R1 ) then
+            computedTau = testModule(tList, fList, ideal 1_R1, {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain)
+        else h1 = 0_S1
     )
-    else(--there should be an algorithm that works here
+    else--there should be an algorithm that works here
         error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
-    );
 
     --now compute the test ideal in the general way (if the index does not divide...)
-    if (not (computedTau === null)) then ( --this code will be enabled eventually
+    if computedTau =!= null then 
+    ( --this code will be enabled eventually
         gg := first first entries gens trim canIdeal;
         dualCanIdeal := (ideal(gg) : canIdeal);
         nMinusKX := reflexivePower(cartIndex, dualCanIdeal);
         gensList := first entries gens trim nMinusKX;
 
-        runningIdeal := ideal(sub(0, R1));
+        runningIdeal := ideal 0_R1;
         omegaAmb := sub(canIdeal, S1) + ideal(R1);
         u1 := (frobeniusTraceOnCanonicalModule(I1, omegaAmb));
 
@@ -994,28 +998,31 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         computedTau = (runningIdeal*R1) : newDenom;
     );
     --now we have to run the sigma computation
-    if (not (h1 == (sub(0, S1)))) then (
-        baseTau:= testModule(0/1, sub(1, R1), ideal(sub(1, R1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain);
-        decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
+    if h1 != 0_S1 then 
+    (
+        baseTau := testModule(0/1, 1_R1, ideal 1_R1, {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
+        decomposedExponent := decomposeFraction( pp, t, NoZeroC => true );
         (a1,b1,c1) := toSequence decomposedExponent;
-        if (a1 > (pp^c1-1)) then(
+        if a1 > (pp^c1-1) then
+	(
             a1quot := floor( (a1-1)/(pp^c1 - 1));
             a1rem := a1 - (pp^c1-1)*a1quot;
             computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
-            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, sub(f, S1)}, sub(computedHSLGInitial#0, S1));
+            computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, sub(f, S1)}, sub(computedHSLGInitial#0, S1))
         )
         else (
             computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
-            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, sub(computedHSLGInitial#0, S1));
-        );
+            computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, sub(computedHSLGInitial#0, S1))
+        )
     )
-    else(--there should be an algorithm that works here
+    else--there should be an algorithm that works here
         error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
-    );
-    return (not isSubset(computedHSLG, I1+sub(computedTau, S1)));
-);
+    return not isSubset( computedHSLG, I1 + sub(computedTau, S1) )
+)
 
-isFJumpingExponentPoly = method( Options => {FrobeniusRootStrategy => Substitution} );
+isFJumpingExponentPoly = method( 
+    Options => { FrobeniusRootStrategy => Substitution } 
+)
 
 isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
 (

@@ -191,7 +191,7 @@ doc ///
 	      
 	      The number of "guesses" is controlled by the option @TO MaxChecks@, which conservatively defaults to 3.
 	      If @TO MaxChecks@ is set to 0, {\tt guessFPT} is bypassed.
-	      If @TO MaxChecks@ is set to at least 1, then a first check is run to verify whether the right-hand endpoint of this interval is the $F$-pure threshold.
+	      If @TO MaxChecks@ is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
          Example
              f = x^2*(x+y)^3*(x+3*y^2)^5;
              fpt( f, MaxChecks => 0 ) -- a bad estimate
