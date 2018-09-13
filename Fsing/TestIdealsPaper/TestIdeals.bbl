@@ -66,6 +66,11 @@
   characteristic {$p$}}, Ann. of Math. (2) \textbf{105} (1977), no.~1, 45--79.
   {\sf\scriptsize MR0441962 (56 \#353)}
 
+\bibitem[HT17]{HernandezTeixeiraFThresholdFunctions}
+{\sc D.~J. Hern\'andez and P.~Teixeira}: \emph{{$F$}-threshold
+  functions\textup: {S}yzygy gap fractals and the two-variable homogeneous
+  case}, J.\ Symbolic Comput. \textbf{80} (2017), 451--483.
+
 \bibitem[Her11a]{HernandezFInvariantsOfDiagonalHyp}
 {\sc D.~Hern{\'a}ndez}: \emph{F-invariants of diagonal hypersurfaces},
   arXiv:1112.2425.
@@ -74,9 +79,9 @@
 {\sc D.~Hern{\'a}ndez}: \emph{F-pure thresholds of binomial hypersurfaces},
   arXiv:1112.2427.
 
-\bibitem[HW18]{HernandezTeixeiraWittFrobeniusPowers}
-{\sc T.~P. Hern{\'a}ndez, Daniel and E.~E. Witt}: \emph{Frobenius powers},
-  arXiv:1802.02705.
+\bibitem[HTW18]{HernandezTeixeiraWittFrobeniusPowers}
+{\sc D.~Hern{\'a}ndez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
+  arXiv:1802.02705, 2018.
 
 \bibitem[Hoc07]{HochsterFoundations}
 {\sc M.~Hochster}: \emph{Foundations of tight closure theory}, lecture notes
