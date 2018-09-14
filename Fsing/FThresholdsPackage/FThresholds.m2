@@ -1,4 +1,3 @@
-
 newPackage( "FThresholds",
 Version => "1.0",
 Date => "August 17th, 2018",
@@ -30,6 +29,13 @@ Authors => {
      {Name => "Sara Malec",
      Email => "malec@hood.edu"
      },
+     {Name => "Matthew Mastroeni",
+     Email => "mmastro@okstate.edu",
+     HomePage => "https://mnmastro.github.io/"
+     },
+     {Name => "Maral Mostafazadehfard",
+     Email => "maralmostafazadehfard@gmail.com"
+     },
      {Name => "Marcus Robinson",
      Email => "robinson@math.utah.edu"
      },
@@ -56,7 +62,6 @@ Reload => true,
 AuxiliaryFiles => true,
 PackageExports => {"TestIdeals"}
 )
-
 
 export{
     "Attempts",

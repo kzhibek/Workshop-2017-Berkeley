@@ -50,7 +50,8 @@ Authors => {
      Email => "malec@hood.edu"
      },
      {Name => "Matthew Mastroeni",
-     Email => "mastroe2@illinois.edu"
+     Email => "mmastro@okstate.edu",
+     HomePage => "https://mnmastro.github.io/"
      },
      {Name => "Maral Mostafazadehfard",
      Email => "maralmostafazadehfard@gmail.com"
