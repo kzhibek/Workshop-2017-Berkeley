@@ -1,0 +1,207 @@
+---------------- EXAMPLES ----------------------
+
+-- Now, we present some interesting calculations performed
+
+-- with our Macaulay2 package for computing a differential operator
+
+-- which acts raising a fraction 1/f (f is a polynomial with coefficients
+
+-- in a finite field of prime characteristic p) to its pth power
+
+-- when we restrict our attention to the case where f defines
+
+-- a hyperelliptic curve of genus 2.
+
+-- We start by clearing all the previous input and loading our package.
+
+clearAll;
+
+load "differentialOperator.m2";
+
+---------------- EXAMPLE 1 ----------------------
+
+-- Our first example is an example of an intermediate curve with level 2.
+
+p=11;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-2*z^5;
+
+-- Now, we want to single out the descending chain of ideals of $p^e$th
+
+-- roots.
+
+descendingChain(f)
+
+-- Next, we output the level of f and the differential operator
+
+-- which acts raising the fraction 1/f to its pth power.
+
+diffOperatorInfo(f)
+
+---------------- EXAMPLE 2 ----------------------
+
+-- This example is an intermediate curve with
+
+-- level 3.
+
+clearAll;
+load "differentialOperator.m2";
+p=13;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-2*x^3*z^2-2*x^2*z^3-x*z^4-2*z^5;
+descendingChain(f)
+diffOperatorInfo(f)
+
+-- Now, the same example in the real model after
+
+-- blowing up at the zero -1.
+
+clearAll;
+load "differentialOperator.m2";
+p=13;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^4-2*x^6+2*x^4*z^2-8*x^3*z^3+x^2*z^4-6*x*z^5-8*z^6;
+descendingChain(f)
+diffOperatorInfo(f)
+
+---------------- EXAMPLE 3 ----------------------
+
+-- Our next example is a supersingular, not superspecial curve
+
+-- with different levels depending on the characteristic
+
+-- that one considers. First of all, characteristic 13
+
+clearAll;
+load "differentialOperator.m2";
+p=13;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-z^5;
+descendingChain(f)
+diffOperatorInfo(f)
+
+-- Now, the same example with characteristic 17.
+
+clearAll;
+load "differentialOperator.m2";
+p=17;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-z^5;
+descendingChain(f)
+diffOperatorInfo(f)
+
+
+---------------- EXAMPLE 4 ----------------------
+
+-- Now, a first example of superspecial curve.
+
+clearAll;
+load "differentialOperator.m2";
+p=23;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-x*z^4;
+descendingChain(f)
+diffOperatorInfo(f)
+
+---------------- EXAMPLE 5 ----------------------
+
+-- Next, a second example of superspecial curve.
+
+clearAll;
+load "differentialOperator.m2";
+p=19;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-z^5;
+descendingChain(f)
+diffOperatorInfo(f)
+
+---------------- EXAMPLE 5' ----------------------
+
+-- A more involved example of superspecial curve.
+
+clearAll;
+load "differentialOperator.m2";
+p=11;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3-x^5-10*x^4*z-5*x^3*z^2-2*x^2*z^3-4*x*z^4;
+descendingChain(f)
+
+
+
+---------------- EXAMPLE 6 ----------------------
+
+-- Again, trying to figure out differences between
+
+-- the level of a complex hyperelliptic curve
+
+-- compared with a real one.
+
+-- First, the real model.
+
+clearAll;
+load "differentialOperator.m2";
+p=13;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^4-x^6-3*x^5*z+5*x^4*z^2+15*x^3*z^3-4*x^2*z^4-12*x*z^5;
+descendingChain(f)
+
+-- Finally, the imaginary model after blowing up at some point.
+
+clearAll;
+load "differentialOperator.m2";
+p=13;
+F=ZZ/p;
+R=F[x,y,z];
+f=y^2*z^3+24*x^5+26*x^4*z-15*x^3*z^2-25*x^2*z^3-9*x*z^4-z^5;
+descendingChain(f)
+
+
+---------------- EXAMPLE 6 ----------------------
+
+-- We go on with a homogeneous cubic.
+
+clearAll;
+load "differentialOperator.m2";
+p=2;
+F=ZZ/p;
+R=F[x,y,z,w];
+f=x^3+y^3+z^3+w^3;
+descendingChain(f)
+diffOperatorInfo(f)
+
+---------------- EXAMPLE 7 ----------------------
+
+-- Next example is motivated by recent work by E. Canton.
+
+clearAll;
+load "differentialOperator.m2";
+p=2;
+F=ZZ/p;
+R=F[x_0..x_5];
+f=x_5^6 +x_0^2*x_1*x_2*x_3*x_4+x_0*x_1^2*x_2*x_3*x_4+x_0*x_1*x_2^2*x_3*x_4+x_0*x_1*x_2*x_3^2*x_4+x_0*x_1*x_2*x_3*x_4^2;
+descendingChain(f)
+diffOperatorInfo(f)
+
+---------------- EXAMPLE 8 ----------------------
+
+-- We finish with an example where the characteristic
+
+-- is greater than 2.
+
+clearAll;
+load "differentialOperator.m2";
+p=7;
+F=ZZ/p;
+R=F[x,y];
+f=x^3+y^3;
+descendingChain(f)
+diffOperatorInfo(f)

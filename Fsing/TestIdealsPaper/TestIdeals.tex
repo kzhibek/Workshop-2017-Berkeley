@@ -40,15 +40,25 @@ urlcolor=OliveGreen
 
 \begin{document}
 \title{The  {TestIdeals} package for \emph{Macaulay2}}
-\author[Daniel J.\ Hern\'andez et al.]{Daniel J.\ Hern\'andez}
+\author[Alberto F.\ Boix et at.]{Alberto F.\ Boix}
+\address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, ISRAEL}
+\email{fernanal@post.bgu.ac.il}
+\thanks{A.F.B. is supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+\author[]{Daniel J.\ Hern\'andez}
+\address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
+\email{hernandez@ku.edu}
 \author[]{Mordechai Katzman}
 \author[]{Marcus Robinson}
 \author[]{Karl Schwede}
-\address{Department of Mathematics, University of Utah, 155 S 1400 E Room 233, Salt Lake City, UT, 84112}
+\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
 \email{schwede@math.utah.edu}
 \author[]{Daniel Smolkin}
 \author[]{Pedro Teixeira}
+\address{Department of Mathematics, Knox College, Galesburg, IL~61401, USA}
+\email{pteixeir@knox.edu}
 \author[]{Emily E.\ Witt}
+\address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
+\email{witt@ku.edu}
 \date{\today}
 
 \begin{abstract}
@@ -81,7 +91,7 @@ The \texttt{TestIdeals.m2} package was started during a \emph{Macaulay2} develop
 much more functionality has been added by many contributors, during several more \emph{Macaulay2} development workshops.\footnote{Development workshops hosted by the University of California, Berkeley (2014, 2017), Boise State University (2015), and the University of Utah (2016).}
 
 %{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
-Starting at least with \cite{FedderFPureRat}, it has been known that the Frobenius endormorphism offers \emph{effective} methods for measuring singularities in characteristic $p > 0$.
+Starting at least with Kunz \cite{Kunz1969} and Fedder \cite{FedderFPureRat}, it has been known that the Frobenius endormorphism offers \emph{effective} methods for measuring singularities in characteristic $p > 0$.
 However, the algorithms that form the basis of this package are the methods for computing Frobenius roots and $\star$-closures, and algorithms for computing parameter test ideals.
 These first appeared in \cite{KatzmanParameterTestIdealOfCMRings,BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,BlickleMustataSmithFThresholdsOfHypersurfaces,KatzmanFrobeniusMapsOnInjectiveHulls}.
 Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp}, \cite{HernandezFPureThresholdOfBinomial}, and \cite{HernandezTeixeiraFThresholdFunctions} form some of the key methods in the forthcoming \texttt{FThresholds.m2} package.
@@ -93,7 +103,7 @@ Another algorithm in \cite{KatzmanSchwedeAlgorithm} for computing prime ideals c
 
 \subsection*{Acknowledgements}
 The authors thank other contributors of the \texttt{TestIdeals.m2} package, which includes
-Erin Bela, Alberto Boix, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Sara Malec, Matthew Mastroeni, and Maral Mostafazadehfard.
+Erin Bela, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Sara Malec, Matthew Mastroeni, and Maral Mostafazadehfard.
 This paper, and the finishing touches to the \texttt{TestIdeals.m2} package, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.
 
 
