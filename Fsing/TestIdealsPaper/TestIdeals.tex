@@ -91,7 +91,7 @@ The \texttt{TestIdeals.m2} package was started during a \emph{Macaulay2} develop
 much more functionality has been added by many contributors, during several more \emph{Macaulay2} development workshops.\footnote{Development workshops hosted by the University of California, Berkeley (2014, 2017), Boise State University (2015), and the University of Utah (2016).}
 
 %{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
-Starting at least with Kunz \cite{Kunz1969} and Fedder \cite{FedderFPureRat}, it has been known that the Frobenius endormorphism offers \emph{effective} methods for measuring singularities in characteristic $p > 0$.
+Starting at least with Kunz \cite{KunzCharacterizationsOfRegularLocalRings} and Fedder \cite{FedderFPureRat}, it has been known that the Frobenius endormorphism offers \emph{effective} methods for measuring singularities in characteristic $p > 0$.
 However, the algorithms that form the basis of this package are the methods for computing Frobenius roots and $\star$-closures, and algorithms for computing parameter test ideals.
 These first appeared in \cite{KatzmanParameterTestIdealOfCMRings,BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,BlickleMustataSmithFThresholdsOfHypersurfaces,KatzmanFrobeniusMapsOnInjectiveHulls}.
 Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp}, \cite{HernandezFPureThresholdOfBinomial}, and \cite{HernandezTeixeiraFThresholdFunctions} form some of the key methods in the forthcoming \texttt{FThresholds.m2} package.
@@ -154,7 +154,7 @@ which using the identification $R \cong \omega_R$ gives us a map
 \[
 T : R^{1/p^e} \to R.
 \]
-It is not difficult to prove that 
+It is not difficult to prove that
 $T(I^{1/p^e})=I^{[1/p^e]}$,
 where $I^{1/p^e} \subseteq R^{1/p^e}$ is simply the ideal of $p^e$-th roots of the elements of $I$.
 In the case that
@@ -474,7 +474,7 @@ true} (the default is \texttt{false}) lets the algorithm check the Frobenius act
 When studying a reduced ring,  setting \texttt{AssumedReduced => true} (the default option) avoids
 computing the bottom local cohomology, and when studying a normal ring, setting
 \texttt{AssumeNormal => true} (the default is \texttt{false}) avoids computing the bottom two local
-cohomologies. 
+cohomologies.
 
 By default the algorithm checks for $F$-injectivity at all points of $\Spec R$.  However one
 can choose to check $F$-injectivity only at the origin by setting the
@@ -587,7 +587,7 @@ o8 = true
 
 \subsection{$F$-purity}
 \begin{definition}
-A ring $R$ is called \emph{$F$-pure} if 
+A ring $R$ is called \emph{$F$-pure} if
 \sout{the inclusion $R \subset R^{1/p^{e}}$ split.}
 the inclusion $R \subset R^{1/p^{e}}$ is a pure map, i.e.,
 the tensor of this map with any $R$-module remain injective.
@@ -669,7 +669,7 @@ In this section, we explain how to compute parameter test modules, parameter tes
 
 \subsection{Parameter test modules}
 
-Given an $F$-finite reduced ring $R$, the Frobenius map $R \to R^{1/p^e}$ is dual to $T : \omega_{R^{1/p^e}} \to \omega_R$.  As before in \autoref{subsec.DualToFrobeniusOnQuotientRings}, we can represent the canonical module $\omega_R \subseteq R$ as an ideal, we can write $R = S/I$, and so we can find a $u \in S^{1/p^e}$ representing the map $\omega_{R^{1/p^e}} \to \omega_R$, see \autoref{subsec.DualToFrobeniusOnQuotientRings} or \cite{KatzmanParameterTestIdealOfCMRings}.  
+Given an $F$-finite reduced ring $R$, the Frobenius map $R \to R^{1/p^e}$ is dual to $T : \omega_{R^{1/p^e}} \to \omega_R$.  As before in \autoref{subsec.DualToFrobeniusOnQuotientRings}, we can represent the canonical module $\omega_R \subseteq R$ as an ideal, we can write $R = S/I$, and so we can find a $u \in S^{1/p^e}$ representing the map $\omega_{R^{1/p^e}} \to \omega_R$, see \autoref{subsec.DualToFrobeniusOnQuotientRings} or \cite{KatzmanParameterTestIdealOfCMRings}.
 
 The parameter test submodule is the smallest submodule $M \subseteq \omega_R$ (and hence ideal of $R$ since $M \subseteq \omega_R \subseteq R$) that agrees generically with $\omega_R$ and that satisfies
 \[
@@ -694,8 +694,8 @@ o6 : Ideal of R
 The output of \texttt{testModule} is a list, consisting of three items:
 \begin{enumerate}
 \item The first entry is the test module.
-\item The second is the canonical module (as an ideal) that it lives inside.  
-\item The third is the element $u$ described above (not displayed here, since it can take a lot of space).  
+\item The second is the canonical module (as an ideal) that it lives inside.
+\item The third is the element $u$ described above (not displayed here, since it can take a lot of space).
 \end{enumerate}
 Note since this ring is Gorenstein, the canonical module is simply represented as the unit ideal.
 
@@ -767,6 +767,7 @@ where $I$ varies over ideals defined by a partial system of parameters and $I^*$
 In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIdealOfCMRings}.
 
 \medskip
+{
 \begin{verbatim}
 i1 : R = ZZ/2[x_1..x_5];
 i2 : E = matrix { {x_1,x_2,x_2,x_5}, {x_4,x_4,x_3,x_1} };
@@ -787,7 +788,7 @@ o7 = | x_3+x_4 x_2 x_1 x_4x_5 |
 o7 : Matrix R  <--- R
 \end{verbatim}
 \medskip
-
+}
 \end{example}
 
 \subsection{Test ideals}
@@ -799,17 +800,17 @@ of $R$ is the smallest ideal $J$ in $R$, not contained in any minimal prime, suc
 \[
 \phi \in \Hom_R(R^{1/p^e}, R) \text{ we have } \phi(J^{1/p^e}) \subseteq J.
 \]
-In the case that $R$ is Gorenstein, 
-\sout{there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  }
-$\Hom_R(R^{1/p^e}, R)$ is a cyclic $R^{1/p^e}$-module generated by 
-$\Phi_e$ which corresponds with the map $T$ above based on the identification 
+In the case that $R$ is Gorenstein,
+%\sout{there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  }
+$\Hom_R(R^{1/p^e}, R)$ is a cyclic $R^{1/p^e}$-module generated by
+$\Phi_e$ which corresponds with the map $T$ above based on the identification
 $\omega_R \cong R$, \cite{BlickleSchwedeSurveyPMinusE}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists.
 
 If such a $\Phi_e$ exists, it can be identified as the generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma, \cite{FedderFPureRat}.  Hence we can find a corresponding\footnote{This is done via the function \texttt{QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
 \[
 \tau(R) = {\tt ascendIdeal(e, u, I_0)}.
 \]
-Recall that \texttt{ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all frobenius roots are taken as multiples of $e$.  
+Recall that \texttt{ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all frobenius roots are taken as multiples of $e$.
 
 Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this logic occurs.
 
@@ -910,12 +911,13 @@ o8 = 1
 \end{verbatim}
 \medskip
 
-The function returns a list.  The first entry is the submodule.  The second is the canonical module.  The third entry is the $u$ representing the map on the canonical module (as in \autoref{} above)
-\marginnote{Fix the autoref (look at the LaTeX source)}
+The function returns a list.  The first entry is the submodule.  The second is the canonical module.  The third entry is the $u$ representing the map on the canonical module (see \autoref{subsec.DualToFrobeniusOnQuotientRings} above)
+%\marginnote{Fix the autoref (look at the LaTeX source)}
 and the final entry is at what value of $e > 0$ the image stabilizes.
 
-\bigskip\sout{In a Gorenstein ring, this submodule coincides philosophically with the maximal non-LC ideal of Fujino-Schwede-Takagi.}
-\marginnote{Can someone explain this without recourse to philosophy or morality?}
+%\bigskip\sout{In a Gorenstein ring, this submodule coincides philosophically with the maximal non-LC ideal of Fujino-Schwede-Takagi.}
+%\marginnote{Can someone explain this without recourse to philosophy or morality?}
+
 
 More generally for any ideal $J$ with a map $\phi : J^{1/p^e} \to J$, we have that the images
 \[
@@ -964,7 +966,7 @@ o3 : List
 
 The defining condition $u I = I^{[p]}$ for $\phi$-compatible ideals allows us to
 think of these in a dual form: write $\mathfrak{m}=(x_1, \dots, x_n)R$,
-$E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let 
+$E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let
 $\Theta: E \rightarrow E$ be the $p^e$-linear map\footnote{I.e., $\Theta$ is additivive and $\Theta (r a)= r^{p^e} \Theta (a)$ for all $a\in E$ and $r\in R$.}
 induced from the Frobenius map on $R$.
 If $\psi=u \Theta$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
