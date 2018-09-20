@@ -263,21 +263,22 @@ Here,  $N^{[p^e]}$ is the submodule  of $S^k$ whose generators are the vectors o
 
 \begin{example}
 Let $R=\ZZ/p\ZZ[a,b,c,d]$, and consider the ideals $\mathfrak{m}=(a,b,c,d)$ and
-$$I= (a,b) \cap (a,c) \cap (c,d) \cap (c+d, a^3+b d^2)$$
-of $R$; in fact, $R/I$ is a $3$-dimensional Cohen-Macaulay ring.
+$$I= (a,b) \cap (a,c) \cap (c,d) \cap (c+d, a^3+b d^2).$$
+Then $R/I$ is a $3$-dimensional Cohen-Macaulay ring.
 Matlis Duality applied to $H^2_{\mathfrak{m}} (R/I)$ with its natural Frobenius map
 yields a $p^1$-linear map $U$ on $\Ext^2(R/ I, R)$.
 %$\Ext^2(R/ I, R) \xrightarrow{U} \Ext^2(R/I, R)$.
 
 \medskip
+{\small
 \begin{verbatim}
-i2 :      p=2;
-i3 :      R=ZZ/p[a,b,c,d];
-i4 :      I=intersect( ideal(a,b), ideal(a,c), ideal(c,d), ideal(c+d, a^3+b*d^2));
-i5 :      f=inducedMap (coker gens I, coker gens frobeniusPower(p,I) );
-i6 :      resf=res f
+i1 : p = 2;
+i2 : R = ZZ/p[a,b,c,d];
+i3 : I = intersect(ideal(a,b),ideal(a,c),ideal(c,d),ideal(c+d,a^3+b*d^2));
+i4 : f = inducedMap( coker gens I, coker gens frobeniusPower(p,I) );
+i5 : resf = res f
           1             1
-o6 = 0 : R  <--------- R  : 0
+o5 = 0 : R  <--------- R  : 0
                | 1 |
           3                                      3
      1 : R  <---------------------------------- R  : 1
@@ -290,41 +291,42 @@ o6 = 0 : R  <--------- R  : 0
                {5} | 0         a3cd+a3d2+bc2d2+bcd3 |
      3 : 0 <----- 0 : 3
               0
-o6 : ChainComplexMap
-i7 :      G=Hom(resf, R^1);
-i8 :      E2=HH^2 G
-o8 = {-8}  | a4+abc2+abcd a2b            |
+o5 : ChainComplexMap
+i6 : G = Hom( resf, R^1 );
+i7 : E2 = HH^2 G
+o7 = {-8}  | a4+abc2+abcd a2b            |
      {-10} | a2cd3        a3cd+a3d2+bcd3 |
-o8 : Matrix
-i9 :      source E2
-o9 = cokernel {-4} | bc  a  0   |
+o7 : Matrix
+i8 : source E2
+o8 = cokernel {-4} | bc  a  0   |
               {-5} | a2d d2 c+d |
                             2
-o9 : R-module, quotient of R
-i10 :       target E2
-o10 = cokernel {-8}  | b2c2 a2 0     |
+o8 : R-module, quotient of R
+i9 : target E2
+o9 = cokernel {-8}  | b2c2 a2 0     |
                {-10} | a4d2 d4 c2+d2 |
-                             2
-o10 : R-module, quotient of R
+                            2
+o9 : R-module, quotient of R
 \end{verbatim}
+}
 \medskip
 
-Frobenius on $H^2_{\mathfrak{m}} (R/I)$ is injective if and only if
-$(\Image U)^{[1/p]}+\Image A=R^2$
+The Frobenius map on $H^2_{\mathfrak{m}} (R/I)$ is injective if and only if
+$(\Image U)^{[1/p]}+\Image A=R^2$.
 
 \medskip
 \begin{verbatim}
-i11 :       U=matrix entries E2;
-i12 :       A=matrix entries relations source E2;
-i13 :       frobeniusRoot(1,U)
-o13 = {-2} | 1 0 0 |
+i10 : U = matrix entries E2;
+i11 : A = matrix entries relations source E2;
+i12 : frobeniusRoot( 1, U )
+o12 = {-2} | 1 0 0 |
       {0}  | 0 d a |
               2       3
-o13 : Matrix R  <--- R
+o12 : Matrix R  <--- R
 \end{verbatim}
 \medskip
 
-so $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
+So $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
 This calculation also shows that $H^2_{\mathfrak{m}} (R/I)\cong \Ann_{E^2} A^t$
 where $E$ is the injective hull of $R_{\mathfrak{m}}/ {\mathfrak{m}} R_{\mathfrak{m}}$,
 and the Frobenius map on  $H^2_{\mathfrak{m}} (R/I)$ induced from Frobenius on $R$
@@ -335,7 +337,7 @@ The method \emph{ascendModule} can be used to calculate  $B$ (see detailed descr
 
 \medskip
 \begin{verbatim}
-i14 : V=ascendModule (1,A,U)
+i14 : V = ascendModule( 1, A, U )
 o14 = | 0   a  bc  |
       | c+d d2 a2d |
 \end{verbatim}
@@ -420,10 +422,10 @@ localization at each prime ideal of $R$ is $F$-injective.
 \medskip
 \begin{verbatim}
 i2 : R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
-i3 : isFinjective(R)
+i3 : isFInjective(R)
 o3 = true
 i4 : R = ZZ/5[x,y,z]/ideal(x^3 + y^3 + z^3);
-i5 : isFinjective(R)
+i5 : isFInjective(R)
 o5 = false
 \end{verbatim}
 \medskip
@@ -434,7 +436,7 @@ h^{-i} \omega_{R^{1/p}}^{\mydot} \to h^{-i} \omega_R^{\mydot}
 \]
 surject for all $i$.
 
-The algorithm \texttt{isFinjective} determines whether the ring $R = S/I$ is
+The algorithm \texttt{isFInjective} determines whether the ring $R = S/I$ is
 $F$-injective where $S$ is a polynomial ring.  Note that $h^{-i} \omega_R^{\mydot} \cong \Ext^{\dim S - i}(R, S)$, the latter of which Macaulay2 readily computes.
 The algorithm works by checking the surjectivity of the dual Frobenius map
 \[
@@ -481,9 +483,9 @@ option \texttt{IsLocal => true}.
 \medskip
 \begin{verbatim}
 i2 : R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
-i3 : isFinjective(R)
+i3 : isFInjective(R)
 o3 = false
-i4 : isFinjective(R, IsLocal=>true)
+i4 : isFInjective(R, IsLocal=>true)
 o4 = true
 \end{verbatim}
 \medskip
@@ -495,17 +497,17 @@ A ring $R$ is called \emph{strongly $F$-regular} if the (big) test ideal $\tau(R
 \end{definition}
 
 
-The command \texttt{isFregular} checks whether a ring or pair is strongly
+The command \texttt{isFRegular} checks whether a ring or pair is strongly
 $F$-regular. Below are two examples one $F$-regular and one not.
 
 
 \medskip
 \begin{verbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(x^2 + y*z);
-i3 : isFregular(R)
+i3 : isFRegular(R)
 o3 = true
 i4 : R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
-i5 : isFregular(R)
+i5 : isFRegular(R)
 o5 = false
 \end{verbatim}
 \medskip
@@ -516,13 +518,13 @@ We can also check whether a pair $(R, f^t)$ is $F$-regular.
 \begin{verbatim}
 i2 : R = ZZ/5[x,y];
 i3 : f = y^2-x^3;
-i4 : isFregular(1/2, f)
+i4 : isFRegular(1/2, f)
 o4 = true
-i5 : isFregular(5/6, f)
+i5 : isFRegular(5/6, f)
 o5 = false
-i6 : isFregular(4/5, f)
+i6 : isFRegular(4/5, f)
 o6 = false
-i7 : isFregular(4/5-1/100000, f)
+i7 : isFRegular(4/5-1/100000, f)
 o7 = true
 \end{verbatim}
 \medskip
@@ -561,7 +563,7 @@ $\mathbb{Q}$-Gorenstein ambient ring and \texttt{QGorensteinIndex => ZZ}
 allows the user to specify the $\mathbb{Q}$-Gorenstein index of the ring.
 
 
-The default behavior of \texttt{isFregular} is that it checks for strong $F$-regularity
+The default behavior of \texttt{isFRegular} is that it checks for strong $F$-regularity
 globally. If the option \texttt{IsLocal => true}, the algorithm will only
 check at the origin by checking whether the computed test ideal is in the irrelevant ideal.
 Below is an example for both a ring and a pair.
@@ -570,15 +572,15 @@ Below is an example for both a ring and a pair.
 \medskip
 \begin{verbatim}
 i2 : R = ZZ/7[x,y,z]/ideal((x-1)^3+(y+1)^3+z^3);
-i3 : isFregular(R)
+i3 : isFRegular(R)
 o3 = false
-i4 : isFregular(R, IsLocal=>true)
+i4 : isFRegular(R, IsLocal=>true)
 o4 = true
 i5 : R = ZZ/13[x,y];
 i6 : f = (y-2)^2 - (x-3)^3;
-i7 : isFregular(5/6, f)
+i7 : isFRegular(5/6, f)
 o7 = false
-i8 : isFregular(5/6, f, IsLocal=>true)
+i8 : isFRegular(5/6, f, IsLocal=>true)
 o8 = true
 \end{verbatim}
 \medskip
@@ -591,22 +593,22 @@ the inclusion $R \subset R^{1/p^{e}}$ is a pure map, i.e.,
 the tensor of this map with any $R$-module remain injective.
 \end{definition}
 
-Macaulay2 can compute if a ring is $F$-pure using \texttt{isFpure}. Either a
+Macaulay2 can compute if a ring is $F$-pure using \texttt{isFPure}. Either a
 ring or a defining ideal can be input as seen in this example.
 
 
 \medskip
 \begin{verbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(x^2+y*z);
-i3 : isFpure(R)
+i3 : isFPure(R)
 o3 = true
 i4 : R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-i5 : isFpure(R)
+i5 : isFPure(R)
 o5 = true
 i6 : S = ZZ/2[x,y,z];
-i6 : isFpure(ideal(y^2-x^3))
+i6 : isFPure(ideal(y^2-x^3))
 o6 = false
-i7 : isFpure(ideal(z^2-x*y*z+x*y^2+x^2*y))
+i7 : isFPure(ideal(z^2-x*y*z+x*y^2+x^2*y))
 o7 = true
 \end{verbatim}
 \medskip
@@ -640,15 +642,15 @@ i4 : n = 3;
 i5 : M = matrix{ {a^2 + t^m, b, d}, {c, a^2, b^n-d} };
 i6 : I = minors(2, M);
 i7 : R = S/I;
-i8 : isFrational(R)
+i8 : isFRational(R)
 o8 = true
 \end{verbatim}
 \medskip
 
 
-The command \texttt{isFrational} checks if a ring is $F$-rational. First the
+The command \texttt{isFRational} checks if a ring is $F$-rational. First the
 algorithm checks if the ring is Cohen-Macaulay.
-This check can be skipped by setting \texttt{isCohenMacaulay => true}. If the ring
+This check can be skipped by setting the option \texttt{isCohenMacaulay} to \texttt{true}. If the ring
 is not Cohen-Macaulay then \texttt{false} is returned. Next the algorithm
 computes the test module $M \subseteq \omega_{R}$ and checks to see if
 $\omega_{R} \subseteq M$.  See the next section for the description of a test module.
@@ -723,9 +725,9 @@ After the test element $c$ has been identified, we pullback the ideal $\omega_R$
 \begin{equation}
 \label{eq.AscendIdealExplanation}
 \begin{array}{rll}
-J_1 := &  J + (c J)^{[1/p]} & = {\tt J + frobeniusRoot(1, c*J)}\\
-J_2 := & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} & = {\tt J_1 + frobeniusRoot(1, c*J_1)}\\
-J_3 := & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{[1/p^3]} & = {\tt J_2 + frobeniusRoot(1, c*J_2)}.\\
+J_1 \colonequals &  J + (c J)^{[1/p]} & \\
+J_2 \colonequals & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} & = J_1 + (c J_1)^{[1/p]}\\
+J_3 \colonequals & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{[1/p^3]} & =  J_2 + (cJ_2)^{[1/p]}\\
 \dots
 \end{array}
 \end{equation}
@@ -766,23 +768,20 @@ In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIde
 
 \medskip
 \begin{verbatim}
-i2 : R=ZZ/2[x_1..x_5];
-i3 : E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
-             2       4
-o3 : Matrix R  <--- R
-i4 : I=minors(2,E);
-o4 : Ideal of R
-i5 : J=parameterTestIdeal(R/I)
+i1 : R = ZZ/2[x_1..x_5];
+i2 : E = matrix { {x_1,x_2,x_2,x_5}, {x_4,x_4,x_3,x_1} };
+              2       4
+o2 : Matrix R  <--- R
+i3 : I = minors( 2, E );
+o3 : Ideal of R
+i4 : S = R/I;
+i5 : J = parameterTestIdeal S
 o5 = ideal (x  + x , x , x )
              3    4   2   1
-                                                    R
-o5 : Ideal of ----------------------------------------------------------------------------
-                                                       2
-              (x x  + x x , x x  + x x , x x  + x x , x  + x x , x x  + x x , x x  + x x )
-                1 4    2 4   1 3    2 4   2 3    2 4   1    4 5   1 2    4 5   1 2    3 5
-i6 :      J=substitute(J,R);
+o5 : Ideal of S
+i6 : J = substitute( J, R );
 o6 : Ideal of R
-i7 : mingens(J+I)
+i7 : mingens( J+I )
 o7 = | x_3+x_4 x_2 x_1 x_4x_5 |
              1       4
 o7 : Matrix R  <--- R
@@ -818,10 +817,10 @@ Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this
 \begin{verbatim}
 i3 : T = ZZ/7[x,y];
 i4 : S = ZZ/7[a,b,c,d];
-i5 : f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
+i5 : f = map( T, S, {x^3, x^2*y, x*y^2, y^3} );
 i6 : I = ker f;
-i7 : R= S/I;
-i8 : testIdeal(R)
+i7 : R = S/I;
+i8 : testIdeal R
 o8 = ideal 1
 o8 : Ideal of R
 \end{verbatim}
@@ -831,17 +830,19 @@ However, the term $u$ constructed above can be quite complicated if $e > 1$ (whi
 
 \medskip
 \begin{verbatim}
-i9 : toString(QGorensteinGenerator(1, R))
-o9 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*c^13*d+b^12
-      *c^6*d^2+a^3*b^6*c^9*d^2+a^4*b^4*c^10*d^2+a^5*b^2*c^11*d^2+a^6*c^12*d^2+b
-      ^13*c^4*d^3+a*b^11*c^5*d^3+a^2*b^9*c^6*d^3+a^4*b^5*c^8*d^3+a^5*b^3*c^9*d^
-      3+a^6*b*c^10*d^3+a*b^12*c^3*d^4+a^2*b^10*c^4*d^4+a^3*b^8*c^5*d^4+a^4*b^6*
-      c^6*d^4+a^5*b^4*c^7*d^4+a^6*b^2*c^8*d^4+a^7*c^9*d^4+a*b^13*c*d^5+a^2*b^11
-      *c^2*d^5+a^3*b^9*c^3*d^5+a^4*b^7*c^4*d^5+a^5*b^5*c^5*d^5+a^6*b^3*c^6*d^5+
-      a^7*b*c^7*d^5+a^2*b^12*d^6+a^3*b^10*c*d^6+a^4*b^8*c^2*d^6+a^5*b^6*c^3*d^6
-      +a^6*b^4*c^4*d^6+a^7*b^2*c^5*d^6+a^8*c^6*d^6+a^4*b^9*d^7+a^5*b^7*c*d^7+a^
-      6*b^5*c^2*d^7+a^7*b^3*c^3*d^7+a^8*b*c^4*d^7+a^6*b^6*d^8+a^7*b^4*c*d^8+a^8
-      *b^2*c^2*d^8+a^9*c^3*d^8+a^8*b^3*d^9+a^9*b*c*d^9+a^10*d^10
+i9 : toString QGorensteinGenerator( 1, R )
+o9 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*
+     c^13*d+b^12*c^6*d^2+a^3*b^6*c^9*d^2+a^4*b^4*c^10*d^2+a^5*b^2*c
+     ^11*d^2+a^6*c^12*d^2+b^13*c^4*d^3+a*b^11*c^5*d^3+a^2*b^9*c^6*d
+     ^3+a^4*b^5*c^8*d^3+a^5*b^3*c^9*d^3+a^6*b*c^10*d^3+a*b^12*c^3*d
+     ^4+a^2*b^10*c^4*d^4+a^3*b^8*c^5*d^4+a^4*b^6*c^6*d^4+a^5*b^4*c^
+     7*d^4+a^6*b^2*c^8*d^4+a^7*c^9*d^4+a*b^13*c*d^5+a^2*b^11*c^2*d^
+     5+a^3*b^9*c^3*d^5+a^4*b^7*c^4*d^5+a^5*b^5*c^5*d^5+a^6*b^3*c^6*
+     d^5+a^7*b*c^7*d^5+a^2*b^12*d^6+a^3*b^10*c*d^6+a^4*b^8*c^2*d^6+
+     a^5*b^6*c^3*d^6+a^6*b^4*c^4*d^6+a^7*b^2*c^5*d^6+a^8*c^6*d^6+a^
+     4*b^9*d^7+a^5*b^7*c*d^7+a^6*b^5*c^2*d^7+a^7*b^3*c^3*d^7+a^8*b*
+     c^4*d^7+a^6*b^6*d^8+a^7*b^4*c*d^8+a^8*b^2*c^2*d^8+a^9*c^3*d^8+
+     a^8*b^3*d^9+a^9*b*c*d^9+a^10*d^10
 \end{verbatim}
 \medskip
 
@@ -953,11 +954,11 @@ The method \emph{compatibleIdeals} produces the finite set of $\phi$-compatible 
 
 \medskip
 \begin{verbatim}
-i2 :      R = ZZ/3[u,v];
-i3 :      u = u^2*v^2;
-i4 :      compatibleIdeals(u)
-o4 = {ideal v, ideal (v, u), ideal u}
-o4 : List
+i1 : R = ZZ/3[u,v];
+i2 : u = u^2*v^2;
+i3 : compatibleIdeals(u)
+o3 = {ideal v, ideal (v, u), ideal u}
+o3 : List
 \end{verbatim}
 \medskip
 
@@ -980,13 +981,14 @@ and the $p^1$-linear map $u \Theta$ on $\Ann_E I$ where $u$ is computed as follo
 
 \medskip
 \begin{verbatim}
-i2 :      R=ZZ/2[x_1..x_5];
-i3 :      E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
+i1 : R = ZZ/2[x_1..x_5];
+i2 : E = matrix { {x_1,x_2,x_2,x_5}, {x_4,x_4,x_3,x_1} };
              2       4
-o3 : Matrix R  <--- R
-i4 :      I=minors(2,E);
-o4 : Ideal of R
-i5 :      isCohenMacaulay(R/I)
+o2 : Matrix R  <--- R
+i3 : I = minors( 2, E );
+o3 : Ideal of R
+i4 : S = R/I;
+i5 : isCohenMacaulay S
 o5 = true
 \end{verbatim}
 \medskip
@@ -997,39 +999,39 @@ where $\Omega \subseteq R$ is an ideal whose image in $I$ is a canonical module 
 
 
 \medskip
+{\footnotesize
 \begin{verbatim}
-i6 :           omega=canonicalIdeal(R/I)
+i6 : omega = canonicalIdeal S
 o6 = ideal (x , x , x )
              5   4   1
-                                                    R
-o6 : Ideal of ----------------------------------------------------------------------------
-                                                       2
-              (x x  + x x , x x  + x x , x x  + x x , x  + x x , x x  + x x , x x  + x x )
-                1 4    2 4   1 3    2 4   2 3    2 4   1    4 5   1 2    4 5   1 2    3 5
-i7 :      omega=substitute(omega,R)+I;
+o6 : Ideal of S
+i7 : omega = substitute( omega, R ) + I;
 o7 : Ideal of R
-i8 :      u=intersect((frobeniusPower(2,I)):I,(frobeniusPower(2,omega)):omega);
+i8 : u = intersect( frobenius I ):I, ( frobenius omega ):omega );
 o8 : Ideal of R
-i9 :      u=compress((gens u)%(gens(frobeniusPower(2,I))))
-o9 = | x_1^3x_2x_3+x_1^3x_2x_4+x_1^2x_3x_4x_5+x_1x_2x_3x_4x_5+x_1x_2x_4^2x_5+
-     x_2^2x_4^2x_5+x_3x_4^2x_5^2+x_4^3x_5^2 |
+i9 : u = compress( (gens u) % gens( frobenius I) )
+o9 = | x_1^3x_2x_3+x_1^3x_2x_4+x_1^2x_3x_4x_5+x_1x_2x_3x_4x_5+x_1x_2x_4^2x_5+x_2
+     ---------------------------------------------------------------------------
+     ^2x_4^2x_5+x_3x_4^2x_5^2+x_4^3x_5^2 |
              1       1
 o9 : Matrix R  <--- R
-i10 :       u=first first entries  u
+i10 : u = first first entries u
        3        3        2                           2      2 2        2 2    3 2
 o10 = x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  + x x x  + x x
        1 2 3    1 2 4    1 3 4 5    1 2 3 4 5    1 2 4 5    2 4 5    3 4 5    4 5
 o10 : R
 \end{verbatim}
+}
 \medskip
 
 Now we can compute all annihilators of $R$-submodules of $E$ stable under the $p^1$-linear map $uT$
 
 \medskip
+{\footnotesize
 \begin{verbatim}
-i12 :       L=compatibleIdeals(u)
+i11 : L = compatibleIdeals u
               3        3        2                           2      2 2
-o12 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
+o11 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
               1 2 3    1 2 4    1 3 4 5    1 2 3 4 5    1 2 4 5    2 4 5
       --------------------------------------------------------------------------
          2 2    3 2                    2
@@ -1050,17 +1052,19 @@ o12 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
       --------------------------------------------------------------------------
       (x , x , x )}
         2   1   5
-o12 : List
+o11 : List
 \end{verbatim}
+}
 \medskip
 
 and all annihilators of $R$-submodules of $H^2_{\mathfrak{m}} (R/I)$ stable under the $p^1$-linear map induced from the Frobenius map on $R/I$.
 
 \medskip
+{\footnotesize
 \begin{verbatim}
-i14 :       unique apply(L, J-> (J:omega))
+i12 : unique apply(L, J-> (J:omega))
               3        3        2                           2      2 2
-o14 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
+o12 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
               1 2 3    1 2 4    1 3 4 5    1 2 3 4 5    1 2 4 5    2 4 5
       --------------------------------------------------------------------------
          2 2    3 2                    2
@@ -1077,8 +1081,9 @@ o14 = {ideal(x x x  + x x x  + x x x x  + x x x x x  + x x x x  + x x x  +
       --------------------------------------------------------------------------
       ideal (x , x , x )}
               5   2   1
-o14 : List
+o12 : List
 \end{verbatim}
+}
 \medskip
 
 \end{example}
