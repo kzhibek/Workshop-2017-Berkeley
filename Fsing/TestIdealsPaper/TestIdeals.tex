@@ -1090,21 +1090,24 @@ Now we can compute all annihilators of $R$-submodules of $E$ stable under the $p
 \medskip
 {\small
 \begin{MyVerbatim}
-i11 : L = compatibleIdeals u
-              3       3       2                         2     2 2       2 2
-o11 = {ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  +
-      -------------------------------------------------------------------------
-       3 2                  2
-      d e ), ideal (a + b, a  + d*e), ideal (e, a, d), ideal (e, d, a, c),
-      -------------------------------------------------------------------------
-
-      ideal (e, d, c, b, a), ideal (e, d, b, a), ideal (e, b, a), ideal (e, b,
-      -------------------------------------------------------------------------
-                                       2
-      a, c + d), ideal (c + d, a + b, b  + d*e), ideal (d, c, b, a), ideal (b,
-      -------------------------------------------------------------------------
-      d, a), ideal (a, d), ideal (d, a, c)}
-o11 : List
+i11 : L = compatibleIdeals u;
+i12 : print \ L;
+       3       3       2                         2     2 2       2 2    3 2
+ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
+               2
+ideal (a + b, a  + d*e)
+ideal (d, a)
+ideal (d, a, e)
+ideal (e, d, a, c)
+ideal (e, d, c, b, a)
+ideal (e, d, b, a)
+ideal (d, a, c)
+ideal (d, c, b, a)
+ideal (d, b, a)
+                      2
+ideal (c + d, a + b, b  + d*e)
+ideal (c + d, b, a, e)
+ideal (b, a, e)
 \end{MyVerbatim}
 }
 \medskip
@@ -1114,19 +1117,21 @@ and all annihilators of $R$-submodules of $H^2_{\mathfrak{m}} (R/I)$ stable unde
 \medskip
 {\small
 \begin{MyVerbatim}
-i12 : unique apply( L, J -> J : omega )
-              3       3       2                         2     2 2       2 2
-o12 = {ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  +
-      -------------------------------------------------------------------------
-       3 2                  2
-      d e ), ideal (a + b, b  + d*e), ideal (e, d, a), ideal 1, ideal (e, b,
-      -------------------------------------------------------------------------
-                                                        2
-      a), ideal (e, c + d, b, a), ideal (c + d, a + b, b  + d*e), ideal (d, c,
-      -------------------------------------------------------------------------
-      b, a), ideal (d, b, a), ideal (d, a), ideal (d, c, a)}
-
-o12 : List
+i13 : print \ unique apply( L, J -> J : omega );
+       3       3       2                         2     2 2       2 2    3 2
+ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
+               2
+ideal (a + b, b  + d*e)
+ideal (d, a)
+ideal (e, d, a)
+ideal 1
+ideal (d, c, a)
+ideal (d, c, b, a)
+ideal (d, b, a)
+                      2
+ideal (c + d, a + b, b  + d*e)
+ideal (e, c + d, b, a)
+ideal (e, b, a)
 \end{MyVerbatim}
 }
 \medskip
