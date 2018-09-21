@@ -2,6 +2,7 @@
 \usepackage{calc,amssymb,amsthm,amsmath}
 %\usepackage{mathtools}
 \RequirePackage[dvipsnames,usenames]{xcolor}
+
 \usepackage{fancyvrb}
 \usepackage{hyperref}
 \hypersetup{
@@ -20,7 +21,7 @@ menucolor=Yellow,
 urlcolor=OliveGreen
 }
 \usepackage{xspace}
-\usepackage{rotating}
+%\usepackage{rotating}
 \interfootnotelinepenalty=100000
 
 \usepackage{mabliautoref}
@@ -33,7 +34,39 @@ urlcolor=OliveGreen
 \usepackage{enumerate}
 
 \usepackage[normalem]{ulem}
-\usepackage{marginnote}
+%\usepackage{marginnote}
+
+% TODO NOTES
+\usepackage[textwidth=3.5 cm,textsize=small,shadow,
+%disable
+%%option disable removes the notes
+]{todonotes} 
+
+\newcommand{\warning}[2][] 
+{\todo[color=red,caption={},#1]{#2}} 
+\newcommand{\details}[2][] 
+{\todo[linecolor=cyan,backgroundcolor=cyan!40, caption={},#1]{#2}} 
+\newcommand{\postit}[2][] 
+{\todo[linecolor=orange,backgroundcolor=yellow!40, caption={},#1]{#2}} 
+\newcommand{\myexample}[2][] 
+{\todo[linecolor=green,backgroundcolor=green!50,caption={}, #1]{#2}} 
+\newcommand{\flag}[2][] 
+{\todo[linecolor=orange,backgroundcolor=yellow, caption={},#1]{#2}} 
+\newcommand{\oldargument}[2][] 
+{\todo[linecolor=darkgray,backgroundcolor=gray!40, caption={},#1]{#2}} 
+\newcommand{\myquestion}[2][] 
+{\todo[linecolor=purple,backgroundcolor=purple!80,caption={}, #1]{#2}} 
+\newcommand{\answer}[2][] 
+{\todo[noline, backgroundcolor=white, bordercolor=purple, caption={},#1]{#2}} 
+\newcommand{\pedro}[2][] 
+{\todo[linecolor=blue,backgroundcolor=blue!10,caption={}, #1]{#2}} 
+\newcommand{\billy}[2][] 
+{\todo[linecolor=green,backgroundcolor=green!10,caption={}, #1]{#2}} 
+\newcommand{\bob}[2][] 
+{\todo[linecolor=purple,backgroundcolor=purple!20,caption={}, #1]{#2}} 
+\newcommand{\jimmy}[2][] 
+{\todo[linecolor=orange,backgroundcolor=orange!10,caption={}, #1]{#2}} 
+
 
 \DeclareMathOperator{\HH}{H}
 \newcommand{\fram}{\mathfrak{m}}
@@ -43,6 +76,8 @@ urlcolor=OliveGreen
   {MyVerbatim}{Verbatim}
   {formatcom=\color{Violet}}
 
+  
+  
 \begin{document}
 \title{The  {TestIdeals} package for \emph{Macaulay2}}
 \author[Alberto F.\ Boix et at.]{Alberto F.\ Boix}
@@ -136,6 +171,7 @@ Below is an example where a Frobenius root is computed in a polynomial ring.
 In Section~\ref{ss: math behind} we describe the main ideas behind such computations.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z];
 i2 : I = ideal( x^6*y*z+x^2*y^12*z^3+x*y*z^18 );
@@ -145,6 +181,7 @@ i3 : frobeniusPower( 1/5, I )
 o3 = ideal (x, y , z )
 o3 : Ideal of R
 \end{MyVerbatim}
+}
 \medskip
 
 \subsection{The mathematics behind the Frobenius roots algorithm}
@@ -214,6 +251,7 @@ More generally, for non-hypersurfaces, the analog to $u$ is chosen carefully out
 Here we compute two examples.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i1 :  S = ZZ/5[x,y,z];
 i2 :  f = x^3+y^3+z^3;
@@ -229,7 +267,7 @@ i8 :  frobeniusRoot( 1, ideal u )
 o8 =  ideal 1
 o8 :  Ideal of R
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 The above example has shown that the map on top local cohomology of the cone over the Fermat elliptic curve is injective in characteristic $7$ (the dual map $\omega_{R^{1/p}} \to \omega_R$ is surjective) and not injective in characteristic $5$ (the dual map $\omega_{R^{1/p}} \to \omega_R$ is not surjective).
 
@@ -246,8 +284,11 @@ Let  $I\subseteq S$ be an ideal.
 \end{enumerate}
 \end{definition}
 
-
+\todo[inline]{
+   Make up a better example, with non-principal ideal.
+}
 \medskip
+{\small
 \begin{MyVerbatim}
 i1 : R = ZZ/7[x,y];
 i2 : I = ideal( y^2-x^3 );
@@ -259,6 +300,7 @@ i4 : frobeniusPower( 5/6, I )
 o4 = ideal (y, x)
 o4 : Ideal of R
 \end{MyVerbatim}
+}
 \medskip
 
 
@@ -319,8 +361,10 @@ o9 : R-module, quotient of R
 
 The Frobenius map on $H^2_{\mathfrak{m}} (R/I)$ is injective if and only if
 $(\Image U)^{[1/p]}+\Image A=R^2$.
+\pedro{What is $A$?}
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i10 : U = matrix entries E2;
 i11 : A = matrix entries relations source E2;
@@ -330,7 +374,7 @@ o12 = {-2} | 1 0 0 |
               2       3
 o12 : Matrix R  <--- R
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 So $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
 This calculation also shows that $H^2_{\mathfrak{m}} (R/I)\cong \Ann_{E^2} A^t$
@@ -342,12 +386,13 @@ given by $\Ann_{E^2} B^t$ where $B$ is the smallest submodule of $R^2$ containin
 The method \emph{ascendModule} can be used to calculate  $B$ (see detailed description of similar method \emph{ascendIdeal} in Section \ref{Section: Test Ideals}).
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i14 : V = ascendModule( 1, A, U )
 o14 = | 0   a  bc  |
       | c+d d2 a2d |
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 
 \end{example}
@@ -426,6 +471,7 @@ localization at each prime ideal of $R$ is $F$-injective.
 
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
 i3 : isFInjective(R)
@@ -434,7 +480,7 @@ i4 : R = ZZ/5[x,y,z]/ideal(x^3 + y^3 + z^3);
 i5 : isFInjective(R)
 o5 = false
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 Equivalently, a ring is $F$-injective if the maps on the cohomology of the dualizing complex
 \[
@@ -487,6 +533,7 @@ can choose to check $F$-injectivity only at the origin by setting the
 option \texttt{IsLocal => true}.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
 i3 : isFInjective(R)
@@ -494,7 +541,7 @@ o3 = false
 i4 : isFInjective(R, IsLocal=>true)
 o4 = true
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 \subsection{$F$-regularity}
 
@@ -508,6 +555,7 @@ $F$-regular. Below are two examples one $F$-regular and one not.
 
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(x^2 + y*z);
 i3 : isFRegular(R)
@@ -516,11 +564,12 @@ i4 : R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
 i5 : isFRegular(R)
 o5 = false
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 We can also check whether a pair $(R, f^t)$ is $F$-regular.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/5[x,y];
 i3 : f = y^2-x^3;
@@ -533,7 +582,7 @@ o6 = false
 i7 : isFRegular(4/5-1/100000, f)
 o7 = true
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 All of these checks are done by actually computing the test ideal (as described in \autoref{Section: Test Ideals}).
 
@@ -576,6 +625,7 @@ Below is an example for both a ring and a pair.
 
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/7[x,y,z]/ideal((x-1)^3+(y+1)^3+z^3);
 i3 : isFRegular(R)
@@ -589,7 +639,7 @@ o7 = false
 i8 : isFRegular(5/6, f, IsLocal=>true)
 o8 = true
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 \subsection{$F$-purity}
 \begin{definition}
@@ -604,6 +654,7 @@ ring or a defining ideal can be input as seen in this example.
 
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(x^2+y*z);
 i3 : isFPure(R)
@@ -617,7 +668,7 @@ o6 = false
 i7 : isFPure(ideal(z^2-x*y*z+x*y^2+x^2*y))
 o7 = true
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 
 The algorithm works by applying Fedder's Criterion {\cite{FedderFPureRat}}, which states that a
@@ -641,6 +692,7 @@ $T_{R}(M^{1/p}) \subseteq M$.
 
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : S = ZZ/3[a,b,c,d,t];
 i3 : m = 4;
@@ -651,7 +703,7 @@ i7 : R = S/I;
 i8 : isFRational(R)
 o8 = true
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 
 The command \texttt{isFRational} checks if a ring is $F$-rational. First the
@@ -684,6 +736,7 @@ T (M^{1/p^e}) \subseteq M.
 Using \emph{Macaulay2}, we can compute this using the \texttt{testModule} command as follows.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i3 : R = ZZ/5[x,y,z]/ideal(x^4+y^4+z^4);
 i4 : N = testModule(R);
@@ -695,7 +748,7 @@ i6 : N#1
 o6 = ideal 1
 o6 : Ideal of R
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 The output of \texttt{testModule} is a list, consisting of three items:
 \begin{enumerate}
@@ -708,6 +761,7 @@ Note since this ring is Gorenstein, the canonical module is simply represented a
 Here is another example where the ring is not Gorenstein.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/5[x,y,z]/ideal(y*z, x*z, x*y);
 i3 : N = testModule(R);
@@ -719,7 +773,7 @@ i5 : N#1
 o5 = ideal (y - z, x + z)
 o5 : Ideal of R
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 We briefly explain how this is computed:  First we find a \emph{test element}.
 \begin{remark}[Computation of test elements]
@@ -773,7 +827,7 @@ where $I$ varies over ideals defined by a partial system of parameters and $I^*$
 In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIdealOfCMRings}.
 
 \medskip
-{
+{\small
 \begin{MyVerbatim}
 i2 : R = ZZ/2[a..e];
 i3 : E = matrix { {a,b,b,e}, {d,d,c,a} };
@@ -792,8 +846,8 @@ o8 = | c+d b a de |
              1       4
 o8 : Matrix R  <--- R
 \end{MyVerbatim}
-\medskip
-}
+}\medskip
+
 \end{example}
 
 \subsection{Test ideals}
@@ -820,6 +874,7 @@ Recall that \texttt{ascendIdeal} is explained above in \autoref{eq.AscendIdealEx
 Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this logic occurs.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i3 : T = ZZ/7[x,y];
 i4 : S = ZZ/7[a,b,c,d];
@@ -830,11 +885,12 @@ i8 : testIdeal R
 o8 = ideal 1
 o8 : Ideal of R
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 However, the term $u$ constructed above can be quite complicated if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example:
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i9 : toString QGorensteinGenerator( 1, R )
 o9 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*
@@ -850,7 +906,7 @@ o9 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*
      c^4*d^7+a^6*b^6*d^8+a^7*b^4*c*d^8+a^8*b^2*c^2*d^8+a^9*c^3*d^8+
      a^8*b^3*d^9+a^9*b*c*d^9+a^10*d^10
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 Therefore, we use a different strategy if either $(p-1)K_R$ is not Cartier or more generally if $R$ is $\bQ$-Gorenstein of index divisible by $p$.   In these situations, this alternate strategy typically appears to be faster.  We rely on the following observation, see \cite{BlickleSchwedeTuckerTestAlterations}.
 \[
@@ -864,6 +920,7 @@ Next, if $K_R$ is $\bQ$-Cartier with $nK_R = \Div_R(f)$ for some $f \in R$ and $
 Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command \texttt{testModule(1/n, f)}.  Consider the following example, a $\mu_3$-quotient.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 : T = ZZ/3[x,y];
 i3 : S = ZZ/3[a,b,c,d];
@@ -874,7 +931,7 @@ i7 : testIdeal(R)
 o7 = ideal 1
 o7 : Ideal of R
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 Which uses the logic described above.
 
@@ -901,6 +958,7 @@ Again consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have consider
 stabilize for $e \gg 0$.  The function \texttt{HSLGModule} computes this.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i4 : R = ZZ/3[x,y,z]/ideal(x^3+y^4+z^5);
 i5 : L = HSLGModule(R);
@@ -914,7 +972,7 @@ o7 : Ideal of R
 i8 : L#3
 o8 = 1
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 The function returns a list.  The first entry is the submodule.  The second is the canonical module.  The third entry is the $u$ representing the map on the canonical module (see \autoref{subsec.DualToFrobeniusOnQuotientRings} above)
 %\marginnote{Fix the autoref (look at the LaTeX source)}
@@ -960,6 +1018,7 @@ In general, there are finitely many $\phi$-compatible prime ideals not containin
 The method \emph{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second statement of Theorem \ref{Theorem: finitely many compatible primes}.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i1 : R = ZZ/3[u,v];
 i2 : u = u^2*v^2;
@@ -967,7 +1026,7 @@ i3 : compatibleIdeals(u)
 o3 = {ideal v, ideal (v, u), ideal u}
 o3 : List
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 The defining condition $u I = I^{[p]}$ for $\phi$-compatible ideals allows us to
 think of these in a dual form: write $\mathfrak{m}=(x_1, \dots, x_n)R$,
@@ -987,6 +1046,7 @@ which is compatible with with the induced $p^1$-linear map on $H^2_{\mathfrak{m}
 and the $p^1$-linear map $u \Theta$ on $\Ann_E I$ where $u$ is computed as follows.
 
 \medskip
+{\small
 \begin{MyVerbatim}
 i2 :  R = ZZ/2[a..f];
 i3 :  E = matrix { {a,b,b,e}, {d,d,c,a} };
@@ -998,7 +1058,7 @@ i5 : S = R/I;
 i6 :  isCohenMacaulay S
 o6 = true
 \end{MyVerbatim}
-\medskip
+}\medskip
 
 In \cite{KatzmanParameterTestIdealOfCMRings} it is shown that as that $R/I$ is Cohen-Macaulay $u$
 can be taken as the generator of the cyclic module $(I^{[p]}:I) \cap (\Omega^{[p]}:\Omega)/I^{[p]}$
