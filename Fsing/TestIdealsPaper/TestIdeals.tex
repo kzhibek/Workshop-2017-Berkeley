@@ -40,32 +40,32 @@ urlcolor=OliveGreen
 \usepackage[textwidth=3.5 cm,textsize=small,shadow,
 %disable
 %%option disable removes the notes
-]{todonotes} 
+]{todonotes}
 
-\newcommand{\warning}[2][] 
-{\todo[color=red,caption={},#1]{#2}} 
-\newcommand{\details}[2][] 
-{\todo[linecolor=cyan,backgroundcolor=cyan!40, caption={},#1]{#2}} 
-\newcommand{\postit}[2][] 
-{\todo[linecolor=orange,backgroundcolor=yellow!40, caption={},#1]{#2}} 
-\newcommand{\myexample}[2][] 
-{\todo[linecolor=green,backgroundcolor=green!50,caption={}, #1]{#2}} 
-\newcommand{\flag}[2][] 
-{\todo[linecolor=orange,backgroundcolor=yellow, caption={},#1]{#2}} 
-\newcommand{\oldargument}[2][] 
-{\todo[linecolor=darkgray,backgroundcolor=gray!40, caption={},#1]{#2}} 
-\newcommand{\myquestion}[2][] 
-{\todo[linecolor=purple,backgroundcolor=purple!80,caption={}, #1]{#2}} 
-\newcommand{\answer}[2][] 
-{\todo[noline, backgroundcolor=white, bordercolor=purple, caption={},#1]{#2}} 
-\newcommand{\pedro}[2][] 
-{\todo[linecolor=blue,backgroundcolor=blue!10,caption={}, #1]{#2}} 
-\newcommand{\billy}[2][] 
-{\todo[linecolor=green,backgroundcolor=green!10,caption={}, #1]{#2}} 
-\newcommand{\bob}[2][] 
-{\todo[linecolor=purple,backgroundcolor=purple!20,caption={}, #1]{#2}} 
-\newcommand{\jimmy}[2][] 
-{\todo[linecolor=orange,backgroundcolor=orange!10,caption={}, #1]{#2}} 
+\newcommand{\warning}[2][]
+{\todo[color=red,caption={},#1]{#2}}
+\newcommand{\details}[2][]
+{\todo[linecolor=cyan,backgroundcolor=cyan!40, caption={},#1]{#2}}
+\newcommand{\postit}[2][]
+{\todo[linecolor=orange,backgroundcolor=yellow!40, caption={},#1]{#2}}
+\newcommand{\myexample}[2][]
+{\todo[linecolor=green,backgroundcolor=green!50,caption={}, #1]{#2}}
+\newcommand{\flag}[2][]
+{\todo[linecolor=orange,backgroundcolor=yellow, caption={},#1]{#2}}
+\newcommand{\oldargument}[2][]
+{\todo[linecolor=darkgray,backgroundcolor=gray!40, caption={},#1]{#2}}
+\newcommand{\myquestion}[2][]
+{\todo[linecolor=purple,backgroundcolor=purple!80,caption={}, #1]{#2}}
+\newcommand{\answer}[2][]
+{\todo[noline, backgroundcolor=white, bordercolor=purple, caption={},#1]{#2}}
+\newcommand{\pedro}[2][]
+{\todo[linecolor=blue,backgroundcolor=blue!10,caption={}, #1]{#2}}
+\newcommand{\billy}[2][]
+{\todo[linecolor=green,backgroundcolor=green!10,caption={}, #1]{#2}}
+\newcommand{\bob}[2][]
+{\todo[linecolor=purple,backgroundcolor=purple!20,caption={}, #1]{#2}}
+\newcommand{\jimmy}[2][]
+{\todo[linecolor=orange,backgroundcolor=orange!10,caption={}, #1]{#2}}
 
 
 \DeclareMathOperator{\HH}{H}
@@ -76,30 +76,50 @@ urlcolor=OliveGreen
   {MyVerbatim}{Verbatim}
   {formatcom=\color{Violet}}
 
-  
-  
+
+
 \begin{document}
 \title{The  {TestIdeals} package for \emph{Macaulay2}}
 \author[Alberto F.\ Boix et at.]{Alberto F.\ Boix}
 \address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, ISRAEL}
 \email{fernanal@post.bgu.ac.il}
 \thanks{A.F.~Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+
 \author[]{Daniel J.\ Hern\'andez}
 \address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
 \email{hernandez@ku.edu}
+\thanks{D.~J.~Hern\'andez was partially supported by NSF DMS \#1600702.}
+
 \author[]{Mordechai Katzman}
+\address{Department of Pure Mathematics, University of Sheffield, Hicks Building, Sheffield S37RH, United Kingdom}
+\email{M.Katzman@sheffield.ac.uk}
+
+\author[]{Sara Malec}
+\address{Hood College, 401 Rosemont Ave. Frederick, MD 21701}
+\email{malec@hood.edu}
+
 \author[]{Marcus Robinson}
+\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+\email{robinson@math.utah.edu}
+
 \author[]{Karl Schwede}
 \address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
 \thanks{K.~Schwede was supported by NSF CAREER Grant DMS \#1252860/1501102, NSF FRG Grant DMS \#1265261/1501115, NSF grant \#1801849 and a Sloan Fellowship.}
 \email{schwede@math.utah.edu}
+
 \author[]{Daniel Smolkin}
+\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+\email{smolkin@math.utah.edu}
+\thanks{D.~Smolkin was supported by NSF RTG Grant DMS \#1246989, NSF CAREER Grant DMS \#1252860/1501102, and NSF FRG Grant DMS \#1265261/1501115.}
+
 \author[]{Pedro Teixeira}
 \address{Department of Mathematics, Knox College, Galesburg, IL~61401, USA}
 \email{pteixeir@knox.edu}
+
 \author[]{Emily E.\ Witt}
 \address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
 \email{witt@ku.edu}
+\thanks{E.E.~Witt was partially supported by NSF DMS \#1623035.}
 \date{\today}
 
 \begin{abstract}
@@ -120,7 +140,7 @@ This paper describes methods for computing objects and numerical invariants in p
 A ring $R$ of prime characteristic $p>0$ comes equipped with the Frobenius endomorphism
 \[ F: R \to R \ \text{ given by } F(x) =  x^p \]
 which is the basis for many constructions and methods.
-Notably, the Frobenius endomorphism can be used to detect whether a ring is regular \cite{KunzCharacterizationsOfRegularLocalRings}, and further, to quantify how far a ring is from being regular, measuring on the severity of a singularity.
+Notably, the Frobenius endomorphism can be used to detect whether a ring is regular \cite{KunzCharacterizationsOfRegularLocalRings}, and further, to quantify how far a ring is from being regular, measuring the severity of a singularity.
 
 In this direction, two notable applications of the Frobenius endomorphism are the theory of tight closure
 (see \cite{HochsterHunekeTC1,HochsterFoundations} for an introduction)
@@ -144,7 +164,7 @@ Another algorithm in \cite{KatzmanSchwedeAlgorithm} for computing prime ideals c
 
 \subsection*{Acknowledgements}
 The authors thank other contributors of the \texttt{TestIdeals.m2} package, which includes
-Erin Bela, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Sara Malec, Matthew Mastroeni, and Maral Mostafazadehfard.
+Erin Bela, Juliette Bruce, Drew Ellingson, Zhibek Kadyrsizova, Matthew Mastroeni, and Maral Mostafazadehfard.
 This paper, and the finishing touches to the \texttt{TestIdeals.m2} package, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.
 
 
@@ -216,7 +236,7 @@ T(x_1^{\lambda_1/p^e} \cdots x_d^{\lambda_d/p^e}) = \left\{ \begin{array}{rl} 1 
 Using this, it is not difficult to see that if
 \begin{equation}
 \label{eqn1}
-f^{1/p^e} = \sum_{\boldsymbol{\lambda}} \mathbf{x}^{\boldsymbol{\lambda} / p^e}
+f^{1/p^e} = \sum_{\boldsymbol{\lambda}} f_{\boldsymbol{\lambda}} \mathbf{x}^{\boldsymbol{\lambda} / p^e}
 \end{equation}
 where $\boldsymbol{\lambda}$ runs over the tuples $(\lambda_1, \dots, \lambda_d)$ with $0 \leq \lambda_j \leq p^e-1$, and $f_{\boldsymbol{\lambda}} \in R$, then
 $(f)^{[1/p^e]} = T( (f)^{1/p^e})$ is the ideal generated by the $f_{\boldsymbol{\lambda}}$.
@@ -247,7 +267,11 @@ then setting $u = f^{p^e-1}$,
 \[
 T_R({\overline J}^{1/p^e}) = \overline{(u J)^{[1/p^e]}}.
 \]
-More generally, for non-hypersurfaces, the analog to $u$ is chosen carefully out of $I^{[p^e]} : I$  (see \cite{KatzmanParameterTestIdealOfCMRings} for details).
+More generally, for non-hypersurfaces, the analog to $u$ is chosen to be an element that maps onto the generator of the cyclic $R$-module 
+\[
+(I^{[p^e]} : I) \cap (\Omega^{[p^e]} : \Omega)\over I^{[p^e]}
+\]
+where $I \subseteq \Omega \subseteq S$ is an ideal whose image in $R$ is isomorphic to the canonical module of $R$, see \cite{KatzmanParameterTestIdealOfCMRings} for details.
 Here we compute two examples.
 
 \medskip
@@ -312,9 +336,9 @@ Here,  $N^{[p^e]}$ is the submodule  of $S^k$ whose generators are the vectors o
 \begin{example}
 Let $R=\ZZ/p\ZZ[a,b,c,d]$, and consider the ideals $\mathfrak{m}=(a,b,c,d)$ and
 $$I= (a,b) \cap (a,c) \cap (c,d) \cap (c+d, a^3+b d^2).$$
-Then $R/I$ is a $3$-dimensional Cohen-Macaulay ring.
+Then $R/I$ is a $3$-dimensional non-Cohen-Macaulay ring.
 Matlis Duality applied to $H^2_{\mathfrak{m}} (R/I)$ with its natural Frobenius map
-yields a $p^1$-linear map $U$ on $\Ext^2(R/ I, R)$.
+yields a $p^{-1}$-linear map $U$ on $\Ext^2(R/ I, R)$.
 %$\Ext^2(R/ I, R) \xrightarrow{U} \Ext^2(R/I, R)$.
 
 \medskip
@@ -644,9 +668,8 @@ o7 = true
 \subsection{$F$-purity}
 \begin{definition}
 A ring $R$ is called \emph{$F$-pure} if
-\sout{the inclusion $R \subset R^{1/p^{e}}$ split.}
 the inclusion $R \subset R^{1/p^{e}}$ is a pure map, i.e.,
-the tensor of this map with any $R$-module remain injective.
+the tensor of this map with any $R$-module remains injective.  If $R^{1/p}$ is a finite $R$-module, this is equivalent to requiring that $R \to R^{1/p}$ splits as a map of $R$-modules.
 \end{definition}
 
 Macaulay2 can compute if a ring is $F$-pure using \texttt{isFPure}. Either a
@@ -860,7 +883,6 @@ of $R$ is the smallest ideal $J$ in $R$, not contained in any minimal prime, suc
 \phi \in \Hom_R(R^{1/p^e}, R) \text{ we have } \phi(J^{1/p^e}) \subseteq J.
 \]
 In the case that $R$ is Gorenstein,
-%\sout{there is a map $\Phi_e \in \Hom_R(R^{1/p^e}, R)$ which generates the $\Hom$-set as an $R^{1/p^e}$-module.  }
 $\Hom_R(R^{1/p^e}, R)$ is a cyclic $R^{1/p^e}$-module generated by
 $\Phi_e$ which corresponds with the map $T$ above based on the identification
 $\omega_R \cong R$, \cite{BlickleSchwedeSurveyPMinusE}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists.
@@ -1020,7 +1042,7 @@ The method \emph{compatibleIdeals} produces the finite set of $\phi$-compatible 
 \begin{MyVerbatim}
 i1 : R = ZZ/3[u,v];
 i2 : u = u^2*v^2;
-i3 : compatibleIdeals u 
+i3 : compatibleIdeals u
 o3 = {ideal v, ideal (v, u), ideal u}
 o3 : List
 \end{MyVerbatim}
