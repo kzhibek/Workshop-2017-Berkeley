@@ -70,14 +70,14 @@ testModule = method(Options => {FrobeniusRootStrategy => Substitution, AssumeDom
 
 testModule(Ring) := o -> (R1) -> (
     J1 := canonicalIdeal(R1);
-    testModule(R1, J1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy)
+    testModule(R1, J1, o)
 );
 
 testModule(Ring, Ideal) := o->(R1, canIdeal) -> (
     S1 := ambient R1;
 	I1 := ideal R1;
     J1 := sub(canIdeal, S1);
-    C1 := testElement(R1, AssumeDomain=>o.AssumeDomain);
+    C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
 
     u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
     tau := I1;
@@ -107,7 +107,7 @@ testModule(Number, RingElement) := o-> (tt, ff) ->(
     I1 := ideal R1;
     J1 := sub(canIdeal, S1);
     u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-    testModule(tt, ff, canIdeal, u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy)
+    testModule(tt, ff, canIdeal, u1, o)
 );
 
 testModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
@@ -120,7 +120,7 @@ testModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
     J1 := sub(canIdeal, S1);
 
 
-    C1 := testElement(R1, AssumeDomain=>o.AssumeDomain);
+    C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
     fractionDivided := decomposeFraction(pp, tt);
 
     -- fraction divided writes tt = (a/(p^b(p^c-1))
@@ -197,7 +197,7 @@ testModule(List, List, Ideal, List) := o -> (ttList, ffList, canIdeal, u1) -> (
     J1 := sub(canIdeal, S1);
 
     ffList = apply(ffList, zz->sub(zz, S1));
-    C1 := testElement(R1, AssumeDomain=>o.AssumeDomain);
+    C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
     fractionDividedList := apply(ttList, tt -> decomposeFraction(pp, tt));
 
     -- fraction divided writes tt = (a/(p^b(p^c-1))
@@ -265,7 +265,7 @@ testModule(List, List) := o-> (ttList, ffList) ->(
     I1 := ideal R1;
     J1 := sub(canIdeal, S1);
     u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-    testModule(ttList, ffList, canIdeal, u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy)
+    testModule(ttList, ffList, canIdeal, u1, o)
 );
 
 
@@ -274,7 +274,7 @@ testModule(List, List) := o-> (ttList, ffList) ->(
 parameterTestIdeal = method(Options => {FrobeniusRootStrategy => Substitution});
 
 parameterTestIdeal(Ring) := o-> (R1) -> (
-    testMod := testModule(R1);
+    testMod := testModule(R1,o);
     (testMod#0) : (testMod#1)
 );
 

@@ -9,7 +9,7 @@
   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
 }
 \providecommand{\href}[2]{#2}
-\begin{thebibliography}{BSTZ10}
+\begin{thebibliography}{HTW18b}
 
 \bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
@@ -66,22 +66,29 @@
   characteristic {$p$}}, Ann. of Math. (2) \textbf{105} (1977), no.~1, 45--79.
   {\sf\scriptsize MR0441962 (56 \#353)}
 
+\bibitem[Her14]{HernandezFPureThresholdOfBinomial}
+{\sc D.~J. Hern\'andez}: \emph{{$F$}-pure thresholds of binomial
+  hypersurfaces}, Proc. Amer. Math. Soc. \textbf{142} (2014), no.~7,
+  2227--2242.
+
+\bibitem[Her15]{HernandezFInvariantsOfDiagonalHyp}
+{\sc D.~J. Hern\'andez}: \emph{{$F$}-invariants of diagonal hypersurfaces},
+  Proc.\ Amer.\ Math.\ Soc. \textbf{143} (2015), no.~1, 87--104.
+
 \bibitem[HT17]{HernandezTeixeiraFThresholdFunctions}
 {\sc D.~J. Hern\'andez and P.~Teixeira}: \emph{{$F$}-threshold
   functions\textup: {S}yzygy gap fractals and the two-variable homogeneous
   case}, J.\ Symbolic Comput. \textbf{80} (2017), 451--483.
 
-\bibitem[Her11a]{HernandezFInvariantsOfDiagonalHyp}
-{\sc D.~Hern{\'a}ndez}: \emph{F-invariants of diagonal hypersurfaces},
-  arXiv:1112.2425.
+\bibitem[HTW18a]{HernandezTeixeiraWittFrobeniusPowers}
+{\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
+  preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
+  [math.AC]}, 2018.
 
-\bibitem[Her11b]{HernandezFPureThresholdOfBinomial}
-{\sc D.~Hern{\'a}ndez}: \emph{F-pure thresholds of binomial hypersurfaces},
-  arXiv:1112.2427.
-
-\bibitem[HTW18]{HernandezTeixeiraWittFrobeniusPowers}
-{\sc D.~Hern{\'a}ndez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
-  arXiv:1802.02705, 2018.
+\bibitem[HTW18b]{hernandez+etal.frobenius_examples}
+{\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers of
+  some monomial ideals}, preprint,
+  \href{https://arxiv.org/abs/1808.09508}{arXiv:1808.09508 [math.AC]}, 2018.
 
 \bibitem[Hoc07]{HochsterFoundations}
 {\sc M.~Hochster}: \emph{Foundations of tight closure theory}, lecture notes
