@@ -633,7 +633,7 @@ o6 = true
 
 All of these checks are done by actually computing the test ideal, as described in \autoref{Section: Test Ideals}.
 
-If the input ring is $\mathbb{Q}$-Gorenstein, then in each of the cases above the output is a boolean indicating if the
+If the input ring is $\mathbb{Q}$-Gorenstein, then in each of the cases above, the output is a boolean indicating if the
 ring is strongly $F$-regular. If the input ring is not
 $\mathbb{Q}$-Gorenstein, then the algorithm can be used to determine if a
 ring is strongly $F$-regular, but cannot prove that a ring is not strongly
@@ -818,13 +818,13 @@ o4 : Ideal of R
 \end{MyVerbatim}
 }\medskip
 
-We briefly explain how this is computed:  First we find a \emph{test element}.
+We briefly explain how this is computed:  First, we find a \emph{test element}.
 \begin{remark}[Computation of test elements]
 \label{rem.ComputationOfTestElements}
-Roughly, we recall that an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{HochsterFoundations}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that does not vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If you know your ring is a domain, you can use the \texttt{AssumeDomain} flag to speed this up further.
+We recall that, roughly, an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{HochsterFoundations}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that does not vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If you know your ring is a domain, you can use the \texttt{AssumeDomain} flag to speed this up further.
 \end{remark}
 
-After the test element $c$ has been identified, we pullback the ideal $\omega_R$ to an ideal $J = S$.  Then we compute the following ascending sequence of ideals
+After the test element $c$ has been identified, we pull back the ideal $\omega_R$ to an ideal $J = S$.  Next, we compute the following ascending sequence of ideals:
 \begin{equation}
 \label{eq.AscendIdealExplanation}
 \begin{array}{rll}
@@ -837,7 +837,7 @@ J_3 \colonequals & J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{
 As soon as this ascending sequence of ideals stabilizes, we are done.
 In fact, because this strategy is used in several contexts, you can call it directly for a chosen ideal $J$ and $u$ with the function \texttt{ascendIdeal} (this is done for test ideals below).
 
-We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in the denominator, we rely on the fact (see \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,SchwedeTuckerTestIdealFiniteMaps}) that
+We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in its denominator, we rely on the fact (see \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,SchwedeTuckerTestIdealFiniteMaps}) that
 \[
 \begin{array}{rcl}
 T(\tau(\omega_R, f^a)) & = & \tau(\omega_R, f^{a/p})\\
@@ -858,7 +858,7 @@ To access this enhancement, one should try to pass functions like \texttt{ascend
 
 The parameter test ideal is simply the annihilator of $\omega_R/\tau(\omega_R)$.  In other words, it is
 \[
-\tau(\omega_R) : \omega_R.
+( \tau(\omega_R) : \omega_R ).
 \]
 This can also be described as
 \[
@@ -913,7 +913,7 @@ If such a $\Phi_e$ exists, it can be identified as the generator of the module $
 \]
 Recall that \texttt{ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all frobenius roots are taken as multiples of $e$.
 
-Here is an example (a $\bZ/3\bZ$-quotient where $3 | (7-1)$), where exactly this logic occurs.
+Here is an example (a $\bZ/3\bZ$-quotient, where $3 | (7-1)$), where exactly this logic occurs.
 
 \medskip
 {\small
@@ -1042,7 +1042,7 @@ Recall that, if $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$ (with $1\in
 $R^{1/p^e}$ is a free $R$-module with basis
 $$\left\{ b x_1^{\alpha_1/p^e} \dots x_n^{\alpha_n/p^e} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e \right\} ;$$
 the trace map $T$ is the projection onto the free summand
-$R x_1^{(p^e-1)/p^e} \dots x_n^{(p^e-1)/p^e}\cong R$.
+$R x_1^{(p^e-1)/p^e} \cdots x_n^{(p^e-1)/p^e}\cong R$.
 
 We can now write our given $\phi$ as multiplication by some $u^{1/p^e}$ followed by $T$ and it is not hard to see that
 an ideal $I\subseteq R$ is $\phi$-compatible if and only if $u I \subseteq I^{[p^e]}$.
