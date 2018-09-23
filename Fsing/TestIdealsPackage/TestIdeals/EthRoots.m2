@@ -253,7 +253,7 @@ frobeniusRootRingElements( ZZ, List, List, Ideal ) := o->( e, aList, elmtList, I
         i := 1;
         while(i < e) do (
             aPowerList = apply(elmtList, expOfaList, (f, z) -> f^(z#i));
-            IN1 = frobeniusRoot( 1, IN1*ideal(product(aPowerList)), FrobeniusRootStrategy=>o.FrobeniusRootStrategy  );
+            IN1 = frobeniusRoot( 1, IN1*ideal(product(aPowerList)), o );
             i = i + 1;
         )
     );
@@ -261,13 +261,13 @@ frobeniusRootRingElements( ZZ, List, List, Ideal ) := o->( e, aList, elmtList, I
     IN1*ideal(product(aPowerList))
 )
 
-frobeniusRootRingElements( ZZ, Sequence, Sequence, Ideal ) := o->(a, b, c, d) -> frobeniusRootRingElements(a, toList b, toList c, d, FrobeniusRootStrategy => o.FrobeniusRootStrategy);
+frobeniusRootRingElements( ZZ, Sequence, Sequence, Ideal ) := o->(a, b, c, d) -> frobeniusRootRingElements(a, toList b, toList c, d, o )
 
 frobeniusRootRingElements( ZZ, ZZ, RingElement, Ideal ) := o->( e, a, f, I ) -> 
-    frobeniusRootRingElements(e, {a}, {f}, I, FrobeniusRootStrategy => o.FrobeniusRootStrategy);
+    frobeniusRootRingElements(e, {a}, {f}, I, o )
 
 frobeniusRootRingElements( ZZ, ZZ, RingElement ) := o->( e, a, f ) -> 
-    frobeniusRootRingElements( e, {a}, {f}, ideal( 1_(ring f) ), FrobeniusRootStrategy => o.FrobeniusRootStrategy);
+    frobeniusRootRingElements( e, {a}, {f}, ideal( 1_(ring f) ), o )
 
 
 
@@ -288,17 +288,17 @@ frobeniusRootRingElements( ZZ, ZZ, RingElement ) := o->( e, a, f ) ->
 --the point is the ascending might be faster if we don't care about it mod a certain ideal.  
 ascendIdeal = method(Options => {FrobeniusRootStrategy => Substitution, AscentCount=>false});
 
-ascendIdeal(ZZ, RingElement, Ideal) := o->(ek, hk, Jk) -> (
-    ascendIdeal(ek, {1}, {hk}, Jk, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AscentCount=>o.AscentCount)
-)
+ascendIdeal(ZZ, RingElement, Ideal) := o->(ek, hk, Jk) -> 
+    ascendIdeal(ek, {1}, {hk}, Jk, o)
+
 
 
 --Works like above ascendIdeal but tries to minimize the exponents elements are taken to
 -- what's ak?  Karl: ak is the numerator of the exponent t = ak/(p^ek - 1)
 
-ascendIdeal(ZZ, ZZ, RingElement, Ideal) := o->( ek, ak, hk, Jk) -> (
-    ascendIdeal(ek, {ak}, {hk}, Jk, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AscentCount=>o.AscentCount)
-)
+ascendIdeal(ZZ, ZZ, RingElement, Ideal) := o->( ek, ak, hk, Jk) -> 
+    ascendIdeal(ek, {ak}, {hk}, Jk, o)
+
 
 
 --handles lists of hk to powers...

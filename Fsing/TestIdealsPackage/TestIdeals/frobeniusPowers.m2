@@ -35,7 +35,7 @@ frobeniusMethod ( ZZ, Ideal ) := Ideal => o -> ( e, I ) ->
     if p == 0 then 
         error "frobeniusMethod: expected an ideal in a ring of positive characteristic.";
     if e == 0 then return I;
-    if e < 0 then return frobeniusRoot( -e, I, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
+    if e < 0 then return frobeniusRoot( -e, I, o );
     G := I_*;
     if #G == 0 then ideal( 0_R ) else ideal( apply( G, j -> fastExponentiation( p^e, j ) ) )
 )

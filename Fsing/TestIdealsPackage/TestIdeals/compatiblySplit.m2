@@ -52,7 +52,7 @@ compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
 --    C1 := ideal( ( singularLocus( P ) ).relations );
     C1 := ideal testElement((ring P)/P, AssumeDomain=>true);
     ---tau=ideal mingens star(C1,u,1) ; ---OLD VERSION
-    tau := ideal mingens ascendIdeal( 1, u, C1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy );
+    tau := ideal mingens ascendIdeal( 1, u, C1, o );
     Plist := minimalPrimes tau;
     apply( Plist, Q ->
         (
@@ -61,7 +61,7 @@ compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
             if not f then
 	    (
 	        L = append( L, Q );
-	        L = unique( L | compatibleIdealsInnards( u, L, Q, FrobeniusRootStrategy=>o.FrobeniusRootStrategy ) );
+	        L = unique( L | compatibleIdealsInnards( u, L, Q, o ) );
 	    );
         )
     );
@@ -70,7 +70,7 @@ compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
 ---	JB:=C1*C2; ---MK
 ---print(mingens P, mingens JB);
 ---tau=ideal mingens star(C2,u,1) ;  --- OLD VERSION
-    tau = ideal mingens ascendIdeal( 1, u, C2, FrobeniusRootStrategy=>o.FrobeniusRootStrategy );
+    tau = ideal mingens ascendIdeal( 1, u, C2, o );
     Plist = minimalPrimes tau;
     apply( Plist, Q ->
 	(
@@ -79,7 +79,7 @@ compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
 	    if not f then
 	    (
 		L = append( L, Q );
-		L = unique( L | compatibleIdealsInnards( u, L, Q, FrobeniusRootStrategy=>o.FrobeniusRootStrategy ) );
+		L = unique( L | compatibleIdealsInnards( u, L, Q, o ) );
 	    );
 	)
     );

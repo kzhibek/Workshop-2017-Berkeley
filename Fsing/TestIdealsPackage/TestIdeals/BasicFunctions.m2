@@ -259,3 +259,9 @@ maxIdeal ( QuotientRing ) := MonomialIdeal => R -> ideal R_*
 maxIdeal ( Ideal ) := MonomialIdeal => I -> maxIdeal ring I
 
 --===================================================================================
+
+-- passOptions selects a subset of options from an OptionTable
+passOptions = method()
+
+passOptions ( OptionTable, List ) := (o, L) -> 
+    new OptionTable from apply( L, k -> k => o#k )

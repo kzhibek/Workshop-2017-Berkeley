@@ -10,7 +10,7 @@
 --it returns the lift of the canonical module to the ambient ring
 --needsPackage "Divisor";
 
-canonicalIdeal = method(Options=>{Attempts=>10});
+canonicalIdeal = method( Options => { Attempts => 10 } )
 
 canonicalIdeal(Ring) := o->(R1) -> (
     S1 := ambient R1;
@@ -26,7 +26,7 @@ canonicalIdeal(Ring) := o->(R1) -> (
 	    	degList = apply(varList, q -> (degree(q))); );
     );
 	M1 := (Ext^(dS - dR)(S1^1/I1, S1^{-(sum degList)}))**R1;
-	embedAsIdeal(M1, Attempts=>o.Attempts)
+	embedAsIdeal(M1, Attempts => o.Attempts)
 );
 
 
@@ -78,7 +78,6 @@ testModule(Ring, Ideal) := o->(R1, canIdeal) -> (
 	I1 := ideal R1;
     J1 := sub(canIdeal, S1);
     C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
-
     u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
     tau := I1;
     if (#u1 > 1) then(
@@ -336,7 +335,7 @@ isFRational(Ring) := o->(R1) ->(
     --next verify if it is Frational
     if (flag == true) then (
         --note we don't compute the test module if we know that the ring is not CM.
-        MList := testModule(R1, AssumeDomain=>o.AssumeDomain, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
+        MList := testModule(R1, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
         if (o.IsLocal == true) then (
             paraTestIdeal := (MList#0):(MList#1);
             myMaxIdeal := sub(maxIdeal(ambient R1), R1);
