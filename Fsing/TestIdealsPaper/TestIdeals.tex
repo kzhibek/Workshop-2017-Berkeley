@@ -847,23 +847,27 @@ J_3 &\colonequals    J_2 + (cJ_2)^{[1/p]} & = J + (c J)^{[1/p]} + (c^{1+p} J)^{[
 \end{array}
 \end{equation}
 As soon as this ascending sequence of ideals stabilizes, we are done.
-In fact, because this strategy is used in several contexts, you can call it directly for a chosen ideal $J$ and $u$ with the function \texttt{ascendIdeal} (this is done for test ideals below).
+In fact, because this strategy is used in several contexts, the user can call it directly for a chosen ideal $J$ and $u$ with the function \texttt{ascendIdeal} (this is done for test ideals below).
 
-We can also compute parameter test modules of pairs $\tau(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.  This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.  When $t$ has $p$ in its denominator, we rely on the fact (see \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,SchwedeTuckerTestIdealFiniteMaps}) that
+We can also compute parameter test modules of pairs $(\omega_R, f^{t})$ with $t \in \mathbb{Q}_{\geq 0}$.
+This is done by modifying the element $u$ when the denominator of $t$ is not divisible by $p$.
+When $t$ has $p$ in its denominator, we rely on the fact (see \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,SchwedeTuckerTestIdealFiniteMaps}) that
 \[
 \begin{array}{rcl}
 T(\tau(\omega_R, f^a)) & = & \tau(\omega_R, f^{a/p})\\
 {\tt frobeniusRoot(1, u*I_1)} & {\tt =} & {\tt I_2}
 \end{array}
 \]
-Where the second line roughly explains how this is accomplished internally, here ${\tt I_1}$ is $\tau(\omega_R, f^a)$ pulled back to $S$ and likewise $I_2$ defines $\tau(\omega_R, f^a)$ modulo the defining ideal of $R$.
+where the second line roughly explains how this is accomplished internally.
+Here ${\tt I_1}$ is $\tau(\omega_R, f^a)$ pulled back to $S$ and, likewise, $I_2$ defines $\tau(\omega_R, f^{a/p})$ modulo the defining ideal of $R$.
 
 \begin{remark}[Optimizations in \texttt{ascendIdeal} and other \texttt{testModule} computations]
 Throughout the computations described above, we very frequently use the following fact:
 \[
 (f^p \cdot J)^{[1/p]} = f \cdot (J^{[1/p]}).
 \]
-To access this enhancement, one should try to pass functions like \texttt{ascendIdeal} and \texttt{frobeniusRoot} the elements and their exponents (see the documentation).  In particular, do not multiply out expressions like $f^n \cdot J$ if you will be applying \texttt{frobeniusRoot}.
+To access this enhancement, one should try to pass functions like \texttt{ascendIdeal} and \texttt{frobeniusRoot} the elements and their exponents (see the documentation).
+In particular, when computing the $p^e$-th Frobenius root of an ideal of the form $f^n \cdot J$, one should not multiply out $f^n$ and $J$, nor even raise $f$ to the $n^\mathrm{th}$ power, but rather call \texttt{frobeniusRoot(e,n,f,J)}.
 \end{remark}
 
 \subsection{Parameter test ideals}
@@ -874,9 +878,9 @@ The parameter test ideal is simply the annihilator of $\omega_R/\tau(\omega_R)$.
 \]
 This can also be described as
 \[
-\bigcap_{I} (I^* : I)
+\bigcap_{I} (I^* : I),
 \]
-where $I$ varies over ideals defined by a partial system of parameters and $I^*$ denotes its tight closure.  This latter description is not computable however.
+where $I$ varies over ideals defined by a partial system of parameters, and $I^*$ denotes its tight closure.  This latter description is not computable, however.
 
 \begin{example}\label{Example: parameter test ideal}
 In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIdealOfCMRings}.
@@ -907,23 +911,24 @@ o7 : Matrix R  <--- R
 
 \subsection{Test ideals}
 
-For an $F$-finite reduced ring $R = S/I$ where $S$ is a regular ring, the (big) test ideal
-\footnote{The notion of test ideals was originally introduced in \cite{HochsterHunekeTC1} in the context of tight closure in finitely generated modules, whereas our notion of test ideals arises from
-tight closure in possibly non-generated (``big'') modules. Confusingly, big test ideals are included in (small) test ideals.}
-of $R$ is the smallest ideal $J$ in $R$, not contained in any minimal prime, such that for all $e > 0$ and all
-\[
-\phi \in \Hom_R(R^{1/p^e}, R) \text{ we have } \phi(J^{1/p^e}) \subseteq J.
-\]
+For an $F$-finite reduced ring $R = S/I$, where $S$ is a regular ring, the (big) test ideal\footnote{The notion of test ideals was originally introduced in \cite{HochsterHunekeTC1} in the context of tight closure in finitely generated modules, whereas our notion of test ideals arises from
+tight closure in possibly non finitely generated (``big'') modules. Confusingly, big test ideals are included in (small) test ideals.}
+of $R$ is the smallest ideal $J$ in $R$, not contained in any minimal prime, such that for all $e > 0$ and all $\phi \in \Hom_R(R^{1/p^e}, R)$ we have
+\[ \phi(J^{1/p^e}) \subseteq J.\]
 In the case that $R$ is Gorenstein,
 $\Hom_R(R^{1/p^e}, R)$ is a cyclic $R^{1/p^e}$-module generated by
-$\Phi_e$ which corresponds with the map $T$ above based on the identification
-$\omega_R \cong R$, \cite{BlickleSchwedeSurveyPMinusE}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists.
+$\Phi_e$, which corresponds with the map $T$ above based on the identification
+$\omega_R \cong R$ \cite{BlickleSchwedeSurveyPMinusE}.  More generally, if $R$ is $\bQ$-Gorenstein with index not divisible by $p$, then for at least sufficiently divisible $e > 0$, such a generating $\Phi_e$ still exists.
 
-If such a $\Phi_e$ exists, it can be identified as the generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma, \cite{FedderFPureRat}.  Hence we can find a corresponding\footnote{This is done via the function \texttt{QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
+If such a $\Phi_e$ exists, it can be identified to a generator of the module $(I^{[p^e]} : I) / I^{[p^e]}$ by Fedder's Lemma \cite{FedderFPureRat}.  Hence we can find a corresponding\footnote{This is done via the function \texttt{QGorensteinGenerator}. } $u \in I^{[p^e]} : I$.  In this case, if $c \in S$ is the pre-image of a test element of $R$, then setting $I_0 = cR$, it follows that
 \[
-\tau(R) = {\tt ascendIdeal(e, u, I_0)}.
+\tau(R) = {\tt ascendIdeal(e, u, I_0)},
 \]
-Recall that \texttt{ascendIdeal} is explained above in \autoref{eq.AscendIdealExplanation}.  The $e$ here means all frobenius roots are taken as multiples of $e$.
+where \texttt{ascendIdeal} is the method explained above, in \autoref{eq.AscendIdealExplanation}.
+The $e$ here means all Frobenius roots are taken as multiples of $e$.
+%
+\pedro{I am not sure what this last sentence is saying}
+%
 
 Here is an example (a $\bZ/3\bZ$-quotient, where $3 | (7-1)$), where exactly this logic occurs.
 
@@ -941,7 +946,7 @@ o6 : Ideal of R
 \end{MyVerbatim}
 }\medskip
 
-However, the term $u$ constructed above can be quite complicated if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example:
+However, the term $u$ constructed above can be quite complicated if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example we have an extremely complex $u$:
 
 \medskip
 {\small
@@ -961,16 +966,17 @@ o7 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*c^13*d+b^
 \end{MyVerbatim}
 }\medskip
 
-Therefore, we use a different strategy if either $(p-1)K_R$ is not Cartier or more generally if $R$ is $\bQ$-Gorenstein of index divisible by $p$.   In these situations, this alternate strategy typically appears to be faster.  We rely on the following observation, see \cite{BlickleSchwedeTuckerTestAlterations}.
+Therefore, we use a different strategy if either $(p-1)K_R$ is not Cartier or, more generally, if $R$ is $\bQ$-Gorenstein of index divisible by $p$.
+In these situations, this alternate strategy typically appears to be faster.  We rely on the observation (see \cite{BlickleSchwedeTuckerTestAlterations}) that
 \[
 \tau(\omega_R, K_R) \cong \tau(R).
 \]
-In fact, by embedding $\omega_R \subseteq R$, we can compute $g$ so that $\tau(\omega_R, K_R) = g \tau(R)$.  We can therefore find $\tau(R)$ if we can find $\tau(\omega_R, K_R)$.
+In fact, by embedding $\omega_R \subseteq R$, we can compute $g$ so that $\tau(\omega_R, K_R) = g\cdot \tau(R)$.  We can therefore find $\tau(R)$ if we can find $\tau(\omega_R, K_R)$.
 Next, if $K_R$ is $\bQ$-Cartier with $nK_R = \Div_R(f)$ for some $f \in R$ and $n > 0$, then
 \[
 \tau(\omega_R, K_R) =\tau(\omega_R, f^{1/n}).
 \]
-Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command \texttt{testModule(1/n, f)}.  Consider the following example, a $\mu_3$-quotient.
+Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command \texttt{testModule(1/n, f)}.  Consider the following example, a $\mu_3$-quotient, which uses the logic described above.
 
 \medskip
 {\small
@@ -986,29 +992,38 @@ o6 : Ideal of R
 \end{MyVerbatim}
 }\medskip
 
-Which uses the logic described above.
 
 \begin{remark}[Non-graded caveats]
-It frequently can happen that $(I^{[p^e]} : I)/I^{[p^e]}$ is principal but Macaulay2 cannot identify the principal generator (since Macaulay2 cannot always find minimal generators of non-graded ideals or modules).  The same thing can happen when computing the $u$ corresponding to the map $T : \omega_{R^{1/p}} \to \omega_R$, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings} above.  In such situations, instead of a single $u$, we Macaulay2 will produce $u_1, \dots, u_n$ (all multiples of $u$, and $u$ is a linear combination of the $u_i$).  Instead of computing things like
+   It frequently happens that $(I^{[p^e]} : I)/I^{[p^e]}$ is principal but \emph{Macaulay2} cannot identify the principal generator (since \emph{Macaulay2} cannot always find minimal generators of non-graded ideals or modules).
+   The same thing can happen when computing the element $u$ corresponding to the map $T : \omega_{R^{1/p}} \to \omega_R$, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings}.
+   In such situations, instead of a single $u$, \emph{Macaulay2} will produce $u_1, \dots, u_n$ (all multiples of $u$, and $u$ is a linear combination of the $u_i$).  Instead of computing the ideal
 \[
 (u \cdot J)^{[1/p]},
 \]
-we will instead compute
+we compute
 \[
-(u_1 \cdot J)^{[1/p]} + \dots + (u_n \cdot J)^{[1/p]}
+(u_1 \cdot J)^{[1/p]} + \dots + (u_n \cdot J)^{[1/p]},
 \]
 which will produce the same answer.
 \end{remark}
 
-We can similarly use the \texttt{testIdeal} command to compute test ideals of pairs $\tau(R, f^t)$, and even more general mixed test ideals $\tau(R, f_1^{t_1} \cdots f_n^{t_n})$.
+We can similarly use the \texttt{testIdeal} command to compute test ideals of pairs, $\tau(R, f^t)$, and even mixed test ideals, $\tau(R, f_1^{t_1} \cdots f_n^{t_n})$.
 
-\subsection{HSLG module, computing $F$-pure submodules of rank-1 Cartier modules}
+\subsection{HSLG module; computing $F$-pure submodules of rank-1 Cartier modules}
 
-Again consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have considered throughout this section.  It is a theorem of Hartshorne-Speiser, Lyubeznik, and Gabber \cite{HartshorneSpeiserLocalCohomologyInCharacteristicP,LyubeznikFModulesApplicationsToLocalCohomology,Gabber.tStruc} that the descending images
-\[
-\omega_R \supseteq T(\omega_{R^{1/p}}) \supseteq \dots \supseteq T^e(\omega_{R^{1/p^e}}) \supseteq T_{e+1}(\omega_{R^{1/p^{e+1}}}) \supseteq \dots
-\]
-stabilize for $e \gg 0$.  The function \texttt{HSLGModule} computes this.
+Again, consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have considered throughout this section.  It is a theorem of Hartshorne-Speiser, Lyubeznik, and Gabber \cite{HartshorneSpeiserLocalCohomologyInCharacteristicP,LyubeznikFModulesApplicationsToLocalCohomology,Gabber.tStruc} that the descending images
+\begin{equation}\label{eq: descending images}
+\omega_R \supseteq T(\omega_{R^{1/p}}) \supseteq \dots \supseteq T^e(\omega_{R^{1/p^e}}) \supseteq T^{e+1}(\omega_{R^{1/p^{e+1}}}) \supseteq \cdots
+\end{equation}
+stabilize for $e \gg 0$.
+The function \texttt{HSLGModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a list containing the following items:
+\begin{enumerate}[(1)]
+   \item The HSLG module;
+   \item The canonical module;
+   \item The element $u$ representing the map on the canonical module (see
+   \autoref{subsec.DualToFrobeniusOnQuotientRings});
+   \item The value of $e > 0$ at which the descending images in \eqref{eq: descending images} stabilize.
+\end{enumerate}
 
 \medskip
 {\small
@@ -1027,17 +1042,14 @@ o5 = 1
 \end{MyVerbatim}
 }\medskip
 
-The function returns a list.  The first entry is the submodule.  The second is the canonical module.  The third entry is the $u$ representing the map on the canonical module (see \autoref{subsec.DualToFrobeniusOnQuotientRings} above)
-%\marginnote{Fix the autoref (look at the LaTeX source)}
-and the final entry is at what value of $e > 0$ the image stabilizes.
 
 %\bigskip\sout{In a Gorenstein ring, this submodule coincides philosophically with the maximal non-LC ideal of Fujino-Schwede-Takagi.}
 %\marginnote{Can someone explain this without recourse to philosophy or morality?}
 
 
-More generally for any ideal $J$ with a map $\phi : J^{1/p^e} \to J$, we have that the images
+More generally, for any ideal $J$ with a map $\phi : J^{1/p^e} \to J$, we have that the images
 \[
-J \supseteq \phi(J^{1/p^e}) \supseteq \phi^2(J^{1/p^{2e}}) \supseteq \dots
+J \supseteq \phi(J^{1/p^e}) \supseteq \phi^2(J^{1/p^{2e}}) \supseteq \cdots
 \]
 stabilize as well (in fact, the analogous result even holds for modules).
 
